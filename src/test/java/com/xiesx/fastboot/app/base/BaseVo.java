@@ -1,5 +1,7 @@
 package com.xiesx.fastboot.app.base;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 
 /**
@@ -20,5 +22,6 @@ public class BaseVo {
     /** 搜索词 **/
     private String keyword = "";
 
-    private String key = "";
+    @NotNull
+    private String key;
 }

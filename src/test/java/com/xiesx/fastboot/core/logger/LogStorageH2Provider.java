@@ -26,13 +26,13 @@ public class LogStorageH2Provider extends LogStorageProvider {
 
     LogRecordRepository mLogRecordRepository;
 
-    public LogStorageH2Provider(String operation, String method, Object[] args, Object result, Long time) {
-        super(operation, method, args, result, time);
+    public LogStorageH2Provider(String operation, String method, Object[] args, Long time) {
+        super(operation, method, args, time);
         mLogRecordRepository = SpringHelper.getBean(LogRecordRepository.class);
     }
 
     @Override
-    public void record(HttpServletRequest request) {
+    public void record(HttpServletRequest request, Object result) {
         // super.record(request);
         // 构造日志
         LogRecord logRecord = new LogRecord()//

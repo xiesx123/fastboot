@@ -35,9 +35,6 @@ public class LogStorageProvider implements LogStorage {
     public Object[] args;
 
     @NonNull
-    public Object result;
-
-    @NonNull
     public Long time;
 
     // =============
@@ -51,7 +48,7 @@ public class LogStorageProvider implements LogStorage {
     public Map<String, String> parameters;
 
     @Override
-    public void record(HttpServletRequest request) {
+    public void record(HttpServletRequest request, Object result) {
         // 获取请求信息
         type = request.getMethod();
         url = request.getRequestURL().toString();

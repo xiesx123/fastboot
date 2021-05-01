@@ -38,7 +38,7 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
         Class<?> returnType = method.getReturnType();
         // 判断Void类型
         if (returnType.equals(Void.TYPE)) {
-            return R.succ();
+            return null;
         } else {
             if (obj instanceof AbstractState) {
                 return obj;

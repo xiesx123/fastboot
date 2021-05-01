@@ -68,8 +68,6 @@ public class LoggerAspect {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         String methodName = method.getName();
-        // 获取返回类型
-        Class<?> returnType = method.getReturnType();
         // 获取注解信息
         GoLogger logger = method.getAnnotation(GoLogger.class);
         Boolean isPrint = Boolean.valueOf(logger == null ? true : logger.print());
@@ -103,21 +101,18 @@ public class LoggerAspect {
         // 重新计时
         interval.restart();
         // 方法执行
-        Object res = "";
-        if (!returnType.equals(Void.TYPE)) {
-            res = pjp.proceed();
-        }
+        Object result = pjp.proceed();
         // 执行时间
         long time = interval.interval();
         // 响应返回
-        String result = JSON.toJSONString(res, isFormat);
+        String json = JSON.toJSONString(result, isFormat);
         // 后置打印
         if (isPrint) {
-            log.info(LOG_AFTER_FORMAT, time, methodName, result);
+            log.info(LOG_AFTER_FORMAT, time, methodName, json);
         }
         // 存储实例
-        LogStorage storage = Singleton.get(cls, operation, methodName, argsNew, res, time);
-        storage.record(request);
-        return res;
+        LogStorage storage = Singleton.get(cls, operation, methodName, argsNew, time);
+        storage.record(request, result);
+        return result;
     }
 }

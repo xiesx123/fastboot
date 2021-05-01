@@ -13,5 +13,5 @@ public interface LogStorage {
     /**
      * @param request
      */
-    void record(HttpServletRequest request);
+    void record(HttpServletRequest request, Object result);
 }
