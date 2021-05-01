@@ -38,13 +38,13 @@ public class RuntimeUtils {
         } else {
             rootPath = StrUtil.removeSuffix(StrUtil.subBefore(_rootURL.getPath(), safe ? "classes/" : "WEB-INF/", false), "/");
         }
-        //
         if (rootPath != null) {
             rootPath = StrUtil.replace(rootPath, "%20", " ");
             if (isWindows()) {
                 rootPath = StrUtil.removePrefix(rootPath, "/");
             }
+            rootPath = StrUtil.trimToEmpty(rootPath);
         }
-        return StrUtil.trimToEmpty(rootPath);
+        return rootPath;
     }
 }

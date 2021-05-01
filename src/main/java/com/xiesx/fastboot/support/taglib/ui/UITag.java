@@ -55,9 +55,9 @@ public class UITag extends BaseUITag {
                 String __tmplContent = null;
                 if (StrUtil.isNotBlank(this.getSrc())) {
                     __tmplContent = TagUtils.includeJSP((HttpServletRequest) this.pageContext.getRequest(), (HttpServletResponse) this.pageContext.getResponse(), this.buildSrcUrl(), this.getCharsetEncoding());
+                    __tmplContent = this.mergeContent(StrUtil.blankToDefault(__tmplContent, "@{body}"));
+                    this.pageContext.getOut().write(!isCleanup() ? __tmplContent : TagUtils.replaceRegClear(__tmplContent));
                 }
-                __tmplContent = this.mergeContent(StrUtil.blankToDefault(__tmplContent, "@{body}"));
-                this.pageContext.getOut().write(!isCleanup() ? __tmplContent : TagUtils.replaceRegClear(__tmplContent));
             } catch (Exception e) {
                 throw new JspException(TagUtils.unwrapThrow(e));
             }

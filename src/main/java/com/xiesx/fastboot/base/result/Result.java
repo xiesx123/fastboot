@@ -1,6 +1,7 @@
 package com.xiesx.fastboot.base.result;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.google.common.base.Objects;
 import com.xiesx.fastboot.base.AbstractState;
 
 import lombok.Builder;
@@ -40,7 +41,7 @@ public class Result implements AbstractState {
     @Override
     @JSONField(serialize = false)
     public Boolean isSuccess() {
-        return code == R.CODE_SUCCESS ? true : false;
+        return Objects.equal(code, R.CODE_SUCCESS);
     }
 
     /**
@@ -50,7 +51,7 @@ public class Result implements AbstractState {
      */
     @JSONField(serialize = false)
     public Boolean isFail() {
-        return code == R.CODE_FAIL ? true : false;
+        return Objects.equal(code, R.CODE_FAIL);
     }
 
     /**
@@ -60,7 +61,7 @@ public class Result implements AbstractState {
      */
     @JSONField(serialize = false)
     public Boolean isError() {
-        return code == R.CODE_ERROR ? true : false;
+        return Objects.equal(code, R.CODE_ERROR);
     }
 
     /**
@@ -70,6 +71,6 @@ public class Result implements AbstractState {
      */
     @JSONField(serialize = false)
     public Boolean isReTrY() {
-        return code == R.CODE_RETRY ? true : false;
+        return Objects.equal(code, R.CODE_RETRY);
     }
 }
