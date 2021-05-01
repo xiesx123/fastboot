@@ -38,7 +38,7 @@ public class ExceptionTest extends BaseTest {
     }
 
     @Test
-    public void hibernate_validator() {
+    public void validator_hibernate() {
         Response res = get("/exception/hibernate/validator");
         BaseResult<Object> result = JSON.parseObject(res.asString(), tr_B_Obj);
         assertNotNull(result);
@@ -47,7 +47,7 @@ public class ExceptionTest extends BaseTest {
     }
 
     @Test
-    public void spring_validator() {
+    public void validator_spring() {
         Response res = get("/exception/spring/validator");
         BaseResult<Object> result = JSON.parseObject(res.asString(), tr_B_Obj);
         assertNotNull(result);
