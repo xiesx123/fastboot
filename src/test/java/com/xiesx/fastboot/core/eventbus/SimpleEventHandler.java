@@ -1,0 +1,23 @@
+package com.xiesx.fastboot.core.eventbus;
+
+import java.util.concurrent.TimeUnit;
+
+import org.springframework.stereotype.Component;
+
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
+@Component
+public class SimpleEventHandler extends EventAdapter<SimpleEvent> {
+
+    @Override
+    public boolean process(SimpleEvent e) throws InterruptedException {
+        log.info("==================== 收到{}事件 ===================", e.getName());
+        if (e.getSleep()) {
+            log.info("==================== sleep ===================", e.getName());
+            TimeUnit.SECONDS.sleep(2);
+        }
+        log.info("==================== 结束{}事件 ===================", e.getName());
+        return true;
+    }
+}
