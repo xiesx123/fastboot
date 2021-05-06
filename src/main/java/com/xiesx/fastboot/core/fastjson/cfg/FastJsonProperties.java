@@ -28,9 +28,9 @@ public class FastJsonProperties {
             // 数值类型如果为null，输出为0，而不是null
             // SerializerFeature.WriteNullNumberAsZero,
             // 布尔类型如果为null，输出为false，而不是null
-            SerializerFeature.WriteNullBooleanAsFalse,
+            // SerializerFeature.WriteNullBooleanAsFalse,
             // 枚举类型用ToString输出
-            SerializerFeature.WriteEnumUsingToString,
+            // SerializerFeature.WriteEnumUsingToString,
             // 是否输出值为null的字段
             // SerializerFeature.WriteMapNullValue,
             // list字段如果为null，输出为[]，而不是null

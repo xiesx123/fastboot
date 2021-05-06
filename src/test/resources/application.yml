@@ -39,8 +39,12 @@ fastboot:                                                   # fastboot
       date-format: yyyy-MM-dd HH:mm:ss
       serializer-features:
         - PrettyFormat                    # 格式化输出
-   # erializeFilters:
-   # features:
+        - WriteNullBooleanAsFalse         # 布尔类型如果为null，输出为false，而不是null
+        - WriteEnumUsingToString          # 枚举类型用ToString输出
+#      serialize-filters:
+#        - DesensitizeFilter
+      features:
+        - AllowComment
    # classSerializeFilters:
    # writeContentLength: true
     desensitize: true

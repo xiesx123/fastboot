@@ -6,6 +6,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import com.xiesx.fastboot.app.enums.StatusEnum;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
@@ -83,7 +84,8 @@ public class MockData {
                 .setAddress("xx市xx区xxxx街道xxx号")//
                 .setEmail("123456789@qq.com")//
                 .setPassword(RandomUtil.randomString(8))//
-                .setCarnumber("京A88888");//
+                .setCarnumber("京A88888")//
+                .setStatus(StatusEnum.A);//
         return user;
 
         // ============================== fluent构造
@@ -109,5 +111,4 @@ public class MockData {
         BeanUtil.copyProperties(user, user2, true);
         return user2;
     }
-
 }

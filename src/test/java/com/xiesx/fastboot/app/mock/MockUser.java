@@ -3,6 +3,7 @@ package com.xiesx.fastboot.app.mock;
 import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.xiesx.fastboot.app.enums.StatusEnum;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -40,4 +41,10 @@ public class MockUser {
 
     @JSONField(ordinal = 10)
     private String carnumber;
+
+    @JSONField(ordinal = 11)
+    private StatusEnum status;
+
+    @JSONField(ordinal = 12)
+    private Boolean enable;
 }

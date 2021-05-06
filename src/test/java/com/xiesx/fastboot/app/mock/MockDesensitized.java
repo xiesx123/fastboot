@@ -3,6 +3,7 @@ package com.xiesx.fastboot.app.mock;
 import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.xiesx.fastboot.app.enums.StatusEnum;
 import com.xiesx.fastboot.core.fastjson.annotation.GoDesensitized;
 
 import cn.hutool.core.util.DesensitizedUtil.DesensitizedType;
@@ -48,4 +49,10 @@ public class MockDesensitized {
     @JSONField(ordinal = 10)
     @GoDesensitized(type = DesensitizedType.CAR_LICENSE)
     private String carnumber;
+
+    @JSONField(ordinal = 11)
+    private StatusEnum status;
+
+    @JSONField(ordinal = 12)
+    private Boolean enable;
 }
