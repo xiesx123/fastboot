@@ -15,11 +15,11 @@ import lombok.extern.log4j.Log4j2;
  * @date 2021-04-24 01:34:31
  */
 @Log4j2
+@SuppressWarnings({"unchecked", "all"})
 public abstract class EventAdapter<E extends BaseEvent> {
 
     private static final String METHOD_NAME = "process";
 
-    @SuppressWarnings("unchecked")
     @Subscribe
     @AllowConcurrentEvents
     public void onEvent(BaseEvent event) {

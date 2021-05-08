@@ -23,7 +23,7 @@ import lombok.extern.log4j.Log4j2;
  * @date 2021-04-24 01:34:57
  */
 @Log4j2
-@SuppressWarnings("all")
+@SuppressWarnings({"all", "unchecked"})
 public class EventBusCfg {
 
     private Map<String, EventAdapter> beans = Maps.newConcurrentMap();
