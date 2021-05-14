@@ -6,7 +6,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.xiesx.fastboot.controller.log.LogRecordRepository;
 import com.xiesx.fastboot.controller.user.UserRepository;
 import com.xiesx.fastboot.controller.user.UserService;
-import com.xiesx.fastboot.db.jdbc.JdbcTemplatePlus;
 
 /**
  * @title BaseController
@@ -18,9 +17,6 @@ public class BaseController {
 
     @Autowired
     public JPAQueryFactory mJPAQueryFactory;
-
-    @Autowired
-    public JdbcTemplatePlus mJdbcTemplatePlus;
 
     @Autowired
     public LogRecordRepository mLogRecordRepository;

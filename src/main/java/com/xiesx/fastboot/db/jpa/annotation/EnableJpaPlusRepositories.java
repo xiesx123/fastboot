@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.xiesx.fastboot.db.jdbc.JdbcTemplatePlus;
 import com.xiesx.fastboot.db.jpa.cfg.JpaPlusCfg;
 import com.xiesx.fastboot.db.jpa.factory.JpaPlusRepositoryFactoryBean;
 
@@ -22,7 +21,7 @@ import com.xiesx.fastboot.db.jpa.factory.JpaPlusRepositoryFactoryBean;
 @EnableJpaRepositories(repositoryFactoryBeanClass = JpaPlusRepositoryFactoryBean.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import({JpaPlusCfg.class, JdbcTemplatePlus.class})
+@Import({JpaPlusCfg.class})
 @Documented
 public @interface EnableJpaPlusRepositories {
 

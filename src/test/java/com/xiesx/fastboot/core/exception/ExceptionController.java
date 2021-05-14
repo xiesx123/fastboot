@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.Maps;
 import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.app.base.BaseVo;
+import com.xiesx.fastboot.db.jdbc.JdbcTemplatePlus;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -79,7 +79,7 @@ public class ExceptionController extends BaseController {
     @RequestMapping(value = "database")
     public void database() {
         log.debug("无此表,抛 {} 异常", SQLSyntaxErrorException.class);
-        mJdbcTemplatePlus.mNamedParameterJdbcTemplate.queryForMap("select * from xx_test", Maps.newHashMap());
+        JdbcTemplatePlus.queryForMap("select * from xx_test");
     }
 
     /**
