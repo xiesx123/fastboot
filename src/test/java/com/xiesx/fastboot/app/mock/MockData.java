@@ -41,6 +41,7 @@ public class MockData {
     public static MockUser user() {
 
         // ============================== get/set构造
+
         // // @Date
         // MockUser user = new MockUser();
         // user.setName("段正淳");
@@ -56,6 +57,7 @@ public class MockData {
         // return user;
 
         // ============================== builder构造
+
         // //@Data
         // //@Builder
         // MockUserBuilder builder = MockUser.builder();
@@ -72,6 +74,7 @@ public class MockData {
         // return builder.build();
 
         // ============================== chain构造
+
         // @Date
         // @Accessors(chain = true)
         MockUser user = new MockUser()//
@@ -89,6 +92,7 @@ public class MockData {
         return user;
 
         // ============================== fluent构造
+
         // // @Date
         // // @Accessors(fluent = true)
         // MockUser user = new MockUser()//

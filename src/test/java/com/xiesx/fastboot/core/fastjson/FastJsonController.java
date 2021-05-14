@@ -29,12 +29,12 @@ public class FastJsonController extends BaseController {
     }
 
     /**
-     * 序列化
+     * 脱敏
      * 
      * @return
      */
-    @RequestMapping("/json2")
-    public MockDesensitized json2() {
+    @RequestMapping("/desensitized")
+    public MockDesensitized desensitized() {
         return MockData.user2();
     }
 }
