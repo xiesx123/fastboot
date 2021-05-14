@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2015-08-07
  */
 @Retention(RetentionPolicy.CLASS)
-@Target({ ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.FIELD })
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.FIELD})
 public @interface IgnoreProguard {
 
 }
