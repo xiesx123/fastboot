@@ -3,6 +3,7 @@ package com.xiesx.fastboot.core.token;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Lists;
 import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
@@ -21,17 +22,7 @@ import com.xiesx.fastboot.core.token.header.HeaderParam;
 public class TokenController extends BaseController {
 
     @RequestMapping(value = "header")
-    public Result header(String name, @GoToken String uid) {
-        return R.succ(uid);
-    }
-
-    @RequestMapping(value = "header2")
-    public Result header2(String name, @GoHeader HeaderParam p1, @GoHeader HeaderParamExt p2) {
-        return R.succ(p1);
-    }
-
-    @RequestMapping(value = "header3")
-    public Result header3(String name, @GoToken String uid, @GoHeader HeaderParam p1, @GoHeader HeaderParamExt p2) {
-        return R.succ(p2);
+    public Result header3(String name, @GoToken String uid, @GoHeader HeaderParam p1) {
+        return R.succ(Lists.newArrayList(name, uid, p1));
     }
 }

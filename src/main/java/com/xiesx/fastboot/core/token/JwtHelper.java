@@ -29,7 +29,7 @@ public class JwtHelper {
     /**
      * jwt生成方
      */
-    private final static String JWT_ISSUER = "xiesx";
+    private final static String JWT_ISSUER = "fastboot";
 
     /**
      * jwt有效时间

@@ -8,6 +8,8 @@ import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
 import com.xiesx.fastboot.core.limiter.annotation.GoLimiter;
 
+import cn.hutool.core.date.DateUtil;
+
 /**
  * @title LimiterController.java
  * @description
@@ -23,9 +25,9 @@ public class LimiterController extends BaseController {
      * 
      * @return
      */
-    @GoLimiter(limit = 1, message = "该接口测试每秒限流1个请求")
-    @RequestMapping("/limiter")
-    public Result limiter() {
-        return R.succ();
+    @GoLimiter(limit = 1, message = "该接口测试每秒内限流1个请求")
+    @RequestMapping("/limit")
+    public Result limit() {
+        return R.succ(DateUtil.now());
     }
 }

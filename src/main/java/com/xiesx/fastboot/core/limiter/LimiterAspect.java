@@ -1,13 +1,11 @@
 package com.xiesx.fastboot.core.limiter;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +14,6 @@ import com.xiesx.fastboot.base.config.Ordered;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.core.limiter.annotation.GoLimiter;
-import com.xiesx.fastboot.core.limiter.cfg.LimiterProperties;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.log4j.Log4j2;
@@ -34,9 +31,6 @@ import lombok.extern.log4j.Log4j2;
 public class LimiterAspect {
 
     private RateLimiter rateLimiter = RateLimiter.create(Double.MAX_VALUE);
-
-    @Autowired
-    private LimiterProperties properties;
 
     @Pointcut("@annotation(com.xiesx.fastboot.core.limiter.annotation.GoLimiter)")
     public void limiterPointcut() {}
@@ -58,9 +52,10 @@ public class LimiterAspect {
         Method method = signature.getMethod();
         // 获取注解信息
         GoLimiter limiter = method.getAnnotation(GoLimiter.class);
+        // 每秒不超过limit许可
         rateLimiter.setRate(limiter.limit());
-        // 获取令牌桶中的一个令牌，最多等待x毫秒
-        if (rateLimiter.tryAcquire(1, properties.getTimeout(), TimeUnit.MICROSECONDS)) {
+        // 尝试能否在timeout时间内获取permits个许可
+        if (rateLimiter.tryAcquire()) {
             return point.proceed();
         } else {
             if (StrUtil.isNotBlank(limiter.message())) {

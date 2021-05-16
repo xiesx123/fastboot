@@ -7,12 +7,6 @@
 			"description": "FastJson"
 		},
 		{
-			"name": "fastboot.limiter",
-			"type": "com.xiesx.fastboot.core.limiter.cfg.LimiterProperties",
-			"sourceType": "com.xiesx.fastboot.core.limiter.cfg.LimiterProperties",
-			"description": "请求限流"
-		},
-		{
 			"name": "fastboot.minio",
 			"type": "com.xiesx.fastboot.support.minio.cfg.MinioProperties",
 			"sourceType": "com.xiesx.fastboot.support.minio.cfg.MinioProperties",
@@ -49,18 +43,6 @@
 			"type": "java.lang.Boolean",
 			"defaultValue": true,
 			"description": "数据脱敏"
-		},
-		{
-			"name": "fastboot.limiter.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "是否启用"
-		},
-		{
-			"name": "fastboot.limiter.timeout",
-			"type": "java.lang.Integer",
-			"defaultValue": 1000,
-			"description": "请求限流等待时间"
 		},
 		{
 			"name": "fastboot.minio.enabled",

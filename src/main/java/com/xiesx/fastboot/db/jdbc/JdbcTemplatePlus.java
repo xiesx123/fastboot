@@ -30,7 +30,7 @@ public class JdbcTemplatePlus {
     public static NamedParameterJdbcTemplate get() {
         NamedParameterJdbcTemplate mNamedParameterJdbcTemplate = SpringHelper.getBean(NamedParameterJdbcTemplate.class);
         Assert.notNull(mNamedParameterJdbcTemplate, () -> {
-            return new RunException(RunExc.DBASE, "pom need dependency spring-boot-starter-data-jdbc/jpa");
+            return new RunException(RunExc.DBASE, "pom need dependency spring-jdbc");
         });
         return mNamedParameterJdbcTemplate;
     }

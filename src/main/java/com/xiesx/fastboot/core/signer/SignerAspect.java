@@ -1,7 +1,8 @@
 package com.xiesx.fastboot.core.signer;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,9 +23,7 @@ import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.core.signer.annotation.GoSigner;
 import com.xiesx.fastboot.core.signer.cfg.SignerProperties;
 
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SecureUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -40,7 +39,7 @@ import lombok.extern.log4j.Log4j2;
 public class SignerAspect {
 
     @Autowired
-    private SignerProperties properties;
+    SignerProperties properties;
 
     @Pointcut("@annotation(com.xiesx.fastboot.core.signer.annotation.GoSigner)")
     public void signerPointcut() {}
@@ -68,7 +67,7 @@ public class SignerAspect {
         // 获取请求信息
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         // 获取参数
-        Map<String, String> parms = Maps.newConcurrentMap();
+        Map<String, Object> parms = Maps.newConcurrentMap();
         Enumeration<String> names = request.getParameterNames();
         while (names.hasMoreElements()) {
             String name = names.nextElement();
@@ -78,49 +77,16 @@ public class SignerAspect {
         // 是否进行效验
         if (!signer.ignore() && !parms.isEmpty()) {
             // 从header中获取sign
-            String headerSign = request.getHeader(header);
+            String headSign = request.getHeader(header);
             // sign为空
-            if (StrUtil.isBlank(headerSign)) {
+            if (StrUtil.isBlank(headSign)) {
                 throw new RunException(RunExc.SIGN, "非法请求");
             }
             // sign错误
-            if (!getSignature(parms, secret).equals(headerSign)) {
+            if (!SignerHelper.getSignature(parms, secret).equals(headSign)) {
                 throw new RunException(RunExc.SIGN, "验签失败");
             }
         }
         return pjp.proceed();
-    }
-
-    /**
-     * 获取签名
-     *
-     * @param params
-     * @param key
-     * @return
-     */
-    public static String getSignature(Map<String, String> params, String key) {
-        return SecureUtil.md5(getSortParams(params) + "&key=" + key);
-    }
-
-    /**
-     * 按key进行正序排列，之间以&相连 <功能描述>
-     *
-     * @param params
-     * @return
-     */
-    public static String getSortParams(Map<String, String> params) {
-        TreeMap<String, String> map = MapUtil.sort(params);
-        Set<String> keySet = map.keySet();
-        Iterator<String> iter = keySet.iterator();
-        String str = "";
-        while (iter.hasNext()) {
-            String key = iter.next();
-            String value = map.get(key);
-            str += key + "=" + value + "&";
-        }
-        if (str.length() > 0) {
-            str = str.substring(0, str.length() - 1);
-        }
-        return str;
     }
 }

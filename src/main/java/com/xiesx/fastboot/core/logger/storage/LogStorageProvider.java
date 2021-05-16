@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.common.collect.Maps;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -20,6 +21,7 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 @Data
+@NoArgsConstructor
 @RequiredArgsConstructor
 public class LogStorageProvider implements LogStorage {
 

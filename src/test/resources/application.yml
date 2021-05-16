@@ -49,10 +49,6 @@ fastboot:                                                   # fastboot
    # writeContentLength: true
     desensitize: true
     
-  # ======= 限流配置 =======
-  limiter:
-    timeout: 1000
-    
   # ======= 数据签名 =======
   signer:
     header: signer
@@ -64,7 +60,7 @@ fastboot:                                                   # fastboot
     include-paths:
     - /token/**
     exclude-paths:
-    - /**
+    - /js/**
     
   # ======= 证书配置 =======
   license:

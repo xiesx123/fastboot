@@ -27,8 +27,8 @@ public class SignerController extends BaseController {
      */
     @GoSigner
     @RequestMapping("/sign")
-    public Result sign(String p) {
-        return R.succ(Lists.newArrayList(p));
+    public Result sign(String p1, String p2) {
+        return R.succ(Lists.newArrayList(p1, p2));
     }
 
     /**
@@ -38,8 +38,8 @@ public class SignerController extends BaseController {
      * @return
      */
     @GoSigner(ignore = true)
-    @RequestMapping("/limiter")
-    public Result ignore(String p) {
-        return R.succ(Lists.newArrayList(p));
+    @RequestMapping("/ignore")
+    public Result ignore(String p1, String p2) {
+        return R.succ(Lists.newArrayList(p1, p2));
     }
 }
