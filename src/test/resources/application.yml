@@ -3,28 +3,7 @@ spring:
     active: mysql
   devtools:
     restart:
-      enabled: true                                        # 开发模式
-  datasource:                                               # 数据源
-    driver-class-name: com.p6spy.engine.spy.P6SpyDriver     # p6spy代理
-    url: jdbc:p6spy:mysql://127.0.0.1:3306/test?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
-    hikari :                                                # hikari连接池
-      #连接池名称
-      pool-name: Hikari
-      #最小空闲连接数量，默认为10
-      minimum-idle: 10
-      #最大连接池数，默认为10
-      maximum-pool-size: 20
-      #此属性控制从连接池返回的连接的默认自动提交行为,默认true
-      auto-commit: true
-      #此属性控制连接池中连接的最长生命周期，如果为0表示无
-      max-lifetime: 1800000
-      #空闲连接最大存活时间,默认为60000， 也就是10分钟
-      idle-timeout: 180000
-      #数据库连接超时时间，默认为30s，即30000 
-      connection-timeout: 30000
-      connection-test-query: select 1       
+      enabled: true                                         # 开发模式
 
 logging:                                                    # logging
   config: classpath:log4j2.xml
