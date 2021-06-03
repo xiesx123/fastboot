@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baomidou.dynamic.datasource.annotation.Slave;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import com.xiesx.fastboot.app.base.BaseController;
@@ -27,6 +28,7 @@ import cn.hutool.core.util.ObjectUtil;
  * @author xiesx
  * @date 2021-04-03 15:49:29
  */
+@Slave
 @RestController
 @RequestMapping("/user")
 public class UserController extends BaseController {
