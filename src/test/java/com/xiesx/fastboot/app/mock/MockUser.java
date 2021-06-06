@@ -8,6 +8,12 @@ import com.xiesx.fastboot.app.enums.StatusEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+/**
+ * @title MockUser.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:19:35
+ */
 @Data
 @Accessors(chain = true)
 public class MockUser {

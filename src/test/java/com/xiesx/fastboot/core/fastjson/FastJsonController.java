@@ -7,15 +7,18 @@ import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.app.mock.MockData;
 import com.xiesx.fastboot.app.mock.MockDesensitized;
 import com.xiesx.fastboot.app.mock.MockUser;
+import com.xiesx.fastboot.core.logger.LogStorageMysqlProvider;
+import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 
 /**
- * @title LimiterController.java
+ * @title FastJsonController.java
  * @description
  * @author xiesx
- * @date 2021-04-05 17:27:35
+ * @date 2021-06-06 23:20:13
  */
 @RestController
 @RequestMapping("/fastjson")
+@GoLogger(storage = LogStorageMysqlProvider.class)
 public class FastJsonController extends BaseController {
 
     /**

@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.controller.log;
+package com.xiesx.fastboot.app.log;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +14,7 @@ import com.xiesx.fastboot.base.page.PageVo;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 
 /**
- * @title LoggerController.java
+ * @title LogRecordController.java
  * @description
  * @author xiesx
  * @date 2021-04-05 17:27:35

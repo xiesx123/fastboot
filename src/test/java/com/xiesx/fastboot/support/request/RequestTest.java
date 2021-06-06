@@ -1,13 +1,15 @@
 package com.xiesx.fastboot.support.request;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import com.alibaba.fastjson.JSON;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.support.retry.RetryResponse;
 
 import lombok.extern.log4j.Log4j2;
-import net.dongliu.requests.Parameter;
 import net.dongliu.requests.RawResponse;
 import net.dongliu.requests.RequestBuilder;
 import net.dongliu.requests.Requests;
@@ -19,14 +21,16 @@ import net.dongliu.requests.Requests;
  * @date 2020-8-15 14:09:29
  */
 @Log4j2
+@TestMethodOrder(OrderAnnotation.class)
 public class RequestTest {
 
-    public final static String URL = "https://api.go168.xyz/api/appConfig";
+    public final static String URL = "https://front-gateway.mtime.cn/ticket/schedule/showing/movies.api?locationId=561";
 
     @Test
+    @Order(1)
     public void http() {
         // 构造请求
-        RequestBuilder req = Requests.post(URL).params(Parameter.of("configKey", "appLaunch"));
+        RequestBuilder req = Requests.get(URL);
         // 请求重试
         RawResponse response = RequestsHelper.retry(req);
         // 获取结果

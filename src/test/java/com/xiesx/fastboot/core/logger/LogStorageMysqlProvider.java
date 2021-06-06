@@ -4,20 +4,20 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
 import com.xiesx.fastboot.SpringHelper;
-import com.xiesx.fastboot.controller.log.LogRecord;
-import com.xiesx.fastboot.controller.log.LogRecordRepository;
+import com.xiesx.fastboot.app.log.LogRecord;
+import com.xiesx.fastboot.app.log.LogRecordRepository;
 import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
 
 import lombok.extern.log4j.Log4j2;
 
 /**
- * @title LogStorageSimpleProvider.java
+ * @title LogStorageMysqlProvider.java
  * @description
  * @author xiesx
- * @date 2021-04-17 18:53:36
+ * @date 2021-06-06 23:20:34
  */
 @Log4j2
-public class LogStorageH2Provider extends LogStorageProvider {
+public class LogStorageMysqlProvider extends LogStorageProvider {
 
     private final static String UNKNOWN = "unknown";
 
@@ -26,14 +26,14 @@ public class LogStorageH2Provider extends LogStorageProvider {
 
     LogRecordRepository mLogRecordRepository;
 
-    public LogStorageH2Provider(String operation, String method, Object[] args, Long time) {
+    public LogStorageMysqlProvider(String operation, String method, Object[] args, Long time) {
         super(operation, method, args, time);
         mLogRecordRepository = SpringHelper.getBean(LogRecordRepository.class);
     }
 
     @Override
     public void record(HttpServletRequest request, Object result) {
-        // super.record(request);
+        super.record(request, result);
         // 构造日志
         LogRecord logRecord = new LogRecord()//
                 .setIp(getIpAddr(request))//

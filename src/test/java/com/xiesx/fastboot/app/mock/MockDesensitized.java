@@ -9,6 +9,12 @@ import com.xiesx.fastboot.core.fastjson.annotation.GoDesensitized;
 import cn.hutool.core.util.DesensitizedUtil.DesensitizedType;
 import lombok.Data;
 
+/**
+ * @title MockDesensitized.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:19:31
+ */
 @Data
 public class MockDesensitized {
 

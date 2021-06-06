@@ -1,6 +1,5 @@
 package com.xiesx.fastboot.support.scheduler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,12 +7,12 @@ import java.util.Set;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 
 public class ScheduleHelper {
@@ -398,15 +397,14 @@ public class ScheduleHelper {
         if (ObjectUtil.isNull(scheduler)) {
             throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
         }
-        List<Map<String, Object>> jobList = null;
+        List<Map<String, Object>> jobList = Lists.newArrayList();
         try {
             GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
             Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
-            jobList = ListUtil.empty();
             for (JobKey jobKey : jobKeys) {
                 List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
                 for (Trigger trigger : triggers) {
-                    Map<String, Object> map = MapUtil.empty();
+                    Map<String, Object> map = Maps.newConcurrentMap();
                     map.put("key", trigger.getKey());
                     map.put("job", jobKey.getName());
                     map.put("group", jobKey.getGroup());
@@ -435,12 +433,11 @@ public class ScheduleHelper {
         if (ObjectUtil.isNull(scheduler)) {
             throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
         }
-        List<Map<String, Object>> jobList = null;
+        List<Map<String, Object>> jobList = Lists.newArrayList();
         try {
             List<JobExecutionContext> executingJobs = scheduler.getCurrentlyExecutingJobs();
-            jobList = new ArrayList<>(executingJobs.size());
             for (JobExecutionContext executingJob : executingJobs) {
-                Map<String, Object> map = MapUtil.empty();
+                Map<String, Object> map = Maps.newConcurrentMap();
                 JobDetail jobDetail = executingJob.getJobDetail();
                 JobKey jobKey = jobDetail.getKey();
                 Trigger trigger = executingJob.getTrigger();

@@ -7,8 +7,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.xiesx.fastboot.support.minio.client.MinioBucketClient;
-import com.xiesx.fastboot.support.minio.client.MinioObjectClient;
+import com.xiesx.fastboot.support.minio.MinioBucketClient;
+import com.xiesx.fastboot.support.minio.MinioObjectClient;
 
 import cn.hutool.core.util.StrUtil;
 import io.minio.MinioClient;

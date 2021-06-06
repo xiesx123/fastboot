@@ -1,6 +1,7 @@
 spring:
   datasource:
     dynamic:
+      p6spy: true
       datasource:
         master:
           driver-class-name: org.h2.Driver

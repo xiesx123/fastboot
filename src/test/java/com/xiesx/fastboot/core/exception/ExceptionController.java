@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Maps;
 import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.app.base.BaseVo;
+import com.xiesx.fastboot.core.logger.LogStorageMysqlProvider;
+import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 import com.xiesx.fastboot.db.jdbc.JdbcTemplatePlus;
 
 import lombok.extern.log4j.Log4j2;
@@ -28,6 +31,7 @@ import lombok.extern.log4j.Log4j2;
 @Validated
 @RestController
 @RequestMapping("/exception")
+@GoLogger(storage = LogStorageMysqlProvider.class)
 public class ExceptionController extends BaseController {
 
     /**
@@ -79,7 +83,8 @@ public class ExceptionController extends BaseController {
     @RequestMapping(value = "database")
     public void database() {
         log.debug("无此表,抛 {} 异常", SQLSyntaxErrorException.class);
-        JdbcTemplatePlus.queryForMap("select * from xx_test");
+        JdbcTemplatePlus.queryForMap("select * from xx_test");// 不捕获
+        JdbcTemplatePlus.get().queryForMap("select * from xx_test", Maps.newConcurrentMap());// 全局捕获
     }
 
     /**

@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +32,13 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwsHeader;
 import io.restassured.response.Response;
 
-
+/**
+ * @title TokenTest.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:20:50
+ */
+@TestMethodOrder(OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class TokenTest extends BaseTest {
@@ -55,6 +64,7 @@ public class TokenTest extends BaseTest {
     }
 
     @Test
+    @Order(1)
     public void header() {
         Response res = post("/token/header", header, param);
         BaseResult<List<Object>> result = JSON.parseObject(res.asString(), tr_B_List);

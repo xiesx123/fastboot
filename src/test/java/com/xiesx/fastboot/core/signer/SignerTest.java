@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +25,13 @@ import com.xiesx.fastboot.core.signer.cfg.SignerProperties;
 
 import io.restassured.response.Response;
 
+/**
+ * @title SignerTest.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:20:42
+ */
+@TestMethodOrder(OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SignerTest extends BaseTest {
@@ -45,6 +55,7 @@ public class SignerTest extends BaseTest {
     }
 
     @Test
+    @Order(1)
     public void sign() {
         Response res = post("/signer/sign", header, param);
         BaseResult<List<Object>> result = JSON.parseObject(res.asString(), tr_B_List);
@@ -52,7 +63,7 @@ public class SignerTest extends BaseTest {
         assertTrue(result.isSuccess());
         assertEquals(result.getData().get(0), "1");
     }
- 
+
     @Test
     public void ignore() {
         Response res = get("/signer/ignore?p1=1&p2=2");

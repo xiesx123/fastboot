@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.support.minio.client;
+package com.xiesx.fastboot.support.minio;
 
 import java.util.List;
 

@@ -5,42 +5,52 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.google.common.collect.Lists;
 import com.xiesx.fastboot.FastBootApplication;
+import com.xiesx.fastboot.db.jdbc.pojo.CommonPojo;
+import com.xiesx.fastboot.db.jdbc.pojo.RegionPojo;
 
 import cn.hutool.core.bean.BeanUtil;
-import lombok.Data;
-import lombok.experimental.Accessors;
-import lombok.experimental.FieldNameConstants;
 
+/**
+ * @title JdbcTemplatePlusTest.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:21:01
+ */
+@TestMethodOrder(OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = FastBootApplication.class)
 public class JdbcTemplatePlusTest {
 
     @Test
+    @Order(1)
     public void map() {
         // 查询总数
         String sql = "SELECT COUNT(1) AS ct FROM sys_region";
         // 输出map
         Map<String, Object> result1 = JdbcTemplatePlus.queryForMap(sql);
         // 输出obj
-        CommonDto result2 = JdbcTemplatePlus.queryForMap(sql, CommonDto.class);
+        CommonPojo result2 = JdbcTemplatePlus.queryForMap(sql, CommonPojo.class);
         // 验证
         assertEquals(result1.getOrDefault("ct", 0), result2.getCt());
     }
 
     @Test
+    @Order(2)
     public void mapObj() {
         // 查询主键
         String sql = "SELECT id, NAME FROM sys_region WHERE id = :id";
         // 入参obj
-        RegionPojo pojo = new RegionPojo().setId(1000000);
+        RegionPojo pojo = new RegionPojo().setId(1);
         // 入参map
         Map<String, Object> params = BeanUtil.beanToMap(pojo);
         // 输出map
@@ -56,6 +66,7 @@ public class JdbcTemplatePlusTest {
     }
 
     @Test
+    @Order(3)
     public void list() {
         // 查询10个
         String sql = "SELECT * FROM sys_region LIMIT 10";
@@ -68,6 +79,7 @@ public class JdbcTemplatePlusTest {
     }
 
     @Test
+    @Order(4)
     public void listObj() {
         // 查询主键
         String sql = "SELECT id, NAME FROM sys_region WHERE parent = :parent";
@@ -88,67 +100,48 @@ public class JdbcTemplatePlusTest {
     }
 
     @Test
+    @Order(5)
     public void insert() {
         // 删除测试数据
-        JdbcTemplatePlus.update("DELETE FROM sys_region WHERE id < 100000");
+        JdbcTemplatePlus.update("DELETE FROM sys_region WHERE id in (99981,99982,99991,99992)");
         // 插入数据
         String sql = "INSERT IGNORE INTO sys_region (`id`,`name`,`code`,`parent`) VALUES (:id,:name,:code,:parent)";
         // 入参obj
-        RegionPojo pojo = new RegionPojo().setId(81).setName("测试").setCode(0).setParent(-1);
+        RegionPojo pojo = new RegionPojo().setId(99981).setName("测试").setCode(0).setParent(-1);
         // 入参map
         Map<String, Object> params = BeanUtil.beanToMap(pojo);
-        params.put("id", 91);
+        params.put("id", 99991);
         // 单个添加
         assertEquals(JdbcTemplatePlus.update(sql, pojo), 1);
         assertEquals(JdbcTemplatePlus.update(sql, params), 1);
         // 批量添加
-        pojo.setId(82);
-        params.put("id", 92);
+        pojo.setId(99982);
+        params.put("id", 99992);
         assertEquals(JdbcTemplatePlus.batchUpdate(sql, Lists.newArrayList(pojo, params)), 2);
     }
 
     @Test
+    @Order(6)
     public void update() {
-        // 删除测试数据
-        JdbcTemplatePlus.update("UPDATE sys_region SET code = 0 where id < 100000");
         // 更新数据
         String sql = "UPDATE sys_region SET code = :code WHERE id = :id";
         // 入参obj
-        RegionPojo pojo = new RegionPojo().setId(81).setCode(1);
+        RegionPojo pojo = new RegionPojo().setId(99981).setCode(1);
         // 入参map
         Map<String, Object> params = BeanUtil.beanToMap(pojo);
-        params.put("id", 91);
+        params.put("id", 99991);
         // 单个添加
         assertEquals(JdbcTemplatePlus.update(sql, pojo), 1);
         assertEquals(JdbcTemplatePlus.update(sql, params), 1);
         // 批量添加
-        pojo.setId(82);
-        params.put("id", 92);
+        pojo.setId(99982);
+        params.put("id", 99992);
         assertEquals(JdbcTemplatePlus.batchUpdate(sql, Lists.newArrayList(pojo, params)), 2);
     }
 
     @Test
+    @Order(7)
     public void delete() {
-        assertEquals(JdbcTemplatePlus.update("DELETE FROM sys_region WHERE id < 100000"), 4);
-    }
-
-    @Data
-    @Accessors(chain = true)
-    @FieldNameConstants(innerTypeName = "FIELDS")
-    public static class RegionPojo {
-
-        public Integer id;
-
-        public String name;
-
-        public Integer code;
-
-        public Integer parent;
-    }
-
-    @Data
-    public static class CommonDto {
-
-        public Long ct;
+        assertEquals(JdbcTemplatePlus.update("DELETE FROM sys_region WHERE id in (99981,99982,99991,99992)"), 4);
     }
 }

@@ -27,6 +27,7 @@ import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.lang.Editor;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -64,16 +65,26 @@ public class LoggerAspect {
     public Object loggerAroundAspect(ProceedingJoinPoint pjp) throws Throwable {
         // 获取请求信息
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        // 获取类信息
+        Class<?> cls = pjp.getTarget().getClass();
         // 获取方法信息
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         String methodName = method.getName();
-        // 获取注解信息
-        GoLogger logger = method.getAnnotation(GoLogger.class);
-        Boolean isPrint = Boolean.valueOf(logger == null ? true : logger.print());
-        Boolean isFormat = Boolean.valueOf(logger == null ? false : logger.format());
-        String operation = Boolean.valueOf(logger == null) ? "" : logger.operation();
-        Class<? extends LogStorage> cls = Boolean.valueOf(logger == null) ? LogStorageProvider.class : logger.storage();
+        // 获取类注解
+        GoLogger clogger = cls.getAnnotation(GoLogger.class);
+        Boolean print = ObjectUtil.isNull(clogger) ? true : clogger.print();
+        Boolean format = ObjectUtil.isNull(clogger) ? false : clogger.format();
+        String operation = ObjectUtil.isNull(clogger) ? "" : clogger.operation();
+        Class<? extends LogStorage> storage = ObjectUtil.isNull(clogger) ? LogStorageProvider.class : clogger.storage();
+        // 获取方法注解
+        GoLogger mlogger = method.getAnnotation(GoLogger.class);
+        if (ObjectUtil.isNotNull(mlogger)) {
+            print = mlogger.print();
+            format = mlogger.format();
+            operation = mlogger.operation();
+            storage = mlogger.storage();
+        }
         // 获取入参
         Object[] args = pjp.getArgs();
         // 入参过滤
@@ -93,9 +104,9 @@ public class LoggerAspect {
             }
         });
         // 请求参数
-        String req = JSON.toJSONString(argsNew, isFormat);
+        String req = JSON.toJSONString(argsNew, format);
         // 前置打印
-        if (isPrint) {
+        if (print) {
             log.info(LOG_BEFORE_FORMAT, methodName, req);
         }
         // 重新计时
@@ -105,14 +116,14 @@ public class LoggerAspect {
         // 执行时间
         long time = interval.interval();
         // 响应返回
-        String json = JSON.toJSONString(result, isFormat);
+        String json = JSON.toJSONString(result, format);
         // 后置打印
-        if (isPrint) {
+        if (print) {
             log.info(LOG_AFTER_FORMAT, time, methodName, json);
         }
         // 存储实例
-        LogStorage storage = Singleton.get(cls, operation, methodName, argsNew, time);
-        storage.record(request, result);
+        LogStorage logStorage = Singleton.get(storage, operation, methodName, argsNew, time);
+        logStorage.record(request, result);
         return result;
     }
 }

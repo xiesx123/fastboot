@@ -13,6 +13,12 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.RandomUtil;
 
+/**
+ * @title MockData.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:19:27
+ */
 public class MockData {
 
     public static Map<String, Object> map() {

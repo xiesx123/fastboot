@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.controller.log;
+package com.xiesx.fastboot.app.log;
 
 import static com.querydsl.core.types.PathMetadataFactory.forVariable;
 

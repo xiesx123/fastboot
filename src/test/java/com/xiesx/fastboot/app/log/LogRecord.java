@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.controller.user;
+package com.xiesx.fastboot.app.log;
 
 import java.util.Date;
 
@@ -10,39 +10,38 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.*;
-import org.hibernate.annotations.Parameter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.xiesx.fastboot.core.fastjson.annotation.GoDesensitized;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.xiesx.fastboot.db.jpa.entity.JpaPlusEntity;
 
-import cn.hutool.core.util.DesensitizedUtil.DesensitizedType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
 
 /**
- * @title Simple.java
+ * @title LogRecord.java
  * @description
  * @author xiesx
- * @date 2021-04-03 17:45:34
+ * @date 2021-04-17 21:54:26
  */
 @Data
 @Accessors(chain = true)
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @FieldNameConstants(innerTypeName = "FIELDS")
-@Table(name = "xx_user")
+@Table(name = "xx_log")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @DynamicInsert
 @DynamicUpdate
 @Where(clause = "is_del=0")
-@SQLDelete(sql = "update xx_user set delete=1 where id = ?")
-@SQLDeleteAll(sql = "update xx_user set delete=1 where id = ?")
-public class User extends JpaPlusEntity<User> {
+@SQLDelete(sql = "update xx_log set is_del=1 where id = ?")
+@SQLDeleteAll(sql = "update xx_log set is_del=1 where id = ?")
+public class LogRecord extends JpaPlusEntity<LogRecord> {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,7 +50,8 @@ public class User extends JpaPlusEntity<User> {
      */
     @Id
     @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", strategy = "com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator", parameters = {@Parameter(name = "workerId", value = "0"), @Parameter(name = "datacenterId", value = "0")})
+    @GenericGenerator(name = "idGenerator", strategy = "com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator")
+    @JSONField(ordinal = 1)
     private Long id;
 
     /**
@@ -59,6 +59,7 @@ public class User extends JpaPlusEntity<User> {
      */
     @CreatedDate
     @Column(updatable = false, nullable = false)
+    @JSONField(ordinal = 2)
     private Date createDate;
 
     /**
@@ -66,60 +67,72 @@ public class User extends JpaPlusEntity<User> {
      */
     @LastModifiedDate
     @Column(nullable = false)
+    @JSONField(ordinal = 3)
     private Date updateDate;
 
     /**
-     * 帐号
+     * 请求IP
      */
     @Column
-    private String username;
+    @JSONField(ordinal = 4)
+    private String ip;
 
     /**
-     * 密码
+     * 方法
      */
     @Column
-    private String password;
+    @JSONField(ordinal = 5)
+    private String method;
 
     /**
-     * 昵称
+     * 方式
      */
-    @GoDesensitized(type = DesensitizedType.CHINESE_NAME)
     @Column
-    private String nickname;
+    @JSONField(ordinal = 6)
+    private String type;
 
     /**
-     * 类型(1:系统、2:机构、3:商家)
+     * 地址
      */
     @Column
-    private Integer type;
+    @JSONField(ordinal = 7)
+    private String url;
 
     /**
-     * 拓展数据
+     * 请求参数
      */
-    @Column
-    private String extData;
+    @JSONField(serialize = false)
+    private String req;
 
     /**
-     * 登录失败次数
+     * 响应结果
      */
-    @Column
-    private Integer lastLoginFailures;
+    @JSONField(serialize = false)
+    private String res;
 
     /**
-     * 最后登录时间
+     * 执行时间（毫秒）
      */
     @Column
-    private Date lastLoginDate;
+    @JSONField(ordinal = 10)
+    private Long time;
 
     /**
-     * 是否禁用（true:启用、false:禁用）
+     * 是否删除
      */
     @Column
-    private Boolean isEnable;
+    @JSONField(serialize = false)
+    private Boolean isDel = false;
 
-    /**
-     * 是否删除（0:正常、1:删除）
-     */
-    @Column
-    private Integer isDel;
+    // ======================
+
+    @JSONField(ordinal = 8)
+    public Object getParams() {
+        return JSON.parse(req);
+    }
+
+    @JSONField(ordinal = 9)
+    public Object getResult() {
+        return JSON.parse(res);
+    }
 }

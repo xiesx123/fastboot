@@ -3,14 +3,24 @@ package com.xiesx.fastboot.support.license;
 import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import com.xiesx.fastboot.base.config.Configed;
 
 import cn.hutool.core.date.DateUtil;
 import lombok.extern.log4j.Log4j2;
 
+/**
+ * @title LicenseTest.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:21:14
+ */
 @Log4j2
+@TestMethodOrder(OrderAnnotation.class)
 public class LicenseTest {
 
     // 主题
@@ -23,13 +33,13 @@ public class LicenseTest {
     public static String privatepass = "xiesx@888";
 
     // 私钥路径
-    public static String privateStorePath = "E:/license/privateKeys.store";
+    public static String privateStorePath = "F:/license/privateKeys.store";
 
     // 公钥路径
-    public static String publicStorePath = "E:/license/publicCerts.store";
+    public static String publicStorePath = "F:/license/publicCerts.store";
 
     // 证书
-    public static String licensePath = "E:/license/license.lic";
+    public static String licensePath = "F:/license/license.lic";
 
     @BeforeEach
     public void creator() {
@@ -68,6 +78,7 @@ public class LicenseTest {
     }
 
     @Test
+    @Order(1)
     public void verify() throws Exception {
         // 证书信息
         LicenseVerify param = new LicenseVerify()
