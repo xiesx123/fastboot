@@ -240,8 +240,7 @@ public class MinioObjectClient {
 
     public String getObjectUrl(String bucketName, String region, String objectName, Integer expires, Map<String, String> params) throws Exception {
         validateExpiry(expires);
-        return mClient
-                .getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(bucketName).region(region).object(objectName).expiry(expires).extraQueryParams(Maps.newHashMap(params)).build());
+        return mClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(bucketName).region(region).object(objectName).expiry(expires).extraQueryParams(Maps.newHashMap(params)).build());
     }
 
     /**

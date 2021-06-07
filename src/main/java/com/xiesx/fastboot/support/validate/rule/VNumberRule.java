@@ -5,6 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import com.xiesx.fastboot.support.validate.annotation.VNumber;
 
+import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.NumberUtil;
 
 /**
@@ -20,7 +21,7 @@ public class VNumberRule implements ConstraintValidator<VNumber, String> {
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return NumberUtil.isNumber(s);
+        return Validator.isNumber(s);
     }
 
     public static void main(String[] args) {

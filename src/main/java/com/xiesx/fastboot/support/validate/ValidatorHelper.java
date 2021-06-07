@@ -12,6 +12,10 @@ import javax.validation.groups.Default;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.SpringHelper;
+import com.xiesx.fastboot.core.exception.RunExc;
+import com.xiesx.fastboot.core.exception.RunException;
+
+import cn.hutool.core.lang.Assert;
 
 /**
  * @title ValidatorHelper.java
@@ -21,17 +25,36 @@ import com.xiesx.fastboot.SpringHelper;
  */
 public class ValidatorHelper {
 
-    private static Validator validator = SpringHelper.getBean(Validator.class);
+    public static Validator get() {
+        Validator validator = SpringHelper.getBean(Validator.class);
+        Assert.notNull(validator, () -> {
+            return new RunException(RunExc.DBASE, "pom need dependency hibernate-validator");
+        });
+        return validator;
+    }
 
+    /**
+     * 对象效验
+     * 
+     * @param object
+     * @throws ConstraintViolationException
+     */
     public static void validate(Object object) throws ConstraintViolationException {
-        Set<? extends ConstraintViolation<?>> constraintViolations = validator.validate(object, Default.class);
+        Set<? extends ConstraintViolation<?>> constraintViolations = get().validate(object, Default.class);
         if (!constraintViolations.isEmpty()) {
             throw new ConstraintViolationException(constraintViolations);
         }
     }
 
+    /**
+     * 对象效验
+     * 
+     * @param object
+     * @param groups
+     * @throws ConstraintViolationException
+     */
     public static void validate(Object object, Class<?>... groups) throws ConstraintViolationException {
-        Set<? extends ConstraintViolation<?>> constraintViolations = validator.validate(object, groups);
+        Set<? extends ConstraintViolation<?>> constraintViolations = get().validate(object, groups);
         if (!constraintViolations.isEmpty()) {
             throw new ConstraintViolationException(constraintViolations);
         }

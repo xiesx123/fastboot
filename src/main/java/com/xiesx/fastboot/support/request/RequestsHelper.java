@@ -15,7 +15,7 @@ import net.dongliu.requests.RequestBuilder;
  */
 public class RequestsHelper {
 
-    static Retryer<RawResponse> retry;
+    private static Retryer<RawResponse> retry;
 
     static {
 
@@ -34,6 +34,10 @@ public class RequestsHelper {
                 .withRetryListener(HttpRetryer.reRetryListener)
                 //
                 .build();
+    }
+
+    public static Retryer<RawResponse> getRetry() {
+        return retry;
     }
 
     public static RawResponse retry(RequestBuilder request) {

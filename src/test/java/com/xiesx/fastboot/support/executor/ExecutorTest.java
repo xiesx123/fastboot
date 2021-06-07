@@ -83,7 +83,7 @@ public class ExecutorTest {
     }
 
     @AllArgsConstructor
-    public static class MyTask extends SimpleTask<Result> {
+    public static class MyTask extends ExecutorTask<Result> {
 
         public String keyword;
 
