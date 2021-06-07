@@ -7,6 +7,8 @@ import java.util.concurrent.Future;
 
 import com.google.common.util.concurrent.*;
 
+import lombok.extern.log4j.Log4j2;
+
 /**
  * @title ExecutorHelper.java
  * @description 线程池<br>
@@ -17,6 +19,7 @@ import com.google.common.util.concurrent.*;
  * @author xiesx
  * @date 2020-7-21 22:40:11
  */
+@Log4j2
 public class ExecutorHelper {
 
     /**
@@ -83,7 +86,7 @@ public class ExecutorHelper {
         try {
             return service.invokeAll(tasks);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("executor helper invoke all", e);
         }
         return null;
     }

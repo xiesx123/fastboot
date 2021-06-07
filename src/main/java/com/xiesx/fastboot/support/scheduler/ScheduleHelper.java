@@ -264,7 +264,7 @@ public class ScheduleHelper {
     public static void deleteJob(String job, String group) {
         try {
             get().deleteJob(new JobKey(job, group));
-        } catch (Exception e) {
+        } catch (SchedulerException e) {
             log.error("delete job error {}", e.getMessage());
         }
     }
