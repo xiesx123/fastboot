@@ -31,7 +31,7 @@ public class SchedulerTest {
     @Order(1)
     public void scheduler_simple() {
 
-        Map<String, String> map = Maps.newHashMap();
+        Map<String, String> map = Maps.newConcurrentMap();
         map.put("key", "time");
 
         log.info("【添加A】每1秒输出一次 ");
@@ -67,7 +67,7 @@ public class SchedulerTest {
     @Order(2)
     public void scheduler_cron() {
 
-        Map<String, String> map = Maps.newHashMap();
+        Map<String, String> map = Maps.newConcurrentMap();
         map.put("key", "time");
 
         log.info("【添加A】每1秒输出一次 ");

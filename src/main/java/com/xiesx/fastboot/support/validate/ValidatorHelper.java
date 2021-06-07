@@ -58,7 +58,7 @@ public class ValidatorHelper {
     }
 
     public static Map<String, String> extractPropertyAndMessage(Set<? extends ConstraintViolation<?>> constraintViolations) {
-        Map<String, String> errorMsgs = Maps.newHashMap();
+        Map<String, String> errorMsgs = Maps.newConcurrentMap();
         for (ConstraintViolation<?> violation : constraintViolations) {
             errorMsgs.put(violation.getPropertyPath().toString(), violation.getMessage());
         }

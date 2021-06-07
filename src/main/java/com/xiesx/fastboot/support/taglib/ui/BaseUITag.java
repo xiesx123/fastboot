@@ -51,7 +51,7 @@ public abstract class BaseUITag extends BodyTagSupport {
         __tmplScriptPart = new StringBuilder();
         __tmplMetaPart = new StringBuilder();
         __tmplCssPart = new StringBuilder();
-        __tmplPropertyPart = Maps.newHashMap();
+        __tmplPropertyPart = Maps.newConcurrentMap();
         return super.doStartTag();
     }
 

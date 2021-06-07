@@ -55,11 +55,11 @@ public class TokenTest extends BaseTest {
         // 生成token
         jwt();
         // 参数
-        param = Maps.newHashMap();
+        param = Maps.newConcurrentMap();
         param.put("name", "fasotboot");
         param.put("p1", 1);
         // 头部
-        header = Maps.newHashMap();
+        header = Maps.newConcurrentMap();
         header.put(properties.getHeader(), token);
     }
 

@@ -25,7 +25,7 @@ public class SimpleDecorator extends BaseDecorator implements ISchedule {
     @Override
     public void init() {
         if (isStart()) {
-            Map<String, String> map = Maps.newHashMap();
+            Map<String, String> map = Maps.newConcurrentMap();
             map.put("key", "time ");
             ScheduleHelper.addJob(SimpleJob.simple_job_name, SimpleJob.class, "0/10 * * * * ?", map);
         }

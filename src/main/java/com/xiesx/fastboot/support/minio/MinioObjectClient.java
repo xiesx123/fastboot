@@ -219,28 +219,29 @@ public class MinioObjectClient {
      */
     public String getObjectUrl(String objectName) throws Exception {
         validateBucketName(mDefaultBucket);
-        return getObjectUrl(mDefaultBucket, null, objectName, DEFAULT_EXPIRY_TIME, Maps.newHashMap());
+        return getObjectUrl(mDefaultBucket, null, objectName, DEFAULT_EXPIRY_TIME, Maps.newConcurrentMap());
     }
 
     public String getObjectUrl(String bucketName, String objectName) throws Exception {
-        return getObjectUrl(bucketName, null, objectName, DEFAULT_EXPIRY_TIME, Maps.newHashMap());
+        return getObjectUrl(bucketName, null, objectName, DEFAULT_EXPIRY_TIME, Maps.newConcurrentMap());
     }
 
     public String getObjectUrl(String bucketName, String region, String objectName) throws Exception {
-        return getObjectUrl(bucketName, null, objectName, DEFAULT_EXPIRY_TIME, Maps.newHashMap());
+        return getObjectUrl(bucketName, null, objectName, DEFAULT_EXPIRY_TIME, Maps.newConcurrentMap());
     }
 
     public String getObjectUrl(String bucketName, String objectName, int expiry) throws Exception {
-        return getObjectUrl(bucketName, null, objectName, expiry, Maps.newHashMap());
+        return getObjectUrl(bucketName, null, objectName, expiry, Maps.newConcurrentMap());
     }
 
     public String getObjectUrl(String bucketName, String region, String objectName, Integer expiry) throws Exception {
-        return getObjectUrl(bucketName, region, objectName, expiry, Maps.newHashMap());
+        return getObjectUrl(bucketName, region, objectName, expiry, Maps.newConcurrentMap());
     }
 
     public String getObjectUrl(String bucketName, String region, String objectName, Integer expires, Map<String, String> params) throws Exception {
         validateExpiry(expires);
-        return mClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(bucketName).region(region).object(objectName).expiry(expires).extraQueryParams(Maps.newHashMap(params)).build());
+        return mClient
+                .getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(bucketName).region(region).object(objectName).expiry(expires).extraQueryParams(Maps.newHashMap(params)).build());
     }
 
     /**

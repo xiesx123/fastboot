@@ -44,13 +44,13 @@ public class SignerTest extends BaseTest {
     @BeforeEach
     public void befoe() {
         // 参数
-        param = Maps.newHashMap();
+        param = Maps.newConcurrentMap();
         param.put("p1", 1);
         param.put("p2", "2");
         // 签名
         String sign = SignerHelper.getSignature(param, properties.getSecret());
         // 头部
-        header = Maps.newHashMap();
+        header = Maps.newConcurrentMap();
         header.put(properties.getHeader(), sign);
     }
 
