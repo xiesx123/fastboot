@@ -45,7 +45,7 @@ public class JdbcTemplatePlus {
         try {
             return get().queryForMap(sql, Maps.newHashMap());
         } catch (Exception e) {
-            log.error("query for map error", e);
+            log.error("query for map error {}", e.getMessage());
             return Maps.newHashMap();
         }
     }
@@ -54,7 +54,7 @@ public class JdbcTemplatePlus {
         try {
             return get().queryForMap(sql, parameter(obj));
         } catch (Exception e) {
-            log.error("query for map error", e);
+            log.error("query for map error", e.getMessage());
             return Maps.newHashMap();
         }
     }
@@ -63,7 +63,7 @@ public class JdbcTemplatePlus {
         try {
             return result(queryForMap(sql, Maps.newHashMap()), cla);
         } catch (Exception e) {
-            log.error("query for map error", e);
+            log.error("query for map error", e.getMessage());
             return null;
         }
     }
@@ -72,7 +72,7 @@ public class JdbcTemplatePlus {
         try {
             return result(queryForMap(sql, obj), cla);
         } catch (Exception e) {
-            log.error("query for map error", e);
+            log.error("query for map error", e.getMessage());
             return null;
         }
     }
@@ -87,7 +87,7 @@ public class JdbcTemplatePlus {
         try {
             return get().queryForList(sql, Maps.newHashMap());
         } catch (Exception e) {
-            log.error("query for list error", e);
+            log.error("query for list error", e.getMessage());
             return Lists.newArrayList();
         }
     }
@@ -96,7 +96,7 @@ public class JdbcTemplatePlus {
         try {
             return get().queryForList(sql, parameter(obj));
         } catch (Exception e) {
-            log.error("query for list error", e);
+            log.error("query for list error", e.getMessage());
             return Lists.newArrayList();
         }
     }
@@ -105,7 +105,7 @@ public class JdbcTemplatePlus {
         try {
             return result(queryForList(sql, Maps.newHashMap()), cla);
         } catch (Exception e) {
-            log.error("query for list error", e);
+            log.error("query for list error", e.getMessage());
             return Lists.newArrayList();
         }
     }
@@ -114,7 +114,7 @@ public class JdbcTemplatePlus {
         try {
             return result(queryForList(sql, obj), cla);
         } catch (Exception e) {
-            log.error("query for list error", e);
+            log.error("query for list error", e.getMessage());
             return Lists.newArrayList();
         }
     }
@@ -129,7 +129,7 @@ public class JdbcTemplatePlus {
         try {
             return get().update(sql, Maps.newHashMap());
         } catch (Exception e) {
-            log.error("update error", e);
+            log.error("update error", e.getMessage());
             return 0;
         }
     }
@@ -138,7 +138,7 @@ public class JdbcTemplatePlus {
         try {
             return get().update(sql, parameter(obj));
         } catch (Exception e) {
-            log.error("update error", e);
+            log.error("update error", e.getMessage());
             return 0;
         }
     }
@@ -153,7 +153,7 @@ public class JdbcTemplatePlus {
         try {
             return get().batchUpdate(sql, SqlParameterSourceUtils.createBatch(data)).length;
         } catch (Exception e) {
-            log.error("batchUpdate error", e);
+            log.error("batch update error", e.getMessage());
             return 0;
         }
     }
