@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.xiesx.fastboot.app.log.LogRecordRepository;
-import com.xiesx.fastboot.app.log.LogRecordService;
 
 /**
  * @title BaseController
@@ -19,7 +18,4 @@ public class BaseController {
 
     @Autowired
     public LogRecordRepository mLogRecordRepository;
-
-    @Autowired
-    public LogRecordService mLogRecordService;
 }

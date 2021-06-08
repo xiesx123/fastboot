@@ -20,11 +20,11 @@ public interface LogRecordRepository extends JpaPlusRepository<LogRecord, Long> 
     List<LogRecord> findByType(String type);
 
     // 方式2: 内置属性表达式（如：And、Equals.....）
-    List<LogRecord> findByMethod(String method);
+    List<LogRecord> findByTypeAndIp(String type, String ip);
 
     // 方式3: 内置注解查询
     @Query(value = "select * from xx_log where time > ?1", nativeQuery = true)
-    List<LogRecord> findByTimeGreaterThan(String type);
+    List<LogRecord> findByTimeout(Long time);
 
     @Transactional
     @Modifying

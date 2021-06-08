@@ -20,13 +20,11 @@ import org.springframework.util.Assert;
 
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.impl.JPADeleteClause;
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.querydsl.jpa.impl.JPAUpdateClause;
+import com.querydsl.jpa.impl.*;
 
 /**
  * @title JpaPlusRepositoryExecutor.java
@@ -125,8 +123,8 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public <S extends T> S insertOrUpdate(S entitie) {
-        return saveAndFlush(entitie);
+    public <S extends T> S insertOrUpdate(S entity) {
+        return saveAndFlush(entity);
     }
 
     @Transactional
@@ -137,8 +135,8 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
         return list;
     }
 
-    @Override
     @Transactional
+    @Override
     public <S extends T> List<S> insertOrUpdate(List<S> entities) {
         List<S> list = saveAll(entities);
         entityManager.flush();
@@ -147,8 +145,8 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public int insertOrUpdateRow(T... entities) {
-        return insertOrUpdate(entities).size();
+    public int insertOrUpdateRow(T... entity) {
+        return insertOrUpdate(entity).size();
     }
 
     @Transactional
@@ -159,8 +157,26 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
+    public int insert(JPAInsertClause insert) {
+        return (int) insert.execute();
+    }
+
+    @Transactional
+    @Override
+    public int insert(JPAInsertClause insert, Path<T> path, T entity) {
+        return (int) insert.set(path, entity).execute();
+    }
+
+    @Transactional
+    @Override
     public int update(JPAUpdateClause update) {
         return (int) update.execute();
+    }
+
+    @Transactional
+    @Override
+    public int update(JPAUpdateClause update, Path<T> path, T entity, Predicate... predicate) {
+        return (int) update.set(path, entity).execute();
     }
 
     @Transactional
@@ -193,11 +209,13 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
         return rows;
     }
 
+    @Transactional
     @Override
     public int delete(JPADeleteClause delete) {
         return (int) delete.execute();
     }
 
+    @Transactional
     @Override
     public int delete(JPADeleteClause delete, Predicate... predicate) {
         return (int) delete.where(predicate).execute();

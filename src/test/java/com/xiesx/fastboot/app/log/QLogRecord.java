@@ -15,7 +15,7 @@ import com.querydsl.core.types.dsl.*;
 @Generated("com.querydsl.codegen.EntitySerializer")
 public class QLogRecord extends EntityPathBase<LogRecord> {
 
-    private static final long serialVersionUID = -614643530L;
+    private static final long serialVersionUID = -998651177L;
 
     public static final QLogRecord logRecord = new QLogRecord("logRecord");
 
@@ -33,7 +33,7 @@ public class QLogRecord extends EntityPathBase<LogRecord> {
 
     public final StringPath res = createString("res");
 
-    public final NumberPath<Long> t = createNumber("t", Long.class);
+    public final NumberPath<Long> time = createNumber("time", Long.class);
 
     public final StringPath type = createString("type");
 

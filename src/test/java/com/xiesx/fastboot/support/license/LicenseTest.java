@@ -7,8 +7,11 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import com.xiesx.fastboot.base.config.Configed;
+import com.xiesx.fastboot.FastBootApplication;
+import com.xiesx.fastboot.support.license.cfg.LicenseProperties;
 
 import cn.hutool.core.date.DateUtil;
 import lombok.extern.log4j.Log4j2;
@@ -21,25 +24,20 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 @TestMethodOrder(OrderAnnotation.class)
+@SpringBootTest(classes = FastBootApplication.class)
 public class LicenseTest {
 
-    // 主题
-    public static String subject = Configed.FASTBOOT;
+    @Autowired
+    LicenseProperties mLicenseProperties;
 
-    // 密钥库密码
-    public static String storepass = "136305973@qq.com";
+    // 私钥路径
+    public static String privateStorePath = "E:/license/privateKeys.store";
+
+    // 私钥别称
+    private static String publicAlias = "privateKey";
 
     // 私钥密码
     public static String privatepass = "xiesx@888";
-
-    // 私钥路径
-    public static String privateStorePath = "F:/license/privateKeys.store";
-
-    // 公钥路径
-    public static String publicStorePath = "F:/license/publicCerts.store";
-
-    // 证书
-    public static String licensePath = "F:/license/license.lic";
 
     @BeforeEach
     public void creator() {
@@ -55,17 +53,17 @@ public class LicenseTest {
         // 构造参数
         LicenseParams params = new LicenseParams()
                 // 证书主题
-                .setSubject(subject)
+                .setSubject(mLicenseProperties.getSubject())
                 // 密钥库密码
-                .setStorePass(storepass)
+                .setStorePass(mLicenseProperties.getStorePass())
                 // 私钥路径
                 .setPrivateKeysStorePath(privateStorePath)
                 // 私钥别称
-                .setPrivateAlias("privateKey")
+                .setPrivateAlias(publicAlias)
                 // 私钥密码
                 .setPrivatePass(privatepass)
                 // 证书生成路径
-                .setLicensePath(licensePath)
+                .setLicensePath(mLicenseProperties.getLicensePath())
                 // 证书生效时间
                 .setIssuedTime(issusedDate)
                 // 证书失效时间
@@ -83,15 +81,15 @@ public class LicenseTest {
         // 证书信息
         LicenseVerify param = new LicenseVerify()
                 // 证书主题
-                .setSubject(subject)
+                .setSubject(mLicenseProperties.getSubject())
                 // 公钥别称
-                .setPublicAlias("publicCert")
+                .setPublicAlias(mLicenseProperties.getPublicAlias())
                 // 公钥路径
-                .setPublicKeysStorePath(publicStorePath)
+                .setPublicKeysStorePath(mLicenseProperties.getPublicStorePath())
                 // 密钥库密码
-                .setStorePass(storepass)
+                .setStorePass(mLicenseProperties.getStorePass())
                 // 证书路径
-                .setLicensePath(licensePath);
+                .setLicensePath(mLicenseProperties.getLicensePath());
         // 安装证书
         param.install();
         // 校验证书

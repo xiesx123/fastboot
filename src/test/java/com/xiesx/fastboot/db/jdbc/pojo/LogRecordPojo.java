@@ -13,13 +13,13 @@ import lombok.experimental.FieldNameConstants;
 @Data
 @Accessors(chain = true)
 @FieldNameConstants(innerTypeName = "FIELDS")
-public class RegionPojo {
+public class LogRecordPojo {
 
-    public Integer id;
+    public Long id;
 
-    public String name;
+    public String ip;
 
-    public Integer code;
+    public String type;
 
-    public Integer parent;
+    public Long time;
 }

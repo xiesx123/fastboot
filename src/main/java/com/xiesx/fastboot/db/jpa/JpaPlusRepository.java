@@ -9,8 +9,10 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryImplementati
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPADeleteClause;
+import com.querydsl.jpa.impl.JPAInsertClause;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAUpdateClause;
 
@@ -34,9 +36,9 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     <S> Page<S> findAll(JPAQuery<S> query, Pageable pageable);
 
-    <O extends T> O insertOrUpdate(O entitie);
+    <O extends T> O insertOrUpdate(O entity);
 
-    <O extends T> List<O> insertOrUpdate(O... entities);
+    <O extends T> List<O> insertOrUpdate(O... entity);
 
     <O extends T> List<O> insertOrUpdate(List<O> entities);
 
@@ -44,9 +46,15 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     int insertOrUpdateRow(List<T> entities);
 
+    int insert(JPAInsertClause insert);
+
+    int insert(JPAInsertClause insert, Path<T> path, T entity);
+
     int update(JPAUpdateClause update);
 
     int update(JPAUpdateClause update, Predicate... predicate);
+
+    int update(JPAUpdateClause update, Path<T> path, T entity, Predicate... predicate);
 
     int delete(ID... ids);
 

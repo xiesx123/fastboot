@@ -1,5 +1,6 @@
 package com.xiesx.fastboot.app.log;
 
+import java.beans.Transient;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -126,12 +127,14 @@ public class LogRecord extends JpaPlusEntity<LogRecord> {
 
     // ======================
 
-    @JSONField(ordinal = 8)
+    @Transient
+    @JSONField(serialize = false, ordinal = 8)
     public Object getParams() {
         return JSON.parse(req);
     }
 
-    @JSONField(ordinal = 9)
+    @Transient
+    @JSONField(serialize = false, ordinal = 9)
     public Object getResult() {
         return JSON.parse(res);
     }
