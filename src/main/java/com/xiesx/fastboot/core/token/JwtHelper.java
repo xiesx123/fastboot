@@ -8,6 +8,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
+import com.xiesx.fastboot.base.config.Configed;
+
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
@@ -29,7 +31,7 @@ public class JwtHelper {
     /**
      * jwt生成方
      */
-    private final static String JWT_ISSUER = "fastboot";
+    private final static String JWT_ISSUER = Configed.FASTBOOT;
 
     /**
      * jwt有效时间
