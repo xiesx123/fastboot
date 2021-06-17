@@ -24,7 +24,7 @@ import com.xiesx.fastboot.core.logger.storage.LogStorage;
 import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
 
 import cn.hutool.core.date.TimeInterval;
-import cn.hutool.core.lang.Editor;
+import cn.hutool.core.lang.Filter;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -88,18 +88,18 @@ public class LoggerAspect {
         // 获取入参
         Object[] args = pjp.getArgs();
         // 入参过滤
-        Object[] argsNew = ArrayUtil.filter(args, new Editor<Object>() {
+        Object[] argsNew = ArrayUtil.filter(args, new Filter<Object>() {
 
             @Override
-            public Object edit(Object t) {
+            public boolean accept(Object t) {
                 if (t instanceof ServletRequest || t instanceof ServletResponse) { // TODO servlet
-                    return null;
+                    return false;
                 } else if (t instanceof MultipartFile) { // TODO multipart file
-                    return null;
+                    return false;
                 } else if (t instanceof Model) { // model
-                    return null;
+                    return false;
                 } else {
-                    return t;
+                    return true;
                 }
             }
         });
