@@ -68,8 +68,8 @@ public class BodyTest extends BaseTest {
 
     @Test
     @Order(4)
-    public void json() {
-        Response res = get("/body/json");
+    public void string() {
+        Response res = get("/body/string");
         JSONObject result = JSON.parseObject(res.asString());
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -79,6 +79,17 @@ public class BodyTest extends BaseTest {
 
     @Test
     @Order(5)
+    public void fastjson() {
+        Response res = get("/body/fastjson");
+        JSONObject result = JSON.parseObject(res.asString());
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(result.get("k1"), "1");
+        assertEquals(result.getJSONArray("list").get(0), "k1");
+    }
+
+    @Test
+    @Order(6)
     public void object() {
         Response res = get("/body/object");
         BaseResult<Object> result = JSON.parseObject(res.asString(), tr_B_Obj);

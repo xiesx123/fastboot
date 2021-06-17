@@ -59,8 +59,8 @@
 		<Logger name="org.quartz" level="ERROR" />
 		<Logger name="org.apache" level="ERROR" />
 
-		<!-- 默认DEBUG -->
-		<Root level="DEBUG">
+		<!-- 默认INFO -->
+		<Root level="INFO">
 			<AppenderRef ref="console" />
 			<AppenderRef ref="all" />
 			<AppenderRef ref="error" />

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import com.xiesx.fastboot.support.minio.MinioBucketClient;
 import com.xiesx.fastboot.support.minio.MinioObjectClient;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import io.minio.MinioClient;
 
@@ -30,9 +31,12 @@ public class MinioCfg {
 
     @Bean
     public MinioClient minioClient() {
-        if (StrUtil.isNotEmpty(mMinioProperties.getPoint())) {
+        String address = mMinioProperties.getAddress();
+        if (StrUtil.isNotEmpty(address)) {
+            String point = StrUtil.subBefore(address, ":", true);
+            Integer port = Convert.toInt(StrUtil.subAfter(address, ":", true));
             MinioClient mClient = MinioClient.builder()//
-                    .endpoint(mMinioProperties.getPoint(), mMinioProperties.getPort(), mMinioProperties.isSecure())//
+                    .endpoint(point, port, mMinioProperties.isSecure())//
                     .credentials(mMinioProperties.getAccessKey(), mMinioProperties.getSecretKey())//
                     .build();
             return mClient;

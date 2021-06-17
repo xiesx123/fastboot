@@ -52,8 +52,7 @@ fastboot:                                                   # fastboot
   # ======= 存储配置 =======
   minio:
     enabled: false
-    point: http://192.168.200.168
-    port: 9000
+    address: http://192.168.200.168:9090
     bucket: fastboot
     accessKey: minioadmin
     secretKey: minioadmin

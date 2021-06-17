@@ -24,14 +24,9 @@ public class MinioProperties {
     private Boolean enabled = true;
 
     /**
-     * 服务端点
+     * 服务地址
      */
-    private String point;
-
-    /**
-     * 服务端口
-     */
-    private Integer port;
+    private String address;
 
     /**
      * 服务访问密钥

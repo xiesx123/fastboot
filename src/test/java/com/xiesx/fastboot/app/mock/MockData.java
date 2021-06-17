@@ -38,7 +38,7 @@ public class MockData {
         return Lists.newArrayList(map().keySet());
     }
 
-    public static JSON json() {
+    public static JSON fastjson() {
         JSONObject jo = new JSONObject(map());
         jo.put("list", list());
         return jo;

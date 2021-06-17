@@ -58,13 +58,23 @@ public class BodyController extends BaseController {
     }
 
     /**
+     * Java String 类型
+     * 
+     * @return
+     */
+    @RequestMapping(value = "string")
+    public String string() {
+        return MockData.fastjson().toString();
+    }
+
+    /**
      * FastJson JSON 类型
      * 
      * @return
      */
-    @RequestMapping(value = "json")
+    @RequestMapping(value = "fastjson")
     public JSON json() {
-        return MockData.json();
+        return MockData.fastjson();
     }
 
     /**
