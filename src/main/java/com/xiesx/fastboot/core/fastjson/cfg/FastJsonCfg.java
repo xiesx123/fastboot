@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -81,32 +82,17 @@ public class FastJsonCfg implements WebMvcConfigurer {
      * @return
      */
     public List<String> newSupportedMediaTypes() {
-        List<String> mediaTypes = fastJsonProperties.getSupportedMediaTypes();
-        if (!mediaTypes.contains(MediaType.APPLICATION_JSON_VALUE)) {
-            mediaTypes.add(MediaType.APPLICATION_JSON_VALUE);
-        }
-        return mediaTypes;
+        List<String> medias = fastJsonProperties.getSupportedMediaTypes();
+        medias.add(0, MediaType.TEXT_HTML_VALUE);
+        medias.add(1, MediaType.APPLICATION_JSON_VALUE);
+        return medias;
     }
 
     // @Bean
     // @ConditionalOnProperty(prefix = FastJsonProperties.PREFIX, name = "enabled", havingValue =
     // "true", matchIfMissing = true)
     // @ConditionalOnWebApplication
-    // public HttpMessageConverter<?> httpMessageConverter() {
-    // // 转换器
-    // FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-    // // 编码
-    // fastJsonHttpMessageConverter.setDefaultCharset(Charset.forName("UTF-8"));
-    // // 配置
-    // fastJsonHttpMessageConverter.setFastJsonConfig(newFastJsonConfig());
-    // // 媒体类型
-    // fastJsonHttpMessageConverter.setSupportedMediaTypes(MediaType.parseMediaTypes(newSupportedMediaTypes()));
-    // return fastJsonHttpMessageConverter;
-    // }
-
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(new StringHttpMessageConverter());
+    public HttpMessageConverters jsonHttpMessageConverter() {
         // 转换器
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
         // 编码
@@ -115,6 +101,21 @@ public class FastJsonCfg implements WebMvcConfigurer {
         fastJsonHttpMessageConverter.setFastJsonConfig(newFastJsonConfig());
         // 媒体类型
         fastJsonHttpMessageConverter.setSupportedMediaTypes(MediaType.parseMediaTypes(newSupportedMediaTypes()));
-        converters.add(fastJsonHttpMessageConverter);
+        return new HttpMessageConverters(fastJsonHttpMessageConverter);
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        // string 转换器
+        converters.add(0, new StringHttpMessageConverter());
+        // json 转换器
+        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
+        // 编码
+        fastJsonHttpMessageConverter.setDefaultCharset(Charset.forName("UTF-8"));
+        // 配置
+        fastJsonHttpMessageConverter.setFastJsonConfig(newFastJsonConfig());
+        // 媒体类型
+        fastJsonHttpMessageConverter.setSupportedMediaTypes(MediaType.parseMediaTypes(newSupportedMediaTypes()));
+        converters.add(1, fastJsonHttpMessageConverter);
     }
 }

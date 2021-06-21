@@ -12,7 +12,8 @@ fastboot:                                                   # fastboot
   # ======= 数据转换 =======
   fastjson:
     supported-media-types:
-    - application/json
+    - text/json;charset=UTF-8
+    - application/json;charset=UTF-8
     config:
       charset: utf-8
       date-format: yyyy-MM-dd HH:mm:ss
@@ -52,7 +53,7 @@ fastboot:                                                   # fastboot
   # ======= 存储配置 =======
   minio:
     enabled: false
-    address: http://192.168.200.168:9090
+    address: 192.168.200.168:9000
     bucket: fastboot
     accessKey: minioadmin
     secretKey: minioadmin

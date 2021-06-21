@@ -70,11 +70,10 @@ public class BodyTest extends BaseTest {
     @Order(4)
     public void string() {
         Response res = get("/body/string");
-        JSONObject result = JSON.parseObject(res.asString());
+        String result = res.asString();
         assertNotNull(result);
         assertFalse(result.isEmpty());
-        assertEquals(result.get("k1"), "1");
-        assertEquals(result.getJSONArray("list").get(0), "k1");
+        assertEquals(result, "k1");
     }
 
     @Test

@@ -64,7 +64,7 @@ public class BodyController extends BaseController {
      */
     @RequestMapping(value = "string")
     public String string() {
-        return MockData.fastjson().toString();
+        return "k1";
     }
 
     /**

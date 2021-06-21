@@ -8,10 +8,10 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.base.config.Configed;
 
 import cn.hutool.core.util.ObjectUtil;
@@ -29,9 +29,11 @@ import lombok.extern.log4j.Log4j2;
 @SpringBootTest(classes = FastBootApplication.class)
 public class MinioTest {
 
-    MinioBucketClient mBucketClient = SpringHelper.getBean(MinioBucketClient.class);
+    @Autowired
+    MinioBucketClient mBucketClient;
 
-    MinioObjectClient mObjectClient = SpringHelper.getBean(MinioObjectClient.class);
+    @Autowired
+    MinioObjectClient mObjectClient;
 
     String bktString = Configed.FASTBOOT;
 
