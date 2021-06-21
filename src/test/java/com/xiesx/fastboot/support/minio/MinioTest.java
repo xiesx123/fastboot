@@ -8,10 +8,10 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.xiesx.fastboot.FastBootApplication;
+import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.base.config.Configed;
 
 import cn.hutool.core.util.ObjectUtil;
@@ -29,11 +29,11 @@ import lombok.extern.log4j.Log4j2;
 @SpringBootTest(classes = FastBootApplication.class)
 public class MinioTest {
 
-    @Autowired
-    MinioBucketClient mBucketClient;
+    // @Autowired
+    // MinioBucketClient mBucketClient;
 
-    @Autowired
-    MinioObjectClient mObjectClient;
+    // @Autowired
+    // MinioObjectClient mObjectClient;
 
     String bktString = Configed.FASTBOOT;
 
@@ -42,6 +42,8 @@ public class MinioTest {
     @Test
     @Order(1)
     public void bucket() throws Exception {
+        MinioBucketClient mBucketClient = SpringHelper.getBean(MinioBucketClient.class);
+        MinioObjectClient mObjectClient = SpringHelper.getBean(MinioObjectClient.class);
         if (ObjectUtil.isAllNotEmpty(mBucketClient, mObjectClient)) {
             // 删除文件
             mObjectClient.deleteObject(objString);
@@ -69,6 +71,8 @@ public class MinioTest {
     @Test
     @Order(2)
     public void object() throws Exception {
+        MinioBucketClient mBucketClient = SpringHelper.getBean(MinioBucketClient.class);
+        MinioObjectClient mObjectClient = SpringHelper.getBean(MinioObjectClient.class);
         if (ObjectUtil.isAllNotEmpty(mBucketClient, mObjectClient)) {
             // 上传文件
             assertFalse(mObjectClient.putObject(objString, "E:\\demo.jpg").bucket().isEmpty());
