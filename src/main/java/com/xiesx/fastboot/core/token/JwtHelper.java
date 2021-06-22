@@ -2,6 +2,7 @@ package com.xiesx.fastboot.core.token;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -36,19 +37,19 @@ public class JwtHelper {
     /**
      * jwt有效时间
      */
-    public static final int JWT_EXPIRE_M_1 = 1 * 60 * 1000; // 1分钟
+    public static final long JWT_EXPIRE_M_1 = TimeUnit.MINUTES.toSeconds(1); // 1分钟
 
-    public static final int JWT_EXPIRE_M_5 = 5 * JWT_EXPIRE_M_1; // 5分钟
+    public static final long JWT_EXPIRE_M_5 = TimeUnit.MINUTES.toSeconds(5); // 5分钟
 
-    public static final int JWT_EXPIRE_H_1 = 1 * 60 * 60 * 1000; // 1小时
+    public static final long JWT_EXPIRE_H_1 = TimeUnit.HOURS.toSeconds(1); // 1小时
 
-    public static final int JWT_EXPIRE_H_12 = 12 * JWT_EXPIRE_H_1; // 12小时
+    public static final long JWT_EXPIRE_H_12 = TimeUnit.HOURS.toSeconds(12); // 12小时
 
-    public static final int JWT_EXPIRE_D_1 = 24 * 60 * 60 * 1000; // 1天
+    public static final long JWT_EXPIRE_D_1 = TimeUnit.DAYS.toSeconds(1); // 1天
 
-    public static final int JWT_EXPIRE_D_7 = 7 * JWT_EXPIRE_D_1; // 7天
+    public static final long JWT_EXPIRE_D_7 = TimeUnit.DAYS.toSeconds(7); // 7天
 
-    public static final int JWT_EXPIRE_D_30 = 30 * JWT_EXPIRE_D_1; // 30天
+    public static final long JWT_EXPIRE_D_30 = TimeUnit.DAYS.toSeconds(30); // 30天
 
     /**
      * 生成jwt
@@ -59,23 +60,23 @@ public class JwtHelper {
         return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, null, null, JWT_EXPIRE_D_1);
     }
 
-    public static String simple(String subject, String audience, int timeout) {
+    public static String simple(String subject, String audience, long timeout) {
         return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, null, null, timeout);
     }
 
-    public static String simple(String subject, String audience, Map<String, Object> claim, int timeout) {
+    public static String simple(String subject, String audience, Map<String, Object> claim, long timeout) {
         return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, null, claim, timeout);
     }
 
-    public static String simple(String subject, String audience, Map<String, Object> header, Map<String, Object> claim, int timeout) {
+    public static String simple(String subject, String audience, Map<String, Object> header, Map<String, Object> claim, long timeout) {
         return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, header, claim, timeout);
     }
 
-    public static String simple(String subject, String issuer, String audience, Map<String, Object> claim, int timeout) {
+    public static String simple(String subject, String issuer, String audience, Map<String, Object> claim, long timeout) {
         return create(IdUtil.fastSimpleUUID(), subject, issuer, audience, null, claim, timeout);
     }
 
-    public static String simple(String subject, String issuer, String audience, Map<String, Object> header, Map<String, Object> claim, int timeout) {
+    public static String simple(String subject, String issuer, String audience, Map<String, Object> header, Map<String, Object> claim, long timeout) {
         return create(IdUtil.fastSimpleUUID(), subject, issuer, audience, header, claim, timeout);
     }
 
@@ -89,11 +90,11 @@ public class JwtHelper {
      * @param timeout 头部信息
      * @return
      */
-    public static String create(String jwtid, String subject, String issuer, String audience, Map<String, Object> header, Map<String, Object> claim, int timeout) {
+    public static String create(String jwtid, String subject, String issuer, String audience, Map<String, Object> header, Map<String, Object> claim, long timeout) {
         // 开始时间
         Date staDate = DateUtil.date();
         // 结束时间
-        Date endDate = DateUtil.offsetMillisecond(staDate, timeout);
+        Date endDate = DateUtil.offsetSecond(staDate, (int) timeout);
         // 头部信息
         Map<String, Object> headers = MapUtil.newConcurrentHashMap(header);
         // 附加信息

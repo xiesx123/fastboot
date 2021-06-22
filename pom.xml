@@ -117,7 +117,7 @@
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-			<version>3.3.6</version>
+			<version>3.4.0</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/p6spy/p6spy -->
