@@ -11,13 +11,16 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.app.log.LogRecord;
+import com.xiesx.fastboot.app.log.LogRecordRepository;
 import com.xiesx.fastboot.app.log.QLogRecord;
 
 /**
@@ -30,7 +33,13 @@ import com.xiesx.fastboot.app.log.QLogRecord;
 @TestMethodOrder(OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = FastBootApplication.class)
-public class TestUpdate extends JpaPlusTest {
+public class TestUpdate {
+
+    @Autowired
+    JPAQueryFactory mJpaQuery;
+
+    @Autowired
+    LogRecordRepository mLogRecordRepository;
 
     LogRecord logRecord;
 

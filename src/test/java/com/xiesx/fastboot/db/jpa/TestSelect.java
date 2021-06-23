@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,8 +20,10 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.QBean;
 import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.app.log.LogRecord;
+import com.xiesx.fastboot.app.log.LogRecordRepository;
 import com.xiesx.fastboot.app.log.QLogRecord;
 
 /**
@@ -32,7 +35,13 @@ import com.xiesx.fastboot.app.log.QLogRecord;
 @TestMethodOrder(OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = FastBootApplication.class)
-public class TestSelect extends JpaPlusTest {
+public class TestSelect {
+
+    @Autowired
+    JPAQueryFactory mJpaQuery;
+
+    @Autowired
+    LogRecordRepository mLogRecordRepository;
 
     @Test
     @Order(11)

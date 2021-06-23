@@ -18,7 +18,8 @@ import com.querydsl.jpa.impl.JPAUpdateClause;
 
 /**
  * @title JpaPlusRepository.java
- * @description
+ * @description {@link querydsl}
+ *              http://www.querydsl.com/static/querydsl/latest/reference/html/index.html
  * @author xiesx
  * @date 2021-04-04 18:04:00
  */
