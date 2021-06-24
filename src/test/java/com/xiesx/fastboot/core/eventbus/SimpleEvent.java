@@ -1,6 +1,6 @@
 package com.xiesx.fastboot.core.eventbus;
 
-import com.xiesx.fastboot.core.eventbus.base.Event;
+import com.xiesx.fastboot.core.eventbus.base.AbstractEvent;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +16,7 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SimpleEvent implements Event {
+public class SimpleEvent implements AbstractEvent {
 
     @NonNull
     private String name;

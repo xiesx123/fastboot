@@ -11,7 +11,7 @@ import com.google.common.eventbus.Subscribe;
 import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.core.eventbus.EventAdapter;
 import com.xiesx.fastboot.core.eventbus.EventBusHelper;
-import com.xiesx.fastboot.core.eventbus.base.Event;
+import com.xiesx.fastboot.core.eventbus.base.AbstractEvent;
 
 import cn.hutool.core.lang.Singleton;
 import lombok.extern.log4j.Log4j2;
@@ -42,7 +42,7 @@ public class EventBusCfg {
     public void construct() throws Exception {
         beans.putAll(SpringHelper.getContext().getBeansOfType(EventAdapter.class));
         if (!beans.isEmpty()) {
-            for (EventAdapter<? extends Event> eventAbstract : beans.values()) {
+            for (EventAdapter<? extends AbstractEvent> eventAbstract : beans.values()) {
                 EventBusHelper.register(eventAbstract);
             }
         }
@@ -51,7 +51,7 @@ public class EventBusCfg {
     @PreDestroy
     public void destroy() throws Exception {
         if (!beans.isEmpty()) {
-            for (EventAdapter<? extends Event> eventAbstract : beans.values()) {
+            for (EventAdapter<? extends AbstractEvent> eventAbstract : beans.values()) {
                 EventBusHelper.unRegister(eventAbstract);
             }
         }

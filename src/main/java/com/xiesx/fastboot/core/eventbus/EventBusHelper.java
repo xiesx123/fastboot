@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import com.xiesx.fastboot.base.config.Configed;
-import com.xiesx.fastboot.core.eventbus.base.Event;
+import com.xiesx.fastboot.core.eventbus.base.AbstractEvent;
 
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.lang.func.Func0;
@@ -56,7 +56,7 @@ public class EventBusHelper {
      * 
      * @param event
      */
-    public static void submit(Event event) {
+    public static void submit(AbstractEvent event) {
         if (event == null) {
             return;
         }
@@ -68,7 +68,7 @@ public class EventBusHelper {
      * 
      * @param handler
      */
-    public static void register(EventAdapter<? extends Event> handler) {
+    public static void register(EventAdapter<? extends AbstractEvent> handler) {
         if (handler == null) {
             return;
         }
@@ -81,7 +81,7 @@ public class EventBusHelper {
      * 
      * @param handler
      */
-    public static void unRegister(EventAdapter<? extends Event> handler) {
+    public static void unRegister(EventAdapter<? extends AbstractEvent> handler) {
         if (handler == null) {
             return;
         }
