@@ -330,4 +330,16 @@
 			<url>https://opensource.org/licenses/GPL-3.0</url>
 		</license>
 	</licenses>
+	
+	<!-- 仓库 -->
+	<repositories>
+		<repository>
+			<id>aliyunmaven</id>
+			<url>https://maven.aliyun.com/repository/public</url>
+		</repository>
+		<repository>
+			<id>jitpack</id>
+			<url>https://www.jitpack.io</url>
+		</repository>
+	</repositories>
 </project>
