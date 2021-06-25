@@ -49,11 +49,7 @@ public class TestInsert {
         logRecord = new LogRecord()//
                 .setIp("127.0.0.1")//
                 .setMethod("test")//
-                .setType("GET")//
-                .setUrl("/test")//
-                .setReq("")//
-                .setRes("")//
-                .setTime(1L);
+                .setType("GET");
     }
 
     @Test
@@ -91,10 +87,7 @@ public class TestInsert {
         c.set(q.ip, "127.0.0.1")//
                 .set(q.method, "test")//
                 .set(q.type, "GET")//
-                .set(q.url, "/test")//
-                .set(q.req, "x")//
-                .set(q.res, "x")//
-                .set(q.time, 1L).set(q.isDel, false);//
+                .set(q.url, "/test");//
         // row += c.execute();
 
         // 方式3（obj）

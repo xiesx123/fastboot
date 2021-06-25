@@ -11,7 +11,7 @@ import com.xiesx.fastboot.support.minio.MinioBucketClient;
 import com.xiesx.fastboot.support.minio.MinioObjectClient;
 
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import io.minio.MinioClient;
 
 /**
@@ -32,9 +32,9 @@ public class MinioCfg {
     @Bean
     public MinioClient minioClient() {
         String address = mMinioProperties.getAddress();
-        if (StrUtil.isNotEmpty(address)) {
-            String point = StrUtil.subBefore(address, ":", true);
-            Integer port = Convert.toInt(StrUtil.subAfter(address, ":", true));
+        if (CharSequenceUtil.isNotEmpty(address)) {
+            String point = CharSequenceUtil.subBefore(address, ":", true);
+            Integer port = Convert.toInt(CharSequenceUtil.subAfter(address, ":", true));
             MinioClient mClient = MinioClient.builder()//
                     .endpoint(point, port, mMinioProperties.isSecure())//
                     .credentials(mMinioProperties.getAccessKey(), mMinioProperties.getSecretKey())//
@@ -46,7 +46,7 @@ public class MinioCfg {
 
     @Bean
     public MinioBucketClient minioBucketService(MinioClient minioClient) {
-        if (StrUtil.isEmpty(mMinioProperties.getBucket())) {
+        if (CharSequenceUtil.isEmpty(mMinioProperties.getBucket())) {
             return new MinioBucketClient(minioClient);
         }
         return new MinioBucketClient(minioClient, mMinioProperties.getBucket());
@@ -54,7 +54,7 @@ public class MinioCfg {
 
     @Bean
     public MinioObjectClient mMinioPropertiesObjectService(MinioClient minioClient) {
-        if (StrUtil.isEmpty(mMinioProperties.getBucket())) {
+        if (CharSequenceUtil.isEmpty(mMinioProperties.getBucket())) {
             return new MinioObjectClient(minioClient);
         }
         return new MinioObjectClient(minioClient, mMinioProperties.getBucket());

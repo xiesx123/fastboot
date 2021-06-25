@@ -6,12 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * NotProguard, Means not proguard something, like class, method, field<br/>
- * 
- * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2015-08-07
+ * @title IgnoreProguard.java
+ * @description {@link proguard} http://www.trinea.cn" target="_blank">Trinea
+ * @author xiesx
+ * @date 2021-06-25 01:09:18
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.FIELD})
 public @interface IgnoreProguard {
-
 }

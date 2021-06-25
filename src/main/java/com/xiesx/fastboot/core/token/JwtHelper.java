@@ -9,6 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
+import com.google.common.collect.Maps;
 import com.xiesx.fastboot.base.config.Configed;
 
 import cn.hutool.core.date.DateUtil;
@@ -25,17 +26,17 @@ import io.jsonwebtoken.*;
 public class JwtHelper {
 
     /**
-     * jwt密钥
+     * 密钥
      */
     public static final String JWT_SECRET = "fastboot-jwt";
 
     /**
-     * jwt生成方
+     * 生成方
      */
     private final static String JWT_ISSUER = Configed.FASTBOOT;
 
     /**
-     * jwt有效时间
+     * 有效时间
      */
     public static final long JWT_EXPIRE_M_1 = TimeUnit.MINUTES.toSeconds(1); // 1分钟
 
@@ -52,45 +53,48 @@ public class JwtHelper {
     public static final long JWT_EXPIRE_D_30 = TimeUnit.DAYS.toSeconds(30); // 30天
 
     /**
-     * 生成jwt
+     * 生成
      *
      * @return
      */
     public static String simple(String subject, String audience) {
-        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, null, null, JWT_EXPIRE_D_1);
+        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, null, null, JWT_EXPIRE_D_1, JWT_SECRET);
     }
 
     public static String simple(String subject, String audience, long timeout) {
-        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, null, null, timeout);
+        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, Maps.newHashMap(), Maps.newHashMap(), timeout, JWT_SECRET);
     }
 
     public static String simple(String subject, String audience, Map<String, Object> claim, long timeout) {
-        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, null, claim, timeout);
+        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, Maps.newHashMap(), claim, timeout, JWT_SECRET);
     }
 
     public static String simple(String subject, String audience, Map<String, Object> header, Map<String, Object> claim, long timeout) {
-        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, header, claim, timeout);
+        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, header, claim, timeout, JWT_SECRET);
     }
 
     public static String simple(String subject, String issuer, String audience, Map<String, Object> claim, long timeout) {
-        return create(IdUtil.fastSimpleUUID(), subject, issuer, audience, null, claim, timeout);
+        return create(IdUtil.fastSimpleUUID(), subject, issuer, audience, Maps.newHashMap(), claim, timeout, JWT_SECRET);
     }
 
     public static String simple(String subject, String issuer, String audience, Map<String, Object> header, Map<String, Object> claim, long timeout) {
-        return create(IdUtil.fastSimpleUUID(), subject, issuer, audience, header, claim, timeout);
+        return create(IdUtil.fastSimpleUUID(), subject, issuer, audience, header, claim, timeout, JWT_SECRET);
     }
 
     /**
-     * @param jwtid 唯一身份标识
+     * 创建令牌
+     *
+     * @param id 唯一身份标识
      * @param subject 主题
      * @param issuer 签发者
      * @param audience 接收者
      * @param header 头部信息
      * @param claim 私有属性
      * @param timeout 头部信息
+     * @param secret 密匙
      * @return
      */
-    public static String create(String jwtid, String subject, String issuer, String audience, Map<String, Object> header, Map<String, Object> claim, long timeout) {
+    public static String create(String id, String subject, String issuer, String audience, Map<String, Object> header, Map<String, Object> claim, long timeout, String secret) {
         // 开始时间
         Date staDate = DateUtil.date();
         // 结束时间
@@ -100,7 +104,8 @@ public class JwtHelper {
         // 附加信息
         Map<String, Object> claims = MapUtil.newConcurrentHashMap(claim);
         // 构造
-        JwtBuilder builder = Jwts.builder().setId(jwtid) // 唯一身份标识，根据业务需要，可以设置为一个不重复的值，主要用来作为一次性token，从而回避重放攻击
+        JwtBuilder builder = Jwts.builder()//
+                .setId(id) // 唯一身份标识，根据业务需要，可以设置为一个不重复的值，主要用来作为一次性token，从而回避重放攻击
                 .setSubject(subject) // 主题
                 .setIssuer(issuer) // 签发者
                 .setAudience(audience) // 接收者
@@ -108,37 +113,42 @@ public class JwtHelper {
                 .setExpiration(endDate) // 过期时间
                 .setHeader(headers)// 头部信息
                 .addClaims(claims)// 私有属性
-                .signWith(SignatureAlgorithm.HS256, key());// 签名算法以及密匙
+                .signWith(SignatureAlgorithm.HS256, key(secret));// 签名算法以及密匙
         return builder.compact();
     }
 
     /**
-     * 解析
+     * 解析令牌
      *
+     * @param secret
      * @param token
      * @return
      */
+    public static Jws<Claims> parser(String secret, String token) {
+        return Jwts.parser().setSigningKey(key(secret)).parseClaimsJws(token);
+    }
+
     public static Jws<Claims> parser(String token) {
-        return Jwts.parser().setSigningKey(key()).parseClaimsJws(token);
+        return Jwts.parser().setSigningKey(key(JWT_SECRET)).parseClaimsJws(token);
     }
 
     /**
-     * 过期
+     * 生成密钥
+     *
+     * @return
+     */
+    public static SecretKey key(String secret) {
+        byte[] encodedKey = Base64.decodeBase64(secret);
+        return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
+    }
+
+    /**
+     * 是否过期
      *
      * @param token
      * @return
      */
     public static boolean isExpired(Date expiration) {
         return expiration.before(new Date());
-    }
-
-    /**
-     * 生成加密key
-     *
-     * @return
-     */
-    public static SecretKey key() {
-        byte[] encodedKey = Base64.decodeBase64(JWT_SECRET);
-        return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
     }
 }

@@ -29,7 +29,7 @@ public class LicenseCfg {
     LicenseProperties mLicenseProperties;
 
     @PostConstruct
-    public void init() {
+    public void postConstruct() {
         // 获取参数
         if (ObjectUtil.isAllNotEmpty(mLicenseProperties.getLicensePath())) {
             // 构造
@@ -59,6 +59,6 @@ public class LicenseCfg {
 
     @Scheduled(cron = "0 0/1 * * * ?")
     public void taskLicense() {
-        init();
+        postConstruct();
     }
 }

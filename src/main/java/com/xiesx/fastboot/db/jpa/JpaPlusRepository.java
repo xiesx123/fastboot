@@ -47,8 +47,10 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     int insertOrUpdateRow(List<T> entities);
 
+    @Deprecated
     int insert(JPAInsertClause insert);
 
+    @Deprecated
     int insert(JPAInsertClause insert, Path<T> path, T entity);
 
     int update(JPAUpdateClause update);

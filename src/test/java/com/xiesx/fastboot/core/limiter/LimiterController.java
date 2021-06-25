@@ -25,7 +25,7 @@ public class LimiterController extends BaseController {
 
     /**
      * 限流
-     * 
+     *
      * @return
      */
     @GoLimiter(limit = 1, message = "该接口测试每秒内限流1个请求")

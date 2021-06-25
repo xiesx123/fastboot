@@ -28,12 +28,23 @@ import lombok.extern.log4j.Log4j2;
 public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
+    public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> converterType) {
+        // 获取当前处理请求方法
+        Method method = methodParameter.getMethod();
+        // 获取方法注解
+        IgnoreBody annotation = methodParameter.getMethod().getAnnotation(IgnoreBody.class);
+        // 使用注解则忽略
+        Boolean isSupport = (annotation == null);
+        log.debug("method ({}) body write ({}) support", method.getName(), isSupport);
+        // true 拦截、false 忽略
+        return isSupport;
+    }
+
+    @Override
     public Object beforeBodyWrite(Object obj, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> converter, ServerHttpRequest req, ServerHttpResponse res) {
         // 获取当前处理请求方法
         Method method = methodParameter.getMethod();
-        // 获取方法名
-        String methodName = method.getName();
-        log.debug("method ({}) before body write advice", methodName);
+        log.debug("method ({}) before body write advice", method.getName());
         // 获取返回类型
         Class<?> returnType = method.getReturnType();
         // 判断Void类型
@@ -54,20 +65,5 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
                 return R.succ(obj);
             }
         }
-    }
-
-    @Override
-    public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> converterType) {
-        // 获取当前处理请求方法
-        Method method = methodParameter.getMethod();
-        // 获取方法名
-        String methodName = method.getName();
-        // 获取方法注解
-        IgnoreBody annotation = methodParameter.getMethod().getAnnotation(IgnoreBody.class);
-        // 使用注解则忽略
-        Boolean isSupport = (annotation == null);
-        log.debug("method ({}) body write ({}) support", methodName, isSupport);
-        // true 拦截、false 忽略
-        return isSupport;
     }
 }

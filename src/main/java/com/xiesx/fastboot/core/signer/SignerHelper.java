@@ -28,7 +28,7 @@ public class SignerHelper {
     }
 
     /**
-     * 按key进行正序排列，之间以&相连 <功能描述>
+     * 按key进行正序排列，之间以&相连
      *
      * @param params
      * @return

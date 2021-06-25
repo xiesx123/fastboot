@@ -54,7 +54,7 @@ public class MinioObjectClient {
 
     /**
      * 文件上传
-     * 
+     *
      * @param objectName
      * @param filePath
      * @return
@@ -139,7 +139,7 @@ public class MinioObjectClient {
 
     /**
      * 文件下载-流
-     * 
+     *
      * @param objectName
      * @return
      * @throws Exception
@@ -172,7 +172,7 @@ public class MinioObjectClient {
 
     /**
      * 文件下载-流
-     * 
+     *
      * @param objectName
      * @param response
      */
@@ -212,7 +212,7 @@ public class MinioObjectClient {
 
     /**
      * 获取文件-URL
-     * 
+     *
      * @param objectName
      * @return
      * @throws Exception
@@ -245,7 +245,7 @@ public class MinioObjectClient {
 
     /**
      * 根据文件前缀查询文件
-     * 
+     *
      * @param prefix
      * @param recursive
      * @return
@@ -274,7 +274,7 @@ public class MinioObjectClient {
 
     /**
      * 获取对象的元数据
-     * 
+     *
      * @param objectName
      * @return
      * @throws Exception
@@ -294,7 +294,7 @@ public class MinioObjectClient {
 
     /**
      * 统计对象(含元数据)-判断对象是否存在
-     * 
+     *
      * @param objectName
      * @return
      * @throws Exception
@@ -314,7 +314,7 @@ public class MinioObjectClient {
 
     /**
      * 删除文件-单个
-     * 
+     *
      * @param objectName
      * @throws Exception
      */
@@ -333,7 +333,7 @@ public class MinioObjectClient {
 
     /**
      * 删除文件-多个
-     * 
+     *
      * @param objectNames
      * @throws Exception
      */
@@ -355,7 +355,7 @@ public class MinioObjectClient {
 
     /**
      * 验证到期时间
-     * 
+     *
      * @param expiry
      */
     private void validateExpiry(Integer expiry) {
@@ -366,7 +366,7 @@ public class MinioObjectClient {
 
     /**
      * 验证桶
-     * 
+     *
      * @param name
      */
     protected void validateBucketName(String name) {
@@ -394,7 +394,7 @@ public class MinioObjectClient {
 
     /**
      * 验证非空
-     * 
+     *
      * @param arg
      * @param argName
      */

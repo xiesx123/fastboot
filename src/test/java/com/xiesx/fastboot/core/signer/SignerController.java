@@ -24,7 +24,7 @@ public class SignerController extends BaseController {
 
     /**
      * 签名效验
-     * 
+     *
      * @param p
      * @return
      */
@@ -36,7 +36,7 @@ public class SignerController extends BaseController {
 
     /**
      * 忽略签名
-     * 
+     *
      * @param p
      * @return
      */

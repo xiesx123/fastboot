@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 
 public class TagUtils {
 
@@ -40,7 +40,7 @@ public class TagUtils {
      */
     public static String includeJSP(HttpServletRequest request, HttpServletResponse response, String jspFile, String charsetEncoding) throws ServletException, IOException {
         final OutputStream _output = new ByteArrayOutputStream();
-        final PrintWriter _writer = new PrintWriter(new OutputStreamWriter(_output, StrUtil.blankToDefault(charsetEncoding, response.getCharacterEncoding())));
+        final PrintWriter _writer = new PrintWriter(new OutputStreamWriter(_output, CharSequenceUtil.blankToDefault(charsetEncoding, response.getCharacterEncoding())));
         final ServletOutputStream _servletOutput = new ServletOutputStream() {
 
             @Override

@@ -36,7 +36,7 @@ public class ExceptionController extends BaseController {
 
     /**
      * 运行
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "runtime")
@@ -47,7 +47,7 @@ public class ExceptionController extends BaseController {
 
     /**
      * 请求
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "request", method = RequestMethod.POST)
@@ -57,7 +57,7 @@ public class ExceptionController extends BaseController {
 
     /**
      * 效验(hibernate)
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "hibernate/validator")
@@ -67,7 +67,7 @@ public class ExceptionController extends BaseController {
 
     /**
      * 效验(spring)
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "spring/validator")
@@ -77,7 +77,7 @@ public class ExceptionController extends BaseController {
 
     /**
      * 数据库
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "database")
@@ -89,7 +89,7 @@ public class ExceptionController extends BaseController {
 
     /**
      * 自定义
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "custom")

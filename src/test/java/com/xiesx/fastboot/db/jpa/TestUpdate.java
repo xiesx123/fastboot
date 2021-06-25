@@ -48,11 +48,7 @@ public class TestUpdate {
         logRecord = new LogRecord()//
                 .setIp("127.0.0.1")//
                 .setMethod("test")//
-                .setType("GET")//
-                .setUrl("/test")//
-                .setReq("")//
-                .setRes("")//
-                .setTime(1L);
+                .setType("GET");
         logRecord = mLogRecordRepository.saveAndFlush(logRecord);
     }
 

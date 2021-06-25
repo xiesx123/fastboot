@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.namedparam.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -125,6 +126,7 @@ public class JdbcTemplatePlus {
      * @param sql
      * @return
      */
+    @Transactional
     public static int update(String sql) {
         try {
             return get().update(sql, Maps.newConcurrentMap());
@@ -134,6 +136,7 @@ public class JdbcTemplatePlus {
         }
     }
 
+    @Transactional
     public static int update(String sql, Object obj) {
         try {
             return get().update(sql, parameter(obj));
@@ -149,6 +152,7 @@ public class JdbcTemplatePlus {
      * @param sql
      * @return
      */
+    @Transactional
     public static int batchUpdate(String sql, List<?> data) {
         try {
             return get().batchUpdate(sql, SqlParameterSourceUtils.createBatch(data)).length;
@@ -160,7 +164,7 @@ public class JdbcTemplatePlus {
 
     /**
      * 参数填充
-     * 
+     *
      * @param obj
      * @return
      */

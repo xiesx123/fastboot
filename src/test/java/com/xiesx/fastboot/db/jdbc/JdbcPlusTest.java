@@ -27,7 +27,7 @@ import com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 
 /**
  * @title JdbcPlusTest.java
@@ -53,13 +53,9 @@ public class JdbcPlusTest {
         // 构造日志
         for (int i = 1; i <= 10; i++) {
             LogRecord logRecord = new LogRecord()//
-                    .setIp(StrUtil.format("127.0.{}.1", i))//
+                    .setIp(CharSequenceUtil.format("127.0.{}.1", i))//
                     .setMethod("test")//
-                    .setType("GET")//
-                    .setUrl("/test")//
-                    .setReq("")//
-                    .setRes("")//
-                    .setTime(1L);
+                    .setType("GET");
             logRecords.add(logRecord);
         }
         // 保存日志
@@ -142,16 +138,11 @@ public class JdbcPlusTest {
                 "insert into `xx_log` (`id`, `create_date`, `update_date`, `ip`, `method`, `type`, `url`, `req`, `res`, `time`) values(:id,  :createDate,  now(),  :ip,  :method,  :type,  :url,  :req,  :res,  :time);";
         // 入参obj
         LogRecord lr = new LogRecord()//
-                .setId(IdWorkerGenerator.nextId())//
                 .setIp("127.0.0.1")//
                 .setCreateDate(DateUtil.date())//
                 // .setUpdateDate(DateUtil.date()) //使用now()替代
                 .setMethod("test")//
-                .setType("GET")//
-                .setUrl("/test")//
-                .setReq("")//
-                .setRes("")//
-                .setTime(2L);
+                .setType("GET");
         // 入参map
         Map<String, Object> params = BeanUtil.beanToMap(lr);
         params.put("id", IdWorkerGenerator.nextId());
@@ -161,7 +152,6 @@ public class JdbcPlusTest {
         assertEquals(JdbcTemplatePlus.update(sql, params), 1);
         // 批量添加
         for (LogRecord logRecord : result) {
-            logRecord.setId(IdWorkerGenerator.nextId());
             logRecord.setTime(4L);
         }
         assertEquals(JdbcTemplatePlus.batchUpdate(sql, result), 10);

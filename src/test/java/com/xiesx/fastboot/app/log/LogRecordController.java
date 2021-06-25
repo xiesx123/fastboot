@@ -1,6 +1,5 @@
 package com.xiesx.fastboot.app.log;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.app.base.BaseVo;
 import com.xiesx.fastboot.base.page.PR;
@@ -29,12 +27,6 @@ import cn.hutool.core.util.ObjectUtil;
 @RestController
 @RequestMapping("/log")
 public class LogRecordController extends BaseController {
-
-    @Autowired
-    public JPAQueryFactory mJPAQueryFactory;
-
-    @Autowired
-    public LogRecordRepository mLogRecordRepository;
 
     /**
      * 分页

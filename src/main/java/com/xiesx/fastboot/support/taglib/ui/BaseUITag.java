@@ -10,7 +10,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.support.taglib.TagUtils;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -78,7 +78,7 @@ public abstract class BaseUITag extends BodyTagSupport {
 
     public String mergeContent(String tmplContent) throws JspException {
         String _tmplContent = tmplContent;
-        if (StrUtil.isNotBlank(_tmplContent)) {
+        if (CharSequenceUtil.isNotBlank(_tmplContent)) {
             if (__tmplMetaPart.length() > 0) {
                 _tmplContent = TagUtils.replaceRegText(_tmplContent, "meta", __tmplMetaPart.toString());
             }
@@ -99,7 +99,7 @@ public abstract class BaseUITag extends BodyTagSupport {
     }
 
     public String buildSrcUrl() {
-        if (StrUtil.isNotBlank(this.getSrc())) {
+        if (CharSequenceUtil.isNotBlank(this.getSrc())) {
             StringBuilder _url = new StringBuilder();
             if (!this.getSrc().startsWith("/")) {
                 _url.append("/templates/");

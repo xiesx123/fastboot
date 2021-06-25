@@ -24,7 +24,7 @@ import com.xiesx.fastboot.app.log.LogRecordRepository;
 import com.xiesx.fastboot.app.log.QLogRecord;
 
 import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 
 /**
  * @title TestDelete.java
@@ -44,7 +44,7 @@ public class TestDelete {
     @Autowired
     LogRecordRepository mLogRecordRepository;
 
-    List<Long> ids = Lists.newArrayList();
+    List<String> ids = Lists.newArrayList();
 
     List<List<LogRecord>> result = Lists.newArrayList();
 
@@ -55,13 +55,9 @@ public class TestDelete {
         // 构造日志
         for (int i = 1; i <= 10; i++) {
             LogRecord logRecord = new LogRecord()//
-                    .setIp(StrUtil.format("127.0.{}.1", i))//
+                    .setIp(CharSequenceUtil.format("127.0.{}.1", i))//
                     .setMethod("test")//
-                    .setType("GET")//
-                    .setUrl("/test")//
-                    .setReq("")//
-                    .setRes("")//
-                    .setTime(1L);
+                    .setType("GET");
             logRecords.add(logRecord);
         }
         // 保存日志

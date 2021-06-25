@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.*;
+import org.hibernate.annotations.Parameter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -47,13 +48,19 @@ public class LogRecord extends JpaPlusEntity<LogRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
+     * 主键，例（L1408447004119666688）
      */
     @Id
     @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", strategy = "com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator")
+    @GenericGenerator(name = "idGenerator", //
+            strategy = "com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator", //
+            parameters = {//
+                    @Parameter(name = "prefix", value = "L"), // 前缀，L
+                    @Parameter(name = "workerId", value = "1"), // 终端ID，默认0
+                    @Parameter(name = "centerId", value = "1") // 数据中心ID，默认0
+            })
     @JSONField(ordinal = 1)
-    private Long id;
+    private String id;
 
     /**
      * 创建时间

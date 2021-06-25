@@ -43,7 +43,7 @@ public class GlobalExceptionAdvice {
      * @param e
      * @return
      */
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler({RuntimeException.class, Exception.class})
     public Result runtimeException(HttpServletRequest request, Exception e) {
         log.error("runtime exception", e);
         return R.error(RunExc.RUNTIME.getCode(), ExceptionUtil.getSimpleMessage(e));
@@ -80,19 +80,19 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler({BindException.class, ValidationException.class})
     public Result validatorException(HttpServletRequest request, Exception e) {
         log.error("validator exception", e);
-        List<String> errorMsg = Lists.newArrayList();
+        List<String> msgs = Lists.newArrayList();
         // Spring Violation 验证 --> Java Violation，这里有BindException接收
         if (e instanceof BindException) {
             BindingResult violations = ((BindException) e).getBindingResult();
             for (FieldError fieldError : violations.getFieldErrors()) {
-                errorMsg.add(fieldError.getField() + " " + fieldError.getDefaultMessage());
+                msgs.add(fieldError.getField() + " " + fieldError.getDefaultMessage());
             }
         }
         // Hibernate Violation 验证 --> Java Violation，这里有ConstraintViolationException接收
         if (e instanceof ValidationException) {
-            errorMsg.addAll(ValidatorHelper.extractPropertyAndMessageAsList(((ConstraintViolationException) e)));
+            msgs.addAll(ValidatorHelper.extractPropertyAndMessageAsList(((ConstraintViolationException) e)));
         }
-        return R.error(RunExc.VALIDATOR.getCode(), RunExc.VALIDATOR.getMsg(), errorMsg);
+        return R.error(RunExc.VALIDATOR.getCode(), RunExc.VALIDATOR.getMsg(), msgs);
     }
 
     /**
@@ -105,11 +105,9 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler({DataAccessException.class})
     public Result databaseException(HttpServletRequest request, Exception e) {
         log.error("database exception", e);
-        String msg = "";
+        String msg = ExceptionUtil.getSimpleMessage(e);
         if (e instanceof EmptyResultDataAccessException) {
             msg = "无数据";
-        } else {
-            msg = ExceptionUtil.getSimpleMessage(e);
         }
         return R.error(RunExc.DBASE.getCode(), msg);
     }

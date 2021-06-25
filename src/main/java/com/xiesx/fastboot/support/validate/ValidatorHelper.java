@@ -35,7 +35,7 @@ public class ValidatorHelper {
 
     /**
      * 对象效验
-     * 
+     *
      * @param object
      * @throws ConstraintViolationException
      */
@@ -48,7 +48,7 @@ public class ValidatorHelper {
 
     /**
      * 对象效验
-     * 
+     *
      * @param object
      * @param groups
      * @throws ConstraintViolationException

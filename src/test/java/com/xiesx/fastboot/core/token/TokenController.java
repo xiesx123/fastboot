@@ -11,7 +11,7 @@ import com.xiesx.fastboot.core.logger.LogStorageMysqlProvider;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 import com.xiesx.fastboot.core.token.annotation.GoHeader;
 import com.xiesx.fastboot.core.token.annotation.GoToken;
-import com.xiesx.fastboot.core.token.header.HeaderParam;
+import com.xiesx.fastboot.core.token.header.HeaderParams;
 
 /**
  * @title TokenController.java
@@ -25,7 +25,7 @@ import com.xiesx.fastboot.core.token.header.HeaderParam;
 public class TokenController extends BaseController {
 
     @RequestMapping(value = "header")
-    public Result header3(String name, @GoToken String uid, @GoHeader HeaderParam p1) {
+    public Result header3(String name, @GoToken String uid, @GoHeader HeaderParams p1) {
         return R.succ(Lists.newArrayList(name, uid, p1));
     }
 }

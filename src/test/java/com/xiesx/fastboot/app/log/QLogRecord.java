@@ -21,7 +21,7 @@ public class QLogRecord extends EntityPathBase<LogRecord> {
 
     public final DateTimePath<java.util.Date> createDate = createDateTime("createDate", java.util.Date.class);
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final StringPath id = createString("id");
 
     public final StringPath ip = createString("ip");
 

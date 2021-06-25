@@ -24,14 +24,14 @@ public class EventBusController extends BaseController {
 
     /**
      * 发布消息
-     * 
+     *
      * @return
      * @throws InterruptedException
      */
     @RequestMapping(value = "request")
     public Result request(String p) throws InterruptedException {
         // 发布Base消息
-        EventBusHelper.submit(new SimpleEvent(p, true));
+        EventBusHelper.post(new SimpleEvent(p, true));
         // 发布Object消息
         EventBusHelper.post(p);
         // 模拟耗时操作，线程暂停3秒

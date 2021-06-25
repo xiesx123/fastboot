@@ -35,7 +35,7 @@ public class EventBusTest extends BaseTest {
     @Order(2)
     public void test() throws InterruptedException {
         // 发布Base消息
-        EventBusHelper.submit(new SimpleEvent("测试1", true));
+        EventBusHelper.post(new SimpleEvent("测试1", true));
         // 发布Object消息
         EventBusHelper.post("测试2");
         // 模拟耗时操作，线程暂停3秒

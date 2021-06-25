@@ -23,7 +23,7 @@ public class FastJsonController extends BaseController {
 
     /**
      * 序列化
-     * 
+     *
      * @return
      */
     @RequestMapping("/json")
@@ -33,7 +33,7 @@ public class FastJsonController extends BaseController {
 
     /**
      * 脱敏
-     * 
+     *
      * @return
      */
     @RequestMapping("/desensitized")

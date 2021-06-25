@@ -1,5 +1,6 @@
 package com.xiesx.fastboot.core.exception;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -24,10 +25,10 @@ public class RunException extends RuntimeException {
     /**
      * throw new RunException("出错啦！");
      *
-     * @param message
+     * @param msg
      */
-    public RunException(String message) {
-        super(message);
+    public RunException(String msg) {
+        super(msg);
         this.code = RunExc.RUNTIME.getCode();
     }
 
@@ -44,33 +45,33 @@ public class RunException extends RuntimeException {
     /**
      * throw new RunException(RunExc.RUN);
      *
-     * @param act
+     * @param rxc
      */
-    public RunException(RunExc act) {
-        super(act.getMsg());
-        this.code = act.getCode();
+    public RunException(RunExc rxc) {
+        super(rxc.getMsg());
+        this.code = rxc.getCode();
     }
 
     /**
      * throw new RunException(RunExc.RUN,"处理失败");
      *
-     * @param act
-     * @param message
+     * @param rxc
+     * @param msg
      */
-    public RunException(RunExc act, String message) {
-        super(act.getMsg() + ":" + message);
-        this.code = act.getCode();
+    public RunException(RunExc rxc, String msg) {
+        super(rxc.getMsg() + ":" + msg);
+        this.code = rxc.getCode();
     }
 
     /**
      * throw new RunException(RunExc.RUN,"{}处理失败","xxx");
      *
-     * @param act
+     * @param rxc
      * @param format
-     * @param message
+     * @param msg
      */
-    public RunException(RunExc act, String format, Object... message) {
-        super(act.getMsg() + ":" + String.format(format, message));
-        this.code = act.getCode();
+    public RunException(RunExc rxc, String format, Object... msg) {
+        super(rxc.getMsg() + ":" + CharSequenceUtil.format(format, msg));
+        this.code = rxc.getCode();
     }
 }

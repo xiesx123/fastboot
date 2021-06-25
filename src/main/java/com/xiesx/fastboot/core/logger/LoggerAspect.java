@@ -71,7 +71,7 @@ public class LoggerAspect {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         String methodName = method.getName();
-        // 获取类注解
+        // 获取类注解（优先）
         GoLogger clogger = cls.getAnnotation(GoLogger.class);
         Boolean print = ObjectUtil.isNull(clogger) ? true : clogger.print();
         Boolean format = ObjectUtil.isNull(clogger) ? false : clogger.format();
@@ -88,24 +88,23 @@ public class LoggerAspect {
         // 获取入参
         Object[] args = pjp.getArgs();
         // 入参过滤
-        Object[] argsNew = ArrayUtil.filter(args, new Filter<Object>() {
+        Object[] newArgs = ArrayUtil.filter(args, new Filter<Object>() {
 
             @Override
             public boolean accept(Object t) {
-                if (t instanceof ServletRequest || t instanceof ServletResponse) { // TODO servlet
+                if (t instanceof ServletRequest || t instanceof ServletResponse) { // TODO Servlet
                     return false;
-                } else if (t instanceof MultipartFile) { // TODO multipart file
+                } else if (t instanceof MultipartFile) { // TODO MultipartFile
                     return false;
-                } else if (t instanceof Model) { // model
+                } else if (t instanceof Model) { // TODO Model
                     return false;
                 } else {
                     return true;
                 }
             }
         });
-        // 请求参数
-        String req = JSON.toJSONString(argsNew, format);
-        // 前置打印
+        // 请求参数格式化
+        String req = JSON.toJSONString(newArgs, format);
         if (print) {
             log.info(LOG_BEFORE_FORMAT, methodName, req);
         }
@@ -115,14 +114,13 @@ public class LoggerAspect {
         Object result = pjp.proceed();
         // 执行时间
         long time = interval.interval();
-        // 响应返回
-        String json = JSON.toJSONString(result, format);
-        // 后置打印
+        // 响应返回格式化
+        String res = JSON.toJSONString(result, format);
         if (print) {
-            log.info(LOG_AFTER_FORMAT, time, methodName, json);
+            log.info(LOG_AFTER_FORMAT, time, methodName, res);
         }
         // 存储实例
-        LogStorage logStorage = Singleton.get(storage, operation, methodName, argsNew, time);
+        LogStorage logStorage = Singleton.get(storage, operation, methodName, newArgs, time);
         logStorage.record(request, result);
         return result;
     }

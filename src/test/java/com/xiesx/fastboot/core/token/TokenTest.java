@@ -24,7 +24,7 @@ import com.xiesx.fastboot.app.base.BaseTest;
 import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.core.token.cfg.TokenCfg;
 import com.xiesx.fastboot.core.token.cfg.TokenProperties;
-import com.xiesx.fastboot.core.token.header.HeaderParam;
+import com.xiesx.fastboot.core.token.header.HeaderParams;
 
 import cn.hutool.core.date.DateUtil;
 import io.jsonwebtoken.Claims;
@@ -73,7 +73,7 @@ public class TokenTest extends BaseTest {
         assertEquals(result.getData().get(0), "fasotboot");
         assertEquals(result.getData().get(1), "123");
         //
-        HeaderParam hp = JSON.parseObject(result.getData().get(2).toString(), HeaderParam.class);
+        HeaderParams hp = JSON.parseObject(result.getData().get(2).toString(), HeaderParams.class);
         assertEquals(hp.getUid(), "123");
     }
 

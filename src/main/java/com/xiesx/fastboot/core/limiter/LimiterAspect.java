@@ -15,7 +15,7 @@ import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.core.limiter.annotation.GoLimiter;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -30,7 +30,7 @@ import lombok.extern.log4j.Log4j2;
 @Order(Ordered.ASPECT_ORDER_LIMITER)
 public class LimiterAspect {
 
-    private RateLimiter rateLimiter = RateLimiter.create(Double.MAX_VALUE);
+    private RateLimiter rateLimiter = RateLimiter.create(Integer.MAX_VALUE);
 
     @Pointcut("@annotation(com.xiesx.fastboot.core.limiter.annotation.GoLimiter)")
     public void limiterPointcut() {}
@@ -58,7 +58,7 @@ public class LimiterAspect {
         if (rateLimiter.tryAcquire()) {
             return point.proceed();
         } else {
-            if (StrUtil.isNotBlank(limiter.message())) {
+            if (CharSequenceUtil.isNotBlank(limiter.message())) {
                 throw new RunException(RunExc.LIMITER, limiter.message());
             }
             throw new RunException(RunExc.LIMITER);

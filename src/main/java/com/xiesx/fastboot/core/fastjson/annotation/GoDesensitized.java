@@ -16,6 +16,5 @@ import cn.hutool.core.util.DesensitizedUtil.DesensitizedType;
 @Documented
 public @interface GoDesensitized {
 
-    // 脱敏类型(规则)
     DesensitizedType type();
 }

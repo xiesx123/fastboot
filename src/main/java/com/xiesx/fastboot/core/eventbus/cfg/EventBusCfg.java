@@ -9,15 +9,15 @@ import com.google.common.collect.Maps;
 import com.google.common.eventbus.DeadEvent;
 import com.google.common.eventbus.Subscribe;
 import com.xiesx.fastboot.SpringHelper;
+import com.xiesx.fastboot.core.eventbus.AbstractEvent;
 import com.xiesx.fastboot.core.eventbus.EventAdapter;
 import com.xiesx.fastboot.core.eventbus.EventBusHelper;
-import com.xiesx.fastboot.core.eventbus.base.AbstractEvent;
 
 import cn.hutool.core.lang.Singleton;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * @title EventBusConfiguration.java
+ * @title EventBusCfg.java
  * @description
  * @author xiesx
  * @date 2021-04-24 01:34:57
@@ -39,7 +39,7 @@ public class EventBusCfg {
     }
 
     @PostConstruct
-    public void construct() throws Exception {
+    public void postConstruct() throws Exception {
         beans.putAll(SpringHelper.getContext().getBeansOfType(EventAdapter.class));
         if (!beans.isEmpty()) {
             for (EventAdapter<? extends AbstractEvent> eventAbstract : beans.values()) {
@@ -49,10 +49,10 @@ public class EventBusCfg {
     }
 
     @PreDestroy
-    public void destroy() throws Exception {
+    public void preDestroy() throws Exception {
         if (!beans.isEmpty()) {
             for (EventAdapter<? extends AbstractEvent> eventAbstract : beans.values()) {
-                EventBusHelper.unRegister(eventAbstract);
+                EventBusHelper.unregister(eventAbstract);
             }
         }
         Singleton.remove(EventBusHelper.class.getName());

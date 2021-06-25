@@ -14,7 +14,7 @@ import com.xiesx.fastboot.db.jpa.JpaPlusRepository;
  * @author xiesx
  * @date 2021-06-06 23:19:14
  */
-public interface LogRecordRepository extends JpaPlusRepository<LogRecord, Long> {
+public interface LogRecordRepository extends JpaPlusRepository<LogRecord, String> {
 
     // 方式1: 默认生成所有属性名查询
     List<LogRecord> findByType(String type);

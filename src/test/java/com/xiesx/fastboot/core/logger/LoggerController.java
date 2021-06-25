@@ -22,7 +22,7 @@ public class LoggerController extends BaseController {
 
     /**
      * 不打印
-     * 
+     *
      * @return
      */
     @GoLogger(print = false)
@@ -33,7 +33,7 @@ public class LoggerController extends BaseController {
 
     /**
      * 默认打印 + 格式化输出
-     * 
+     *
      * @return
      */
     @GoLogger(format = true)
@@ -44,7 +44,7 @@ public class LoggerController extends BaseController {
 
     /**
      * 默认打印 + 格式化输出 + 自定义存储
-     * 
+     *
      * @return
      */
     @GoLogger(format = true, storage = LogStorageMysqlProvider.class)

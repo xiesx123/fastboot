@@ -39,7 +39,7 @@ public class BodyController extends BaseController {
 
     /**
      * Java Map 类型
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "map")
@@ -49,7 +49,7 @@ public class BodyController extends BaseController {
 
     /**
      * Java Iterable 类型
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "list")
@@ -59,7 +59,7 @@ public class BodyController extends BaseController {
 
     /**
      * Java String 类型
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "string")
@@ -69,7 +69,7 @@ public class BodyController extends BaseController {
 
     /**
      * FastJson JSON 类型
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "fastjson")
@@ -79,7 +79,7 @@ public class BodyController extends BaseController {
 
     /**
      * Java Object 类型
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "object")
@@ -89,7 +89,7 @@ public class BodyController extends BaseController {
 
     /**
      * @IgnoreBody忽略Advice返回
-     * 
+     *
      * @return
      */
     @IgnoreBody

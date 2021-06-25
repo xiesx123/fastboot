@@ -29,7 +29,7 @@ public class ExecutorHelper {
 
     /**
      * 提交
-     * 
+     *
      * @param task
      * @return
      */
@@ -39,7 +39,7 @@ public class ExecutorHelper {
 
     /**
      * 提交
-     * 
+     *
      * @param <T>
      * @param task
      * @return
@@ -50,7 +50,7 @@ public class ExecutorHelper {
 
     /**
      * 提交
-     * 
+     *
      * @param <T>
      * @param task
      * @param callback
@@ -66,7 +66,7 @@ public class ExecutorHelper {
 
     /**
      * 提交
-     * 
+     *
      * @param <T>
      * @param task
      * @return
@@ -77,7 +77,7 @@ public class ExecutorHelper {
 
     /**
      * 提交
-     * 
+     *
      * @param <T>
      * @param tasks
      * @return

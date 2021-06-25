@@ -1,5 +1,6 @@
 package com.xiesx.fastboot.support.license;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.Data;
@@ -13,7 +14,9 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class LicenseParamsExtra {
+public class LicenseParamsExtra implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 可被允许的MAC地址

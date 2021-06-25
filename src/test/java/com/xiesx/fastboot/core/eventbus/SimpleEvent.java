@@ -1,7 +1,5 @@
 package com.xiesx.fastboot.core.eventbus;
 
-import com.xiesx.fastboot.core.eventbus.base.AbstractEvent;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

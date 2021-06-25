@@ -4,7 +4,6 @@ import org.springframework.util.ReflectionUtils;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
-import com.xiesx.fastboot.core.eventbus.base.AbstractEvent;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -20,6 +19,8 @@ public abstract class EventAdapter<E extends AbstractEvent> {
 
     private static final String METHOD_NAME = "process";
 
+    public abstract boolean process(E e) throws Exception;
+
     @Subscribe
     @AllowConcurrentEvents
     public void onEvent(AbstractEvent event) {
@@ -33,6 +34,4 @@ public abstract class EventAdapter<E extends AbstractEvent> {
             }
         }
     }
-
-    public abstract boolean process(E e) throws Exception;
 }

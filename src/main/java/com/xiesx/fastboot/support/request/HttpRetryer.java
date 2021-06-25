@@ -79,7 +79,7 @@ public class HttpRetryer {
 
     /**
      * 网络重试
-     * 
+     *
      * @param request
      * @param retry
      * @return
