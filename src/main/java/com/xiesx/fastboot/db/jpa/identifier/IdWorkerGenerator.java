@@ -48,12 +48,12 @@ public class IdWorkerGenerator implements Configurable, IdentifierGenerator {
         return snowflake.nextId();
     }
 
-    public static long nextId(long workerId, long datacenterId) {
+    public static Long nextId(long workerId, long datacenterId) {
         Snowflake snowflake = IdUtil.getSnowflake(workerId, datacenterId);
         return snowflake.nextId();
     }
 
-    public static long nextId() {
+    public static Long nextId() {
         return nextId(0, 0);
     }
 }

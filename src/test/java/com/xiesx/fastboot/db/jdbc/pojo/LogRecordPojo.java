@@ -15,7 +15,7 @@ import lombok.experimental.FieldNameConstants;
 @FieldNameConstants(innerTypeName = "FIELDS")
 public class LogRecordPojo {
 
-    public Long id;
+    public String id;
 
     public String ip;
 

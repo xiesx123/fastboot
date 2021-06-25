@@ -53,6 +53,7 @@ public class JdbcPlusTest {
         // 构造日志
         for (int i = 1; i <= 10; i++) {
             LogRecord logRecord = new LogRecord()//
+                    .setId(IdWorkerGenerator.nextId().toString())//
                     .setIp(CharSequenceUtil.format("127.0.{}.1", i))//
                     .setMethod("test")//
                     .setType("GET");
@@ -106,7 +107,7 @@ public class JdbcPlusTest {
         // 输出List<Obj>
         List<LogRecordPojo> result2 = JdbcTemplatePlus.queryForList(sql, LogRecordPojo.class);
         // 验证
-        assertEquals(result1.get(9).get(LogRecordPojo.FIELDS.type), result2.get(9).getType());
+        assertEquals(result1.get(0).get(LogRecordPojo.FIELDS.type), result2.get(0).getType());
     }
 
     @Test
@@ -138,9 +139,10 @@ public class JdbcPlusTest {
                 "insert into `xx_log` (`id`, `create_date`, `update_date`, `ip`, `method`, `type`, `url`, `req`, `res`, `time`) values(:id,  :createDate,  now(),  :ip,  :method,  :type,  :url,  :req,  :res,  :time);";
         // 入参obj
         LogRecord lr = new LogRecord()//
+                .setId(IdWorkerGenerator.nextId().toString())//
                 .setIp("127.0.0.1")//
                 .setCreateDate(DateUtil.date())//
-                // .setUpdateDate(DateUtil.date()) //使用now()替代
+                .setUpdateDate(DateUtil.date()) //
                 .setMethod("test")//
                 .setType("GET");
         // 入参map
@@ -152,6 +154,7 @@ public class JdbcPlusTest {
         assertEquals(JdbcTemplatePlus.update(sql, params), 1);
         // 批量添加
         for (LogRecord logRecord : result) {
+            logRecord.setId(IdWorkerGenerator.nextId().toString());
             logRecord.setTime(4L);
         }
         assertEquals(JdbcTemplatePlus.batchUpdate(sql, result), 10);
