@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.app.mock.MockData;
-import com.xiesx.fastboot.app.mock.MockDesensitized;
 import com.xiesx.fastboot.app.mock.MockUser;
+import com.xiesx.fastboot.app.mock.MockUserDesensitized;
 import com.xiesx.fastboot.core.logger.LogStorageMysqlProvider;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 
@@ -36,8 +36,8 @@ public class FastJsonController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("/desensitized")
-    public MockDesensitized desensitized() {
-        return MockData.user2();
+    @RequestMapping("/json/desensitized")
+    public MockUserDesensitized desensitized() {
+        return MockData.userDesensitized();
     }
 }

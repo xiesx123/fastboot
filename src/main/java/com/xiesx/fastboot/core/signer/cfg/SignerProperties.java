@@ -16,7 +16,7 @@ public class SignerProperties {
 
     public static final String PREFIX = "fastboot.signer";
 
-    private String header = "signer";
+    private String header = "sign";
 
     private String secret = "fastboot!@#";
 }

@@ -14,7 +14,6 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.BigDecimalCodec;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializeFilter;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
@@ -22,6 +21,7 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.google.common.collect.Lists;
 import com.xiesx.fastboot.core.fastjson.filter.DesensitizeFilter;
+import com.xiesx.fastboot.core.fastjson.serializer.ToBigDecimalSerializer;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.util.ArrayUtil;
@@ -63,12 +63,12 @@ public class FastJsonCfg implements WebMvcConfigurer {
         serializeConfig.put(Long.class, ToStringSerializer.instance);
         serializeConfig.put(Long.TYPE, ToStringSerializer.instance);
         serializeConfig.put(BigInteger.class, ToStringSerializer.instance);
-        serializeConfig.put(BigDecimal.class, BigDecimalCodec.instance);
+        serializeConfig.put(BigDecimal.class, new ToBigDecimalSerializer());
         fastJsonConfig.setSerializeConfig(serializeConfig);
         // 序列化过滤器
         List<SerializeFilter> filters = Lists.newArrayList(fastJsonConfig.getSerializeFilters());
         if (fastJsonProperties.getDesensitize()) {
-            // 脱敏拦截器
+            // 脱敏过滤器
             filters.add(new DesensitizeFilter());
         }
         fastJsonConfig.setSerializeFilters(filters.toArray(new SerializeFilter[filters.size()]));

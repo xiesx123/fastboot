@@ -52,9 +52,9 @@ public class LogRecord extends JpaPlusEntity<LogRecord> {
      */
     @Id
     @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", //
-            strategy = "com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator", //
-            parameters = {//
+    @GenericGenerator(name = "idGenerator", // 名称
+            strategy = "com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator", // 生成策略
+            parameters = {// 生成参数
                     @Parameter(name = "prefix", value = "L"), // 前缀，L
                     @Parameter(name = "workerId", value = "1"), // 终端ID，默认0
                     @Parameter(name = "centerId", value = "1") // 数据中心ID，默认0

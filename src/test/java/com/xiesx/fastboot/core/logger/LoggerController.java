@@ -26,13 +26,25 @@ public class LoggerController extends BaseController {
      * @return
      */
     @GoLogger(print = false)
-    @RequestMapping("/print")
-    public Result print(BaseVo base, PageVo page) {
+    @RequestMapping("/noprint")
+    public Result noprint(BaseVo base, PageVo page) {
         return R.succ();
     }
 
     /**
      * 默认打印 + 格式化输出
+     *
+     * @return
+     */
+    @GoLogger
+    @RequestMapping("/print")
+    public Result print(BaseVo base, PageVo page) {
+        return R.succ();
+    }
+
+
+    /**
+     * 格式化输出
      *
      * @return
      */
@@ -43,7 +55,7 @@ public class LoggerController extends BaseController {
     }
 
     /**
-     * 默认打印 + 格式化输出 + 自定义存储
+     * 格式化输出 + 自定义存储
      *
      * @return
      */

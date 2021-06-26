@@ -89,6 +89,7 @@ public class TokenTest extends BaseTest {
         // token = simple(Configed.FASTBOOT, "api", JWT_EXPIRE_M_1);
         // token = simple(Configed.FASTBOOT, "api", claims, JWT_EXPIRE_M_1);
         token = JwtHelper.simple(Configed.FASTBOOT, "api", header, claims, JwtHelper.JWT_EXPIRE_D_1);
+        System.out.println(token);
         //
         Jws<Claims> jws = JwtHelper.parser(token);
         System.out.println("签名信息：" + jws.getSignature());

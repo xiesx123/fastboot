@@ -49,6 +49,12 @@ public class LogStorageMysqlProvider extends LogStorageProvider {
         log.info("log record id {}", logRecord.getId());
     }
 
+    /**
+     * 获取ip
+     *
+     * @param request
+     * @return
+     */
     public static String getIpAddr(HttpServletRequest request) {
         for (String header : HEAD_INFO) {
             String ip = request.getHeader(header);

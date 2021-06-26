@@ -30,35 +30,36 @@ spring:
 fastboot:                                                   # fastboot
   # ======= 数据转换 =======
   fastjson:
-    supported-media-types:
-    - text/json;charset=UTF-8
+    supported-media-types:                # 支持媒体类型，默认text/html、application/json
+    - text/html;charset=UTF-8
     - application/json;charset=UTF-8
-    config:
-      charset: utf-8
-      date-format: yyyy-MM-dd HH:mm:ss
-      serializer-features:
+    config:                               # 配置
+      charset: utf-8                      # 编码格式，默认UTF-8
+      date-format: yyyy-MM-dd HH:mm:ss    # 日期格式，默认yyyy-MM-dd HH:mm:ss
+      serializer-features:                # 序列化
         - PrettyFormat                    # 格式化输出
         - WriteNullBooleanAsFalse         # 布尔类型如果为null，输出为false，而不是null
         - WriteEnumUsingToString          # 枚举类型用ToString输出
-#      serialize-filters:
-#        - DesensitizeFilter
+    # serialize-filters:
+    #   - DesensitizeFilter
       features:
-        - AllowComment
-   # classSerializeFilters:
-   # writeContentLength: true
-    desensitize: true
+        - OrderedField
+    # classSerializeFilters:
+    # writeContentLength: true
+    desensitize: true                     # 启用脱敏
     
   # ======= 数据签名 =======
   signer:
-    header: signer
-    secret: fastboot!@#
+    header: sign                          # 签名键，默认sign
+    secret: fastboot!@#                   # 加密串，默认fastboot!@#
     
   # ======= 令牌认证 =======
   token:
-    header: token
-    include-paths:
+    header: token                         # 令牌键，默认token
+    include-paths:                        # 包含路径
+    - /api/**
     - /token/**
-    exclude-paths:
+    exclude-paths:                        # 排除路径
     - /js/**
     
   # ======= 证书配置 =======

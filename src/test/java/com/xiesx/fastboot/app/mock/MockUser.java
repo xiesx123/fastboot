@@ -1,5 +1,6 @@
 package com.xiesx.fastboot.app.mock;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -51,6 +52,9 @@ public class MockUser {
     @JSONField(ordinal = 11)
     private StatusEnum status;
 
-    @JSONField(ordinal = 12)
+    @JSONField(ordinal = 12, format = "0.00")
+    private BigDecimal balance;
+
+    @JSONField(ordinal = 13)
     private Boolean enable;
 }

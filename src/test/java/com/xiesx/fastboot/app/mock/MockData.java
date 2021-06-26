@@ -1,5 +1,6 @@
 package com.xiesx.fastboot.app.mock;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -44,13 +45,18 @@ public class MockData {
         return jo;
     }
 
+    /**
+     * 用户信息
+     *
+     * @return
+     */
     public static MockUser user() {
 
         // ============================== get/set构造
 
         // // @Date
         // MockUser user = new MockUser();
-        // user.setName("段正淳");
+        // user.setName("张三");
         // user.setBirthDay(DateTime.now());
         // user.setRegisterDay(DateTime.now());
         // user.setIdCard("51343620000320711X");
@@ -67,7 +73,7 @@ public class MockData {
         // //@Data
         // //@Builder
         // MockUserBuilder builder = MockUser.builder();
-        // builder.name("段正淳");
+        // builder.name("张三");
         // builder.birthDay(DateTime.now());
         // builder.registerDay(DateTime.now());
         // builder.idCard("51343620000320711X");
@@ -77,6 +83,7 @@ public class MockData {
         // builder.email("123456789@qq.com");
         // builder.password(RandomUtil.randomString(8));
         // builder.carnumber("京A88888");
+        // builder.balance(new BigDecimal(100.123));
         // return builder.build();
 
         // ============================== chain构造
@@ -84,7 +91,7 @@ public class MockData {
         // @Date
         // @Accessors(chain = true)
         MockUser user = new MockUser()//
-                .setName("段正淳")//
+                .setName("张三")//
                 .setBirthDay(DateTime.now())//
                 .setRegisterDay(DateTime.now())//
                 .setIdCard("51343620000320711X")//
@@ -94,7 +101,8 @@ public class MockData {
                 .setEmail("123456789@qq.com")//
                 .setPassword(RandomUtil.randomString(8))//
                 .setCarnumber("京A88888")//
-                .setStatus(StatusEnum.A);//
+                .setStatus(StatusEnum.A)//
+                .setBalance(new BigDecimal(100.123));//
         return user;
 
         // ============================== fluent构造
@@ -102,7 +110,7 @@ public class MockData {
         // // @Date
         // // @Accessors(fluent = true)
         // MockUser user = new MockUser()//
-        // .name("段正淳")//
+        // .name("张三")//
         // .birthDay(DateTime.now())//
         // .registerDay(DateTime.now())//
         // .idCard("51343620000320711X")//
@@ -111,13 +119,14 @@ public class MockData {
         // .address("xx市xx区xxxx街道xxx号")//
         // .email("123456789@qq.com")//
         // .password(RandomUtil.randomString(8))//
-        // .carnumber("京A88888");//
+        // .carnumber("京A88888")//
+        // .balance(new BigDecimal(100.123));//
         // return user;
     }
 
-    public static MockDesensitized user2() {
+    public static MockUserDesensitized userDesensitized() {
         MockUser user = user();
-        MockDesensitized user2 = new MockDesensitized();
+        MockUserDesensitized user2 = new MockUserDesensitized();
         BeanUtil.copyProperties(user, user2, true);
         return user2;
     }

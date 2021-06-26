@@ -25,7 +25,7 @@ import com.xiesx.fastboot.core.token.header.HeaderParams;
 public class TokenController extends BaseController {
 
     @RequestMapping(value = "header")
-    public Result header3(String name, @GoToken String uid, @GoHeader HeaderParams p1) {
+    public Result header(String name, @GoToken String uid, @GoHeader HeaderParams p1) {
         return R.succ(Lists.newArrayList(name, uid, p1));
     }
 }

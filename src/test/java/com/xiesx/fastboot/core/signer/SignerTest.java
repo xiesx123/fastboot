@@ -66,7 +66,7 @@ public class SignerTest extends BaseTest {
 
     @Test
     public void ignore() {
-        Response res = get("/signer/ignore?p1=1&p2=2");
+        Response res = get("/signer/sign/ignore?p1=1&p2=2");
         BaseResult<List<Object>> result = JSON.parseObject(res.asString(), tr_B_List);
         assertNotNull(result);
         assertTrue(result.isSuccess());

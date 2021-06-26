@@ -41,7 +41,7 @@ public class SignerController extends BaseController {
      * @return
      */
     @GoSigner(ignore = true)
-    @RequestMapping("/ignore")
+    @RequestMapping("/sign/ignore")
     public Result ignore(String p1, String p2) {
         return R.succ(Lists.newArrayList(p1, p2));
     }

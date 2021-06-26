@@ -25,18 +25,24 @@ public class LoggerTest extends BaseTest {
 
     @Test
     @Order(1)
+    public void noprint() {
+        get("/logger/nonprint");
+    }
+
+    @Test
+    @Order(2)
     public void print() {
         get("/logger/print");
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     public void format() {
         get("/logger/format");
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     public void storage() {
         get("/logger/storage");
     }

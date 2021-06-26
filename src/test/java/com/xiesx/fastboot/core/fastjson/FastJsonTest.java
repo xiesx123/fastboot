@@ -15,8 +15,8 @@ import com.alibaba.fastjson.JSON;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.app.base.BaseResult;
 import com.xiesx.fastboot.app.base.BaseTest;
-import com.xiesx.fastboot.app.mock.MockDesensitized;
 import com.xiesx.fastboot.app.mock.MockUser;
+import com.xiesx.fastboot.app.mock.MockUserDesensitized;
 
 import io.restassured.response.Response;
 
@@ -45,9 +45,9 @@ public class FastJsonTest extends BaseTest {
     @Test
     @Order(2)
     public void desensitized() {
-        Response res = get("/fastjson/desensitized");
+        Response res = get("/fastjson/json/desensitized");
         BaseResult<Object> result = JSON.parseObject(res.asString(), tr_B_Obj);
-        MockDesensitized user = JSON.parseObject(result.getData().toString(), MockDesensitized.class);
+        MockUserDesensitized user = JSON.parseObject(result.getData().toString(), MockUserDesensitized.class);
         assertNotNull(result);
         assertTrue(result.isSuccess());
         assertEquals(user.getTel(), "138****8000");
