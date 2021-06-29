@@ -37,11 +37,11 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     <S> Page<S> findAll(JPAQuery<S> query, Pageable pageable);
 
-    <O extends T> O insertOrUpdate(O entity);
+    <S extends T> S insertOrUpdate(S entity);
 
-    <O extends T> List<O> insertOrUpdate(O... entity);
+    <S extends T> List<S> insertOrUpdate(S... entity);
 
-    <O extends T> List<O> insertOrUpdate(List<O> entities);
+    <S extends T> List<S> insertOrUpdate(List<S> entities);
 
     int insertOrUpdateRow(T... entities);
 
