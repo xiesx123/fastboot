@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import org.springframework.core.MethodParameter;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestAttributes;
@@ -27,7 +26,6 @@ import cn.hutool.core.util.ObjectUtil;
  * @author xiesx
  * @date 2020-7-21 22:37:35
  */
-@Component
 public class RequestHeaderMethodProcessor implements HandlerMethodArgumentResolver {
 
     @Override

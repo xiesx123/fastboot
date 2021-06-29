@@ -33,16 +33,10 @@ public class TokenCfg implements WebMvcConfigurer {
     @Autowired
     TokenProperties mTokenProperties;
 
-    @Autowired
-    TokenInterceptor mTokenInterceptor;
-
-    @Autowired
-    RequestHeaderMethodProcessor mRequestHeaderMethodProcessor;
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加处理器
-        InterceptorRegistration in = registry.addInterceptor(mTokenInterceptor);
+        InterceptorRegistration in = registry.addInterceptor(new TokenInterceptor());
         // 处理url
         List<String> paths = ListUtil.toList(mTokenProperties.getIncludePaths());
         if (!paths.isEmpty()) {
@@ -57,6 +51,6 @@ public class TokenCfg implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(mRequestHeaderMethodProcessor);
+        resolvers.add(new RequestHeaderMethodProcessor());
     }
 }

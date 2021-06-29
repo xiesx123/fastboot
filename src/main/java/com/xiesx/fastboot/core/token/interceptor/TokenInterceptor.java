@@ -6,12 +6,11 @@ import java.lang.reflect.Method;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.core.token.JwtHelper;
@@ -32,17 +31,13 @@ import lombok.extern.log4j.Log4j2;
  * @date 2020-7-21 22:37:38
  */
 @Log4j2
-@Component
 public class TokenInterceptor implements HandlerInterceptor {
-
-    @Autowired
-    TokenProperties mTokenProperties;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.debug("token pre handle");
         // 获取token配置
-        String key = mTokenProperties.getHeader();
+        String key = SpringHelper.getBean(TokenProperties.class).getHeader();
         // 获取方法信息
         if (handler instanceof HandlerMethod) {
             // 获取方法
