@@ -107,7 +107,7 @@ public class GlobalExceptionAdvice {
         log.error("database exception", e);
         String msg = ExceptionUtil.getSimpleMessage(e);
         if (e instanceof EmptyResultDataAccessException) {
-            msg = "无数据";
+            msg = "信息不存在";
         }
         return R.error(RunExc.DBASE.getCode(), msg);
     }
