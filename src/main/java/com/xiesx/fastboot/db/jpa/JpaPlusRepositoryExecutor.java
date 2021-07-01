@@ -32,7 +32,6 @@ import com.querydsl.jpa.impl.*;
  * @author xiesx
  * @date 2021-04-04 18:04:05
  */
-@SuppressWarnings({"all", "unchecked"})
 @Transactional(readOnly = true)
 public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID> implements JpaPlusRepository<T, ID> {
 
@@ -88,9 +87,9 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
         return jpaPredicateExecutor.findAll(predicate, pageable);
     }
 
-    public <S> Page<S> findAll(JPAQuery<S> query, Pageable pageable, OrderSpecifier<?>... orders) {
+    public Page<T> findAll(JPAQuery<T> query, Pageable pageable, OrderSpecifier<?>... orders) {
         // 分页查询
-        JPQLQuery<S> jpqlQuery = querydsl.applyPagination(pageable, query).orderBy(orders);
+        JPQLQuery<T> jpqlQuery = querydsl.applyPagination(pageable, query).orderBy(orders);
         // 构造分页
         return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, query::fetchCount);
     }
@@ -114,9 +113,9 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
     }
 
     @Override
-    public <S> Page<S> findAll(JPAQuery<S> query, Pageable pageable) {
+    public Page<T> findAll(JPAQuery<T> query, Pageable pageable) {
         // 分页查询
-        JPQLQuery<S> jpqlQuery = querydsl.applyPagination(pageable, query);
+        JPQLQuery<T> jpqlQuery = querydsl.applyPagination(pageable, query);
         // 构造分页
         return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, query::fetchCount);
     }
@@ -129,7 +128,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public <S extends T> List<S> insertOrUpdate(S... entities) {
+    public <S extends T> List<S> insertOrUpdate(@SuppressWarnings("unchecked") S... entities) {
         List<S> list = saveAll(Arrays.asList(entities));
         entityManager.flush();
         return list;
@@ -145,7 +144,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public int insertOrUpdateRow(T... entity) {
+    public int insertOrUpdateRow(@SuppressWarnings("unchecked") T... entity) {
         return insertOrUpdate(entity).size();
     }
 
@@ -187,7 +186,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public int delete(ID... ids) {
+    public int delete(@SuppressWarnings("unchecked") ID... ids) {
         Assert.notNull(ids, "ids must not be null!");
         int rows = 0;
         for (ID id : ids) {

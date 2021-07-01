@@ -23,7 +23,6 @@ import com.querydsl.jpa.impl.JPAUpdateClause;
  * @author xiesx
  * @date 2021-04-04 18:04:00
  */
-@SuppressWarnings({"all", "unchecked"})
 @NoRepositoryBean
 public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T, ID>, QuerydslPredicateExecutor<T> {
 
@@ -35,15 +34,15 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
     @Override
     List<T> findAll(Predicate predicate, Sort sort);
 
-    <S> Page<S> findAll(JPAQuery<S> query, Pageable pageable);
+    Page<T> findAll(JPAQuery<T> query, Pageable pageable);
 
     <S extends T> S insertOrUpdate(S entity);
 
-    <S extends T> List<S> insertOrUpdate(S... entity);
+    <S extends T> List<S> insertOrUpdate(@SuppressWarnings("unchecked") S... entity);
 
     <S extends T> List<S> insertOrUpdate(List<S> entities);
 
-    int insertOrUpdateRow(T... entities);
+    int insertOrUpdateRow(@SuppressWarnings("unchecked") T... entities);
 
     int insertOrUpdateRow(List<T> entities);
 
@@ -59,7 +58,7 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     int update(JPAUpdateClause update, Path<T> path, T entity, Predicate... predicate);
 
-    int delete(ID... ids);
+    int delete(@SuppressWarnings("unchecked") ID... ids);
 
     int delete(List<ID> ids);
 
