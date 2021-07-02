@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
@@ -28,23 +27,15 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     T findOne(ID id);
 
-    @Override
-    List<T> findAll(Predicate predicate);
-
-    @Override
-    List<T> findAll(Predicate predicate, Sort sort);
-
     Page<T> findAll(JPAQuery<T> query, Pageable pageable);
 
     <S extends T> S insertOrUpdate(S entity);
 
-    <S extends T> List<S> insertOrUpdate(@SuppressWarnings("unchecked") S... entity);
-
     <S extends T> List<S> insertOrUpdate(List<S> entities);
 
-    int insertOrUpdateRow(@SuppressWarnings("unchecked") T... entities);
+    <S extends T> int insertOrUpdateRow(S entity);
 
-    int insertOrUpdateRow(List<T> entities);
+    <S extends T> int insertOrUpdateRow(List<S> entities);
 
     @Deprecated
     int insert(JPAInsertClause insert);

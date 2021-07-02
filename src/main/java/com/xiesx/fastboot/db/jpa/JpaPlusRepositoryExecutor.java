@@ -1,6 +1,5 @@
 package com.xiesx.fastboot.db.jpa;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +17,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.google.common.collect.Lists;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
@@ -128,14 +128,6 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public <S extends T> List<S> insertOrUpdate(@SuppressWarnings("unchecked") S... entities) {
-        List<S> list = saveAll(Arrays.asList(entities));
-        entityManager.flush();
-        return list;
-    }
-
-    @Transactional
-    @Override
     public <S extends T> List<S> insertOrUpdate(List<S> entities) {
         List<S> list = saveAll(entities);
         entityManager.flush();
@@ -144,14 +136,18 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public int insertOrUpdateRow(@SuppressWarnings("unchecked") T... entity) {
-        return insertOrUpdate(entity).size();
+    public <S extends T> int insertOrUpdateRow(S entity) {
+        List<S> list = saveAll(Lists.newArrayList(entity));
+        entityManager.flush();
+        return list.size();
     }
 
     @Transactional
     @Override
-    public int insertOrUpdateRow(List<T> entities) {
-        return insertOrUpdate(entities).size();
+    public <S extends T> int insertOrUpdateRow(List<S> entities) {
+        List<S> list = saveAll(entities);
+        entityManager.flush();
+        return list.size();
     }
 
     @Transactional
