@@ -111,9 +111,15 @@ public class TestUpdate {
         assertNotNull(lr.getId());
         int row = mLogRecordRepository.insertOrUpdateRow(logRecord);
         assertEquals(row, 1);
+        
+        // 修改多个
+        List<LogRecord> lrs = mLogRecordRepository.insertOrUpdate(logRecord, logRecord);
+        assertEquals(lrs.size(), 2);
+        row = mLogRecordRepository.insertOrUpdateRow(logRecord, logRecord);
+        assertEquals(row, 2);
 
         // 修改多个
-        List<LogRecord> lrs = mLogRecordRepository.insertOrUpdate(Lists.newArrayList(logRecord, logRecord));
+        lrs = mLogRecordRepository.insertOrUpdate(Lists.newArrayList(logRecord, logRecord));
         assertEquals(lrs.size(), 2);
         row = mLogRecordRepository.insertOrUpdateRow(Lists.newArrayList(logRecord, logRecord));
         assertEquals(row, 2);

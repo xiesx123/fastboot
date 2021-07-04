@@ -1,5 +1,6 @@
 package com.xiesx.fastboot.db.jpa;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,13 +88,6 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
         return jpaPredicateExecutor.findAll(predicate, pageable);
     }
 
-    public Page<T> findAll(JPAQuery<T> query, Pageable pageable, OrderSpecifier<?>... orders) {
-        // 分页查询
-        JPQLQuery<T> jpqlQuery = querydsl.applyPagination(pageable, query).orderBy(orders);
-        // 构造分页
-        return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, query::fetchCount);
-    }
-
     @Override
     public long count(Predicate predicate) {
         return jpaPredicateExecutor.count(predicate);
@@ -120,10 +114,24 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
         return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, query::fetchCount);
     }
 
+    @Override
+    public Page<T> findAll(JPAQuery<T> query, Pageable pageable, OrderSpecifier<?>... orders) {
+        // 分页查询
+        JPQLQuery<T> jpqlQuery = querydsl.applyPagination(pageable, query).orderBy(orders);
+        // 构造分页
+        return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, query::fetchCount);
+    }
+
     @Transactional
     @Override
     public <S extends T> S insertOrUpdate(S entity) {
         return saveAndFlush(entity);
+    }
+
+    @Transactional
+    @Override
+    public <S extends T> List<S> insertOrUpdate(@SuppressWarnings("unchecked") S... entities) {
+        return insertOrUpdate(Arrays.asList(entities));
     }
 
     @Transactional
@@ -136,16 +144,20 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public <S extends T> int insertOrUpdateRow(S entity) {
-        List<S> list = saveAll(Lists.newArrayList(entity));
-        entityManager.flush();
-        return list.size();
+    public int insertOrUpdateRow(T entity) {
+        return insertOrUpdateRow(Lists.newArrayList(entity));
     }
 
     @Transactional
     @Override
-    public <S extends T> int insertOrUpdateRow(List<S> entities) {
-        List<S> list = saveAll(entities);
+    public int insertOrUpdateRow(@SuppressWarnings("unchecked") T... entities) {
+        return insertOrUpdateRow(Arrays.asList(entities));
+    }
+
+    @Transactional
+    @Override
+    public int insertOrUpdateRow(List<T> entities) {
+        List<T> list = saveAll(entities);
         entityManager.flush();
         return list.size();
     }
@@ -166,12 +178,6 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
     @Override
     public int update(JPAUpdateClause update) {
         return (int) update.execute();
-    }
-
-    @Transactional
-    @Override
-    public int update(JPAUpdateClause update, Path<T> path, T entity, Predicate... predicate) {
-        return (int) update.set(path, entity).execute();
     }
 
     @Transactional

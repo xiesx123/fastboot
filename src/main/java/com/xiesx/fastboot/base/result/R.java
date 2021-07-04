@@ -63,7 +63,6 @@ public class R {
         return Result.builder().code(CODE_SUCCESS).msg(MSG_SUCCESS).data(data).build();
     }
 
-
     public static Result succ(@NonNull String msg) {
         return Result.builder().code(CODE_SUCCESS).msg(msg).build();
     }

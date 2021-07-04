@@ -109,7 +109,13 @@ public class TestInsert {
         assertEquals(row, 1);
 
         // 添加多个
-        List<LogRecord> lrs = mLogRecordRepository.insertOrUpdate(Lists.newArrayList(logRecord, logRecord));
+        List<LogRecord> lrs = mLogRecordRepository.insertOrUpdate(logRecord, logRecord);
+        assertEquals(lrs.size(), 2);
+        row = mLogRecordRepository.insertOrUpdateRow(logRecord, logRecord);
+        assertEquals(row, 2);
+
+        // 添加多个
+        lrs = mLogRecordRepository.insertOrUpdate(Lists.newArrayList(logRecord, logRecord));
         assertEquals(lrs.size(), 2);
         row = mLogRecordRepository.insertOrUpdateRow(Lists.newArrayList(logRecord, logRecord));
         assertEquals(row, 2);

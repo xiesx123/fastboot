@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryImplementati
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPADeleteClause;
@@ -26,16 +27,22 @@ import com.querydsl.jpa.impl.JPAUpdateClause;
 public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T, ID>, QuerydslPredicateExecutor<T> {
 
     T findOne(ID id);
-
+    
     Page<T> findAll(JPAQuery<T> query, Pageable pageable);
+
+    Page<T> findAll(JPAQuery<T> query, Pageable pageable, OrderSpecifier<?>... orders);
 
     <S extends T> S insertOrUpdate(S entity);
 
+    <S extends T> List<S> insertOrUpdate(@SuppressWarnings("unchecked") S... entities);
+
     <S extends T> List<S> insertOrUpdate(List<S> entities);
 
-    <S extends T> int insertOrUpdateRow(S entity);
+    int insertOrUpdateRow(T entity);
 
-    <S extends T> int insertOrUpdateRow(List<S> entities);
+    int insertOrUpdateRow(@SuppressWarnings("unchecked") T... entities);
+
+    int insertOrUpdateRow(List<T> entities);
 
     @Deprecated
     int insert(JPAInsertClause insert);
@@ -46,8 +53,6 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
     int update(JPAUpdateClause update);
 
     int update(JPAUpdateClause update, Predicate... predicate);
-
-    int update(JPAUpdateClause update, Path<T> path, T entity, Predicate... predicate);
 
     int delete(@SuppressWarnings("unchecked") ID... ids);
 
