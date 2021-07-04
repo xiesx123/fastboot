@@ -17,12 +17,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 @Configuration
 public class JpaPlusCfg {
 
-    /**
-     * 默认注入QueryDsl
-     * 
-     * @param entityManager
-     * @return
-     */
     @Bean
     @ConditionalOnMissingBean(JPAQueryFactory.class)
     public JPAQueryFactory jpaQuery(EntityManager entityManager) {

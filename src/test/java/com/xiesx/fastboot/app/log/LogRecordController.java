@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.controller.user;
+package com.xiesx.fastboot.app.log;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,21 +15,18 @@ import com.xiesx.fastboot.app.base.BaseVo;
 import com.xiesx.fastboot.base.page.PR;
 import com.xiesx.fastboot.base.page.PResult;
 import com.xiesx.fastboot.base.page.PageVo;
-import com.xiesx.fastboot.base.result.R;
-import com.xiesx.fastboot.base.result.Result;
-import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 
 import cn.hutool.core.util.ObjectUtil;
 
 /**
- * @title BodyController.java
+ * @title LogRecordController.java
  * @description
  * @author xiesx
- * @date 2021-04-03 15:49:29
+ * @date 2021-04-05 17:27:35
  */
 @RestController
-@RequestMapping("/user")
-public class UserController extends BaseController {
+@RequestMapping("/log")
+public class LogRecordController extends BaseController {
 
     /**
      * 分页
@@ -38,41 +35,24 @@ public class UserController extends BaseController {
      * @param page
      * @return
      */
-    @GoLogger
     @RequestMapping(value = "page")
     public PResult page(BaseVo base, PageVo page) {
         // 对象
-        QUser qSimple = QUser.user;
+        QLogRecord qLogRecord = QLogRecord.logRecord;
         // 条件
-        Predicate predicate = qSimple.id.isNotNull();
+        Predicate predicate = qLogRecord.id.isNotNull();
         if (ObjectUtil.isNotEmpty(base.getKeyword())) {
-            Predicate p1 = qSimple.id.like("%" + base.getKeyword() + "%");
-            Predicate p2 = qSimple.username.likeIgnoreCase("%" + base.getKeyword() + "%");
+            Predicate p1 = qLogRecord.id.like("%" + base.getKeyword() + "%");
+            Predicate p2 = qLogRecord.method.likeIgnoreCase("%" + base.getKeyword() + "%");
             predicate = ExpressionUtils.and(predicate, ExpressionUtils.anyOf(p1, p2));
         }
         // 排序
-        Sort sort = Sort.by(Direction.ASC, User.FIELDS.createDate);
+        Sort sort = Sort.by(Direction.ASC, LogRecord.FIELDS.createDate);
         // 分页
         Pageable pageable = PageRequest.of(page.getPage(), page.getLimit(), sort);
         // 查询
-        Page<User> data = mSimpleRepository.findAll(predicate, pageable);
+        Page<LogRecord> data = mLogRecordRepository.findAll(predicate, pageable);
         // 构造
         return PR.create(data);
-    }
-
-    /**
-     * 修改类型
-     *
-     * @param base
-     * @param req
-     * @return
-     */
-    @RequestMapping(value = "updateType")
-    public Result updateType(BaseVo base, User req) {
-        Integer row = 0;
-        if (ObjectUtil.isNotEmpty(req.getType())) {
-            row = mSimpleService.updateType(req.getType(), base.getId());
-        }
-        return (row >= 1) ? R.succ("修改成功") : R.fail("修改失败");
     }
 }

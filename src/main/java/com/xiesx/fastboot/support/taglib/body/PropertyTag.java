@@ -6,8 +6,8 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import com.xiesx.fastboot.support.taglib.TagUtils;
 import com.xiesx.fastboot.support.taglib.ui.BaseUITag;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -37,7 +37,7 @@ public class PropertyTag extends BodyTagSupport {
         try {
             if (this.bodyContent != null) {
                 String _propValue = this.bodyContent.getString();
-                if (StrUtil.isNotBlank(_propValue)) {
+                if (CharSequenceUtil.isNotBlank(_propValue)) {
                     this.setValue(_propValue);
                 }
                 this.bodyContent.clearBody();
@@ -50,7 +50,7 @@ public class PropertyTag extends BodyTagSupport {
 
     @Override
     public int doEndTag() throws JspException {
-        if (StrUtil.isNotBlank(this.getName()) && StrUtil.isNotBlank(this.getValue())) {
+        if (CharSequenceUtil.isNotBlank(this.getName()) && CharSequenceUtil.isNotBlank(this.getValue())) {
             __ui.putProperty(this.getName(), this.getValue());
         }
         //

@@ -51,15 +51,10 @@
 			"description": "是否启用"
 		},
 		{
-			"name": "fastboot.minio.point",
-			"type": "java.lang.String",
-			"description": "服务端点"
-		},
-		{
-			"name": "fastboot.minio.port",
+			"name": "fastboot.minio.address",
 			"type": "java.lang.Integer",
 			"defaultValue": false,
-			"description": "服务端口"
+			"description": "服务地址"
 		},
 		{
 			"name": "fastboot.minio.accessKey",

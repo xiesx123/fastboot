@@ -2,7 +2,7 @@ package com.xiesx.fastboot.utils;
 
 import java.net.URL;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 
 public class RuntimeUtils {
 
@@ -25,7 +25,7 @@ public class RuntimeUtils {
      * @return 返回应用根路径
      */
     public static String getRootPath(boolean safe) {
-        // D:/Projects/xxx/target/classes/
+        // D:/projects/xxx/target/classes/
         // www/wwwroot/xxx/WEB-INF
         // www/wwwroot/xxx/webapps
         String rootPath = null;
@@ -36,14 +36,14 @@ public class RuntimeUtils {
                 rootPath = _rootURL.getPath();
             }
         } else {
-            rootPath = StrUtil.removeSuffix(StrUtil.subBefore(_rootURL.getPath(), safe ? "classes/" : "WEB-INF/", false), "/");
+            rootPath = CharSequenceUtil.removeSuffix(CharSequenceUtil.subBefore(_rootURL.getPath(), safe ? "classes/" : "WEB-INF/", false), "/");
         }
         if (rootPath != null) {
-            rootPath = StrUtil.replace(rootPath, "%20", " ");
+            rootPath = CharSequenceUtil.replace(rootPath, "%20", " ");
             if (isWindows()) {
-                rootPath = StrUtil.removePrefix(rootPath, "/");
+                rootPath = CharSequenceUtil.removePrefix(rootPath, "/");
             }
-            rootPath = StrUtil.trimToEmpty(rootPath);
+            rootPath = CharSequenceUtil.trimToEmpty(rootPath);
         }
         return rootPath;
     }

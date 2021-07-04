@@ -46,8 +46,6 @@ public class TokenCfg implements WebMvcConfigurer {
         List<String> excludePaths = ListUtil.toList(mTokenProperties.getExcludePaths());
         if (!excludePaths.isEmpty()) {
             in.excludePathPatterns(excludePaths);
-        } else {
-            in.excludePathPatterns("/**");
         }
     }
 

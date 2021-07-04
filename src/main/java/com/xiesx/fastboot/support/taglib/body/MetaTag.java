@@ -6,8 +6,8 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import com.xiesx.fastboot.support.taglib.TagUtils;
 import com.xiesx.fastboot.support.taglib.ui.BaseUITag;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -37,7 +37,7 @@ public class MetaTag extends BodyTagSupport {
         try {
             if (this.bodyContent != null) {
                 String _propValue = this.bodyContent.getString();
-                if (StrUtil.isNotBlank(_propValue)) {
+                if (CharSequenceUtil.isNotBlank(_propValue)) {
                     this.setAttrValue(_propValue);
                 }
                 this.bodyContent.clearBody();
@@ -52,11 +52,11 @@ public class MetaTag extends BodyTagSupport {
     public int doEndTag() throws JspException {
         StringBuilder _metaTmpl = new StringBuilder("<meta");
         boolean _isEmpty = true;
-        if (StrUtil.isNotBlank(this.getAttrKey())) {
+        if (CharSequenceUtil.isNotBlank(this.getAttrKey())) {
             _metaTmpl.append(" ").append(this.getAttrKey());
             _isEmpty = false;
         }
-        if (StrUtil.isNotBlank(this.getAttrValue())) {
+        if (CharSequenceUtil.isNotBlank(this.getAttrValue())) {
             _metaTmpl.append(" ").append(this.getAttrValue());
             _isEmpty = false;
         }

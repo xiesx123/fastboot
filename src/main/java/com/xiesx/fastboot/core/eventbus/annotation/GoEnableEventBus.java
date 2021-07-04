@@ -6,9 +6,8 @@ import org.springframework.context.annotation.Import;
 
 import com.xiesx.fastboot.core.eventbus.cfg.EventBusCfg;
 
-
 /**
- * @title EnableEventBus.java
+ * @title GoEnableEventBus.java
  * @description
  * @author xiesx
  * @date 2021-04-24 01:34:54
@@ -18,5 +17,4 @@ import com.xiesx.fastboot.core.eventbus.cfg.EventBusCfg;
 @Import(EventBusCfg.class)
 @Documented
 public @interface GoEnableEventBus {
-
 }

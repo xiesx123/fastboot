@@ -13,6 +13,8 @@ import com.xiesx.fastboot.app.mock.MockUser;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
 import com.xiesx.fastboot.core.body.annotation.IgnoreBody;
+import com.xiesx.fastboot.core.logger.LogStorageMysqlProvider;
+import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 
 /**
  * @title BodyController.java
@@ -22,6 +24,7 @@ import com.xiesx.fastboot.core.body.annotation.IgnoreBody;
  */
 @RestController
 @RequestMapping("/body")
+@GoLogger(storage = LogStorageMysqlProvider.class)
 public class BodyController extends BaseController {
 
     /**
@@ -36,7 +39,7 @@ public class BodyController extends BaseController {
 
     /**
      * Java Map 类型
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "map")
@@ -46,7 +49,7 @@ public class BodyController extends BaseController {
 
     /**
      * Java Iterable 类型
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "list")
@@ -55,18 +58,28 @@ public class BodyController extends BaseController {
     }
 
     /**
-     * FastJson JSON 类型
-     * 
+     * Java String 类型
+     *
      * @return
      */
-    @RequestMapping(value = "json")
+    @RequestMapping(value = "string")
+    public String string() {
+        return "k1";
+    }
+
+    /**
+     * FastJson JSON 类型
+     *
+     * @return
+     */
+    @RequestMapping(value = "fastjson")
     public JSON json() {
-        return MockData.json();
+        return MockData.fastjson();
     }
 
     /**
      * Java Object 类型
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "object")
@@ -76,7 +89,7 @@ public class BodyController extends BaseController {
 
     /**
      * @IgnoreBody忽略Advice返回
-     * 
+     *
      * @return
      */
     @IgnoreBody

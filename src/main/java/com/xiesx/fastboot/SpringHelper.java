@@ -32,9 +32,13 @@ public class SpringHelper {
      * @return Bean
      */
     public static Object getBean(String name) {
-        ApplicationContext applicationContext = SpringContext.getApplicationContext();
-        if (applicationContext != null) {
-            return applicationContext.getBean(name);
+        try {
+            ApplicationContext applicationContext = SpringContext.getApplicationContext();
+            if (applicationContext != null) {
+                return applicationContext.getBean(name);
+            }
+        } catch (Exception e) {
+            return null;
         }
         return null;
     }
@@ -47,9 +51,13 @@ public class SpringHelper {
      * @return Bean对象
      */
     public static <T> T getBean(Class<T> clazz) {
-        ApplicationContext applicationContext = SpringContext.getApplicationContext();
-        if (applicationContext != null) {
-            return applicationContext.getBean(clazz);
+        try {
+            ApplicationContext applicationContext = SpringContext.getApplicationContext();
+            if (applicationContext != null) {
+                return applicationContext.getBean(clazz);
+            }
+        } catch (Exception e) {
+            return null;
         }
         return null;
     }
@@ -62,9 +70,13 @@ public class SpringHelper {
      * @return
      */
     public static <T> T getBean(Class<T> clazz, String qualifier) {
-        ApplicationContext applicationContext = SpringContext.getApplicationContext();
-        if (applicationContext != null) {
-            return BeanFactoryAnnotationUtils.qualifiedBeanOfType(applicationContext.getAutowireCapableBeanFactory(), clazz, qualifier);
+        try {
+            ApplicationContext applicationContext = SpringContext.getApplicationContext();
+            if (applicationContext != null) {
+                return BeanFactoryAnnotationUtils.qualifiedBeanOfType(applicationContext.getAutowireCapableBeanFactory(), clazz, qualifier);
+            }
+        } catch (Exception e) {
+            return null;
         }
         return null;
     }
@@ -78,9 +90,13 @@ public class SpringHelper {
      * @return Bean对象
      */
     public static <T> T getBean(String name, Class<T> clazz) {
-        ApplicationContext applicationContext = SpringContext.getApplicationContext();
-        if (applicationContext != null) {
-            return applicationContext.getBean(name, clazz);
+        try {
+            ApplicationContext applicationContext = SpringContext.getApplicationContext();
+            if (applicationContext != null) {
+                return applicationContext.getBean(name, clazz);
+            }
+        } catch (Exception e) {
+            return null;
         }
         return null;
     }

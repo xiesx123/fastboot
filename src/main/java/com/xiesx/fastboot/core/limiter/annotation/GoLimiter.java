@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface GoLimiter {
 
-    String message() default "";
+    double limit() default Integer.MAX_VALUE;
 
-    double limit() default Double.MAX_VALUE;
+    String message() default "";
 }

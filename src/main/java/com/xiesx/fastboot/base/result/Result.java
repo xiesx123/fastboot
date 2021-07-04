@@ -17,11 +17,11 @@ import lombok.Data;
 @Builder
 public class Result implements AbstractState {
 
-    // 状态
+    // 返回值
     @JSONField(ordinal = 1)
     public Integer code;
 
-    // 提示
+    // 消息
     @JSONField(ordinal = 2)
     public String msg;
 
@@ -32,7 +32,7 @@ public class Result implements AbstractState {
     // 状态
     @JSONField(ordinal = 4)
     public Boolean getStatus() {
-        return code == R.CODE_SUCCESS;
+        return isSuccess();
     }
 
     /**

@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +24,7 @@ import com.xiesx.fastboot.app.base.BaseTest;
 import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.core.token.cfg.TokenCfg;
 import com.xiesx.fastboot.core.token.cfg.TokenProperties;
-import com.xiesx.fastboot.core.token.header.HeaderParam;
+import com.xiesx.fastboot.core.token.header.HeaderParams;
 
 import cn.hutool.core.date.DateUtil;
 import io.jsonwebtoken.Claims;
@@ -29,7 +32,13 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwsHeader;
 import io.restassured.response.Response;
 
-
+/**
+ * @title TokenTest.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:20:50
+ */
+@TestMethodOrder(OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class TokenTest extends BaseTest {
@@ -46,15 +55,16 @@ public class TokenTest extends BaseTest {
         // 生成token
         jwt();
         // 参数
-        param = Maps.newHashMap();
+        param = Maps.newConcurrentMap();
         param.put("name", "fasotboot");
         param.put("p1", 1);
         // 头部
-        header = Maps.newHashMap();
+        header = Maps.newConcurrentMap();
         header.put(properties.getHeader(), token);
     }
 
     @Test
+    @Order(1)
     public void header() {
         Response res = post("/token/header", header, param);
         BaseResult<List<Object>> result = JSON.parseObject(res.asString(), tr_B_List);
@@ -63,7 +73,7 @@ public class TokenTest extends BaseTest {
         assertEquals(result.getData().get(0), "fasotboot");
         assertEquals(result.getData().get(1), "123");
         //
-        HeaderParam hp = JSON.parseObject(result.getData().get(2).toString(), HeaderParam.class);
+        HeaderParams hp = JSON.parseObject(result.getData().get(2).toString(), HeaderParams.class);
         assertEquals(hp.getUid(), "123");
     }
 
@@ -79,6 +89,7 @@ public class TokenTest extends BaseTest {
         // token = simple(Configed.FASTBOOT, "api", JWT_EXPIRE_M_1);
         // token = simple(Configed.FASTBOOT, "api", claims, JWT_EXPIRE_M_1);
         token = JwtHelper.simple(Configed.FASTBOOT, "api", header, claims, JwtHelper.JWT_EXPIRE_D_1);
+        System.out.println(token);
         //
         Jws<Claims> jws = JwtHelper.parser(token);
         System.out.println("签名信息：" + jws.getSignature());

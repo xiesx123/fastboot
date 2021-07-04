@@ -48,7 +48,7 @@ public abstract class BaseTest {
     }
 
     public static Response post(String url, Map<String, Object> param) {
-        return post(url, Maps.newHashMap(), param);
+        return post(url, Maps.newConcurrentMap(), param);
     }
 
     public static Response post(String url, Map<String, Object> headers, Map<String, Object> param) {

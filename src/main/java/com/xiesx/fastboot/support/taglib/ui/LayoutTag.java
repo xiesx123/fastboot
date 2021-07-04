@@ -6,8 +6,8 @@ import javax.servlet.jsp.JspException;
 
 import com.xiesx.fastboot.support.taglib.TagUtils;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 
 public class LayoutTag extends BaseUITag {
 
@@ -32,7 +32,7 @@ public class LayoutTag extends BaseUITag {
             throw new JspException("Parent UITag or LayoutTag not found.");
         }
         try {
-            if (StrUtil.isNotBlank(this.getSrc())) {
+            if (CharSequenceUtil.isNotBlank(this.getSrc())) {
                 __tmplContent = TagUtils.includeJSP((HttpServletRequest) this.pageContext.getRequest(), (HttpServletResponse) this.pageContext.getResponse(), this.buildSrcUrl(), __ui.getCharsetEncoding());
             } else {
                 __tmplContent = "";
@@ -47,8 +47,8 @@ public class LayoutTag extends BaseUITag {
     public int doAfterBody() throws JspException {
         try {
             if (this.bodyContent != null) {
-                String _layoutBody = StrUtil.blankToDefault(this.bodyContent.getString(), "");
-                if (StrUtil.isNotBlank(__tmplContent)) {
+                String _layoutBody = CharSequenceUtil.blankToDefault(this.bodyContent.getString(), "");
+                if (CharSequenceUtil.isNotBlank(__tmplContent)) {
                     this.writerToBodyPart(_layoutBody);
                 } else {
                     __tmplContent = _layoutBody;
@@ -67,8 +67,8 @@ public class LayoutTag extends BaseUITag {
             __ui.writerToMetaPart(this.getMetaPartContent());
             __ui.writerToCssPart(this.getCssPartContent());
             __ui.writerToScriptPart(this.getScriptPartContent());
-            __tmplContent = this.mergeContent(StrUtil.blankToDefault(__tmplContent, ""));
-            if (StrUtil.isNotBlank(name) && !"body".equalsIgnoreCase(name)) {
+            __tmplContent = this.mergeContent(CharSequenceUtil.blankToDefault(__tmplContent, ""));
+            if (CharSequenceUtil.isNotBlank(name) && !"body".equalsIgnoreCase(name)) {
                 __ui.putProperty(name, !isCleanup() ? __tmplContent : TagUtils.replaceRegClear(__tmplContent));
             } else {
                 __ui.writerToBodyPart(!isCleanup() ? __tmplContent : TagUtils.replaceRegClear(__tmplContent));

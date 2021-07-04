@@ -11,7 +11,7 @@ import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
  * @author xiesx
  * @date 2021-04-04 18:02:45
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface GoLogger {

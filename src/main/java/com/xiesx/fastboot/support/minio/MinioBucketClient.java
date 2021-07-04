@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.support.minio.client;
+package com.xiesx.fastboot.support.minio;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class MinioBucketClient {
 
     /**
      * 判断桶是否存在
-     * 
+     *
      * @return
      * @throws Exception
      */
@@ -64,7 +64,7 @@ public class MinioBucketClient {
 
     /**
      * 创建桶
-     * 
+     *
      * @return
      */
     public boolean makeBucket() {
@@ -91,7 +91,7 @@ public class MinioBucketClient {
 
     /**
      * 列出所有存储桶
-     * 
+     *
      * @return
      * @throws Exception
      */
@@ -101,7 +101,7 @@ public class MinioBucketClient {
 
     /**
      * 列出所有存储桶 （名称）
-     * 
+     *
      * @return
      * @throws Exception
      */
@@ -116,7 +116,7 @@ public class MinioBucketClient {
 
     /**
      * 列出默认桶中所有对象
-     * 
+     *
      * @return
      * @throws Exception
      */
@@ -135,7 +135,7 @@ public class MinioBucketClient {
 
     /**
      * 列出存储桶中的所有对象（名称）
-     * 
+     *
      * @param bucketName
      * @return
      * @throws Exception
@@ -155,7 +155,7 @@ public class MinioBucketClient {
 
     /**
      * 获取默认存储桶策略
-     * 
+     *
      * @throws Exception
      */
     public void getBucketPolicy() throws Exception {
@@ -165,7 +165,7 @@ public class MinioBucketClient {
 
     /**
      * 设置默认存储桶策略
-     * 
+     *
      * @throws Exception
      */
     public void setBucketPolicy(String policyJson) throws Exception {
@@ -191,7 +191,7 @@ public class MinioBucketClient {
 
     /**
      * 删除桶
-     * 
+     *
      * @return
      */
     public boolean deleteBucket() {
@@ -240,7 +240,7 @@ public class MinioBucketClient {
 
     /**
      * 验证桶
-     * 
+     *
      * @param name
      */
     protected void validateBucketName(String name) {
@@ -268,7 +268,7 @@ public class MinioBucketClient {
 
     /**
      * 验证非空
-     * 
+     *
      * @param arg
      * @param argName
      */

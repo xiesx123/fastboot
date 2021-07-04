@@ -4,30 +4,30 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.support.scheduler.ScheduleHelper;
-import com.xiesx.fastboot.support.scheduler.SimpleJob;
+import com.xiesx.fastboot.support.scheduler.job.TimeJob;
 
 /**
  * @title DefaultDecorator.java
- * @description DefaultDecorator.java
+ * @description
  * @author xiesx
  * @date 2020-7-21 22:42:58
  */
-public class SimpleDecorator extends BaseDecorator implements ISchedule {
+public class SchedulerDecorator extends BaseDecorator implements ISchedule {
 
-    public SimpleDecorator() {
+    public SchedulerDecorator() {
         super();
     }
 
-    public SimpleDecorator(ISchedule decoratedJob) {
+    public SchedulerDecorator(ISchedule decoratedJob) {
         super(decoratedJob);
     }
 
     @Override
     public void init() {
         if (isStart()) {
-            Map<String, String> map = Maps.newHashMap();
+            Map<String, String> map = Maps.newConcurrentMap();
             map.put("key", "time ");
-            ScheduleHelper.addJob(SimpleJob.simple_job_name, SimpleJob.class, "0/10 * * * * ?", map);
+            ScheduleHelper.addJob(TimeJob.simple_job_name, TimeJob.class, "0/10 * * * * ?", map);
         }
     }
 

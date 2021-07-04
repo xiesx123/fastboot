@@ -5,7 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -22,11 +25,19 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import io.restassured.response.Response;
 
+/**
+ * @title BodyTest.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:19:42
+ */
+@TestMethodOrder(OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class BodyTest extends BaseTest {
 
     @Test
+    @Order(1)
     public void result() {
         Response res = get("/body/result");
         BaseResult<Map<String, Object>> result = JSON.parseObject(res.asString(), tr_B_Map);
@@ -36,6 +47,7 @@ public class BodyTest extends BaseTest {
     }
 
     @Test
+    @Order(2)
     public void map() {
         Response res = get("/body/map");
         Map<String, Object> result = JSON.parseObject(res.asString(), tr_Map);
@@ -45,6 +57,7 @@ public class BodyTest extends BaseTest {
     }
 
     @Test
+    @Order(3)
     public void list() {
         Response res = get("/body/list");
         List<Object> result = JSON.parseArray(res.asString(), Object.class);
@@ -54,8 +67,19 @@ public class BodyTest extends BaseTest {
     }
 
     @Test
-    public void json() {
-        Response res = get("/body/json");
+    @Order(4)
+    public void string() {
+        Response res = get("/body/string");
+        String result = res.asString();
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(result, "k1");
+    }
+
+    @Test
+    @Order(5)
+    public void fastjson() {
+        Response res = get("/body/fastjson");
         JSONObject result = JSON.parseObject(res.asString());
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -64,6 +88,7 @@ public class BodyTest extends BaseTest {
     }
 
     @Test
+    @Order(6)
     public void object() {
         Response res = get("/body/object");
         BaseResult<Object> result = JSON.parseObject(res.asString(), tr_B_Obj);
@@ -74,6 +99,7 @@ public class BodyTest extends BaseTest {
     }
 
     @Test
+    @Order(6)
     public void ignore() {
         Response res = get("/body/ignore");
         MockUser user = JSON.parseObject(res.asString(), MockUser.class);

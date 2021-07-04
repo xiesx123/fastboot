@@ -6,8 +6,8 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import com.xiesx.fastboot.support.taglib.TagUtils;
 import com.xiesx.fastboot.support.taglib.ui.BaseUITag;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -52,21 +52,21 @@ public class CssTag extends BodyTagSupport {
     public int doEndTag() throws JspException {
         StringBuilder _metaTmpl = new StringBuilder("<link");
         boolean _isEmpty = true;
-        if (StrUtil.isNotBlank(this.getHref())) {
+        if (CharSequenceUtil.isNotBlank(this.getHref())) {
             _metaTmpl.append(" href=\"").append(this.getHref()).append("\"");
             _isEmpty = false;
         }
         if (!_isEmpty) {
-            if (StrUtil.isEmpty(this.getRel())) {
+            if (CharSequenceUtil.isEmpty(this.getRel())) {
                 this.setRel("stylesheet");
             }
             _metaTmpl.append(" rel=\"").append(this.getRel()).append("\"");
             //
-            if (StrUtil.isNotBlank(this.getType())) {
+            if (CharSequenceUtil.isNotBlank(this.getType())) {
                 _metaTmpl.append(" type=\"").append(this.getType()).append("\"");
             }
             //
-            if (StrUtil.isNotBlank(this.getMedia())) {
+            if (CharSequenceUtil.isNotBlank(this.getMedia())) {
                 _metaTmpl.append(" media=\"").append(this.getMedia()).append("\"");
             }
             _metaTmpl.append(">\n");

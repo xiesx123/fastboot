@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.xiesx.fastboot.support.scheduler.ScheduleHelper;
 import com.xiesx.fastboot.support.scheduler.decorator.ISchedule;
-import com.xiesx.fastboot.support.scheduler.decorator.SimpleDecorator;
+import com.xiesx.fastboot.support.scheduler.decorator.SchedulerDecorator;
 import com.xiesx.fastboot.utils.RuntimeUtils;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
@@ -77,9 +77,9 @@ public class SpringStartup implements InitializingBean {
     public static void scheduler() {
         try {
             // 默认
-            ISchedule job2 = new SimpleDecorator();
+            ISchedule job = new SchedulerDecorator();
             // 开始初始化....
-            job2.init();
+            job.init();
             log.info("Startup Scheduler {} Job Completed.", ScheduleHelper.queryAllJob().size());
         } catch (Exception e) {
             log.error("Startup Scheduler {}", ExceptionUtil.getMessage(e));

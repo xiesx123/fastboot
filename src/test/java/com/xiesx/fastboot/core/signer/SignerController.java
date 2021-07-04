@@ -7,21 +7,24 @@ import com.google.common.collect.Lists;
 import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
+import com.xiesx.fastboot.core.logger.LogStorageMysqlProvider;
+import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 import com.xiesx.fastboot.core.signer.annotation.GoSigner;
 
 /**
- * @title LimiterController.java
+ * @title SignerController.java
  * @description
  * @author xiesx
- * @date 2021-04-05 17:27:35
+ * @date 2021-06-06 23:20:39
  */
 @RestController
 @RequestMapping("/signer")
+@GoLogger(storage = LogStorageMysqlProvider.class)
 public class SignerController extends BaseController {
 
     /**
      * 签名效验
-     * 
+     *
      * @param p
      * @return
      */
@@ -33,12 +36,12 @@ public class SignerController extends BaseController {
 
     /**
      * 忽略签名
-     * 
+     *
      * @param p
      * @return
      */
     @GoSigner(ignore = true)
-    @RequestMapping("/ignore")
+    @RequestMapping("/sign/ignore")
     public Result ignore(String p1, String p2) {
         return R.succ(Lists.newArrayList(p1, p2));
     }

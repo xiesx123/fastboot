@@ -9,6 +9,12 @@ import com.xiesx.fastboot.support.validate.ValidatorVo.TestVoValid.C;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * @title ValidatorVo.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:21:34
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ValidatorVo extends BaseVo {

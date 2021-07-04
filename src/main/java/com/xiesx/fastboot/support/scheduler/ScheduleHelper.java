@@ -1,6 +1,5 @@
 package com.xiesx.fastboot.support.scheduler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,19 +7,27 @@ import java.util.Set;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.lang.Assert;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class ScheduleHelper {
 
-    private static Scheduler scheduler = SpringHelper.getBean(Scheduler.class);
-
     private static String JOB_GROUP_NAME = "FAST_JOB_GROUP_NAME";
+
+    public static Scheduler get() {
+        Scheduler scheduler = SpringHelper.getBean(Scheduler.class);
+        Assert.notNull(scheduler, () -> {
+            return new RunException(RunExc.DBASE, "pom need dependency spring-boot-starter-quartz");
+        });
+        return scheduler;
+    }
 
     // ============================
 
@@ -48,7 +55,8 @@ public class ScheduleHelper {
      */
     public static void addJob(String job, Class<? extends Job> cls, int interval, int repeat, Map<? extends String, ? extends Object> data) {
         // 构建SimpleScheduleBuilder规则
-        SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule() // 几秒钟重复执行
+        SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule()//
+                // 几秒钟重复执行
                 .withIntervalInSeconds(interval);
         if (repeat > 0) {
             // 重复次数
@@ -151,9 +159,6 @@ public class ScheduleHelper {
      * @param data 参数
      */
     public static void createJob(String job, String group, Class<? extends Job> cls, ScheduleBuilder<? extends Trigger> ScheduleBuilder, Map<? extends String, ? extends Object> data) {
-        if (ObjectUtil.isNull(scheduler)) {
-            throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
-        }
         try {
             // 构建实例
             JobDetail jobDetail = JobBuilder.newJob(cls).withIdentity(job, group).build();
@@ -165,9 +170,9 @@ public class ScheduleHelper {
             TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger().withIdentity(job, group);
             triggerBuilder.withSchedule(ScheduleBuilder);
             triggerBuilder.startNow();
-            scheduler.scheduleJob(jobDetail, triggerBuilder.build());
+            get().scheduleJob(jobDetail, triggerBuilder.build());
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("create job error {}", e.getMessage());
         }
     }
 
@@ -199,9 +204,7 @@ public class ScheduleHelper {
      * @param cron
      */
     public static void updateJob(String job, String group, int interval, int repeat) {
-        if (ObjectUtil.isNull(scheduler)) {
-            throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
-        }
+        Scheduler scheduler = get();
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(job, group);
             SimpleTrigger trigger = (SimpleTrigger) scheduler.getTrigger(triggerKey);
@@ -218,7 +221,7 @@ public class ScheduleHelper {
             // 重启触发器
             scheduler.rescheduleJob(triggerKey, trigger);
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("update job error {}", e.getMessage());
         }
     }
 
@@ -230,9 +233,7 @@ public class ScheduleHelper {
      * @param cron
      */
     public static void updateJob(String job, String group, String cron) {
-        if (ObjectUtil.isNull(scheduler)) {
-            throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
-        }
+        Scheduler scheduler = get();
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(job, group);
             CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
@@ -241,7 +242,7 @@ public class ScheduleHelper {
             // 重启触发器
             scheduler.rescheduleJob(triggerKey, trigger);
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("update job error {}", e.getMessage());
         }
     }
 
@@ -261,13 +262,10 @@ public class ScheduleHelper {
      * @param group 任务组名
      */
     public static void deleteJob(String job, String group) {
-        if (ObjectUtil.isNull(scheduler)) {
-            throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
-        }
         try {
-            scheduler.deleteJob(new JobKey(job, group));
-        } catch (Exception e) {
-            e.printStackTrace();
+            get().deleteJob(new JobKey(job, group));
+        } catch (SchedulerException e) {
+            log.error("delete job error {}", e.getMessage());
         }
     }
 
@@ -287,14 +285,12 @@ public class ScheduleHelper {
      * @param group
      */
     public static void pauseJob(String job, String group) {
-        if (ObjectUtil.isNull(scheduler)) {
-            throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
-        }
+        Scheduler scheduler = get();
         try {
             JobKey jobKey = JobKey.jobKey(job, group);
             scheduler.pauseJob(jobKey);
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("pause job error {}", e.getMessage());
         }
     }
 
@@ -314,14 +310,12 @@ public class ScheduleHelper {
      * @param group
      */
     public static void resumeJob(String job, String group) {
-        if (ObjectUtil.isNull(scheduler)) {
-            throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
-        }
+        Scheduler scheduler = get();
         try {
             JobKey jobKey = JobKey.jobKey(job, group);
             scheduler.resumeJob(jobKey);
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("resume job error {}", e.getMessage());
         }
     }
 
@@ -342,14 +336,12 @@ public class ScheduleHelper {
      * @param group
      */
     public static void runJobNow(String job, String group) {
-        if (ObjectUtil.isNull(scheduler)) {
-            throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
-        }
+        Scheduler scheduler = get();
         try {
             JobKey jobKey = JobKey.jobKey(job, group);
             scheduler.triggerJob(jobKey);
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("run job error {}", e.getMessage());
         }
     }
 
@@ -361,13 +353,11 @@ public class ScheduleHelper {
      * @throws SchedulerException
      */
     public static void startJobs() {
-        if (ObjectUtil.isNull(scheduler)) {
-            throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
-        }
+        Scheduler scheduler = get();
         try {
             scheduler.start();
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("start job error {}", e.getMessage());
         }
     }
 
@@ -377,15 +367,13 @@ public class ScheduleHelper {
      * @throws SchedulerException
      */
     public static void shutdownJobs() {
-        if (ObjectUtil.isNull(scheduler)) {
-            throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
-        }
+        Scheduler scheduler = get();
         try {
             if (!scheduler.isShutdown()) {
                 scheduler.shutdown();
             }
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("shutdown job error {}", e.getMessage());
         }
     }
 
@@ -395,18 +383,15 @@ public class ScheduleHelper {
      * @return
      */
     public static List<Map<String, Object>> queryAllJob() {
-        if (ObjectUtil.isNull(scheduler)) {
-            throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
-        }
-        List<Map<String, Object>> jobList = null;
+        Scheduler scheduler = get();
+        List<Map<String, Object>> jobList = Lists.newArrayList();
         try {
             GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
             Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
-            jobList = ListUtil.empty();
             for (JobKey jobKey : jobKeys) {
                 List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
                 for (Trigger trigger : triggers) {
-                    Map<String, Object> map = MapUtil.empty();
+                    Map<String, Object> map = Maps.newConcurrentMap();
                     map.put("key", trigger.getKey());
                     map.put("job", jobKey.getName());
                     map.put("group", jobKey.getGroup());
@@ -421,7 +406,7 @@ public class ScheduleHelper {
                 }
             }
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("query all job error {}", e.getMessage());
         }
         return jobList;
     }
@@ -432,15 +417,12 @@ public class ScheduleHelper {
      * @return
      */
     public static List<Map<String, Object>> queryRunJob() {
-        if (ObjectUtil.isNull(scheduler)) {
-            throw new RunException(RunExc.RUNTIME, "please check pom.xml -> spring-boot-starter-quartz");
-        }
-        List<Map<String, Object>> jobList = null;
+        Scheduler scheduler = get();
+        List<Map<String, Object>> jobList = Lists.newArrayList();
         try {
             List<JobExecutionContext> executingJobs = scheduler.getCurrentlyExecutingJobs();
-            jobList = new ArrayList<>(executingJobs.size());
             for (JobExecutionContext executingJob : executingJobs) {
-                Map<String, Object> map = MapUtil.empty();
+                Map<String, Object> map = Maps.newConcurrentMap();
                 JobDetail jobDetail = executingJob.getJobDetail();
                 JobKey jobKey = jobDetail.getKey();
                 Trigger trigger = executingJob.getTrigger();
@@ -457,7 +439,7 @@ public class ScheduleHelper {
                 jobList.add(map);
             }
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("query runing job error {}", e.getMessage());
         }
         return jobList;
     }

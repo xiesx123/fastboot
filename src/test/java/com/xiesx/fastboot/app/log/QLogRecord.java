@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.controller.log;
+package com.xiesx.fastboot.app.log;
 
 import static com.querydsl.core.types.PathMetadataFactory.forVariable;
 
@@ -15,13 +15,13 @@ import com.querydsl.core.types.dsl.*;
 @Generated("com.querydsl.codegen.EntitySerializer")
 public class QLogRecord extends EntityPathBase<LogRecord> {
 
-    private static final long serialVersionUID = -614643530L;
+    private static final long serialVersionUID = -998651177L;
 
     public static final QLogRecord logRecord = new QLogRecord("logRecord");
 
     public final DateTimePath<java.util.Date> createDate = createDateTime("createDate", java.util.Date.class);
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final StringPath id = createString("id");
 
     public final StringPath ip = createString("ip");
 
@@ -33,7 +33,7 @@ public class QLogRecord extends EntityPathBase<LogRecord> {
 
     public final StringPath res = createString("res");
 
-    public final NumberPath<Long> t = createNumber("t", Long.class);
+    public final NumberPath<Long> time = createNumber("time", Long.class);
 
     public final StringPath type = createString("type");
 

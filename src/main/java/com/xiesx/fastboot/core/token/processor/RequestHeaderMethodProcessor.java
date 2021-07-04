@@ -15,7 +15,7 @@ import com.google.common.collect.Maps;
 import com.xiesx.fastboot.core.token.annotation.GoHeader;
 import com.xiesx.fastboot.core.token.annotation.GoToken;
 import com.xiesx.fastboot.core.token.cfg.TokenCfg;
-import com.xiesx.fastboot.core.token.header.HeaderParam;
+import com.xiesx.fastboot.core.token.header.HeaderParams;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -28,15 +28,9 @@ import cn.hutool.core.util.ObjectUtil;
  */
 public class RequestHeaderMethodProcessor implements HandlerMethodArgumentResolver {
 
-    // public class RequestHeaderMethodProcessor extends RequestResponseBodyMethodProcessor {
-
-    // public RequestHeaderMethodProcessor(List<HttpMessageConverter<?>> converters) {
-    // super(converters);
-    // }
-
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean h = HeaderParam.class.isAssignableFrom(parameter.getParameterType()) && parameter.hasParameterAnnotation(GoHeader.class);
+        boolean h = HeaderParams.class.isAssignableFrom(parameter.getParameterType()) && parameter.hasParameterAnnotation(GoHeader.class);
         boolean s = parameter.getParameterType().isAssignableFrom(String.class) && parameter.hasParameterAnnotation(GoToken.class);
         return h || s;
     }
@@ -59,13 +53,13 @@ public class RequestHeaderMethodProcessor implements HandlerMethodArgumentResolv
                 map.put(name, request.getHeader(name));
             }
         });
+        // 参数注解
         if (parameter.hasParameterAnnotation(GoToken.class)) {
             return uid.toString();
-        } else {
-            // 类型
-            Class<?> clas = parameter.getParameter().getType();
-            // Map转Bean
-            return BeanUtil.toBeanIgnoreCase(map, clas, true);
         }
+        // 类型
+        Class<?> clas = parameter.getParameter().getType();
+        // Map转Bean
+        return BeanUtil.toBeanIgnoreCase(map, clas, true);
     }
 }

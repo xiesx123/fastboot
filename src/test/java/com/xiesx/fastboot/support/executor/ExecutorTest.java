@@ -3,7 +3,10 @@ package com.xiesx.fastboot.support.executor;
 import java.util.concurrent.ExecutionException;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -15,10 +18,18 @@ import com.xiesx.fastboot.base.result.Result;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+/**
+ * @title ExecutorTest.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:21:11
+ */
 @Log4j2
+@TestMethodOrder(OrderAnnotation.class)
 public class ExecutorTest {
 
     @Test
+    @Order(1)
     public void executor() throws InterruptedException, ExecutionException {
         // 执行任务,不监听结果
         ExecutorHelper.submit(new MyRunnable("1"));
@@ -72,7 +83,7 @@ public class ExecutorTest {
     }
 
     @AllArgsConstructor
-    public static class MyTask extends SimpleTask<Result> {
+    public static class MyTask extends ExecutorTask<Result> {
 
         public String keyword;
 

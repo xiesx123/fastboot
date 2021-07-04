@@ -6,6 +6,12 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.log4j.Log4j2;
 
+/**
+ * @title SimpleEventHandler.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:20:00
+ */
 @Log4j2
 @Component
 public class SimpleEventHandler extends EventAdapter<SimpleEvent> {

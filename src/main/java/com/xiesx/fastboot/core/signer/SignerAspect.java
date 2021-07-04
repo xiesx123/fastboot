@@ -23,7 +23,7 @@ import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.core.signer.annotation.GoSigner;
 import com.xiesx.fastboot.core.signer.cfg.SignerProperties;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -57,7 +57,7 @@ public class SignerAspect {
     @Around("signerPointcut()")
     public Object signerBeforeAspect(ProceedingJoinPoint pjp) throws RunException, Throwable {
         // 获取配置
-        String header = properties.getHeader();
+        String key = properties.getHeader();
         String secret = properties.getSecret();
         // 获取方法信息
         MethodSignature signature = (MethodSignature) pjp.getSignature();
@@ -76,14 +76,14 @@ public class SignerAspect {
         }
         // 是否进行效验
         if (!signer.ignore() && !parms.isEmpty()) {
-            // 从header中获取sign
-            String headSign = request.getHeader(header);
+            // 获取sign
+            String sign = request.getHeader(key);
             // sign为空
-            if (StrUtil.isBlank(headSign)) {
+            if (CharSequenceUtil.isBlank(sign)) {
                 throw new RunException(RunExc.SIGN, "非法请求");
             }
             // sign错误
-            if (!SignerHelper.getSignature(parms, secret).equals(headSign)) {
+            if (!SignerHelper.getSignature(parms, secret).equals(sign)) {
                 throw new RunException(RunExc.SIGN, "验签失败");
             }
         }

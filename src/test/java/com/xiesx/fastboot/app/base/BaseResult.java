@@ -8,6 +8,12 @@ import com.xiesx.fastboot.base.result.R;
 
 import lombok.Data;
 
+/**
+ * @title BaseResult.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:18:50
+ */
 @Data
 public class BaseResult<T> implements AbstractState, Serializable {
 

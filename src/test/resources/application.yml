@@ -1,65 +1,65 @@
+logging:                                                    # logging
+  config: classpath:log4j2.xml
+
 spring:
   profiles:
     active: mysql
   devtools:
     restart:
-      enabled: true                                        # 开发模式
-  datasource:                                               # 数据源
-    driver-class-name: com.p6spy.engine.spy.P6SpyDriver     # p6spy代理
-    url: jdbc:p6spy:mysql://127.0.0.1:3306/test?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
-    hikari :                                                # hikari连接池
-      #连接池名称
-      pool-name: Hikari
-      #最小空闲连接数量，默认为10
-      minimum-idle: 10
-      #最大连接池数，默认为10
-      maximum-pool-size: 20
-      #此属性控制从连接池返回的连接的默认自动提交行为,默认true
-      auto-commit: true
-      #此属性控制连接池中连接的最长生命周期，如果为0表示无
-      max-lifetime: 1800000
-      #空闲连接最大存活时间,默认为60000， 也就是10分钟
-      idle-timeout: 180000
-      #数据库连接超时时间，默认为30s，即30000 
-      connection-timeout: 30000
-      connection-test-query: select 1       
-
-logging:                                                    # logging
-  config: classpath:log4j2.xml
+      enabled: true                                         # 开发模式
+  datasource:
+    dynamic:
+      p6spy: true
+      datasource:
+        master:
+          url: jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+          username: root
+          password: root
+        slave:
+          driver-class-name: org.h2.Driver
+          url: jdbc:h2:~/test
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      path: /h2
 
 fastboot:                                                   # fastboot
   # ======= 数据转换 =======
   fastjson:
-    supported-media-types:
-    - application/json
-    config:
-      charset: utf-8
-      date-format: yyyy-MM-dd HH:mm:ss
-      serializer-features:
+    supported-media-types:                # 支持媒体类型，默认text/html、application/json
+    - text/html;charset=UTF-8
+    - application/json;charset=UTF-8
+    config:                               # 配置
+      charset: utf-8                      # 编码格式，默认UTF-8
+      date-format: yyyy-MM-dd HH:mm:ss    # 日期格式，默认yyyy-MM-dd HH:mm:ss
+      serializer-features:                # 序列化
         - PrettyFormat                    # 格式化输出
         - WriteNullBooleanAsFalse         # 布尔类型如果为null，输出为false，而不是null
         - WriteEnumUsingToString          # 枚举类型用ToString输出
-#      serialize-filters:
-#        - DesensitizeFilter
+    # serialize-filters:
+    #   - DesensitizeFilter
       features:
-        - AllowComment
-   # classSerializeFilters:
-   # writeContentLength: true
-    desensitize: true
+        - OrderedField
+    # classSerializeFilters:
+    # writeContentLength: true
+    desensitize: true                     # 启用脱敏
     
   # ======= 数据签名 =======
   signer:
-    header: signer
-    secret: fastboot!@#
+    header: sign                          # 签名键，默认sign
+    secret: fastboot!@#                   # 加密串，默认fastboot!@#
     
   # ======= 令牌认证 =======
   token:
-    header: token
-    include-paths:
+    header: token                         # 令牌键，默认token
+    include-paths:                        # 包含路径
+    - /api/**
     - /token/**
-    exclude-paths:
+    exclude-paths:                        # 排除路径
     - /js/**
     
   # ======= 证书配置 =======
@@ -73,8 +73,7 @@ fastboot:                                                   # fastboot
   # ======= 存储配置 =======
   minio:
     enabled: false
-    point: http://192.168.200.168
-    port: 9000
+    address: 192.168.200.168:9000
     bucket: fastboot
     accessKey: minioadmin
     secretKey: minioadmin

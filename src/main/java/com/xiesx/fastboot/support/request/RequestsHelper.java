@@ -15,25 +15,28 @@ import net.dongliu.requests.RequestBuilder;
  */
 public class RequestsHelper {
 
-    static Retryer<RawResponse> retry;
+    private static Retryer<RawResponse> retry;
 
     static {
-
         retry = RetryerBuilder.<RawResponse>newBuilder()
                 // 重试条件
                 .retryIfException()
                 // 返回指定结果时重试
                 .retryIfResult(HttpRetryer.reRetryPredicate)
-                // 等待策略：每次请求间隔1s
+                // 等待策略：请求间隔1s
                 .withWaitStrategy(WaitStrategies.fixedWait(HttpRetryer.RETRY_HTTP_WAIT, TimeUnit.SECONDS))
-                // 停止策略 : 尝试请求3次
+                // 停止策略：尝试请求3次
                 .withStopStrategy(StopStrategies.stopAfterAttempt(HttpRetryer.RETRY_HTTP_NUM))
-                // 时间限制 : 请求限制2s
+                // 时间限制：请求限制2s
                 .withAttemptTimeLimiter(AttemptTimeLimiters.fixedTimeLimit(HttpRetryer.RETRY_HTTP_LIMIT, TimeUnit.SECONDS))
                 // 重试监听
                 .withRetryListener(HttpRetryer.reRetryListener)
                 //
                 .build();
+    }
+
+    public static Retryer<RawResponse> getRetry() {
+        return retry;
     }
 
     public static RawResponse retry(RequestBuilder request) {

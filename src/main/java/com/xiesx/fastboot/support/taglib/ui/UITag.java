@@ -6,8 +6,8 @@ import javax.servlet.jsp.JspException;
 
 import com.xiesx.fastboot.support.taglib.TagUtils;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 
 public class UITag extends BaseUITag {
 
@@ -53,9 +53,9 @@ public class UITag extends BaseUITag {
             try {
                 /* UI模板文件内容 */
                 String __tmplContent = null;
-                if (StrUtil.isNotBlank(this.getSrc())) {
+                if (CharSequenceUtil.isNotBlank(this.getSrc())) {
                     __tmplContent = TagUtils.includeJSP((HttpServletRequest) this.pageContext.getRequest(), (HttpServletResponse) this.pageContext.getResponse(), this.buildSrcUrl(), this.getCharsetEncoding());
-                    __tmplContent = this.mergeContent(StrUtil.blankToDefault(__tmplContent, "@{body}"));
+                    __tmplContent = this.mergeContent(CharSequenceUtil.blankToDefault(__tmplContent, "@{body}"));
                     this.pageContext.getOut().write(!isCleanup() ? __tmplContent : TagUtils.replaceRegClear(__tmplContent));
                 }
             } catch (Exception e) {

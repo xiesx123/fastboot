@@ -22,18 +22,30 @@ public class LoggerController extends BaseController {
 
     /**
      * 不打印
-     * 
+     *
      * @return
      */
     @GoLogger(print = false)
-    @RequestMapping("/print")
-    public Result print(BaseVo base, PageVo page) {
+    @RequestMapping("/noprint")
+    public Result noprint(BaseVo base, PageVo page) {
         return R.succ();
     }
 
     /**
      * 默认打印 + 格式化输出
-     * 
+     *
+     * @return
+     */
+    @GoLogger
+    @RequestMapping("/print")
+    public Result print(BaseVo base, PageVo page) {
+        return R.succ();
+    }
+
+
+    /**
+     * 格式化输出
+     *
      * @return
      */
     @GoLogger(format = true)
@@ -43,13 +55,13 @@ public class LoggerController extends BaseController {
     }
 
     /**
-     * 默认打印 + 格式化输出 + 自定义存储
-     * 
+     * 格式化输出 + 自定义存储
+     *
      * @return
      */
-    @GoLogger(format = true, storage = LogStorageH2Provider.class)
+    @GoLogger(format = true, storage = LogStorageMysqlProvider.class)
     @RequestMapping("/storage")
-    public Result storage(BaseVo base, PageVo page, String key) {
-        return R.succ(R.MSG_SUCC, key);
+    public Result storage(BaseVo base, PageVo page) {
+        return R.succ();
     }
 }

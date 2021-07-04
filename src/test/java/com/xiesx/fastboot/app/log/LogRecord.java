@@ -1,5 +1,6 @@
-package com.xiesx.fastboot.controller.log;
+package com.xiesx.fastboot.app.log;
 
+import java.beans.Transient;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.*;
+import org.hibernate.annotations.Parameter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -29,7 +31,6 @@ import lombok.experimental.FieldNameConstants;
  * @author xiesx
  * @date 2021-04-17 21:54:26
  */
-
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
@@ -47,13 +48,19 @@ public class LogRecord extends JpaPlusEntity<LogRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
+     * 主键，例（L1408447004119666688）
      */
     @Id
     @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", strategy = "com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator")
+    @GenericGenerator(name = "idGenerator", // 名称
+            strategy = "com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator", // 生成策略
+            parameters = {// 生成参数
+                    @Parameter(name = "prefix", value = "L"), // 前缀，L
+                    @Parameter(name = "workerId", value = "1"), // 终端ID，默认0
+                    @Parameter(name = "centerId", value = "1") // 数据中心ID，默认0
+            })
     @JSONField(ordinal = 1)
-    private Long id;
+    private String id;
 
     /**
      * 创建时间
@@ -102,14 +109,12 @@ public class LogRecord extends JpaPlusEntity<LogRecord> {
     /**
      * 请求参数
      */
-    @Column(length = 1024)
     @JSONField(serialize = false)
     private String req;
 
     /**
      * 响应结果
      */
-    @Column(length = 1024)
     @JSONField(serialize = false)
     private String res;
 
@@ -129,12 +134,14 @@ public class LogRecord extends JpaPlusEntity<LogRecord> {
 
     // ======================
 
-    @JSONField(ordinal = 8)
+    @Transient
+    @JSONField(serialize = false, ordinal = 8)
     public Object getParams() {
         return JSON.parse(req);
     }
 
-    @JSONField(ordinal = 9)
+    @Transient
+    @JSONField(serialize = false, ordinal = 9)
     public Object getResult() {
         return JSON.parse(res);
     }

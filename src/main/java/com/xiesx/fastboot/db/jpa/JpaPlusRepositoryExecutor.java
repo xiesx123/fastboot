@@ -18,15 +18,14 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.google.common.collect.Lists;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.impl.JPADeleteClause;
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.querydsl.jpa.impl.JPAUpdateClause;
+import com.querydsl.jpa.impl.*;
 
 /**
  * @title JpaPlusRepositoryExecutor.java
@@ -34,7 +33,6 @@ import com.querydsl.jpa.impl.JPAUpdateClause;
  * @author xiesx
  * @date 2021-04-04 18:04:05
  */
-@SuppressWarnings({"all", "unchecked"})
 @Transactional(readOnly = true)
 public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID> implements JpaPlusRepository<T, ID> {
 
@@ -90,13 +88,6 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
         return jpaPredicateExecutor.findAll(predicate, pageable);
     }
 
-    public <S> Page<S> findAll(JPAQuery<S> query, Pageable pageable, OrderSpecifier<?>... orders) {
-        // 分页查询
-        JPQLQuery<S> jpqlQuery = querydsl.applyPagination(pageable, query).orderBy(orders);
-        // 构造分页
-        return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, query::fetchCount);
-    }
-
     @Override
     public long count(Predicate predicate) {
         return jpaPredicateExecutor.count(predicate);
@@ -116,29 +107,35 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
     }
 
     @Override
-    public <S> Page<S> findAll(JPAQuery<S> query, Pageable pageable) {
+    public Page<T> findAll(JPAQuery<T> query, Pageable pageable) {
         // 分页查询
-        JPQLQuery<S> jpqlQuery = querydsl.applyPagination(pageable, query);
+        JPQLQuery<T> jpqlQuery = querydsl.applyPagination(pageable, query);
+        // 构造分页
+        return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, query::fetchCount);
+    }
+
+    @Override
+    public Page<T> findAll(JPAQuery<T> query, Pageable pageable, OrderSpecifier<?>... orders) {
+        // 分页查询
+        JPQLQuery<T> jpqlQuery = querydsl.applyPagination(pageable, query).orderBy(orders);
         // 构造分页
         return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, query::fetchCount);
     }
 
     @Transactional
     @Override
-    public <S extends T> S insertOrUpdate(S entitie) {
-        return saveAndFlush(entitie);
+    public <S extends T> S insertOrUpdate(S entity) {
+        return saveAndFlush(entity);
     }
 
     @Transactional
     @Override
-    public <S extends T> List<S> insertOrUpdate(S... entities) {
-        List<S> list = saveAll(Arrays.asList(entities));
-        entityManager.flush();
-        return list;
+    public <S extends T> List<S> insertOrUpdate(@SuppressWarnings("unchecked") S... entities) {
+        return insertOrUpdate(Arrays.asList(entities));
     }
 
-    @Override
     @Transactional
+    @Override
     public <S extends T> List<S> insertOrUpdate(List<S> entities) {
         List<S> list = saveAll(entities);
         entityManager.flush();
@@ -147,14 +144,34 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public int insertOrUpdateRow(T... entities) {
-        return insertOrUpdate(entities).size();
+    public int insertOrUpdateRow(T entity) {
+        return insertOrUpdateRow(Lists.newArrayList(entity));
+    }
+
+    @Transactional
+    @Override
+    public int insertOrUpdateRow(@SuppressWarnings("unchecked") T... entities) {
+        return insertOrUpdateRow(Arrays.asList(entities));
     }
 
     @Transactional
     @Override
     public int insertOrUpdateRow(List<T> entities) {
-        return insertOrUpdate(entities).size();
+        List<T> list = saveAll(entities);
+        entityManager.flush();
+        return list.size();
+    }
+
+    @Transactional
+    @Override
+    public int insert(JPAInsertClause insert) {
+        return (int) insert.execute();
+    }
+
+    @Transactional
+    @Override
+    public int insert(JPAInsertClause insert, Path<T> path, T entity) {
+        return (int) insert.set(path, entity).execute();
     }
 
     @Transactional
@@ -171,7 +188,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public int delete(ID... ids) {
+    public int delete(@SuppressWarnings("unchecked") ID... ids) {
         Assert.notNull(ids, "ids must not be null!");
         int rows = 0;
         for (ID id : ids) {
@@ -193,11 +210,13 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
         return rows;
     }
 
+    @Transactional
     @Override
     public int delete(JPADeleteClause delete) {
         return (int) delete.execute();
     }
 
+    @Transactional
     @Override
     public int delete(JPADeleteClause delete, Predicate... predicate) {
         return (int) delete.where(predicate).execute();

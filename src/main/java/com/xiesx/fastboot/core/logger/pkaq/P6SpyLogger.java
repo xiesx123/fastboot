@@ -2,7 +2,7 @@ package com.xiesx.fastboot.core.logger.pkaq;
 
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 
 /**
  * @title P6SpyLogger.java
@@ -16,6 +16,6 @@ public class P6SpyLogger implements MessageFormattingStrategy {
 
     @Override
     public String formatMessage(int connectionId, String now, long elapsed, String category, String prepared, String sql, String url) {
-        return StrUtil.format(SQL_FORAMT, elapsed, category, sql);
+        return CharSequenceUtil.format(SQL_FORAMT, elapsed, category, sql);
     }
 }

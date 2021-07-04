@@ -1,16 +1,20 @@
 package com.xiesx.fastboot.core.eventbus;
 
-import com.xiesx.fastboot.core.eventbus.base.BaseEvent;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * @title SimpleEvent.java
+ * @description
+ * @author xiesx
+ * @date 2021-06-06 23:19:56
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SimpleEvent implements BaseEvent {
+public class SimpleEvent implements AbstractEvent {
 
     @NonNull
     private String name;

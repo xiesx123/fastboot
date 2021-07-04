@@ -7,10 +7,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.xiesx.fastboot.support.minio.client.MinioBucketClient;
-import com.xiesx.fastboot.support.minio.client.MinioObjectClient;
+import com.xiesx.fastboot.support.minio.MinioBucketClient;
+import com.xiesx.fastboot.support.minio.MinioObjectClient;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.text.CharSequenceUtil;
 import io.minio.MinioClient;
 
 /**
@@ -30,9 +31,12 @@ public class MinioCfg {
 
     @Bean
     public MinioClient minioClient() {
-        if (StrUtil.isNotEmpty(mMinioProperties.getPoint())) {
+        String address = mMinioProperties.getAddress();
+        if (CharSequenceUtil.isNotEmpty(address)) {
+            String point = CharSequenceUtil.subBefore(address, ":", true);
+            Integer port = Convert.toInt(CharSequenceUtil.subAfter(address, ":", true));
             MinioClient mClient = MinioClient.builder()//
-                    .endpoint(mMinioProperties.getPoint(), mMinioProperties.getPort(), mMinioProperties.isSecure())//
+                    .endpoint(point, port, mMinioProperties.isSecure())//
                     .credentials(mMinioProperties.getAccessKey(), mMinioProperties.getSecretKey())//
                     .build();
             return mClient;
@@ -42,7 +46,7 @@ public class MinioCfg {
 
     @Bean
     public MinioBucketClient minioBucketService(MinioClient minioClient) {
-        if (StrUtil.isEmpty(mMinioProperties.getBucket())) {
+        if (CharSequenceUtil.isEmpty(mMinioProperties.getBucket())) {
             return new MinioBucketClient(minioClient);
         }
         return new MinioBucketClient(minioClient, mMinioProperties.getBucket());
@@ -50,7 +54,7 @@ public class MinioCfg {
 
     @Bean
     public MinioObjectClient mMinioPropertiesObjectService(MinioClient minioClient) {
-        if (StrUtil.isEmpty(mMinioProperties.getBucket())) {
+        if (CharSequenceUtil.isEmpty(mMinioProperties.getBucket())) {
             return new MinioObjectClient(minioClient);
         }
         return new MinioObjectClient(minioClient, mMinioProperties.getBucket());

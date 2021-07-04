@@ -44,12 +44,7 @@ public class HttpRetryer {
     public static Predicate<RawResponse> reRetryPredicate = raw -> (raw.statusCode() != 200);
 
     /**
-     * 重试条件
-     *
-     * @title HttpCilent.java
-     * @description
-     * @author xiesx
-     * @date 2020-8-10 18:32:46
+     * 重试监听
      */
     public static RetryListener reRetryListener = new RetryListener() {
 
@@ -82,6 +77,13 @@ public class HttpRetryer {
         }
     };
 
+    /**
+     * 网络重试
+     *
+     * @param request
+     * @param retry
+     * @return
+     */
     public static RawResponse retry(RequestBuilder request, Retryer<RawResponse> retry) {
         try {
             return retry.call(() -> request.send());
