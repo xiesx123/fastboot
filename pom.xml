@@ -221,7 +221,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<skipTests>false</skipTests><!-- 忽略测试 -->
+					<skipTests>true</skipTests><!-- 忽略测试 -->
 				</configuration>
 			</plugin>
 			<!-- DSL -->
