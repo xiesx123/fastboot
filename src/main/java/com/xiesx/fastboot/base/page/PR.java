@@ -38,6 +38,6 @@ public class PR {
         // 分页数据
         List<?> list = Lists.newArrayList(data);
         // 返回结果
-        return PResult.builder().code(R.CODE_SUCCESS).msg(MSG_EMPTY).data(list).count(total).build();
+        return PResult.builder().code(R.CODE_SUCCESS).msg(list.isEmpty() ? MSG_EMPTY : "操作成功").data(list).count(total).build();
     }
 }
