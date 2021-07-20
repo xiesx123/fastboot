@@ -2,8 +2,10 @@ package com.xiesx.fastboot.core.eventbus.cfg;
 
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ContextRefreshedEvent;
 
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.DeadEvent;
@@ -23,8 +25,9 @@ import lombok.extern.log4j.Log4j2;
  * @date 2021-04-24 01:34:57
  */
 @Log4j2
+@Configuration
 @SuppressWarnings({"all", "unchecked"})
-public class EventBusCfg {
+public class EventBusCfg implements DisposableBean, ApplicationListener<ContextRefreshedEvent> {
 
     private Map<String, EventAdapter> beans = Maps.newConcurrentMap();
 
@@ -38,18 +41,20 @@ public class EventBusCfg {
         });
     }
 
-    @PostConstruct
-    public void postConstruct() throws Exception {
-        beans.putAll(SpringHelper.getContext().getBeansOfType(EventAdapter.class));
-        if (!beans.isEmpty()) {
-            for (EventAdapter<? extends AbstractEvent> eventAbstract : beans.values()) {
-                EventBusHelper.register(eventAbstract);
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        if (event.getApplicationContext().getParent() == null) {
+            beans.putAll(SpringHelper.getContext().getBeansOfType(EventAdapter.class));
+            if (!beans.isEmpty()) {
+                for (EventAdapter<? extends AbstractEvent> eventAbstract : beans.values()) {
+                    EventBusHelper.register(eventAbstract);
+                }
             }
         }
     }
 
-    @PreDestroy
-    public void preDestroy() throws Exception {
+    @Override
+    public void destroy() throws Exception {
         if (!beans.isEmpty()) {
             for (EventAdapter<? extends AbstractEvent> eventAbstract : beans.values()) {
                 EventBusHelper.unregister(eventAbstract);

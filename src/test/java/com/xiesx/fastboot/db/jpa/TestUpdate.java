@@ -111,7 +111,7 @@ public class TestUpdate {
         assertNotNull(lr.getId());
         int row = mLogRecordRepository.insertOrUpdateRow(logRecord);
         assertEquals(row, 1);
-        
+
         // 修改多个
         List<LogRecord> lrs = mLogRecordRepository.insertOrUpdate(logRecord, logRecord);
         assertEquals(lrs.size(), 2);

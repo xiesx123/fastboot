@@ -27,6 +27,20 @@ public class SpringStartup implements InitializingBean {
         log.info("SpringStartup constructor");
     }
 
+    @PostConstruct
+    public void postConstruct() {
+        log.info("SpringStartup postConstruct");
+    }
+
+    public void initMethod() {
+        log.info("SpringStartup initMethod");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        log.info("SpringStartup afterPropertiesSet");
+    }
+
     public static void init() {
         classUrl = RuntimeUtils.getRootPath().toLowerCase();
         if (classUrl.contains("target")) {// 本地
@@ -58,20 +72,6 @@ public class SpringStartup implements InitializingBean {
             serverpath = classUrl;
         }
         log.info("Startup Server name: " + servername + ", path: " + serverpath);
-    }
-
-    @PostConstruct
-    public void postConstruct() {
-        log.info("SpringStartup postConstruct");
-    }
-
-    public void initMethod() {
-        log.info("SpringStartup init-method");
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        log.info("SpringStartup afterPropertiesSet");
     }
 
     public static void scheduler() {

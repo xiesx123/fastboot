@@ -28,7 +28,7 @@ import com.querydsl.jpa.impl.JPAUpdateClause;
 public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T, ID>, QuerydslPredicateExecutor<T> {
 
     T findOne(ID id);
-    
+
     Page<T> findAll(JPAQuery<T> query, Pageable pageable);
 
     Page<T> findAll(JPAQuery<T> query, Pageable pageable, OrderSpecifier<?>... orders);
