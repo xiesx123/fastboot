@@ -4,7 +4,7 @@
 
 	<groupId>com.gitee.xiesixian</groupId>
 	<artifactId>fast-boot</artifactId>
-	<version>1.0.4</version>
+	<version>master-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<!-- 信息 -->
