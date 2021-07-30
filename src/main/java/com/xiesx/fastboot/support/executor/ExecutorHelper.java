@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import com.google.common.util.concurrent.*;
 
@@ -28,7 +29,7 @@ public class ExecutorHelper {
     private static ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
 
     /**
-     * 提交
+     * 单个提交
      *
      * @param task
      * @return
@@ -76,7 +77,7 @@ public class ExecutorHelper {
     }
 
     /**
-     * 提交
+     * 批量提交
      *
      * @param <T>
      * @param tasks
@@ -85,6 +86,22 @@ public class ExecutorHelper {
     public static <T> List<Future<T>> invokeAll(List<ExecutorTask<T>> tasks) {
         try {
             return service.invokeAll(tasks);
+        } catch (InterruptedException e) {
+            log.error("executor helper invoke all", e);
+        }
+        return null;
+    }
+
+    /**
+     * 批量提交
+     *
+     * @param <T>
+     * @param tasks
+     * @return
+     */
+    public static <T> List<Future<T>> invokeAll(List<ExecutorTask<T>> tasks, int timeout) {
+        try {
+            return service.invokeAll(tasks, timeout, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             log.error("executor helper invoke all", e);
         }
