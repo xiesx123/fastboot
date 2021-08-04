@@ -26,7 +26,16 @@ public class ExecutorHelper {
     /**
      * 缓存型线程池
      */
-    private static ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
+    private static ListeningExecutorService les = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
+
+    /**
+     * 获取
+     * 
+     * @return
+     */
+    public static ListeningExecutorService getExecutorService() {
+        return les;
+    }
 
     /**
      * 单个提交
@@ -35,7 +44,7 @@ public class ExecutorHelper {
      * @return
      */
     public static ListenableFuture<?> submit(Runnable task) {
-        return service.submit(task);
+        return les.submit(task);
     }
 
     /**
@@ -46,7 +55,7 @@ public class ExecutorHelper {
      * @return
      */
     public static <T> ListenableFuture<T> submit(Callable<T> task) {
-        return service.submit(task);
+        return les.submit(task);
     }
 
     /**
@@ -58,7 +67,7 @@ public class ExecutorHelper {
      * @return
      */
     public static <T> ListenableFuture<T> submit(Callable<T> task, FutureCallback<T> callback) {
-        ListenableFuture<T> future = service.submit(task);
+        ListenableFuture<T> future = les.submit(task);
         if (callback != null) {
             Futures.addCallback(future, callback, MoreExecutors.directExecutor());
         }
@@ -85,7 +94,7 @@ public class ExecutorHelper {
      */
     public static <T> List<Future<T>> invokeAll(List<ExecutorTask<T>> tasks) {
         try {
-            return service.invokeAll(tasks);
+            return les.invokeAll(tasks);
         } catch (InterruptedException e) {
             log.error("executor helper invoke all", e);
         }
@@ -101,7 +110,7 @@ public class ExecutorHelper {
      */
     public static <T> List<Future<T>> invokeAll(List<ExecutorTask<T>> tasks, int timeout) {
         try {
-            return service.invokeAll(tasks, timeout, TimeUnit.SECONDS);
+            return les.invokeAll(tasks, timeout, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             log.error("executor helper invoke all", e);
         }
@@ -113,7 +122,7 @@ public class ExecutorHelper {
      */
     public static void shutdown() {
         // shutdown，执行后不再接收新任务，如果里面有任务，就执行完
-        service.shutdown();
+        les.shutdown();
     }
 
     /**
@@ -121,6 +130,6 @@ public class ExecutorHelper {
      */
     public static void shutdownNow() {
         // shutdownNow，执行后不再接受新任务，如果有等待任务，移出队列；有正在执行的，尝试停止service_data.shutdownNow();
-        service.shutdownNow();
+        les.shutdownNow();
     }
 }
