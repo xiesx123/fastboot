@@ -33,6 +33,16 @@ public class RunException extends RuntimeException {
     }
 
     /**
+     * throw new RunException(-1,"出错啦！");
+     *
+     * @param msg
+     */
+    public RunException(Integer code, String msg) {
+        super(msg);
+        this.code = code;
+    }
+
+    /**
      * throw new RunException(e);
      *
      * @param e
