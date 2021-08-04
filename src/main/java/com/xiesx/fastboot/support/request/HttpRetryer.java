@@ -57,19 +57,19 @@ public class HttpRetryer {
             if (attempt.hasException()) {
                 if (attempt.getExceptionCause().getCause() instanceof RunException) {
                     RunException runException = (RunException) attempt.getExceptionCause().getCause();
-                    log.warn("onException causeBy:{} {}", runException.getCode(), runException.getMessage());
+                    log.trace("exception cause by:{} {}", runException.getCode(), runException.getMessage());
                 } else {
-                    log.warn("onException causeBy:{}", attempt.getExceptionCause().toString());
+                    log.trace("exception cause by:{}", attempt.getExceptionCause().toString());
                 }
             } else {
                 if (attempt.hasResult()) {
                     try {
                         V result = attempt.get();
                         if (result instanceof RawResponse) {
-                            log.warn("onRetry number:{} error:{} result:{} statusCode:{} delay:{}", number, isError, isResult, ((RawResponse) result).statusCode(), delay);
+                            log.trace("retry number:{} error:{} result:{} code:{} delay:{}", number, isError, isResult, ((RawResponse) result).statusCode(), delay);
                         }
                     } catch (ExecutionException e) {
-                        log.error("onResult exception:{}", e.getCause().toString());
+                        log.error("result exception:{}", e.getCause().toString());
                         throw new RunException(RunExc.REQUEST, "http retry error");
                     }
                 }
