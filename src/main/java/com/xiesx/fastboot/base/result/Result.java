@@ -70,7 +70,7 @@ public class Result implements AbstractState {
      * @return
      */
     @JSONField(serialize = false)
-    public Boolean isReTrY() {
+    public Boolean isReTry() {
         return Objects.equal(code, R.CODE_RETRY);
     }
 }
