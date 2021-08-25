@@ -27,7 +27,7 @@ public class Result implements AbstractState {
 
     // 数据
     @JSONField(ordinal = 3)
-    public Object data;
+    public Object result;
 
     // 状态
     @JSONField(ordinal = 4)

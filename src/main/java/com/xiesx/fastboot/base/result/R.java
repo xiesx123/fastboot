@@ -60,7 +60,7 @@ public class R {
     }
 
     public static Result succ(@NonNull Object data) {
-        return Result.builder().code(CODE_SUCCESS).msg(MSG_SUCCESS).data(data).build();
+        return Result.builder().code(CODE_SUCCESS).msg(MSG_SUCCESS).result(data).build();
     }
 
     public static Result succ(@NonNull String msg) {
@@ -68,7 +68,7 @@ public class R {
     }
 
     public static Result succ(@NonNull String msg, @NonNull Object data) {
-        return Result.builder().code(CODE_SUCCESS).msg(msg).data(data).build();
+        return Result.builder().code(CODE_SUCCESS).msg(msg).result(data).build();
     }
 
     public static Result succ(@NonNull Integer code, @NonNull String msg) {
@@ -76,7 +76,7 @@ public class R {
     }
 
     public static Result succ(@NonNull Integer code, @NonNull String msg, @NonNull Object data) {
-        return Result.builder().code(code).msg(msg).data(data).build();
+        return Result.builder().code(code).msg(msg).result(data).build();
     }
 
     /**
@@ -87,7 +87,7 @@ public class R {
     }
 
     public static Result fail(@NonNull Object data) {
-        return Result.builder().code(CODE_FAIL).msg(MSG_FAIL).data(data).build();
+        return Result.builder().code(CODE_FAIL).msg(MSG_FAIL).result(data).build();
     }
 
     public static Result fail(@NonNull String msg) {
@@ -95,7 +95,7 @@ public class R {
     }
 
     public static Result fail(@NonNull String msg, Object data) {
-        return Result.builder().code(CODE_FAIL).msg(msg).data(data).build();
+        return Result.builder().code(CODE_FAIL).msg(msg).result(data).build();
     }
 
     public static Result fail(@NonNull Integer code, @NonNull String msg) {
@@ -103,7 +103,7 @@ public class R {
     }
 
     public static Result fail(@NonNull Integer code, @NonNull String msg, Object data) {
-        return Result.builder().code(code).msg(msg).data(data).build();
+        return Result.builder().code(code).msg(msg).result(data).build();
     }
 
     /**
@@ -114,7 +114,7 @@ public class R {
     }
 
     public static Result error(@NonNull Object data) {
-        return Result.builder().code(CODE_ERROR).msg(MSG_FAIL).data(data).build();
+        return Result.builder().code(CODE_ERROR).msg(MSG_FAIL).result(data).build();
     }
 
     public static Result error(@NonNull String msg) {
@@ -122,7 +122,7 @@ public class R {
     }
 
     public static Result error(@NonNull String msg, Object data) {
-        return Result.builder().code(CODE_ERROR).msg(msg).data(data).build();
+        return Result.builder().code(CODE_ERROR).msg(msg).result(data).build();
     }
 
     public static Result error(@NonNull Integer code, @NonNull String msg) {
@@ -130,7 +130,7 @@ public class R {
     }
 
     public static Result error(@NonNull Integer code, @NonNull String msg, Object data) {
-        return Result.builder().code(code).msg(msg).data(data).build();
+        return Result.builder().code(code).msg(msg).result(data).build();
     }
 
     /**
@@ -141,7 +141,7 @@ public class R {
     }
 
     public static Result retry(@NonNull Object data) {
-        return Result.builder().code(CODE_RETRY).msg(MSG_RETRY).data(data).build();
+        return Result.builder().code(CODE_RETRY).msg(MSG_RETRY).result(data).build();
     }
 
     public static Result retry(@NonNull String msg) {
@@ -149,7 +149,7 @@ public class R {
     }
 
     public static Result retry(@NonNull String msg, Object data) {
-        return Result.builder().code(CODE_RETRY).msg(msg).data(data).build();
+        return Result.builder().code(CODE_RETRY).msg(msg).result(data).build();
     }
 
     public static Result retry(@NonNull Integer code, @NonNull String msg) {
@@ -157,6 +157,6 @@ public class R {
     }
 
     public static Result retry(@NonNull Integer code, @NonNull String msg, Object data) {
-        return Result.builder().code(code).msg(msg).data(data).build();
+        return Result.builder().code(code).msg(msg).result(data).build();
     }
 }
