@@ -104,7 +104,7 @@ public class RetryerTest {
                 }
             });
             // 验证结果，如果结果正确则返回，错误则重试
-            log.info(JSON.toJSONString(R.succ(result.getResult())));
+            log.info(JSON.toJSONString(R.succ(result.getData())));
         } catch (ExecutionException | RetryException e) {
             throw new RunException(RunExc.RETRY, "test retry");
         }
