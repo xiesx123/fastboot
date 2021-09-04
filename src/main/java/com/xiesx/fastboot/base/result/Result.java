@@ -2,7 +2,7 @@ package com.xiesx.fastboot.base.result;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.base.Objects;
-import com.xiesx.fastboot.base.AbstractState;
+import com.xiesx.fastboot.base.AbstractStatus;
 
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class Result implements AbstractState {
+public class Result implements AbstractStatus {
 
     // 返回值
     @JSONField(ordinal = 1)

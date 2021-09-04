@@ -18,7 +18,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.xiesx.fastboot.db.jpa.entity.JpaPlusEntity;
+import com.xiesx.fastboot.db.jpa.JpaPlusEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

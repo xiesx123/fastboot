@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.db.jpa.entity;
+package com.xiesx.fastboot.db.jpa;
 
 import java.io.Serializable;
 

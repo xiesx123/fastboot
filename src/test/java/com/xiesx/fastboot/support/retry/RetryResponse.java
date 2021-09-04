@@ -1,7 +1,7 @@
 package com.xiesx.fastboot.support.retry;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.xiesx.fastboot.base.AbstractState;
+import com.xiesx.fastboot.base.AbstractStatus;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  * @date 2021-06-06 23:21:26
  */
 @Data
-public class RetryResponse implements AbstractState {
+public class RetryResponse implements AbstractStatus {
 
     @JSONField(ordinal = 0)
     private String requestId;

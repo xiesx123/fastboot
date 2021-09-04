@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.base.Objects;
-import com.xiesx.fastboot.base.AbstractState;
+import com.xiesx.fastboot.base.AbstractStatus;
 import com.xiesx.fastboot.base.result.R;
 
 import lombok.Builder;
@@ -18,7 +18,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class PResult implements AbstractState {
+public class PResult implements AbstractStatus {
 
     // 返回值
     @JSONField(ordinal = 1)

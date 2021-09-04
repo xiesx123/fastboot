@@ -112,12 +112,10 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.baomidou/dynamic-datasource-spring-boot-starter -->
+		<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa -->
 		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-			<version>3.4.1</version>
-			<scope>test</scope>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/p6spy/p6spy -->
 		<dependency>
@@ -125,17 +123,18 @@
 			<artifactId>p6spy</artifactId>
 			<version>3.9.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa -->
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-jpa</artifactId>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/com.baomidou/dynamic-datasource-spring-boot-starter -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+			<version>3.4.1</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- ==========================工具========================== -->
 		<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
 		<dependency>
@@ -155,6 +154,12 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.78</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.dongliu/requests -->
+		<dependency>
+			<groupId>net.dongliu</groupId>
+			<artifactId>requests</artifactId>
+			<version>5.0.8</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -173,12 +178,6 @@
 			<artifactId>minio</artifactId>
 			<version>8.3.0</version>
 			<scope>provided</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/net.dongliu/requests -->
-		<dependency>
-			<groupId>net.dongliu</groupId>
-			<artifactId>requests</artifactId>
-			<version>5.0.8</version>
 		</dependency>
 
 		<!-- ==========================测试========================== -->
