@@ -5,9 +5,9 @@ import org.springframework.context.ApplicationContext;
 
 /**
  * @title SpringHelper.java
- * @description Spring工具类，静态工具方法获取bean
+ * @description
  * @author xiesx
- * @date 2020-7-21 22:46:54
+ * @date 2021-09-06 11:42:01
  */
 public class SpringHelper {
 
