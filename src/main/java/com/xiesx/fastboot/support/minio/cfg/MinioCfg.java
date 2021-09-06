@@ -32,7 +32,7 @@ public class MinioCfg {
     @Bean
     public MinioClient minioClient() {
         String address = mMinioProperties.getAddress();
-        if (CharSequenceUtil.isNotEmpty(address)) {
+        if (CharSequenceUtil.isNotBlank(address)) {
             String point = CharSequenceUtil.subBefore(address, ":", true);
             Integer port = Convert.toInt(CharSequenceUtil.subAfter(address, ":", true));
             MinioClient mClient = MinioClient.builder()//
