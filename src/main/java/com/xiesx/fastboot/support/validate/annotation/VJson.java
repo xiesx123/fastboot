@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
-import com.xiesx.fastboot.support.validate.rule.VJsonRule;
+import com.xiesx.fastboot.support.validate.annotation.constraint.VJsonRule;
 
 /**
  * @title VJson.java
@@ -26,7 +26,7 @@ import com.xiesx.fastboot.support.validate.rule.VJsonRule;
 // 定义对应的校验器,自定义注解必须指定
 @Constraint(validatedBy = {VJsonRule.class})
 // 附带不能为空
-@NotEmpty(message = "{fastboot.empty}")
+@NotBlank(message = "{fastboot.empty}")
 @Documented
 public @interface VJson {
 

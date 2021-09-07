@@ -11,7 +11,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
 
-import com.xiesx.fastboot.support.validate.rule.VNumberRule;
+import com.xiesx.fastboot.support.validate.annotation.constraint.VNumberRule;
 
 /**
  * @title VNumber.java

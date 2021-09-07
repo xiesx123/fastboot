@@ -19,6 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.alibaba.fastjson.JSON;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.base.result.R;
+import com.xiesx.fastboot.support.validate.ValidatorVo.TestVoValid.B;
+import com.xiesx.fastboot.support.validate.ValidatorVo.TestVoValid.C;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -50,7 +52,7 @@ public class ValidatorTest {
     public void verify2() {
         ValidatorVo vo = new ValidatorVo();
         try {
-            ValidatorHelper.validate(vo);
+            ValidatorHelper.validate(vo, B.class, C.class);
         } catch (ConstraintViolationException e) {
             // 打印 messgae
             List<String> message1 = ValidatorHelper.extractMessage(e);

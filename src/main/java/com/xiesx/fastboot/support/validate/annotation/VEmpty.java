@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 /**
  * @title VEmpty.java
@@ -24,11 +24,11 @@ import javax.validation.constraints.NotEmpty;
 // 定义对应的校验器,自定义注解必须指定
 @Constraint(validatedBy = {})
 // 附带不能为空
-@NotEmpty(message = "{fastboot.empty}")
+@NotBlank(message = "{fastboot.empty}")
 @Documented
 public @interface VEmpty {
 
-    String message() default "";// 错误提示信息默认值，可以使用el表达式。
+    String message() default "{fastboot.empty}";// 错误提示信息默认值，可以使用el表达式。
 
     Class<?>[] groups() default {};// 约束注解在验证时所属的组别
 

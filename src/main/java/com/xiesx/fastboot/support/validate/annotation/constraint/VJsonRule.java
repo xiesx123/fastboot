@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.support.validate.rule;
+package com.xiesx.fastboot.support.validate.annotation.constraint;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

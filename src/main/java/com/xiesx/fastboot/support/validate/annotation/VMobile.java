@@ -35,7 +35,7 @@ import org.hibernate.validator.constraints.Length;
 @Documented
 public @interface VMobile {
 
-    String message() default "";// 错误提示信息默认值，可以使用el表达式。
+    String message() default "{fastboot.mobile}";// 错误提示信息默认值，可以使用el表达式。
 
     Class<?>[] groups() default {};// 约束注解在验证时所属的组别
 
