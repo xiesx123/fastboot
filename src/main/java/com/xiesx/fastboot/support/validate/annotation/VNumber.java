@@ -9,9 +9,10 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
-import com.xiesx.fastboot.support.validate.annotation.constraint.VNumberRule;
+import cn.hutool.core.lang.RegexPool;
 
 /**
  * @title VNumber.java
@@ -19,18 +20,21 @@ import com.xiesx.fastboot.support.validate.annotation.constraint.VNumberRule;
  * @author xiesx
  * @date 2020-7-21 22:44:29
  */
+// 文档生成标识
+@Documented
 // 申明注解的作用位置
 @Target({ANNOTATION_TYPE, FIELD, METHOD, PARAMETER})
 // 运行时机
 @Retention(RUNTIME)
 // 定义对应的校验器,自定义注解必须指定
-@Constraint(validatedBy = {VNumberRule.class})
-// 附带不能为空 TODO 效验错误
-@NotNull(message = "{fastboot.empty}")
-@Documented
+@Constraint(validatedBy = {})
+// 不能为空
+@NotBlank(message = "{fastboot.empty}")
+// 数字类型
+@Pattern(regexp = RegexPool.NUMBERS, message = "{fastboot.number}")
 public @interface VNumber {
 
-    String message() default "{fastboot.number}";// 错误提示信息默认值，可以使用el表达式。
+    String message() default "{fastboot.error}";// 错误提示信息默认值，可以使用el表达式。
 
     Class<?>[] groups() default {};// 约束注解在验证时所属的组别
 

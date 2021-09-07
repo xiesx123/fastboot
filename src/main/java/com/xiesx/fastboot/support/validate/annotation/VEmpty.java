@@ -9,7 +9,8 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.NotBlank;
+
+import com.xiesx.fastboot.support.validate.annotation.constraint.VEmptyRule;
 
 /**
  * @title VEmpty.java
@@ -17,15 +18,14 @@ import javax.validation.constraints.NotBlank;
  * @author xiesx
  * @date 2020-7-21 22:43:52
  */
+// 文档生成标识
+@Documented
 // 申明注解的作用位置
 @Target({ANNOTATION_TYPE, FIELD, METHOD, PARAMETER})
 // 运行时机
 @Retention(RUNTIME)
 // 定义对应的校验器,自定义注解必须指定
-@Constraint(validatedBy = {})
-// 附带不能为空
-@NotBlank(message = "{fastboot.empty}")
-@Documented
+@Constraint(validatedBy = {VEmptyRule.class})
 public @interface VEmpty {
 
     String message() default "{fastboot.empty}";// 错误提示信息默认值，可以使用el表达式。

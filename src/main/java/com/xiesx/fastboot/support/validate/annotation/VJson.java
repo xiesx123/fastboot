@@ -19,15 +19,16 @@ import com.xiesx.fastboot.support.validate.annotation.constraint.VJsonRule;
  * @author xiesx
  * @date 2020-7-21 22:44:13
  */
+// 文档生成标识
+@Documented
 // 申明注解的作用位置
 @Target({ANNOTATION_TYPE, FIELD, METHOD, PARAMETER})
 // 运行时机
 @Retention(RUNTIME)
 // 定义对应的校验器,自定义注解必须指定
 @Constraint(validatedBy = {VJsonRule.class})
-// 附带不能为空
+// 不能为空
 @NotBlank(message = "{fastboot.empty}")
-@Documented
 public @interface VJson {
 
     String message() default "{fastboot.json}";// 错误提示信息默认值，可以使用el表达式。
