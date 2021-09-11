@@ -23,7 +23,7 @@ public interface LogRecordRepository extends JpaPlusRepository<LogRecord, String
     List<LogRecord> findByTypeAndIp(String type, String ip);
 
     // 方式3: 内置注解查询
-    @Query(value = "select * from xx_log where time > ?1", nativeQuery = true)
+    @Query(value = "select * from xx_log where time >= ?1", nativeQuery = true)
     List<LogRecord> findByTimeout(Long time);
 
     @Transactional

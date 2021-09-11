@@ -3,6 +3,7 @@ package com.xiesx.fastboot.db.jpa;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -16,7 +17,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
-import com.querydsl.jpa.impl.JPADeleteClause;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.app.log.LogRecord;
@@ -44,51 +44,50 @@ public class TestDelete {
     @Autowired
     LogRecordRepository mLogRecordRepository;
 
-    List<String> ids = Lists.newArrayList();
+    QLogRecord ql = QLogRecord.logRecord;
 
     List<List<LogRecord>> result = Lists.newArrayList();
 
     @BeforeEach
     public void befoe() {
-        // 零时存储数据
+        // 零时数据
         List<LogRecord> logRecords = Lists.newArrayList();
-        // 构造日志
         for (int i = 1; i <= 10; i++) {
-            LogRecord logRecord = new LogRecord()//
-                    .setIp(CharSequenceUtil.format("127.0.{}.1", i))//
-                    .setMethod("test")//
-                    .setType("GET");
-            logRecords.add(logRecord);
+            logRecords.add(new LogRecord().setIp(CharSequenceUtil.format("127.0.{}.1", i)).setMethod("test").setType("GET").setTime(10L));
         }
-        // 保存日志
-        List<LogRecord> list = mLogRecordRepository.insertOrUpdate(logRecords);
+        // 先删除
+        mLogRecordRepository.delete(ql.id.isNotNull());
         // 每份2个，分割5份，方便测试
-        result = ListUtil.split(list, 2);
+        result = ListUtil.split(mLogRecordRepository.insertOrUpdate(logRecords), 2);
     }
 
     @Test
     @Order(1)
     public void delete_jpa() {
-        // 按对象删除
-        for (LogRecord lr : result.get(0)) {
-            mLogRecordRepository.delete(lr);
-        }
-
-        // 按主键删除
-        for (LogRecord lr : result.get(1)) {
-            mLogRecordRepository.deleteById(lr.getId());
-        }
+        // 按主键逐个删除（逻辑）
+        result.get(0).forEach(lr -> {
+            mLogRecordRepository.delete(lr.getId());
+        });
+        // 按对象批量删除（逻辑）
+        mLogRecordRepository.deleteAll(result.get(1));
     }
 
     @Test
     @Order(2)
     public void delete_qdsl() {
         int row = 0;
-        // 按Q对象删除（物理）
-        QLogRecord q = QLogRecord.logRecord;
+        // 按主键逐个删除（物理）
         for (LogRecord lr : result.get(0)) {
-            row += mJpaQuery.delete(q).where(q.id.eq(lr.getId())).execute();
+            row += (int) mJpaQuery.delete(ql).where(ql.id.eq(lr.getId())).execute();
         }
+        assertEquals(row, 2);
+        // 按对象逐个删除（物理）
+        for (LogRecord lr : result.get(1)) {
+            row += (int) mJpaQuery.delete(ql).where(ql.eq(lr)).execute();
+        }
+        assertEquals(row, 4);
+        // 按主键批量删除（物理）
+        row = (int) mJpaQuery.delete(ql).where(ql.id.in(result.get(2).stream().map(LogRecord::getId).collect(Collectors.toList()))).execute();
         assertEquals(row, 2);
     }
 
@@ -96,29 +95,16 @@ public class TestDelete {
     @Order(3)
     public void delete_plus() {
         int row = 0;
-        // 按主键删除（逻辑）
+        // 按主键逐个删除（逻辑）
         for (LogRecord lr : result.get(0)) {
             row += mLogRecordRepository.delete(lr.getId());
         }
-
-        // 按List<主键>删除（逻辑）
-        for (LogRecord lr : result.get(1)) {
-            ids.add(lr.getId());
-        }
-        row += mLogRecordRepository.delete(ids);
-
-        // 按Q对象删除（物理）
-        QLogRecord q = QLogRecord.logRecord;
-        for (LogRecord lr : result.get(2)) {
-            JPADeleteClause jpaDeleteClause = mJpaQuery.delete(q).where(q.id.eq(lr.getId()));
-            row += mLogRecordRepository.delete(jpaDeleteClause);
-        }
-
-        // 按Q对象删除（物理）
-        for (LogRecord lr : result.get(3)) {
-            JPADeleteClause jpaDeleteClause = mJpaQuery.delete(q).where(q.id.eq(lr.getId()));
-            row += mLogRecordRepository.delete(jpaDeleteClause, q.type.eq("GET"));
-        }
-        assertEquals(row, 8);
+        assertEquals(row, 2);
+        // 按主键批量删除（逻辑）
+        row = mLogRecordRepository.delete(result.get(1).stream().map(LogRecord::getId).collect(Collectors.toList()));
+        assertEquals(row, 2);
+        // 按条件批量删除（物理）
+        row = mLogRecordRepository.delete(ql.type.eq("GET"));
+        assertEquals(row, 10);
     }
 }

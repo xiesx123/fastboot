@@ -1,7 +1,6 @@
 package com.xiesx.fastboot.db.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
@@ -41,6 +40,8 @@ public class TestUpdate {
     @Autowired
     LogRecordRepository mLogRecordRepository;
 
+    QLogRecord ql = QLogRecord.logRecord;
+
     LogRecord logRecord;
 
     @BeforeEach
@@ -49,79 +50,61 @@ public class TestUpdate {
                 .setIp("127.0.0.1")//
                 .setMethod("test")//
                 .setType("GET");
-        logRecord = mLogRecordRepository.saveAndFlush(logRecord);
+        logRecord = mLogRecordRepository.insertOrUpdate(logRecord);
     }
 
     @Test
     @Order(1)
     public void update_jpa() {
-        // 修改时间
-        logRecord.setTime(2L);
-
-        // 修改单个，立即生效
+        // 修改单个
+        logRecord.setTime(1L);
         LogRecord lr = mLogRecordRepository.saveAndFlush(logRecord);
-        assertEquals(logRecord.getId(), lr.getId());
-        assertEquals(logRecord.getTime(), 2L);
+        assertEquals(logRecord.getTime(), 1L);
 
-        // 添加单个，延迟生效
-        lr = mLogRecordRepository.save(logRecord);
-        assertEquals(logRecord.getId(), lr.getId());
-        assertEquals(logRecord.getTime(), 2L);
-
-        // 添加多个，延迟生效
-        List<LogRecord> lrs = mLogRecordRepository.saveAll(Lists.newArrayList(logRecord, logRecord));
-        for (LogRecord logRecord : lrs) {
-            assertEquals(logRecord.getId(), lr.getId());
-            assertEquals(logRecord.getTime(), 2L);
-        }
-        // 手动刷新
-        mLogRecordRepository.flush();
+        // 修改多个
+        lr.setTime(2L);
+        List<LogRecord> lrs = mLogRecordRepository.saveAllAndFlush(Lists.newArrayList(lr));
+        assertEquals(lrs.get(0).getTime(), 2L);
     }
 
     @Test
     @Order(2)
     public void update_qdsl() {
-        int row = 0;
-        // 对象
-        QLogRecord q = QLogRecord.logRecord;
         // 方式1（key-value）
-        row += mJpaQuery.update(q)//
-                .set(q.time, 2L)//
-                .where(q.id.eq(logRecord.getId()))//
-                .execute();
+        int row = (int) mJpaQuery.update(ql).set(ql.time, 3L).where(ql.ip.eq("127.0.0.1")).execute();
+        assertEquals(row, 1);
 
         // 方式2（obj）
-        logRecord.setTime(2L);
-        row += mJpaQuery.update(q)//
-                .set(q, logRecord)//
-                .where(q.id.eq(logRecord.getId()))//
-                .execute();
+        logRecord.setTime(4L);
+        row = (int) mJpaQuery.update(ql).set(ql, logRecord).where(ql.ip.eq("127.0.0.1")).execute();
         // 验证
-        assertEquals(row, 2);
+        assertEquals(row, 1);
     }
 
     @Test
     @Order(3)
     public void update_plus() {
-        // 修改时间
-        logRecord.setTime(2L);
-
         // 修改单个
+        logRecord.setTime(5L);
         LogRecord lr = mLogRecordRepository.insertOrUpdate(logRecord);
-        assertNotNull(lr.getId());
-        int row = mLogRecordRepository.insertOrUpdateRow(logRecord);
+        assertEquals(logRecord.getTime(), 5L);
+
+        lr.setTime(6L);
+        int row = mLogRecordRepository.insertOrUpdateRow(lr);
         assertEquals(row, 1);
 
         // 修改多个
-        List<LogRecord> lrs = mLogRecordRepository.insertOrUpdate(logRecord, logRecord);
-        assertEquals(lrs.size(), 2);
-        row = mLogRecordRepository.insertOrUpdateRow(logRecord, logRecord);
-        assertEquals(row, 2);
+        lr.setTime(7L);
+        List<LogRecord> lrs = mLogRecordRepository.insertOrUpdate(Lists.newArrayList(lr));
+        assertEquals(lrs.get(0).getTime(), 7L);
+
+        lrs.get(0).setTime(8L);
+        row = mLogRecordRepository.insertOrUpdateRow(lrs);
+        assertEquals(row, 1);
 
         // 修改多个
-        lrs = mLogRecordRepository.insertOrUpdate(Lists.newArrayList(logRecord, logRecord));
-        assertEquals(lrs.size(), 2);
-        row = mLogRecordRepository.insertOrUpdateRow(Lists.newArrayList(logRecord, logRecord));
-        assertEquals(row, 2);
+        logRecord.setTime(9L);
+        row = mLogRecordRepository.update(logRecord, ql.ip.eq("127.0.0.1"));
+        assertEquals(row, 1);
     }
 }

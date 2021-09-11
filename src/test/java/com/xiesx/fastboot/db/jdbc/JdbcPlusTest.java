@@ -20,6 +20,7 @@ import com.google.common.collect.Lists;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.app.log.LogRecord;
 import com.xiesx.fastboot.app.log.LogRecordRepository;
+import com.xiesx.fastboot.app.log.QLogRecord;
 import com.xiesx.fastboot.db.jdbc.pojo.CommonPojo;
 import com.xiesx.fastboot.db.jdbc.pojo.LogRecordPojo;
 import com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator;
@@ -44,22 +45,20 @@ public class JdbcPlusTest {
     @Autowired
     LogRecordRepository mLogRecordRepository;
 
+    QLogRecord ql = QLogRecord.logRecord;
+
     List<LogRecord> result;
 
     @BeforeEach
     public void befoe() {
-        // 零时存储数据
+        // 零时数据
         List<LogRecord> logRecords = Lists.newArrayList();
-        // 构造日志
         for (int i = 1; i <= 10; i++) {
-            LogRecord logRecord = new LogRecord()//
-                    .setId(IdWorkerGenerator.nextId().toString())//
-                    .setIp(CharSequenceUtil.format("127.0.{}.1", i))//
-                    .setMethod("test")//
-                    .setType("GET");
-            logRecords.add(logRecord);
+            logRecords.add(new LogRecord().setIp(CharSequenceUtil.format("127.0.{}.1", i)).setMethod("test").setType("GET").setTime(10L));
         }
-        // 保存日志
+        // 先删除
+        mLogRecordRepository.delete(ql.id.isNotNull());
+        // 再添加
         result = mLogRecordRepository.insertOrUpdate(logRecords);
     }
 

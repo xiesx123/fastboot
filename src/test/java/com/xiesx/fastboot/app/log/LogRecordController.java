@@ -37,13 +37,11 @@ public class LogRecordController extends BaseController {
      */
     @RequestMapping(value = "page")
     public PResult page(BaseVo base, PageVo page) {
-        // 对象
-        QLogRecord qLogRecord = QLogRecord.logRecord;
         // 条件
-        Predicate predicate = qLogRecord.id.isNotNull();
+        Predicate predicate = ql.id.isNotNull();
         if (ObjectUtil.isNotEmpty(base.getKeyword())) {
-            Predicate p1 = qLogRecord.id.like("%" + base.getKeyword() + "%");
-            Predicate p2 = qLogRecord.method.likeIgnoreCase("%" + base.getKeyword() + "%");
+            Predicate p1 = ql.id.like("%" + base.getKeyword() + "%");
+            Predicate p2 = ql.method.likeIgnoreCase("%" + base.getKeyword() + "%");
             predicate = ExpressionUtils.and(predicate, ExpressionUtils.anyOf(p1, p2));
         }
         // 排序

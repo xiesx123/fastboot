@@ -3,7 +3,7 @@ logging:                                                    # logging
 
 spring:
   profiles:
-    active: mysql
+    active: dev
   devtools:
     restart:
       enabled: true                                         # 开发模式

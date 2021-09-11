@@ -1,9 +1,10 @@
 package com.xiesx.fastboot.db.jpa;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.QBean;
@@ -25,6 +27,8 @@ import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.app.log.LogRecord;
 import com.xiesx.fastboot.app.log.LogRecordRepository;
 import com.xiesx.fastboot.app.log.QLogRecord;
+
+import cn.hutool.core.text.CharSequenceUtil;
 
 /**
  * @title TestSelect.java
@@ -43,81 +47,77 @@ public class TestSelect {
     @Autowired
     LogRecordRepository mLogRecordRepository;
 
+    QLogRecord ql = QLogRecord.logRecord;
+
+    @BeforeEach
+    public void befoe() {
+        // 零时数据
+        List<LogRecord> logRecords = Lists.newArrayList();
+        for (int i = 1; i <= 10; i++) {
+            logRecords.add(new LogRecord().setIp(CharSequenceUtil.format("127.0.{}.1", i)).setMethod("test").setType("GET").setTime(10L));
+        }
+        // 先删除
+        mLogRecordRepository.delete(ql.id.isNotNull());
+        // 再添加
+        mLogRecordRepository.insertOrUpdate(logRecords);
+    }
+
     @Test
     @Order(11)
-    public void selelct_field() {
+    public void select_field() {
         // 默认生成所有属性名查询
-        List<LogRecord> list = mLogRecordRepository.findByType("GET");
-        // 验证
-        assertFalse(list.isEmpty());
+        assertEquals(mLogRecordRepository.findByType("GET").size(), 10);
     }
 
     @Test
     @Order(12)
-    public void selelct_field_expression() {
+    public void select_field_expression() {
         // 内置属性表达式（如：And、Equals.....）
-        List<LogRecord> list = mLogRecordRepository.findByTypeAndIp("GET", "127.0.0.1");
-        // 验证
-        assertFalse(list.isEmpty());
+        assertEquals(mLogRecordRepository.findByTypeAndIp("GET", "127.0.1.1").size(), 1);
     }
 
     @Test
     @Order(13)
-    public void selelct_query() {
+    public void select_query() {
         // 内置注解查询
-        List<LogRecord> list = mLogRecordRepository.findByTimeout(10L);
-        // 验证
-        assertFalse(list.isEmpty());
+        assertEquals(mLogRecordRepository.findByTimeout(10L).size(), 10);
     }
 
     @Test
     @Order(14)
-    public void selelct_query_dsl() {
-        // Querydsl查询
-        // 对象
-        QLogRecord qLogRecord = QLogRecord.logRecord;
+    public void select_query_dsl() {
         // 构造查询
-        List<LogRecord> list = mJpaQuery.selectFrom(qLogRecord)// 查表
-                .where(qLogRecord.type.eq("GET"), // 条件1
-                        qLogRecord.ip.eq("127.0.0.1")// 条件2
-                )// 条件
-                .orderBy(qLogRecord.createDate.desc()) // 排序
+        List<LogRecord> list = mJpaQuery.selectFrom(ql)// 查表
+                .where(ql.type.eq("GET"), ql.ip.eq("127.0.1.1"))// 条件
+                .orderBy(ql.createDate.desc()) // 排序
                 .fetch();
         // 验证
-        assertFalse(list.isEmpty());
+        assertEquals(list.size(), 1);
     }
 
     @Test
     @Order(21)
     public void page_jpa() {
-        // 对象
-        QLogRecord q = QLogRecord.logRecord;
-        // 条件
-        Predicate predicate = q.type.likeIgnoreCase("%GET%");
         // 分页
-        Pageable pageable = PageRequest.of(1, 10);
-        // 分页
-        Page<LogRecord> data = mLogRecordRepository.findAll(predicate, pageable);
+        Page<LogRecord> data = mLogRecordRepository.findAll(ql.type.likeIgnoreCase("%GET%"), PageRequest.of(0, 10));
         // 验证
-        assertFalse(data.getContent().isEmpty());
+        assertEquals(data.getContent().size(), 10);
     }
 
     @Test
     @Order(22)
     public void page_qdsl() {
-        // 对象
-        QLogRecord q = QLogRecord.logRecord;
         // 条件
-        Predicate predicate = q.type.likeIgnoreCase("%GET%");
+        Predicate predicate = ql.type.likeIgnoreCase("%GET%");
         // 分页
-        Pageable pageable = PageRequest.of(1, 10);
+        Pageable pageable = PageRequest.of(0, 10);
         // 查询字段
-        QBean<LogRecord> fields = Projections.fields(LogRecord.class, q.id, q.method);
+        QBean<LogRecord> fields = Projections.fields(LogRecord.class, ql.id, ql.method);
         // 构造查询
-        JPAQuery<LogRecord> jpaQuery = mJpaQuery.select(fields).from(q).where(predicate);
+        JPAQuery<LogRecord> jpaQuery = mJpaQuery.select(fields).from(ql).where(predicate);
         // 查询
         Page<LogRecord> data = mLogRecordRepository.findAll(jpaQuery, pageable);
         // 验证
-        assertFalse(data.getContent().isEmpty());
+        assertEquals(data.getContent().size(), 10);
     }
 }

@@ -21,11 +21,11 @@ import org.springframework.util.Assert;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.impl.*;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 /**
  * @title JpaPlusRepositoryExecutor.java
@@ -164,26 +164,14 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public int insert(JPAInsertClause insert) {
-        return (int) insert.execute();
+    public int insert(T entity) {
+        return (int) jpaQueryFactory.insert(path).set(path, entity).execute();
     }
 
     @Transactional
     @Override
-    public int insert(JPAInsertClause insert, Path<T> path, T entity) {
-        return (int) insert.set(path, entity).execute();
-    }
-
-    @Transactional
-    @Override
-    public int update(JPAUpdateClause update) {
-        return (int) update.execute();
-    }
-
-    @Transactional
-    @Override
-    public int update(JPAUpdateClause update, Predicate... predicate) {
-        return (int) update.where(predicate).execute();
+    public int update(T entity, Predicate... predicate) {
+        return (int) jpaQueryFactory.update(path).set(path, entity).where(predicate).execute();
     }
 
     @Transactional
@@ -212,13 +200,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public int delete(JPADeleteClause delete) {
-        return (int) delete.execute();
-    }
-
-    @Transactional
-    @Override
-    public int delete(JPADeleteClause delete, Predicate... predicate) {
-        return (int) delete.where(predicate).execute();
+    public int delete(Predicate... predicate) {
+        return (int) jpaQueryFactory.delete(path).where(predicate).execute();
     }
 }

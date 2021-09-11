@@ -9,12 +9,8 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.jpa.impl.JPADeleteClause;
-import com.querydsl.jpa.impl.JPAInsertClause;
 import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAUpdateClause;
 
 /**
  * @title JpaPlusRepository.java
@@ -46,20 +42,13 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
     int insertOrUpdateRow(List<T> entities);
 
     @Deprecated
-    int insert(JPAInsertClause insert);
+    int insert(T entity);
 
-    @Deprecated
-    int insert(JPAInsertClause insert, Path<T> path, T entity);
-
-    int update(JPAUpdateClause update);
-
-    int update(JPAUpdateClause update, Predicate... predicate);
+    int update(T entity, Predicate... predicate);
 
     int delete(ID... ids);
 
     int delete(List<ID> ids);
 
-    int delete(JPADeleteClause delete);
-
-    int delete(JPADeleteClause delete, Predicate... predicate);
+    int delete(Predicate... predicate);
 }
