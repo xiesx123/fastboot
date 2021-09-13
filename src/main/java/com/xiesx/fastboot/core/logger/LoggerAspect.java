@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -13,8 +12,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
@@ -63,8 +60,6 @@ public class LoggerAspect {
 
     @Around("loggerPointcut()")
     public Object loggerAroundAspect(ProceedingJoinPoint pjp) throws Throwable {
-        // 获取请求信息
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         // 获取类信息
         Class<?> cls = pjp.getTarget().getClass();
         // 获取方法信息
@@ -121,7 +116,7 @@ public class LoggerAspect {
         }
         // 存储实例
         LogStorage logStorage = Singleton.get(storage, operation, methodName, newArgs, time);
-        logStorage.record(request, result);
+        logStorage.record(result);
         return result;
     }
 }

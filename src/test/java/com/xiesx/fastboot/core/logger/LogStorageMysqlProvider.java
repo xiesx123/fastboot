@@ -32,8 +32,8 @@ public class LogStorageMysqlProvider extends LogStorageProvider {
     }
 
     @Override
-    public void record(HttpServletRequest request, Object result) {
-        super.record(request, result);
+    public void record(Object result) {
+        super.record(result);
         // 构造日志
         LogRecord logRecord = new LogRecord()//
                 .setIp(getIpAddr(request))//

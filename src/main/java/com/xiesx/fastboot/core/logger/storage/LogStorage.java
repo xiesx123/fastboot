@@ -1,7 +1,5 @@
 package com.xiesx.fastboot.core.logger.storage;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * @title LoggerStorage.java
  * @description
@@ -11,8 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface LogStorage {
 
     /**
-     * @param request
      * @param result
      */
-    void record(HttpServletRequest request, Object result);
+    void record(Object result);
 }

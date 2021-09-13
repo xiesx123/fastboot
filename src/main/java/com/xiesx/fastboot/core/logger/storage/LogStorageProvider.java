@@ -5,6 +5,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 import com.google.common.collect.Maps;
 
 import lombok.Data;
@@ -40,6 +43,7 @@ public class LogStorageProvider implements LogStorage {
     public Long time;
 
     // =============
+    public HttpServletRequest request;
 
     public String type;
 
@@ -50,8 +54,9 @@ public class LogStorageProvider implements LogStorage {
     public Map<String, String> parameters;
 
     @Override
-    public void record(HttpServletRequest request, Object result) {
+    public void record(Object result) {
         // 获取请求信息
+        request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         type = request.getMethod();
         url = request.getRequestURL().toString();
         uri = request.getRequestURI();
