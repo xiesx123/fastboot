@@ -112,7 +112,7 @@ public class TestSelect {
         // 分页
         Pageable pageable = PageRequest.of(0, 10);
         // 查询字段
-        QBean<LogRecord> fields = Projections.fields(LogRecord.class, ql.id, ql.method);
+        QBean<LogRecord> fields = Projections.fields(LogRecord.class, ql);
         // 构造查询
         JPAQuery<LogRecord> jpaQuery = mJpaQuery.select(fields).from(ql).where(predicate);
         // 查询
