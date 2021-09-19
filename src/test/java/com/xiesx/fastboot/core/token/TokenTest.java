@@ -24,7 +24,7 @@ import com.xiesx.fastboot.app.base.BaseTest;
 import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.core.token.cfg.TokenCfg;
 import com.xiesx.fastboot.core.token.cfg.TokenProperties;
-import com.xiesx.fastboot.core.token.header.HeaderParams;
+import com.xiesx.fastboot.core.token.header.HttpHeaderParams;
 
 import cn.hutool.core.date.DateUtil;
 import io.jsonwebtoken.Claims;
@@ -48,7 +48,7 @@ public class TokenTest extends BaseTest {
 
     String token = "";
 
-    Map<String, Object> param, header;
+    Map<String, String> param, header;
 
     @BeforeEach
     public void befoe() {
@@ -57,7 +57,7 @@ public class TokenTest extends BaseTest {
         // 参数
         param = Maps.newConcurrentMap();
         param.put("name", "fasotboot");
-        param.put("p1", 1);
+        param.put("p1", "1");
         // 头部
         header = Maps.newConcurrentMap();
         header.put(properties.getHeader(), token);
@@ -73,7 +73,7 @@ public class TokenTest extends BaseTest {
         assertEquals(result.getData().get(0), "fasotboot");
         assertEquals(result.getData().get(1), "123");
         //
-        HeaderParams hp = JSON.parseObject(result.getData().get(2).toString(), HeaderParams.class);
+        HttpHeaderParams hp = JSON.parseObject(result.getData().get(2).toString(), HttpHeaderParams.class);
         assertEquals(hp.getUid(), "123");
     }
 

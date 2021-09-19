@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.app.base.BaseVo;
-import com.xiesx.fastboot.core.logger.LogStorageMysqlProvider;
+import com.xiesx.fastboot.core.logger.LogStorageSimpleProvider;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 import com.xiesx.fastboot.db.jdbc.JdbcTemplatePlus;
 
@@ -31,7 +31,7 @@ import lombok.extern.log4j.Log4j2;
 @Validated
 @RestController
 @RequestMapping("/exception")
-@GoLogger(storage = LogStorageMysqlProvider.class)
+@GoLogger(storage = LogStorageSimpleProvider.class)
 public class ExceptionController extends BaseController {
 
     /**

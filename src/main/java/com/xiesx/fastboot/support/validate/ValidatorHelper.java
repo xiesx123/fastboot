@@ -16,6 +16,7 @@ import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 
 import cn.hutool.core.lang.Assert;
+import lombok.NonNull;
 
 /**
  * @title ValidatorHelper.java
@@ -39,7 +40,7 @@ public class ValidatorHelper {
      * @param object
      * @throws ConstraintViolationException
      */
-    public static void validate(Object object) throws ConstraintViolationException {
+    public static void validate(@NonNull Object object) throws ConstraintViolationException {
         Set<? extends ConstraintViolation<?>> constraintViolations = get().validate(object, Default.class);
         if (!constraintViolations.isEmpty()) {
             throw new ConstraintViolationException(constraintViolations);
@@ -53,7 +54,7 @@ public class ValidatorHelper {
      * @param groups
      * @throws ConstraintViolationException
      */
-    public static void validate(Object object, Class<?>... groups) throws ConstraintViolationException {
+    public static void validate(@NonNull Object object, Class<?>... groups) throws ConstraintViolationException {
         Set<? extends ConstraintViolation<?>> constraintViolations = get().validate(object, groups);
         if (!constraintViolations.isEmpty()) {
             throw new ConstraintViolationException(constraintViolations);
@@ -62,11 +63,11 @@ public class ValidatorHelper {
 
     // =============
 
-    public static List<String> extractMessage(ConstraintViolationException e) {
+    public static List<String> extractMessage(@NonNull ConstraintViolationException e) {
         return extractMessage(e.getConstraintViolations());
     }
 
-    public static List<String> extractMessage(Set<? extends ConstraintViolation<?>> constraintViolations) {
+    public static List<String> extractMessage(@NonNull Set<? extends ConstraintViolation<?>> constraintViolations) {
         List<String> errorMessages = Lists.newArrayList();
         for (ConstraintViolation<?> violation : constraintViolations) {
             errorMessages.add(violation.getMessage());
@@ -76,11 +77,11 @@ public class ValidatorHelper {
 
     // =============
 
-    public static Map<String, String> extractPropertyAndMessage(ConstraintViolationException e) {
+    public static Map<String, String> extractPropertyAndMessage(@NonNull ConstraintViolationException e) {
         return extractPropertyAndMessage(e.getConstraintViolations());
     }
 
-    public static Map<String, String> extractPropertyAndMessage(Set<? extends ConstraintViolation<?>> constraintViolations) {
+    public static Map<String, String> extractPropertyAndMessage(@NonNull Set<? extends ConstraintViolation<?>> constraintViolations) {
         Map<String, String> errorMsgs = Maps.newConcurrentMap();
         for (ConstraintViolation<?> violation : constraintViolations) {
             errorMsgs.put(violation.getPropertyPath().toString(), violation.getMessage());
@@ -90,19 +91,19 @@ public class ValidatorHelper {
 
     // =============
 
-    public static List<String> extractPropertyAndMessageAsList(ConstraintViolationException e) {
+    public static List<String> extractPropertyAndMessageAsList(@NonNull ConstraintViolationException e) {
         return extractPropertyAndMessageAsList(e.getConstraintViolations(), " ");
     }
 
-    public static List<String> extractPropertyAndMessageAsList(Set<? extends ConstraintViolation<?>> constraintViolations) {
+    public static List<String> extractPropertyAndMessageAsList(@NonNull Set<? extends ConstraintViolation<?>> constraintViolations) {
         return extractPropertyAndMessageAsList(constraintViolations, " ");
     }
 
-    public static List<String> extractPropertyAndMessageAsList(ConstraintViolationException e, String separator) {
+    public static List<String> extractPropertyAndMessageAsList(@NonNull ConstraintViolationException e, String separator) {
         return extractPropertyAndMessageAsList(e.getConstraintViolations(), separator);
     }
 
-    public static List<String> extractPropertyAndMessageAsList(Set<? extends ConstraintViolation<?>> constraintViolations, String separator) {
+    public static List<String> extractPropertyAndMessageAsList(@NonNull Set<? extends ConstraintViolation<?>> constraintViolations, String separator) {
         List<String> errorMessages = Lists.newArrayList();
         for (ConstraintViolation<?> violation : constraintViolations) {
             errorMessages.add(violation.getPropertyPath() + separator + violation.getMessage());

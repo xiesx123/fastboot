@@ -99,7 +99,6 @@ public class LicenseManagerLocal extends LicenseManager {
                 log.error("license xml decoder fail", e);
             }
         }
-
         return null;
     }
 

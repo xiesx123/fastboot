@@ -57,7 +57,7 @@ public class HttpRetryer {
             if (attempt.hasException()) {
                 if (attempt.getExceptionCause().getCause() instanceof RunException) {
                     RunException runException = (RunException) attempt.getExceptionCause().getCause();
-                    log.trace("exception cause by:{} {}", runException.getCode(), runException.getMessage());
+                    log.trace("exception cause by:{} {}", runException.getStatus(), runException.getMessage());
                 } else {
                     log.trace("exception cause by:{}", attempt.getExceptionCause().toString());
                 }

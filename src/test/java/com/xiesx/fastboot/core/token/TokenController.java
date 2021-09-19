@@ -7,11 +7,11 @@ import com.google.common.collect.Lists;
 import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
-import com.xiesx.fastboot.core.logger.LogStorageMysqlProvider;
+import com.xiesx.fastboot.core.logger.LogStorageSimpleProvider;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 import com.xiesx.fastboot.core.token.annotation.GoHeader;
 import com.xiesx.fastboot.core.token.annotation.GoToken;
-import com.xiesx.fastboot.core.token.header.HeaderParams;
+import com.xiesx.fastboot.core.token.header.HttpHeaderParams;
 
 /**
  * @title TokenController.java
@@ -21,11 +21,11 @@ import com.xiesx.fastboot.core.token.header.HeaderParams;
  */
 @RestController
 @RequestMapping("/token")
-@GoLogger(storage = LogStorageMysqlProvider.class)
+@GoLogger(storage = LogStorageSimpleProvider.class)
 public class TokenController extends BaseController {
 
     @RequestMapping(value = "header")
-    public Result header(String name, @GoToken String uid, @GoHeader HeaderParams p1) {
+    public Result header(String name, @GoToken String uid, @GoHeader HttpHeaderParams p1) {
         return R.succ(Lists.newArrayList(name, uid, p1));
     }
 }

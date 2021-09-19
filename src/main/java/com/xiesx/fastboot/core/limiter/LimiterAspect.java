@@ -15,6 +15,7 @@ import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.core.limiter.annotation.GoLimiter;
 
+import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import lombok.extern.log4j.Log4j2;
 
@@ -51,7 +52,7 @@ public class LimiterAspect {
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();
         // 获取注解信息
-        GoLimiter limiter = method.getAnnotation(GoLimiter.class);
+        GoLimiter limiter = AnnotationUtil.getAnnotation(method, GoLimiter.class);
         // 每秒不超过limit许可
         rateLimiter.setRate(limiter.limit());
         // 尝试能否在timeout时间内获取permits个许可

@@ -1,6 +1,5 @@
 package com.xiesx.fastboot.core.logger.storage;
 
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,8 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.google.common.collect.Maps;
-
+import cn.hutool.extra.servlet.ServletUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -27,6 +25,9 @@ import lombok.extern.log4j.Log4j2;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class LogStorageProvider implements LogStorage {
+
+    private static final String[] HEAD_IP =
+            {"HTTP_X_FORWARDED_FOR", "HTTP_X_FORWARDED", "HTTP_X_CLUSTER_CLIENT_IP", "HTTP_CLIENT_IP", "HTTP_FORWARDED_FOR", "HTTP_FORWARDED", "HTTP_VIA", "REMOTE_ADDR", "PROXY_FORWARDED_FOR"};
 
     private static final String LOG_STORAHE_FORMAT = "| {} | {} | {} | {} | {} | {} | {} | {} ";
 
@@ -51,6 +52,8 @@ public class LogStorageProvider implements LogStorage {
 
     public String uri;
 
+    public String ip;
+
     public Map<String, String> parameters;
 
     @Override
@@ -60,14 +63,8 @@ public class LogStorageProvider implements LogStorage {
         type = request.getMethod();
         url = request.getRequestURL().toString();
         uri = request.getRequestURI();
-        // 获取参数
-        parameters = Maps.newConcurrentMap();
-        Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements()) {
-            String name = names.nextElement();
-            String value = request.getParameter(name);
-            parameters.put(name, value);
-        }
+        ip = ServletUtil.getClientIP(request, HEAD_IP);
+        parameters = ServletUtil.getParamMap(request);
         log.debug(LOG_STORAHE_FORMAT, url, uri, type, method, args, parameters, result, operation);
     }
 }

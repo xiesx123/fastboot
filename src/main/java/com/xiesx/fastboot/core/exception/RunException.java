@@ -1,5 +1,6 @@
 package com.xiesx.fastboot.core.exception;
 
+import cn.hutool.core.exceptions.StatefulException;
 import cn.hutool.core.text.CharSequenceUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,15 +13,9 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class RunException extends RuntimeException {
+public class RunException extends StatefulException {
 
     private static final long serialVersionUID = 1L;
-
-    private Integer code;
-
-    public RunException() {
-        super();
-    }
 
     /**
      * throw new RunException("出错啦！");
@@ -28,28 +23,16 @@ public class RunException extends RuntimeException {
      * @param msg
      */
     public RunException(String msg) {
-        super(msg);
-        this.code = RunExc.RUNTIME.getCode();
+        super(RunExc.RUNTIME.getCode(), msg);
     }
 
     /**
-     * throw new RunException(-1,"出错啦！");
+     * throw new RunException(100,"出错啦！");
      *
      * @param msg
      */
-    public RunException(Integer code, String msg) {
-        super(msg);
-        this.code = code;
-    }
-
-    /**
-     * throw new RunException(e);
-     *
-     * @param e
-     */
-    public RunException(Throwable e) {
-        super(e);
-        this.code = RunExc.RUNTIME.getCode();
+    public RunException(int code, String msg) {
+        super(code, msg);
     }
 
     /**
@@ -58,8 +41,7 @@ public class RunException extends RuntimeException {
      * @param rxc
      */
     public RunException(RunExc rxc) {
-        super(rxc.getMsg());
-        this.code = rxc.getCode();
+        super(rxc.getCode(), rxc.getMsg());
     }
 
     /**
@@ -69,8 +51,7 @@ public class RunException extends RuntimeException {
      * @param msg
      */
     public RunException(RunExc rxc, String msg) {
-        super(rxc.getMsg() + ":" + msg);
-        this.code = rxc.getCode();
+        super(rxc.getCode(), rxc.getMsg() + ":" + msg);
     }
 
     /**
@@ -81,7 +62,47 @@ public class RunException extends RuntimeException {
      * @param msg
      */
     public RunException(RunExc rxc, String format, Object... msg) {
-        super(rxc.getMsg() + ":" + CharSequenceUtil.format(format, msg));
-        this.code = rxc.getCode();
+        super(rxc.getCode(), CharSequenceUtil.format(format, msg));
+    }
+
+    /**
+     * throw new RunException(e);
+     *
+     * @param e
+     */
+    public RunException(Throwable e) {
+        super(RunExc.RUNTIME.getCode(), e);
+    }
+
+    /**
+     * throw new RunException(e,RunExc.RUN);
+     *
+     * @param rxc
+     * @param msg
+     */
+    public RunException(Throwable e, RunExc rxc) {
+        super(rxc.getCode(), e);
+    }
+
+    /**
+     * throw new RunException(e,RunExc.RUN,"处理失败");
+     *
+     * @param rxc
+     * @param format
+     * @param msg
+     */
+    public RunException(Throwable e, RunExc rxc, String msg) {
+        super(rxc.getCode(), msg, e);
+    }
+
+    /**
+     * throw new RunException(e,RunExc.RUN,"{}处理失败","xxx");
+     *
+     * @param rxc
+     * @param format
+     * @param msg
+     */
+    public RunException(Throwable e, RunExc rxc, String format, Object... msg) {
+        super(rxc.getCode(), CharSequenceUtil.format(format, msg), e);
     }
 }

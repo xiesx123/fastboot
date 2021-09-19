@@ -6,7 +6,7 @@ spring:
     active: dev
   devtools:
     restart:
-      enabled: true                                         # 开发模式
+      enabled: false                                         # 开发模式
   datasource:
     dynamic:
       p6spy: true

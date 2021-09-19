@@ -60,7 +60,7 @@
 		<Logger name="org.apache" level="ERROR" />
 
 		<!-- 默认INFO -->
-		<Root level="INFO">
+		<Root level="TRACE">
 			<AppenderRef ref="console" />
 			<AppenderRef ref="all" />
 			<AppenderRef ref="error" />

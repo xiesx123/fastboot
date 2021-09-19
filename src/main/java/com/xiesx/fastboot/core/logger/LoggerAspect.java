@@ -20,11 +20,11 @@ import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 import com.xiesx.fastboot.core.logger.storage.LogStorage;
 import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
 
+import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.lang.Filter;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -66,19 +66,26 @@ public class LoggerAspect {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         String methodName = method.getName();
+        // 默认值
+        Boolean print = true;
+        Boolean format = false;
+        String operation = "";
+        Class<? extends LogStorage> storage = LogStorageProvider.class;
         // 获取类注解（优先）
-        GoLogger clogger = cls.getAnnotation(GoLogger.class);
-        Boolean print = ObjectUtil.isNull(clogger) ? true : clogger.print();
-        Boolean format = ObjectUtil.isNull(clogger) ? false : clogger.format();
-        String operation = ObjectUtil.isNull(clogger) ? "" : clogger.operation();
-        Class<? extends LogStorage> storage = ObjectUtil.isNull(clogger) ? LogStorageProvider.class : clogger.storage();
+        if (AnnotationUtil.hasAnnotation(cls, GoLogger.class)) {
+            GoLogger logger = cls.getAnnotation(GoLogger.class);
+            print = logger.print();
+            format = logger.format();
+            operation = logger.operation();
+            storage = logger.storage();
+        }
         // 获取方法注解
-        GoLogger mlogger = method.getAnnotation(GoLogger.class);
-        if (ObjectUtil.isNotNull(mlogger)) {
-            print = mlogger.print();
-            format = mlogger.format();
-            operation = mlogger.operation();
-            storage = mlogger.storage();
+        if (AnnotationUtil.hasAnnotation(method, GoLogger.class)) {
+            GoLogger logger = method.getAnnotation(GoLogger.class);
+            print = logger.print();
+            format = logger.format();
+            operation = logger.operation();
+            storage = logger.storage();
         }
         // 获取入参
         Object[] args = pjp.getArgs();

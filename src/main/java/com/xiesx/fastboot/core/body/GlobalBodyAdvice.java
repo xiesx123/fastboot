@@ -15,6 +15,7 @@ import com.xiesx.fastboot.base.AbstractStatus;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.core.body.annotation.IgnoreBody;
 
+import cn.hutool.core.annotation.AnnotationUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -31,10 +32,8 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> converterType) {
         // 获取当前处理请求方法
         Method method = methodParameter.getMethod();
-        // 获取方法注解
-        IgnoreBody annotation = methodParameter.getMethod().getAnnotation(IgnoreBody.class);
         // 使用注解则忽略
-        Boolean isSupport = (annotation == null);
+        Boolean isSupport = AnnotationUtil.hasAnnotation(method, IgnoreBody.class);
         log.debug("method ({}) body write ({}) support", method.getName(), isSupport);
         // true 拦截、false 忽略
         return isSupport;
@@ -50,20 +49,16 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
         // 判断Void类型
         if (returnType.equals(Void.TYPE)) {
             return null;
+        } else if (obj instanceof AbstractStatus) {
+            return obj;
+        } else if (obj instanceof Map<?, ?> || obj instanceof Iterable<?>) {
+            return obj;
+        } else if (obj instanceof com.alibaba.fastjson.JSON) {
+            return obj;
+        } else if (obj instanceof String) {
+            return obj;
         } else {
-            if (obj instanceof AbstractStatus) {
-                return obj;
-            } else if (obj instanceof Map<?, ?> || obj instanceof Iterable<?>) {
-                return obj;
-            } else if (obj instanceof com.alibaba.fastjson.JSON) {
-                return obj;
-            } else if (obj instanceof String) {
-                return obj;
-            } else if (obj == null) {
-                return R.succ();
-            } else {
-                return R.succ(obj);
-            }
+            return (obj == null) ? R.succ() : R.succ(obj);
         }
     }
 }

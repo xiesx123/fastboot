@@ -39,13 +39,13 @@ public class SignerTest extends BaseTest {
     @Autowired
     SignerProperties properties;
 
-    Map<String, Object> param, header;
+    Map<String, String> param, header;
 
     @BeforeEach
     public void befoe() {
         // 参数
         param = Maps.newConcurrentMap();
-        param.put("p1", 1);
+        param.put("p1", "1");
         param.put("p2", "2");
         // 签名
         String sign = SignerHelper.getSignature(param, properties.getSecret());

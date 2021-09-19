@@ -3,15 +3,9 @@ package com.xiesx.fastboot.utils;
 import java.net.URL;
 
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.system.SystemUtil;
 
 public class RuntimeUtils {
-
-    /**
-     * @return 当前操作系统是否为Windows系统
-     */
-    public static boolean isWindows() {
-        return System.getProperties().getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1;
-    }
 
     /**
      * @return 获取应用根路径（若WEB工程则基于.../WEB-INF/返回，若普通工程则返回类所在路径）
@@ -40,7 +34,7 @@ public class RuntimeUtils {
         }
         if (rootPath != null) {
             rootPath = CharSequenceUtil.replace(rootPath, "%20", " ");
-            if (isWindows()) {
+            if (SystemUtil.getOsInfo().isWindows()) {
                 rootPath = CharSequenceUtil.removePrefix(rootPath, "/");
             }
             rootPath = CharSequenceUtil.trimToEmpty(rootPath);

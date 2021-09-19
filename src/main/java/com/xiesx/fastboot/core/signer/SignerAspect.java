@@ -1,7 +1,6 @@
 package com.xiesx.fastboot.core.signer;
 
 import java.lang.reflect.Method;
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,14 +15,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.google.common.collect.Maps;
 import com.xiesx.fastboot.base.config.Ordered;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.core.signer.annotation.GoSigner;
 import com.xiesx.fastboot.core.signer.cfg.SignerProperties;
 
+import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.extra.servlet.ServletUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -63,17 +63,11 @@ public class SignerAspect {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         // 获取注解信息
-        GoSigner signer = method.getAnnotation(GoSigner.class);
+        GoSigner signer = AnnotationUtil.getAnnotation(method, GoSigner.class);
         // 获取请求信息
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         // 获取参数
-        Map<String, Object> parms = Maps.newConcurrentMap();
-        Enumeration<String> names = request.getParameterNames();
-        while (names.hasMoreElements()) {
-            String name = names.nextElement();
-            String value = request.getParameter(name);
-            parms.put(name, value);
-        }
+        Map<String, String> parms = ServletUtil.getParamMap(request);
         // 是否进行效验
         if (!signer.ignore() && !parms.isEmpty()) {
             // 获取sign

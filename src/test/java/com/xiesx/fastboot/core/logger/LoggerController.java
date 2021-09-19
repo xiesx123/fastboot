@@ -59,7 +59,7 @@ public class LoggerController extends BaseController {
      *
      * @return
      */
-    @GoLogger(format = true, storage = LogStorageMysqlProvider.class)
+    @GoLogger(format = true, storage = LogStorageSimpleProvider.class)
     @RequestMapping("/storage")
     public Result storage(BaseVo base, PageVo page) {
         return R.succ();

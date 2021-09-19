@@ -129,6 +129,6 @@ public class GlobalExceptionAdvice {
     public Result customRunException(HttpServletRequest request, RunException e) {
         String msg = ExceptionUtil.getMessage(e);
         log.error("custom run exception \n---------------------- \n{} \n----------------------", msg);
-        return R.error(e.getCode(), ExceptionUtil.getSimpleMessage(e));
+        return R.error(e.getStatus(), ExceptionUtil.getSimpleMessage(e));
     }
 }

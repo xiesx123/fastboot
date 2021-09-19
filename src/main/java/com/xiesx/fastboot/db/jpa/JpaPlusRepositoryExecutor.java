@@ -16,7 +16,6 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.querydsl.SimpleEntityPathResolver;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.EntityPath;
@@ -26,6 +25,8 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import cn.hutool.core.lang.Assert;
 
 /**
  * @title JpaPlusRepositoryExecutor.java

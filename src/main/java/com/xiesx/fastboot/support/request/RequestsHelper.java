@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.xiesx.fastboot.support.retry.*;
 
+import lombok.NonNull;
 import net.dongliu.requests.RawResponse;
 import net.dongliu.requests.RequestBuilder;
 
@@ -39,11 +40,11 @@ public class RequestsHelper {
         return retry;
     }
 
-    public static RawResponse retry(RequestBuilder request) {
+    public static RawResponse retry(@NonNull RequestBuilder request) {
         return HttpRetryer.retry(request, retry);
     }
 
-    public static RawResponse retry(RequestBuilder request, Retryer<RawResponse> retry) {
+    public static RawResponse retry(@NonNull RequestBuilder request, @NonNull Retryer<RawResponse> retry) {
         return HttpRetryer.retry(request, retry);
     }
 }

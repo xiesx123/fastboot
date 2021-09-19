@@ -8,6 +8,7 @@ import com.xiesx.fastboot.base.config.Configed;
 
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.lang.func.Func0;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -43,10 +44,7 @@ public class EventBusHelper {
      *
      * @param handler
      */
-    public static void register(EventAdapter<? extends AbstractEvent> handler) {
-        if (handler == null) {
-            return;
-        }
+    public static void register(@NonNull EventAdapter<? extends AbstractEvent> handler) {
         eventbus.register(handler);
         log.info("Registered event : {}", handler.getClass());
     }
@@ -56,10 +54,7 @@ public class EventBusHelper {
      *
      * @param event
      */
-    public static void post(Object object) {
-        if (object == null) {
-            return;
-        }
+    public static void post(@NonNull Object object) {
         eventbus.post(object);
     }
 
@@ -68,10 +63,7 @@ public class EventBusHelper {
      *
      * @param event
      */
-    public static void post(AbstractEvent event) {
-        if (event == null) {
-            return;
-        }
+    public static void post(@NonNull AbstractEvent event) {
         eventbus.post(event);
     }
 
@@ -80,10 +72,7 @@ public class EventBusHelper {
      *
      * @param handler
      */
-    public static void unregister(EventAdapter<? extends AbstractEvent> handler) {
-        if (handler == null) {
-            return;
-        }
+    public static void unregister(@NonNull EventAdapter<? extends AbstractEvent> handler) {
         eventbus.unregister(handler);
         log.info("Unregisted event : {}", handler.getClass());
     }

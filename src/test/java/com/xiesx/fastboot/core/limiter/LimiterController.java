@@ -7,7 +7,7 @@ import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
 import com.xiesx.fastboot.core.limiter.annotation.GoLimiter;
-import com.xiesx.fastboot.core.logger.LogStorageMysqlProvider;
+import com.xiesx.fastboot.core.logger.LogStorageSimpleProvider;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 
 import cn.hutool.core.date.DateUtil;
@@ -20,7 +20,7 @@ import cn.hutool.core.date.DateUtil;
  */
 @RestController
 @RequestMapping("/limiter")
-@GoLogger(storage = LogStorageMysqlProvider.class)
+@GoLogger(storage = LogStorageSimpleProvider.class)
 public class LimiterController extends BaseController {
 
     /**

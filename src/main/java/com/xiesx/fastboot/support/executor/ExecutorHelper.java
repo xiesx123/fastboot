@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.util.concurrent.*;
 
+import cn.hutool.core.collection.ListUtil;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -30,7 +32,7 @@ public class ExecutorHelper {
 
     /**
      * 获取
-     * 
+     *
      * @return
      */
     public static ListeningExecutorService getExecutorService() {
@@ -43,7 +45,7 @@ public class ExecutorHelper {
      * @param task
      * @return
      */
-    public static ListenableFuture<?> submit(Runnable task) {
+    public static ListenableFuture<?> submit(@NonNull Runnable task) {
         return les.submit(task);
     }
 
@@ -54,7 +56,7 @@ public class ExecutorHelper {
      * @param task
      * @return
      */
-    public static <T> ListenableFuture<T> submit(Callable<T> task) {
+    public static <T> ListenableFuture<T> submit(@NonNull Callable<T> task) {
         return les.submit(task);
     }
 
@@ -66,7 +68,7 @@ public class ExecutorHelper {
      * @param callback
      * @return
      */
-    public static <T> ListenableFuture<T> submit(Callable<T> task, FutureCallback<T> callback) {
+    public static <T> ListenableFuture<T> submit(@NonNull Callable<T> task, @NonNull FutureCallback<T> callback) {
         ListenableFuture<T> future = les.submit(task);
         if (callback != null) {
             Futures.addCallback(future, callback, MoreExecutors.directExecutor());
@@ -81,7 +83,7 @@ public class ExecutorHelper {
      * @param task
      * @return
      */
-    public static <T> ListenableFuture<T> submit(ExecutorTask<T> task) {
+    public static <T> ListenableFuture<T> submit(@NonNull ExecutorTask<T> task) {
         return submit(task, task);
     }
 
@@ -92,13 +94,13 @@ public class ExecutorHelper {
      * @param tasks
      * @return
      */
-    public static <T> List<Future<T>> invokeAll(List<ExecutorTask<T>> tasks) {
+    public static <T> List<Future<T>> invokeAll(@NonNull List<ExecutorTask<T>> tasks) {
         try {
             return les.invokeAll(tasks);
         } catch (InterruptedException e) {
             log.error("executor helper invoke all", e);
         }
-        return null;
+        return ListUtil.empty();
     }
 
     /**
@@ -108,13 +110,13 @@ public class ExecutorHelper {
      * @param tasks
      * @return
      */
-    public static <T> List<Future<T>> invokeAll(List<ExecutorTask<T>> tasks, int timeout) {
+    public static <T> List<Future<T>> invokeAll(@NonNull List<ExecutorTask<T>> tasks, int timeout) {
         try {
             return les.invokeAll(tasks, timeout, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             log.error("executor helper invoke all", e);
         }
-        return null;
+        return ListUtil.empty();
     }
 
     /**

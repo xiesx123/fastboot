@@ -1,8 +1,6 @@
 package com.xiesx.fastboot.core.token.processor;
 
-import java.util.Iterator;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -15,7 +13,7 @@ import com.google.common.collect.Maps;
 import com.xiesx.fastboot.core.token.annotation.GoHeader;
 import com.xiesx.fastboot.core.token.annotation.GoToken;
 import com.xiesx.fastboot.core.token.cfg.TokenCfg;
-import com.xiesx.fastboot.core.token.header.HeaderParams;
+import com.xiesx.fastboot.core.token.header.HttpHeaderParams;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -30,36 +28,28 @@ public class RequestHeaderMethodProcessor implements HandlerMethodArgumentResolv
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean h = HeaderParams.class.isAssignableFrom(parameter.getParameterType()) && parameter.hasParameterAnnotation(GoHeader.class);
+        boolean h = HttpHeaderParams.class.isAssignableFrom(parameter.getParameterType()) && parameter.hasParameterAnnotation(GoHeader.class);
         boolean s = parameter.getParameterType().isAssignableFrom(String.class) && parameter.hasParameterAnnotation(GoToken.class);
         return h || s;
     }
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer container, NativeWebRequest request, WebDataBinderFactory factory) throws Exception {
-        // map
-        Map<String, Object> map = Maps.newConcurrentMap();
-        // 获取用户id
+        // 获取参数
+        Map<String, Object> params = Maps.newConcurrentMap();
+        request.getHeaderNames().forEachRemaining(head -> {
+            params.put(head, request.getHeader(head));
+        });
+        // 获取用户
         Object uid = request.getAttribute(TokenCfg.UID, RequestAttributes.SCOPE_REQUEST);
         if (ObjectUtil.isNotNull(uid)) {
-            map.put(TokenCfg.UID, uid);
+            params.put(TokenCfg.UID, uid);
         }
-        // 获取其他
-        Iterator<String> names = request.getHeaderNames();
-        names.forEachRemaining(new Consumer<String>() {
-
-            @Override
-            public void accept(String name) {
-                map.put(name, request.getHeader(name));
-            }
-        });
-        // 参数注解
+        // 返回指定类型
         if (parameter.hasParameterAnnotation(GoToken.class)) {
             return uid.toString();
+        } else {
+            return BeanUtil.toBeanIgnoreCase(params, parameter.getParameter().getType(), true);
         }
-        // 类型
-        Class<?> clas = parameter.getParameter().getType();
-        // Map转Bean
-        return BeanUtil.toBeanIgnoreCase(map, clas, true);
     }
 }

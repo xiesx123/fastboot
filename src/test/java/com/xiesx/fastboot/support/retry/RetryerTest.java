@@ -68,7 +68,7 @@ public class RetryerTest {
                         if (attempt.hasException()) {
                             if (attempt.getExceptionCause().getCause() instanceof RunException) {
                                 RunException runException = (RunException) attempt.getExceptionCause().getCause();
-                                log.warn("onException causeBy:{} {}", runException.getCode(), runException.getMessage());
+                                log.warn("onException causeBy:{} {}", runException.getStatus(), runException.getMessage());
                             } else {
                                 log.warn("onException causeBy:{}", attempt.getExceptionCause().toString());
                             }

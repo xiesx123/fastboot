@@ -1,10 +1,9 @@
 package com.xiesx.fastboot.core.eventbus;
 
-import org.springframework.util.ReflectionUtils;
-
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 
+import cn.hutool.core.util.ReflectUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -24,7 +23,7 @@ public abstract class EventAdapter<E extends AbstractEvent> {
     @Subscribe
     @AllowConcurrentEvents
     public void onEvent(AbstractEvent event) {
-        if (ReflectionUtils.findMethod(this.getClass(), METHOD_NAME, event.getClass()) != null) {
+        if (ReflectUtil.getMethod(this.getClass(), METHOD_NAME, event.getClass()) != null) {
             try {
                 if (!process((E) event)) {
                     log.warn("handle event {} fail", event.getClass());

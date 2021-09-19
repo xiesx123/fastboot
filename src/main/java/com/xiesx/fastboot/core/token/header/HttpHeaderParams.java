@@ -9,7 +9,7 @@ import lombok.Data;
  * @date 2020-7-21 22:37:08
  */
 @Data
-public class HeaderParams {
+public class HttpHeaderParams {
 
     public String uid;
 }

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.DigestAlgorithm;
+import lombok.NonNull;
 
 /**
  * @title SignerHelper.java
@@ -15,12 +16,12 @@ public class SignerHelper {
 
     /**
      * 获取签名
-     * 
+     *
      * @param param
      * @param key
      * @return
      */
-    public static String getSignature(Map<String, Object> param, String key) {
+    public static String getSignature(@NonNull Map<String, String> param, @NonNull String key) {
         return SecureUtil.signParams(DigestAlgorithm.MD5, param, key);
     }
 }
