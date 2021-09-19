@@ -37,8 +37,8 @@ public class RequestHeaderMethodProcessor implements HandlerMethodArgumentResolv
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer container, NativeWebRequest request, WebDataBinderFactory factory) throws Exception {
         // 获取参数
         Map<String, Object> params = Maps.newConcurrentMap();
-        request.getHeaderNames().forEachRemaining(head -> {
-            params.put(head, request.getHeader(head));
+        request.getHeaderNames().forEachRemaining(k -> {
+            params.put(k, request.getHeader(k));
         });
         // 获取用户
         Object uid = request.getAttribute(TokenCfg.UID, RequestAttributes.SCOPE_REQUEST);

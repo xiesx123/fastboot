@@ -191,9 +191,9 @@ public class JdbcTemplatePlus {
 
     private static <T> List<T> result(List<Map<String, Object>> list, Class<T> cla) {
         List<T> data = Lists.newArrayList();
-        for (Map<String, Object> map : list) {
+        list.forEach(map -> {
             data.add(result(map, cla));
-        }
+        });
         return data;
     }
 }

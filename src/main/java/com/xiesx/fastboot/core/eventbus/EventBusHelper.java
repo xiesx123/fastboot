@@ -7,7 +7,6 @@ import com.google.common.eventbus.EventBus;
 import com.xiesx.fastboot.base.config.Configed;
 
 import cn.hutool.core.lang.Singleton;
-import cn.hutool.core.lang.func.Func0;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
@@ -20,14 +19,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class EventBusHelper {
 
-    private final static EventBus eventbus = Singleton.get(EventBusHelper.class.getName(), new Func0<EventBus>() {
-
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public EventBus call() throws Exception {
-            return new AsyncEventBus(Configed.FASTBOOT, Executors.newCachedThreadPool());
-        }
+    private final static EventBus eventbus = Singleton.get(EventBusHelper.class.getName(), () -> {
+        return new AsyncEventBus(Configed.FASTBOOT, Executors.newCachedThreadPool());
     });
 
     /**

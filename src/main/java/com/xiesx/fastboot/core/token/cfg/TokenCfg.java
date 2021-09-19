@@ -38,15 +38,13 @@ public class TokenCfg implements WebMvcConfigurer {
         // 添加处理器
         InterceptorRegistration in = registry.addInterceptor(new TokenInterceptor());
         // 处理url
-        List<String> paths = ListUtil.toList(mTokenProperties.getIncludePaths());
-        if (!paths.isEmpty()) {
-            in.addPathPatterns(paths);
-        }
+        ListUtil.toList(mTokenProperties.getIncludePaths()).forEach(path -> {
+            in.addPathPatterns(path);
+        });
         // 排除处理url
-        List<String> excludePaths = ListUtil.toList(mTokenProperties.getExcludePaths());
-        if (!excludePaths.isEmpty()) {
-            in.excludePathPatterns(excludePaths);
-        }
+        ListUtil.toList(mTokenProperties.getExcludePaths()).forEach(path -> {
+            in.excludePathPatterns(path);
+        });
     }
 
     @Override

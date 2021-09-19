@@ -11,7 +11,6 @@ import com.google.common.collect.Maps;
 import com.google.common.eventbus.DeadEvent;
 import com.google.common.eventbus.Subscribe;
 import com.xiesx.fastboot.SpringHelper;
-import com.xiesx.fastboot.core.eventbus.AbstractEvent;
 import com.xiesx.fastboot.core.eventbus.EventAdapter;
 import com.xiesx.fastboot.core.eventbus.EventBusHelper;
 
@@ -45,21 +44,17 @@ public class EventBusCfg implements DisposableBean, ApplicationListener<ContextR
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (event.getApplicationContext().getParent() == null) {
             beans.putAll(SpringHelper.getContext().getBeansOfType(EventAdapter.class));
-            if (!beans.isEmpty()) {
-                for (EventAdapter<? extends AbstractEvent> eventAbstract : beans.values()) {
-                    EventBusHelper.register(eventAbstract);
-                }
-            }
+            beans.values().forEach(e -> {
+                EventBusHelper.register(e);
+            });
         }
     }
 
     @Override
     public void destroy() throws Exception {
-        if (!beans.isEmpty()) {
-            for (EventAdapter<? extends AbstractEvent> eventAbstract : beans.values()) {
-                EventBusHelper.unregister(eventAbstract);
-            }
-        }
+        beans.values().forEach(e -> {
+            EventBusHelper.unregister(e);
+        });
         Singleton.remove(EventBusHelper.class.getName());
     }
 }

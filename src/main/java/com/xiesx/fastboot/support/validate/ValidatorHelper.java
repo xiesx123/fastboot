@@ -69,9 +69,9 @@ public class ValidatorHelper {
 
     public static List<String> extractMessage(@NonNull Set<? extends ConstraintViolation<?>> constraintViolations) {
         List<String> errorMessages = Lists.newArrayList();
-        for (ConstraintViolation<?> violation : constraintViolations) {
-            errorMessages.add(violation.getMessage());
-        }
+        constraintViolations.forEach(v -> {
+            errorMessages.add(v.getMessage());
+        });
         return errorMessages;
     }
 
@@ -83,9 +83,9 @@ public class ValidatorHelper {
 
     public static Map<String, String> extractPropertyAndMessage(@NonNull Set<? extends ConstraintViolation<?>> constraintViolations) {
         Map<String, String> errorMsgs = Maps.newConcurrentMap();
-        for (ConstraintViolation<?> violation : constraintViolations) {
-            errorMsgs.put(violation.getPropertyPath().toString(), violation.getMessage());
-        }
+        constraintViolations.forEach(v -> {
+            errorMsgs.put(v.getPropertyPath().toString(), v.getMessage());
+        });
         return errorMsgs;
     }
 
@@ -105,9 +105,9 @@ public class ValidatorHelper {
 
     public static List<String> extractPropertyAndMessageAsList(@NonNull Set<? extends ConstraintViolation<?>> constraintViolations, String separator) {
         List<String> errorMessages = Lists.newArrayList();
-        for (ConstraintViolation<?> violation : constraintViolations) {
-            errorMessages.add(violation.getPropertyPath() + separator + violation.getMessage());
-        }
+        constraintViolations.forEach(v -> {
+            errorMessages.add(v.getPropertyPath() + separator + v.getMessage());
+        });
         return errorMessages;
     }
 }

@@ -12,7 +12,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -88,9 +87,9 @@ public class GlobalExceptionAdvice {
         // Spring Violation 验证 --> Java Violation，这里有BindException接收
         if (e instanceof BindException) {
             BindingResult violations = ((BindException) e).getBindingResult();
-            for (FieldError fieldError : violations.getFieldErrors()) {
-                msgs.add(fieldError.getField() + " " + fieldError.getDefaultMessage());
-            }
+            violations.getFieldErrors().forEach(fe -> {
+                msgs.add(fe.getField() + " " + fe.getDefaultMessage());
+            });
         }
         // Hibernate Violation 验证 --> Java Violation，这里有ConstraintViolationException接收
         if (e instanceof ValidationException) {

@@ -152,10 +152,10 @@ public class JdbcPlusTest {
         assertEquals(JdbcTemplatePlus.update(sql, lr), 1);
         assertEquals(JdbcTemplatePlus.update(sql, params), 1);
         // 批量添加
-        for (LogRecord logRecord : result) {
+        result.forEach(logRecord -> {
             logRecord.setId(IdWorkerGenerator.nextId().toString());
             logRecord.setTime(4L);
-        }
+        });
         assertEquals(JdbcTemplatePlus.batchUpdate(sql, result), 10);
     }
 
@@ -174,9 +174,9 @@ public class JdbcPlusTest {
         assertEquals(JdbcTemplatePlus.update(sql, lr), 1);
         assertEquals(JdbcTemplatePlus.update(sql, params), 1);
         // 批量更新
-        for (LogRecord logRecord : result) {
+        result.forEach(logRecord -> {
             logRecord.setTime(4L);
-        }
+        });
         assertEquals(JdbcTemplatePlus.batchUpdate(sql, result), 10);
     }
 

@@ -2,8 +2,6 @@ package com.xiesx.fastboot.support.minio;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -15,7 +13,6 @@ import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.base.config.Configed;
 
 import cn.hutool.core.util.ObjectUtil;
-import io.minio.messages.Bucket;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -61,10 +58,9 @@ public class MinioTest {
             // 是否有内容
             assertTrue(mBucketClient.listObjects().isEmpty());
             // 获取内容
-            List<Bucket> list = mBucketClient.listBuckets();
-            for (Bucket bucket : list) {
+            mBucketClient.listBuckets().forEach(bucket -> {
                 log.debug("bucket {}", bucket.name());
-            }
+            });
         }
     }
 
