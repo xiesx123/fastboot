@@ -269,7 +269,7 @@ public final class WaitStrategies {
 
         @Override
         public long computeSleepTime(Attempt failedAttempt) {
-            long result = initialSleepTime + (increment * (failedAttempt.getAttemptNumber() - 1));
+            long result = initialSleepTime + increment * (failedAttempt.getAttemptNumber() - 1);
             return result >= 0L ? result : 0L;
         }
     }

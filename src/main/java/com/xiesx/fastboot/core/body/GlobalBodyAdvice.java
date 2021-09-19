@@ -49,16 +49,10 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
         // 判断Void类型
         if (returnType.equals(Void.TYPE)) {
             return null;
-        } else if (obj instanceof AbstractStatus) {
-            return obj;
-        } else if (obj instanceof Map<?, ?> || obj instanceof Iterable<?>) {
-            return obj;
-        } else if (obj instanceof com.alibaba.fastjson.JSON) {
-            return obj;
-        } else if (obj instanceof String) {
-            return obj;
-        } else {
-            return (obj == null) ? R.succ() : R.succ(obj);
         }
+        if (obj instanceof AbstractStatus || obj instanceof Map<?, ?> || obj instanceof Iterable<?> || obj instanceof com.alibaba.fastjson.JSON || obj instanceof String) {
+            return obj;
+        }
+        return obj == null ? R.succ() : R.succ(obj);
     }
 }

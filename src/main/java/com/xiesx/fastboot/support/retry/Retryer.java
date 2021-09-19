@@ -168,14 +168,13 @@ public final class Retryer<V> {
             }
             if (stopStrategy.shouldStop(attempt)) {
                 throw new RetryException(attemptNumber, attempt);
-            } else {
-                long sleepTime = waitStrategy.computeSleepTime(attempt);
-                try {
-                    blockStrategy.block(sleepTime);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    throw new RetryException(attemptNumber, attempt);
-                }
+            }
+            long sleepTime = waitStrategy.computeSleepTime(attempt);
+            try {
+                blockStrategy.block(sleepTime);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RetryException(attemptNumber, attempt);
             }
         }
     }

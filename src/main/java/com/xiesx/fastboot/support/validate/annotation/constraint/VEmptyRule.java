@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import com.xiesx.fastboot.support.validate.annotation.VEmpty;
 
-import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * @title VEmptyRule.java
@@ -20,6 +20,6 @@ public class VEmptyRule implements ConstraintValidator<VEmpty, String> {
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return CharSequenceUtil.isNotBlank(s);
+        return StrUtil.isNotBlank(s);
     }
 }

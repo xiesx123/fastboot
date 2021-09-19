@@ -19,9 +19,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class EventBusHelper {
 
-    private final static EventBus eventbus = Singleton.get(EventBusHelper.class.getName(), () -> {
-        return new AsyncEventBus(Configed.FASTBOOT, Executors.newCachedThreadPool());
-    });
+    private final static EventBus eventbus = Singleton.get(EventBusHelper.class.getName(), () -> new AsyncEventBus(Configed.FASTBOOT, Executors.newCachedThreadPool()));
 
     /**
      * 获取事件总线

@@ -6,8 +6,8 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import com.xiesx.fastboot.support.taglib.TagUtils;
 import com.xiesx.fastboot.support.taglib.ui.BaseUITag;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -41,7 +41,7 @@ public class ScriptTag extends BodyTagSupport {
         try {
             if (this.bodyContent != null) {
                 String _propValue = this.bodyContent.getString();
-                if (CharSequenceUtil.isNotBlank(_propValue)) {
+                if (StrUtil.isNotBlank(_propValue)) {
                     this.setValue(_propValue);
                 }
                 this.bodyContent.clearBody();
@@ -55,19 +55,19 @@ public class ScriptTag extends BodyTagSupport {
     @Override
     public int doEndTag() throws JspException {
         StringBuilder _scriptTmpl = new StringBuilder("<script");
-        if (CharSequenceUtil.isNotBlank(this.getId())) {
+        if (StrUtil.isNotBlank(this.getId())) {
             _scriptTmpl.append(" id=\"").append(this.getId()).append("\"");
         }
         boolean _isEmpty = true;
-        if (CharSequenceUtil.isNotBlank(this.getSrc())) {
+        if (StrUtil.isNotBlank(this.getSrc())) {
             _scriptTmpl.append(" src=\"").append(this.getSrc()).append("\"");
             _isEmpty = false;
         }
-        _scriptTmpl.append(" type=\"").append(CharSequenceUtil.blankToDefault(this.getType(), "text/javascript")).append("\">");
-        if (_isEmpty && CharSequenceUtil.isNotBlank(this.getValue())) {
-            String _wrapper = CharSequenceUtil.blankToDefault(this.getWrapper(), "script");
-            String _content = CharSequenceUtil.strip(this.getValue(), "<" + _wrapper + ">", "</" + _wrapper + ">");
-            if (CharSequenceUtil.isNotBlank(_content)) {
+        _scriptTmpl.append(" type=\"").append(StrUtil.blankToDefault(this.getType(), "text/javascript")).append("\">");
+        if (_isEmpty && StrUtil.isNotBlank(this.getValue())) {
+            String _wrapper = StrUtil.blankToDefault(this.getWrapper(), "script");
+            String _content = StrUtil.strip(this.getValue(), "<" + _wrapper + ">", "</" + _wrapper + ">");
+            if (StrUtil.isNotBlank(_content)) {
                 this.setValue(_content);
             }
             _scriptTmpl.append(this.getValue()).append("\n");

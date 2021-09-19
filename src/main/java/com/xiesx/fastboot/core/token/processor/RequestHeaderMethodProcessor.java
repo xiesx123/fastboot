@@ -48,8 +48,7 @@ public class RequestHeaderMethodProcessor implements HandlerMethodArgumentResolv
         // 返回指定类型
         if (parameter.hasParameterAnnotation(GoToken.class)) {
             return uid.toString();
-        } else {
-            return BeanUtil.toBeanIgnoreCase(params, parameter.getParameter().getType(), true);
         }
+        return BeanUtil.toBeanIgnoreCase(params, parameter.getParameter().getType(), true);
     }
 }

@@ -61,17 +61,15 @@ public class HttpRetryer {
                 } else {
                     log.trace("exception cause by:{}", attempt.getExceptionCause().toString());
                 }
-            } else {
-                if (attempt.hasResult()) {
-                    try {
-                        V result = attempt.get();
-                        if (result instanceof RawResponse) {
-                            log.trace("retry number:{} error:{} result:{} code:{} delay:{}", number, isError, isResult, ((RawResponse) result).statusCode(), delay);
-                        }
-                    } catch (ExecutionException e) {
-                        log.error("result exception:{}", e.getCause().toString());
-                        throw new RunException(RunExc.REQUEST, "http retry error");
+            } else if (attempt.hasResult()) {
+                try {
+                    V result = attempt.get();
+                    if (result instanceof RawResponse) {
+                        log.trace("retry number:{} error:{} result:{} code:{} delay:{}", number, isError, isResult, ((RawResponse) result).statusCode(), delay);
                     }
+                } catch (ExecutionException e) {
+                    log.error("result exception:{}", e.getCause().toString());
+                    throw new RunException(RunExc.REQUEST, "http retry error");
                 }
             }
         }

@@ -19,7 +19,7 @@ import com.xiesx.fastboot.core.token.annotation.GoToken;
 import com.xiesx.fastboot.core.token.cfg.TokenCfg;
 import com.xiesx.fastboot.core.token.cfg.TokenProperties;
 
-import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.log4j.Log4j2;
@@ -49,7 +49,7 @@ public class TokenInterceptor implements HandlerInterceptor {
                     if (annotation2 instanceof GoToken || annotation2 instanceof GoHeader) {
                         // 获取token
                         String token = request.getHeader(key);
-                        if (CharSequenceUtil.isBlank(token)) {
+                        if (StrUtil.isBlank(token)) {
                             throw new RunException(RunExc.TOKEN, "未登录");
                         }
                         try {
@@ -61,9 +61,8 @@ public class TokenInterceptor implements HandlerInterceptor {
                             log.error("jwt token error", e);
                             if (e instanceof ExpiredJwtException) {
                                 throw new RunException(RunExc.TOKEN, "失效");
-                            } else {
-                                throw new RunException(RunExc.TOKEN);
                             }
+                            throw new RunException(RunExc.TOKEN);
                         }
                     }
                 }

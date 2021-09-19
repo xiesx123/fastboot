@@ -13,8 +13,8 @@ import org.hibernate.type.Type;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Snowflake;
-import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * @title IdWorkerGenerator.java
@@ -42,7 +42,7 @@ public class IdWorkerGenerator implements Configurable, IdentifierGenerator {
 
     @Override
     public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
-        if (CharSequenceUtil.isNotBlank(this.prefix)) {
+        if (StrUtil.isNotBlank(this.prefix)) {
             return this.prefix + snowflake.nextId();
         }
         return snowflake.nextId();

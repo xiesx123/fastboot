@@ -22,7 +22,7 @@ import com.xiesx.fastboot.core.signer.annotation.GoSigner;
 import com.xiesx.fastboot.core.signer.cfg.SignerProperties;
 
 import cn.hutool.core.annotation.AnnotationUtil;
-import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import lombok.extern.log4j.Log4j2;
 
@@ -73,7 +73,7 @@ public class SignerAspect {
             // 获取sign
             String sign = request.getHeader(key);
             // sign为空
-            if (CharSequenceUtil.isBlank(sign)) {
+            if (StrUtil.isBlank(sign)) {
                 throw new RunException(RunExc.SIGN, "非法请求");
             }
             // sign错误

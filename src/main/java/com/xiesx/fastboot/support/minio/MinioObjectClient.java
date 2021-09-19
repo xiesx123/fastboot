@@ -122,9 +122,7 @@ public class MinioObjectClient {
 
     public ObjectWriteResponse putObject(String bucketName, String region, String objectName, InputStream stream, String contentType) {
         try {
-            ObjectWriteResponse objectWriteResponse =
-                    mClient.putObject(PutObjectArgs.builder().bucket(bucketName).region(region).object(objectName).stream(stream, stream.available(), ObjectWriteArgs.MIN_MULTIPART_SIZE).contentType(contentType).build());
-            return objectWriteResponse;
+            return mClient.putObject(PutObjectArgs.builder().bucket(bucketName).region(region).object(objectName).stream(stream, stream.available(), ObjectWriteArgs.MIN_MULTIPART_SIZE).contentType(contentType).build());
         } catch (Exception e) {
             log.error("putObject {}", ExceptionUtil.getMessage(e));
         } finally {

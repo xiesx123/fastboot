@@ -23,7 +23,7 @@ import cn.hutool.core.util.RandomUtil;
 public class MockData {
 
     public static Map<String, Object> map() {
-        Dict dict = Dict.create()//
+        return Dict.create()//
                 .set("k1", "1")//
                 .set("k2", 2)//
                 .set("k3", 3L)//
@@ -32,7 +32,6 @@ public class MockData {
                 .set("k6", true)//
                 .set("k7", '7')//
                 .set("k8", DateTime.now());
-        return dict;
     }
 
     public static List<String> list() {
@@ -88,9 +87,7 @@ public class MockData {
 
         // ============================== chain构造
 
-        // @Date
-        // @Accessors(chain = true)
-        MockUser user = new MockUser()//
+        return new MockUser()//
                 .setName("张三")//
                 .setBirthDay(DateTime.now())//
                 .setRegisterDay(DateTime.now())//
@@ -102,8 +99,7 @@ public class MockData {
                 .setPassword(RandomUtil.randomString(8))//
                 .setCarnumber("京A88888")//
                 .setStatus(StatusEnum.A)//
-                .setBalance(new BigDecimal(100.123));//
-        return user;
+                .setBalance(new BigDecimal(100.123));
 
         // ============================== fluent构造
 

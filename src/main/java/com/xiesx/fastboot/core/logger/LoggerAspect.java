@@ -22,7 +22,6 @@ import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
 
 import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.date.TimeInterval;
-import cn.hutool.core.lang.Filter;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.ArrayUtil;
 import lombok.extern.log4j.Log4j2;
@@ -90,20 +89,11 @@ public class LoggerAspect {
         // 获取入参
         Object[] args = pjp.getArgs();
         // 入参过滤
-        Object[] newArgs = ArrayUtil.filter(args, new Filter<Object>() {
-
-            @Override
-            public boolean accept(Object t) {
-                if (t instanceof ServletRequest || t instanceof ServletResponse) { // TODO Servlet
-                    return false;
-                } else if (t instanceof MultipartFile) { // TODO MultipartFile
-                    return false;
-                } else if (t instanceof Model) { // TODO Model
-                    return false;
-                } else {
-                    return true;
-                }
+        Object[] newArgs = ArrayUtil.filter(args, t -> {
+            if (t instanceof ServletRequest || t instanceof ServletResponse || t instanceof MultipartFile || t instanceof Model) {
+                return false;
             }
+            return true;
         });
         // 请求参数格式化
         String req = JSON.toJSONString(newArgs, format);

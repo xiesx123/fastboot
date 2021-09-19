@@ -43,9 +43,7 @@ public class RetryerTest {
                 .retryIfException()
                 // 返回指定结果时重试
                 .retryIfResult((@Nullable Result result) -> {
-                    if (ObjectUtil.isNull(result)) {
-                        return true;
-                    } else if (result.getCode() == -3) {
+                    if (ObjectUtil.isNull(result) || result.getCode() == -3) {
                         return true;
                     }
                     return false;
@@ -72,17 +70,15 @@ public class RetryerTest {
                             } else {
                                 log.warn("onException causeBy:{}", attempt.getExceptionCause().toString());
                             }
-                        } else {
-                            if (attempt.hasResult()) {
-                                try {
-                                    V result = attempt.get();
-                                    if (result instanceof Result) {
-                                        log.warn("onRetry number:{} error:{} result:{} statusCode:{} delay:{}", number, isError, isResult, ((Result) result).getCode(), delay);
-                                    }
-                                } catch (ExecutionException e) {
-                                    log.error("onResult exception:{}", e.getCause().toString());
-                                    throw new RunException(RunExc.RETRY, "test retry");
+                        } else if (attempt.hasResult()) {
+                            try {
+                                V result = attempt.get();
+                                if (result instanceof Result) {
+                                    log.warn("onRetry number:{} error:{} result:{} statusCode:{} delay:{}", number, isError, isResult, ((Result) result).getCode(), delay);
                                 }
+                            } catch (ExecutionException e) {
+                                log.error("onResult exception:{}", e.getCause().toString());
+                                throw new RunException(RunExc.RETRY, "test retry");
                             }
                         }
                     }
@@ -99,9 +95,8 @@ public class RetryerTest {
                 // 验证结果，如果结果正确则返回，错误则重试
                 if (test.isSuccess()) {
                     return R.succ(test.getData());
-                } else {
-                    return R.retry(test.getMsg());
                 }
+                return R.retry(test.getMsg());
             });
             // 验证结果，如果结果正确则返回，错误则重试
             log.info(JSON.toJSONString(R.succ(result.getData())));

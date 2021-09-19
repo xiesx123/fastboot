@@ -104,7 +104,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
     @Override
     public T findOne(ID id) {
         Optional<T> optional = findById(id);
-        return (optional.isPresent()) ? optional.get() : null;
+        return optional.isPresent() ? optional.get() : null;
     }
 
     @Override

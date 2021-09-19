@@ -2,7 +2,7 @@ package com.xiesx.fastboot.utils;
 
 import java.net.URL;
 
-import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.system.SystemUtil;
 
 public class RuntimeUtils {
@@ -30,14 +30,14 @@ public class RuntimeUtils {
                 rootPath = _rootURL.getPath();
             }
         } else {
-            rootPath = CharSequenceUtil.removeSuffix(CharSequenceUtil.subBefore(_rootURL.getPath(), safe ? "classes/" : "WEB-INF/", false), "/");
+            rootPath = StrUtil.removeSuffix(StrUtil.subBefore(_rootURL.getPath(), safe ? "classes/" : "WEB-INF/", false), "/");
         }
         if (rootPath != null) {
-            rootPath = CharSequenceUtil.replace(rootPath, "%20", " ");
+            rootPath = StrUtil.replace(rootPath, "%20", " ");
             if (SystemUtil.getOsInfo().isWindows()) {
-                rootPath = CharSequenceUtil.removePrefix(rootPath, "/");
+                rootPath = StrUtil.removePrefix(rootPath, "/");
             }
-            rootPath = CharSequenceUtil.trimToEmpty(rootPath);
+            rootPath = StrUtil.trimToEmpty(rootPath);
         }
         return rootPath;
     }

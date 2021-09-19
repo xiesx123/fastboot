@@ -1,7 +1,7 @@
 package com.xiesx.fastboot.core.exception;
 
 import cn.hutool.core.exceptions.StatefulException;
-import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -62,7 +62,7 @@ public class RunException extends StatefulException {
      * @param msg
      */
     public RunException(RunExc rxc, String format, Object... msg) {
-        super(rxc.getCode(), CharSequenceUtil.format(format, msg));
+        super(rxc.getCode(), StrUtil.format(format, msg));
     }
 
     /**
@@ -103,6 +103,6 @@ public class RunException extends StatefulException {
      * @param msg
      */
     public RunException(Throwable e, RunExc rxc, String format, Object... msg) {
-        super(rxc.getCode(), CharSequenceUtil.format(format, msg), e);
+        super(rxc.getCode(), StrUtil.format(format, msg), e);
     }
 }

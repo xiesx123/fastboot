@@ -18,7 +18,7 @@ public class TokenProperties {
 
     private String header = "token";
 
-    private String[] includePaths = new String[0];
+    private String[] includePaths = {};
 
-    private String[] excludePaths = new String[0];
+    private String[] excludePaths = {};
 }

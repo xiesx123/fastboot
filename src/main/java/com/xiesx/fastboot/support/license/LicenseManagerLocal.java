@@ -36,18 +36,17 @@ public class LicenseManagerLocal extends LicenseManager {
      * @return boolean
      */
     private boolean checkIpAddress(List<String> expectedList, List<String> serverList) {
-        if (expectedList != null && expectedList.size() > 0) {
-            if (serverList != null && serverList.size() > 0) {
-                for (String expected : expectedList) {
-                    if (serverList.contains(expected.trim())) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        } else {
+        if (expectedList == null || expectedList.size() <= 0) {
             return true;
         }
+        if (serverList != null && serverList.size() > 0) {
+            for (String expected : expectedList) {
+                if (serverList.contains(expected.trim())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

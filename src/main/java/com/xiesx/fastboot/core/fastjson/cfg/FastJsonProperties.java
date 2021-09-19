@@ -22,7 +22,7 @@ public class FastJsonProperties {
 
     public static final String PREFIX = "fastboot.fastjson";
 
-    public static final SerializerFeature[] SERIALIZER_FEATURES = new SerializerFeature[] {
+    public static final SerializerFeature[] SERIALIZER_FEATURES = {
             // 字符类型字段如果为null，输出为""，而不是null
             // SerializerFeature.WriteNullStringAsEmpty,
             // 数值类型如果为null，输出为0，而不是null

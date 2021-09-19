@@ -23,9 +23,7 @@ public class ScheduleHelper {
 
     public static Scheduler get() {
         Scheduler scheduler = SpringHelper.getBean(Scheduler.class);
-        Assert.notNull(scheduler, () -> {
-            return new RunException(RunExc.DBASE, "pom need dependency spring-boot-starter-quartz");
-        });
+        Assert.notNull(scheduler, () -> new RunException(RunExc.DBASE, "pom need dependency spring-boot-starter-quartz"));
         return scheduler;
     }
 

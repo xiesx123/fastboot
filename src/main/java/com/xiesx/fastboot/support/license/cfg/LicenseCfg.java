@@ -44,8 +44,8 @@ public class LicenseCfg {
                     .setPublicAlias(mLicenseProperties.getPublicAlias())
                     // 证书生成路径
                     .setLicensePath(mLicenseProperties.getLicensePath());
-            // 安装证书
             try {
+                // 安装证书
                 param.install();
                 if (!param.verify()) {
                     // System.exit(1);

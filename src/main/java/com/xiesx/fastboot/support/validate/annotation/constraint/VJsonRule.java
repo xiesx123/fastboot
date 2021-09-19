@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import com.alibaba.fastjson.JSONValidator;
 import com.xiesx.fastboot.support.validate.annotation.VJson;
 
-import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * @title VJsonRule.java
@@ -21,7 +21,7 @@ public class VJsonRule implements ConstraintValidator<VJson, String> {
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        if (CharSequenceUtil.isBlank(s)) {
+        if (StrUtil.isBlank(s)) {
             return false;
         }
         return JSONValidator.from(s).validate();

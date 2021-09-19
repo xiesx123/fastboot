@@ -28,7 +28,7 @@ import com.xiesx.fastboot.app.log.LogRecord;
 import com.xiesx.fastboot.app.log.LogRecordRepository;
 import com.xiesx.fastboot.app.log.QLogRecord;
 
-import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * @title TestSelect.java
@@ -54,7 +54,7 @@ public class TestSelect {
         // 零时数据
         List<LogRecord> logRecords = Lists.newArrayList();
         for (int i = 1; i <= 10; i++) {
-            logRecords.add(new LogRecord().setIp(CharSequenceUtil.format("127.0.{}.1", i)).setMethod("test").setType("GET").setTime(10L));
+            logRecords.add(new LogRecord().setIp(StrUtil.format("127.0.{}.1", i)).setMethod("test").setType("GET").setTime(10L));
         }
         // 先删除
         mLogRecordRepository.delete(ql.id.isNotNull());

@@ -112,8 +112,7 @@ public class LicenseVerify {
             LicenseContent licenseContent = licenseManager.verify();
             log.info("license verify success {} - {}", DateUtil.formatDateTime(licenseContent.getNotBefore()), DateUtil.formatDateTime(licenseContent.getNotAfter()));
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

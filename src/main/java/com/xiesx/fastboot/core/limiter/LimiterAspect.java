@@ -16,7 +16,7 @@ import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.core.limiter.annotation.GoLimiter;
 
 import cn.hutool.core.annotation.AnnotationUtil;
-import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -58,11 +58,10 @@ public class LimiterAspect {
         // 尝试能否在timeout时间内获取permits个许可
         if (rateLimiter.tryAcquire()) {
             return point.proceed();
-        } else {
-            if (CharSequenceUtil.isNotBlank(limiter.message())) {
-                throw new RunException(RunExc.LIMITER, limiter.message());
-            }
-            throw new RunException(RunExc.LIMITER);
         }
+        if (StrUtil.isNotBlank(limiter.message())) {
+            throw new RunException(RunExc.LIMITER, limiter.message());
+        }
+        throw new RunException(RunExc.LIMITER);
     }
 }
