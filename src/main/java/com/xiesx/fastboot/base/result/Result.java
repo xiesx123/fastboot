@@ -38,7 +38,7 @@ public class Result implements AbstractStatus {
 
     /**
      * 当前状态
-     * 
+     *
      * @return
      */
     @JSONField(ordinal = 4)
@@ -48,7 +48,7 @@ public class Result implements AbstractStatus {
 
     /**
      * 判断是否成功
-     * 
+     *
      * @return
      */
     @Override

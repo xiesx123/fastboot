@@ -48,7 +48,7 @@ public class PResult implements AbstractStatus {
 
     /**
      * 当前状态
-     * 
+     *
      * @return
      */
     @JSONField(ordinal = 4)
