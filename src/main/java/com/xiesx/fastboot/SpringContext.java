@@ -1,5 +1,9 @@
 package com.xiesx.fastboot;
 
+import java.io.File;
+
+import javax.validation.Validator;
+
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -7,6 +11,11 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import com.xiesx.fastboot.support.scheduler.ScheduleHelper;
+import com.xiesx.fastboot.support.scheduler.decorator.ISchedule;
+import com.xiesx.fastboot.support.scheduler.decorator.SchedulerDecorator;
+
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.log4j.Log4j2;
 
@@ -14,7 +23,19 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class SpringContext implements ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
 
+    private static String servername;
+
+    private static String serverpath;
+
     private static ApplicationContext applicationContext;
+
+    public static String getServerName() {
+        return servername;
+    }
+
+    public static String getServerPath() {
+        return serverpath;
+    }
 
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
@@ -31,8 +52,16 @@ public class SpringContext implements ApplicationContextAware, ApplicationListen
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (event.getApplicationContext().getParent() == null) {
-            SpringStartup.init();
-            SpringStartup.scheduler();
+            File root = FileUtil.getWebRoot();
+            servername = FileUtil.getName(root);
+            serverpath = root.getName().toLowerCase();
+            log.info("Startup Server name: " + servername + ", path: " + serverpath);
+
+            if (SpringHelper.hasBean(Validator.class).isPresent()) {
+                ISchedule job = new SchedulerDecorator();
+                job.init();
+                log.info("Startup Scheduler {} Job Completed.", ScheduleHelper.queryAllJob().size());
+            }
         }
     }
 }

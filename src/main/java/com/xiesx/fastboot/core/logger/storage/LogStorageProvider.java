@@ -44,6 +44,7 @@ public class LogStorageProvider implements LogStorage {
     public Long time;
 
     // =============
+
     public HttpServletRequest request;
 
     public String type;

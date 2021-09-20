@@ -24,10 +24,19 @@ import cn.hutool.core.util.StrUtil;
  */
 public class IdWorkerGenerator implements Configurable, IdentifierGenerator {
 
+    /**
+     * 前缀
+     */
     public String prefix;
 
+    /**
+     * 数据终端ID，默认0
+     */
     public long workerId;
 
+    /**
+     * 数据中心ID，默认0
+     */
     public long centerId;
 
     private Snowflake snowflake;
@@ -49,8 +58,7 @@ public class IdWorkerGenerator implements Configurable, IdentifierGenerator {
     }
 
     public static Long nextId(long workerId, long datacenterId) {
-        Snowflake snowflake = IdUtil.getSnowflake(workerId, datacenterId);
-        return snowflake.nextId();
+        return IdUtil.getSnowflake(workerId, datacenterId).nextId();
     }
 
     public static Long nextId() {

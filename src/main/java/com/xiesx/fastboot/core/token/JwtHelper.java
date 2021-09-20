@@ -5,16 +5,15 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.commons.codec.binary.Base64;
 
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.base.config.Configed;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.crypto.SecureUtil;
 import io.jsonwebtoken.*;
 
 /**
@@ -138,8 +137,7 @@ public class JwtHelper {
      * @return
      */
     public static SecretKey key(String secret) {
-        byte[] encodedKey = Base64.decodeBase64(secret);
-        return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
+        return SecureUtil.generateKey("AES", Base64.encode(secret).getBytes());
     }
 
     /**

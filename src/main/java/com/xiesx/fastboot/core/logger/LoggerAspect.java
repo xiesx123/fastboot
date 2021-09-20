@@ -95,10 +95,9 @@ public class LoggerAspect {
             }
             return true;
         });
-        // 请求参数格式化
-        String req = JSON.toJSONString(newArgs, format);
+        // 执行前打印入参
         if (print) {
-            log.info(LOG_BEFORE_FORMAT, methodName, req);
+            log.info(LOG_BEFORE_FORMAT, methodName, JSON.toJSONString(newArgs, format));
         }
         // 重新计时
         interval.restart();
@@ -106,14 +105,12 @@ public class LoggerAspect {
         Object result = pjp.proceed();
         // 执行时间
         long time = interval.interval();
-        // 响应返回格式化
-        String res = JSON.toJSONString(result, format);
+        // 执行后打印结果
         if (print) {
-            log.info(LOG_AFTER_FORMAT, time, methodName, res);
+            log.info(LOG_AFTER_FORMAT, time, methodName, JSON.toJSONString(result, format));
         }
-        // 存储实例
-        LogStorage logStorage = Singleton.get(storage, operation, methodName, newArgs, time);
-        logStorage.record(result);
+        // 日志存储
+        Singleton.get(storage, operation, methodName, newArgs, time).record(result);
         return result;
     }
 }

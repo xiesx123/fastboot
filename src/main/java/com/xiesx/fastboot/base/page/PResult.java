@@ -9,34 +9,48 @@ import com.xiesx.fastboot.base.result.R;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * @title PResult.java
  * @description
  * @author xiesx
- * @date 2021-04-06 09:58:30
+ * @date 2021-09-21 00:54:16
  */
 @Data
 @Builder
+@FieldNameConstants(innerTypeName = "FIELDS")
 public class PResult implements AbstractStatus {
 
-    // 返回值
+    /**
+     * 状态
+     */
     @JSONField(ordinal = 1)
     public Integer code;
 
-    // 消息
+    /**
+     * 消息
+     */
     @JSONField(ordinal = 2)
     public String msg;
 
-    // 数据
+    /**
+     * 数据
+     */
     @JSONField(ordinal = 3)
     public List<?> data;
 
-    // 总数
+    /**
+     * 总数
+     */
     @JSONField(ordinal = 4)
     public Integer count;
 
-    // 状态
+    /**
+     * 当前状态
+     * 
+     * @return
+     */
     @JSONField(ordinal = 4)
     public Boolean getStatus() {
         return isSuccess();

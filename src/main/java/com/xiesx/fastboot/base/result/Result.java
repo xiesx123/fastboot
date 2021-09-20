@@ -1,11 +1,11 @@
 package com.xiesx.fastboot.base.result;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.google.common.base.Objects;
 import com.xiesx.fastboot.base.AbstractStatus;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * @title Result.java
@@ -15,21 +15,32 @@ import lombok.Data;
  */
 @Data
 @Builder
+@FieldNameConstants(innerTypeName = "FIELDS")
 public class Result implements AbstractStatus {
 
-    // 返回值
+    /**
+     * 状态
+     */
     @JSONField(ordinal = 1)
     public Integer code;
 
-    // 消息
+    /**
+     * 消息
+     */
     @JSONField(ordinal = 2)
     public String msg;
 
-    // 数据
+    /**
+     * 数据
+     */
     @JSONField(ordinal = 3)
     public Object data;
 
-    // 状态
+    /**
+     * 当前状态
+     * 
+     * @return
+     */
     @JSONField(ordinal = 4)
     public Boolean getStatus() {
         return isSuccess();
@@ -37,11 +48,13 @@ public class Result implements AbstractStatus {
 
     /**
      * 判断是否成功
+     * 
+     * @return
      */
     @Override
     @JSONField(serialize = false)
     public Boolean isSuccess() {
-        return Objects.equal(code, R.CODE_SUCCESS);
+        return code == R.CODE_SUCCESS;
     }
 
     /**
@@ -51,7 +64,7 @@ public class Result implements AbstractStatus {
      */
     @JSONField(serialize = false)
     public Boolean isFail() {
-        return Objects.equal(code, R.CODE_FAIL);
+        return code == R.CODE_FAIL;
     }
 
     /**
@@ -61,7 +74,7 @@ public class Result implements AbstractStatus {
      */
     @JSONField(serialize = false)
     public Boolean isError() {
-        return Objects.equal(code, R.CODE_ERROR);
+        return code == R.CODE_ERROR;
     }
 
     /**
@@ -71,6 +84,6 @@ public class Result implements AbstractStatus {
      */
     @JSONField(serialize = false)
     public Boolean isReTry() {
-        return Objects.equal(code, R.CODE_RETRY);
+        return code == R.CODE_RETRY;
     }
 }

@@ -14,7 +14,6 @@ import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 
-import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
@@ -88,7 +87,7 @@ public class JdbcTemplatePlus {
             return get().queryForList(sql, Maps.newConcurrentMap());
         } catch (Exception e) {
             log.error("query for list error {}", e.getMessage());
-            return ListUtil.empty();
+            return Lists.newArrayList();
         }
     }
 
@@ -97,7 +96,7 @@ public class JdbcTemplatePlus {
             return get().queryForList(sql, parameter(obj));
         } catch (Exception e) {
             log.error("query for list error {}", e.getMessage());
-            return ListUtil.empty();
+            return Lists.newArrayList();
         }
     }
 
@@ -106,7 +105,7 @@ public class JdbcTemplatePlus {
             return result(queryForList(sql, Maps.newConcurrentMap()), cla);
         } catch (Exception e) {
             log.error("query for list error {}", e.getMessage());
-            return ListUtil.empty();
+            return Lists.newArrayList();
         }
     }
 
@@ -115,7 +114,7 @@ public class JdbcTemplatePlus {
             return result(queryForList(sql, obj), cla);
         } catch (Exception e) {
             log.error("query for list error {}", e.getMessage());
-            return ListUtil.empty();
+            return Lists.newArrayList();
         }
     }
 

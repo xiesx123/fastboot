@@ -37,7 +37,7 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.debug("token pre handle");
         // 获取token配置
-        String key = SpringHelper.getBean(TokenProperties.class).getHeader();
+        String key = SpringHelper.hasBean(TokenProperties.class).map(tp -> tp.getHeader()).get();
         // 获取方法信息
         if (handler instanceof HandlerMethod) {
             // 获取方法

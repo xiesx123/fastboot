@@ -110,7 +110,7 @@ public class GlobalExceptionAdvice {
         String msg = ExceptionUtil.getMessage(e);
         log.error("database exception \n---------------------- \n{} \n----------------------", msg);
         if (e instanceof EmptyResultDataAccessException) {
-            msg = "信息不存在";
+            msg = "数据不存在";
         } else {
             msg = ExceptionUtil.getSimpleMessage(e);
         }

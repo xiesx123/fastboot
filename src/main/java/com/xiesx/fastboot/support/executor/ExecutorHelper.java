@@ -8,9 +8,9 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.util.concurrent.*;
 
-import cn.hutool.core.collection.ListUtil;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import net.dongliu.commons.collection.Lists;
 
 /**
  * @title ExecutorHelper.java
@@ -70,9 +70,7 @@ public class ExecutorHelper {
      */
     public static <T> ListenableFuture<T> submit(@NonNull Callable<T> task, @NonNull FutureCallback<T> callback) {
         ListenableFuture<T> future = les.submit(task);
-        if (callback != null) {
-            Futures.addCallback(future, callback, MoreExecutors.directExecutor());
-        }
+        Futures.addCallback(future, callback, MoreExecutors.directExecutor());
         return future;
     }
 
@@ -100,7 +98,7 @@ public class ExecutorHelper {
         } catch (InterruptedException e) {
             log.error("executor helper invoke all", e);
         }
-        return ListUtil.empty();
+        return Lists.newArrayList();
     }
 
     /**
@@ -116,7 +114,7 @@ public class ExecutorHelper {
         } catch (InterruptedException e) {
             log.error("executor helper invoke all", e);
         }
-        return ListUtil.empty();
+        return Lists.newArrayList();
     }
 
     /**

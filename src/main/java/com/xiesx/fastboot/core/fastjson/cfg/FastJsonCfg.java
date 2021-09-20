@@ -68,8 +68,7 @@ public class FastJsonCfg implements WebMvcConfigurer {
         // 序列化过滤器
         List<SerializeFilter> filters = Lists.newArrayList(fastJsonConfig.getSerializeFilters());
         if (fastJsonProperties.getDesensitize()) {
-            // 脱敏过滤器
-            filters.add(new DesensitizeFilter());
+            filters.add(new DesensitizeFilter());// 脱敏过滤器
         }
         fastJsonConfig.setSerializeFilters(filters.toArray(new SerializeFilter[filters.size()]));
         return fastJsonConfig;
