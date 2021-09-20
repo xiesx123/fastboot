@@ -1,12 +1,6 @@
-logging:                                                    # logging
-  config: classpath:log4j2.xml
-
 spring:
   profiles:
     active: dev
-  devtools:
-    restart:
-      enabled: false                                         # 开发模式
   datasource:
     dynamic:
       p6spy: true

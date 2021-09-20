@@ -11,13 +11,13 @@
 <!-- -->
 <!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出 -->
 <!--Configuration后面的monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数 -->
-<Configuration status="WARN" monitorInterval="30">
+<Configuration status="WARN" monitorInterval="10">
 	<!-- 配置 -->
 	<Properties>
 		<!-- 存放目录(本地) -->
 		<Property name="path">../logs</Property>
 		<!-- 输出格式 -->
-		<Property name="log_pattern">[FastBoot][%5p][%-d{MM-dd HH:mm:ss}]-->[%t:%5r][%M(%F:%L)] | - %m%n</Property>
+		<Property name="log_pattern">[FastBoot][%5p][%-d{MM-dd HH:mm:ss}][%t:%5r][%M(%F:%L)] | - %m%n</Property>
 	</Properties>
 
 	<!-- 追加 -->
@@ -28,13 +28,13 @@
 		</Console>
 
 		<!-- ALL存档日志 -->
-		<RollingFile name="all" fileName="${path}/fastboot.log" filePattern="${path}/fastbootor_%d{MM-dd-yyyy}.log.%i">
+		<RollingFile name="all" fileName="${path}/fastboot.log" filePattern="${path}/fastboot_%d{MM-dd-yyyy}.log.%i">
 			<!-- 输出格式 -->
 			<PatternLayout pattern="${sys:log_pattern}" />
 			<!-- 最大文件100M -->
 			<SizeBasedTriggeringPolicy size="100 MB" />
-			<!-- 最多产生50个文件 -->
-			<DefaultRolloverStrategy max="50" fileIndex="min" />
+			<!-- 最多产生100个文件 -->
+			<DefaultRolloverStrategy max="100" fileIndex="min" />
 		</RollingFile>
 
 		<!-- Error存档日志 -->
@@ -45,25 +45,23 @@
 			<PatternLayout pattern="${sys:log_pattern}" />
 			<!-- 最大文件100M -->
 			<SizeBasedTriggeringPolicy size="100 MB" />
-			<!-- 最多产生50个文件 -->
-			<DefaultRolloverStrategy max="50" fileIndex="min" />
+			<!-- 最多产生100个文件 -->
+			<DefaultRolloverStrategy max="100" fileIndex="min" />
 		</RollingFile>
 	</Appenders>
 
 	<Loggers>
-
-		<!-- 第三方ERROR -->
-		<Logger name="org.springframework" level="ERROR" />
-		<Logger name="org.hibernate" level="ERROR" />
-		<Logger name="com.querydsl" level="ERROR" />
-		<Logger name="org.quartz" level="ERROR" />
-		<Logger name="org.apache" level="ERROR" />
-
-		<!-- 默认INFO -->
-		<Root level="TRACE">
+		<!-- 默认DEBUG -->
+		<Root level="DEBUG">
 			<AppenderRef ref="console" />
 			<AppenderRef ref="all" />
 			<AppenderRef ref="error" />
 		</Root>
+		<!-- 过滤指定包低于指定级别日志,不显示 -->
+		<Logger name="org.springframework" level="ERROR" />
+		<Logger name="com.zaxxer.hikari" level="ERROR" />
+		<Logger name="org.hibernate" level="ERROR" />
+		<Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />
+		<Logger name="com.querydsl" level="ERROR" />
 	</Loggers>
 </Configuration>
