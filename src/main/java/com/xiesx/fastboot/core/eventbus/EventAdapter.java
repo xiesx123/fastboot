@@ -29,7 +29,7 @@ public abstract class EventAdapter<E extends AbstractEvent> {
                     log.warn("handle event {} fail", event.getClass());
                 }
             } catch (Exception e) {
-                log.error(String.format("handle event %s exception", event.getClass()), e);
+                log.error(String.format("handle event %s exception", event.getClass()));
             }
         }
     }
