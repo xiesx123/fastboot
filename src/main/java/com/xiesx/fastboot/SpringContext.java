@@ -1,7 +1,5 @@
 package com.xiesx.fastboot;
 
-import java.io.File;
-
 import javax.validation.Validator;
 
 import org.springframework.beans.BeansException;
@@ -52,9 +50,8 @@ public class SpringContext implements ApplicationContextAware, ApplicationListen
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (event.getApplicationContext().getParent() == null) {
-            File root = FileUtil.getWebRoot();
-            servername = FileUtil.getName(root);
-            serverpath = root.getName().toLowerCase();
+            servername = FileUtil.getName(System.getProperty("user.dir"));
+            serverpath = System.getProperty("user.dir");
             log.info("Startup Server name: " + servername + ", path: " + serverpath);
 
             if (SpringHelper.hasBean(Validator.class).isPresent()) {
