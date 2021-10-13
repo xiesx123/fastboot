@@ -35,13 +35,13 @@ public class EventBusHelper {
      *
      * @param handler
      */
-    public static void register(@NonNull EventAdapter<? extends AbstractEvent> handler) {
+    public static void register(@NonNull EventAdapter<?> handler) {
         eventbus.register(handler);
         log.info("Registered event : {}", handler.getClass());
     }
 
     /**
-     * 发布消息
+     * 发布
      *
      * @param event
      */
@@ -50,20 +50,11 @@ public class EventBusHelper {
     }
 
     /**
-     * 发布消息
-     *
-     * @param event
-     */
-    public static void post(@NonNull AbstractEvent event) {
-        eventbus.post(event);
-    }
-
-    /**
      * 注销
      *
      * @param handler
      */
-    public static void unregister(@NonNull EventAdapter<? extends AbstractEvent> handler) {
+    public static void unregister(@NonNull EventAdapter<?> handler) {
         eventbus.unregister(handler);
         log.info("Unregisted event : {}", handler.getClass());
     }

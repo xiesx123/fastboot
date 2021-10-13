@@ -14,7 +14,7 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SimpleEvent implements AbstractEvent {
+public class SimpleEvent  {
 
     @NonNull
     private String name;
