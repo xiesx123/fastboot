@@ -29,10 +29,8 @@ public abstract class EventAdapter<T> {
             try {
                 ParameterizedType p = (ParameterizedType) this.getClass().getGenericSuperclass();
                 Class<T> c = (Class<T>) p.getActualTypeArguments()[0];
-                if (c.getName().equals(event.getClass().getName())) {
-                    if (!process((T) event)) {
-                        log.warn("handle event {} fail", event.getClass());
-                    }
+                if (c.getName().equals(event.getClass().getName()) && !process(event)) {
+                    log.warn("handle event {} fail", event.getClass());
                 }
             } catch (Exception e) {
                 log.error("handle event {} {} ", event.getClass(), e.getMessage());
