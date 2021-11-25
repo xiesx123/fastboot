@@ -14,7 +14,7 @@ import com.xiesx.fastboot.core.token.interceptor.TokenInterceptor;
 import com.xiesx.fastboot.core.token.processor.RequestHeaderMethodProcessor;
 
 import cn.hutool.core.collection.ListUtil;
-import io.jsonwebtoken.Jws;
+import cn.hutool.jwt.JWT;
 
 /**
  * @title TokenCfg.java
@@ -25,7 +25,7 @@ import io.jsonwebtoken.Jws;
 @EnableConfigurationProperties(TokenProperties.class)
 // @ConditionalOnProperty(prefix = TokenProperties.PREFIX, name = "enabled", havingValue = "true",
 // matchIfMissing = true)
-@ConditionalOnClass({Jws.class})
+@ConditionalOnClass({JWT.class})
 public class TokenCfg implements WebMvcConfigurer {
 
     public static final String UID = "uid";

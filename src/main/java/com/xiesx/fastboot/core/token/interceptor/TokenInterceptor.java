@@ -19,9 +19,10 @@ import com.xiesx.fastboot.core.token.annotation.GoToken;
 import com.xiesx.fastboot.core.token.cfg.TokenCfg;
 import com.xiesx.fastboot.core.token.cfg.TokenProperties;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.exceptions.ValidateException;
 import cn.hutool.core.util.StrUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
+import cn.hutool.json.JSONObject;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -54,13 +55,13 @@ public class TokenInterceptor implements HandlerInterceptor {
                         }
                         try {
                             // 解析token
-                            Claims claims = JwtHelper.parser(token).getBody();
+                            JSONObject claims = JwtHelper.parser(token).getPayloads();
                             // 设置request
-                            request.setAttribute(TokenCfg.UID, claims.getOrDefault(TokenCfg.UID, ""));
+                            request.setAttribute(TokenCfg.UID, claims.getStr(TokenCfg.UID, ""));
                         } catch (Exception e) {
                             log.error("jwt token error", e);
-                            if (e instanceof ExpiredJwtException) {
-                                throw new RunException(RunExc.TOKEN, "失效");
+                            if (e instanceof ValidateException) {
+                                throw new RunException(RunExc.TOKEN, ExceptionUtil.getSimpleMessage(e));
                             }
                             throw new RunException(RunExc.TOKEN);
                         }

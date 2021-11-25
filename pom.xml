@@ -160,12 +160,6 @@
 			<artifactId>requests</artifactId>
 			<version>5.0.8</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>0.9.1</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/de.schlichtherle.truelicense/truelicense-core -->
 		<dependency>
 			<groupId>de.schlichtherle.truelicense</groupId>

@@ -4,16 +4,13 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import javax.crypto.SecretKey;
-
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.base.config.Configed;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.crypto.SecureUtil;
-import io.jsonwebtoken.*;
+import cn.hutool.jwt.JWT;
 
 /**
  * @title JwtHelper.java
@@ -26,7 +23,7 @@ public class JwtHelper {
     /**
      * 密钥
      */
-    public static final String JWT_SECRET = "fastboot-jwt";
+    public static final String JWT_SECRET = Configed.FASTBOOT;
 
     /**
      * 生成方
@@ -92,60 +89,56 @@ public class JwtHelper {
      * @param secret 密匙
      * @return
      */
-    public static String create(String id, String subject, String issuer, String audience, Map<String, Object> header, Map<String, Object> claim, long timeout, String secret) {
+    public static String create(String id, String subject, String issuer, String audience, Map<String, ?> header, Map<String, ?> claim, long timeout, String secret) {
         // 开始时间
         Date staDate = DateUtil.date();
         // 结束时间
         Date endDate = DateUtil.offsetSecond(staDate, (int) timeout);
         // 头部信息
-        Map<String, Object> headers = MapUtil.newConcurrentHashMap(header);
+        Map<String, ?> headers = MapUtil.newConcurrentHashMap(header);
         // 附加信息
-        Map<String, Object> claims = MapUtil.newConcurrentHashMap(claim);
+        Map<String, ?> payloads = MapUtil.newConcurrentHashMap(claim);
         // 构造
-        JwtBuilder builder = Jwts.builder()//
-                .setId(id) // 唯一身份标识，根据业务需要，可以设置为一个不重复的值，主要用来作为一次性token，从而回避重放攻击
+        String token = JWT.create()//
+                .setJWTId(id)// 唯一身份标识，根据业务需要，可以设置为一个不重复的值，主要用来作为一次性token，从而回避重放攻击
                 .setSubject(subject) // 主题
                 .setIssuer(issuer) // 签发者
+                .setIssuedAt(staDate)// 签发时间
+                .setExpiresAt(endDate)// 过期时间
+                .setNotBefore(DateUtil.date())// 生效时间
+                .addHeaders(headers)// 头部信息
+                .addPayloads(payloads)// 私有属性
                 .setAudience(audience) // 接收者
-                .setIssuedAt(staDate) // 签发时间
-                .setExpiration(endDate) // 过期时间
-                .setHeader(headers)// 头部信息
-                .addClaims(claims)// 私有属性
-                .signWith(SignatureAlgorithm.HS256, key(secret));// 签名算法以及密匙
-        return builder.compact();
+                .setKey(secret.getBytes())// 密匙
+                .sign();
+        return token;
     }
 
     /**
      * 解析令牌
      *
-     * @param secret
      * @param token
      * @return
      */
-    public static Jws<Claims> parser(String secret, String token) {
-        return Jwts.parser().setSigningKey(key(secret)).parseClaimsJws(token);
+    public static JWT parser(String secret, String token) {
+        return JWT.of(token).setKey(secret.getBytes());
     }
 
-    public static Jws<Claims> parser(String token) {
-        return Jwts.parser().setSigningKey(key(JWT_SECRET)).parseClaimsJws(token);
-    }
-
-    /**
-     * 生成密钥
-     *
-     * @return
-     */
-    public static SecretKey key(String secret) {
-        return SecureUtil.generateKey("AES", org.apache.commons.codec.binary.Base64.decodeBase64(secret));
+    public static JWT parser(String token) {
+        return JWT.of(token).setKey(JWT_SECRET.getBytes());
     }
 
     /**
-     * 是否过期
+     * 验证
      *
      * @param token
      * @return
      */
-    public static boolean isExpired(Date expiration) {
-        return expiration.before(new Date());
+    public static boolean validate(String secret, String token) {
+        return JWT.of(token).setKey(secret.getBytes()).verify();
+    }
+
+    public static boolean validate(String token) {
+        return JWT.of(token).setKey(JWT_SECRET.getBytes()).verify();
     }
 }

@@ -52,7 +52,7 @@
 
 	<Loggers>
 		<!-- 默认DEBUG -->
-		<Root level="DEBUG">
+		<Root level="INFO">
 			<AppenderRef ref="console" />
 			<AppenderRef ref="all" />
 			<AppenderRef ref="error" />
@@ -60,8 +60,9 @@
 		<!-- 过滤指定包低于指定级别日志,不显示 -->
 		<Logger name="org.springframework" level="ERROR" />
 		<Logger name="com.zaxxer.hikari" level="ERROR" />
+		<Logger name="org.apache" level="ERROR" />
 		<Logger name="org.hibernate" level="ERROR" />
-		<Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />
+		<!-- <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" /> -->
 		<Logger name="com.querydsl" level="ERROR" />
 	</Loggers>
 </Configuration>

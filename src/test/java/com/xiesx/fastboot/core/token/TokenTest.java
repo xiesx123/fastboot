@@ -26,10 +26,9 @@ import com.xiesx.fastboot.core.token.cfg.TokenCfg;
 import com.xiesx.fastboot.core.token.cfg.TokenProperties;
 import com.xiesx.fastboot.core.token.header.HttpHeaderParams;
 
-import cn.hutool.core.date.DateUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwsHeader;
+import cn.hutool.jwt.JWT;
+import cn.hutool.jwt.JWTHeader;
+import cn.hutool.jwt.JWTPayload;
 import io.restassured.response.Response;
 
 /**
@@ -46,7 +45,7 @@ public class TokenTest extends BaseTest {
     @Autowired
     TokenProperties properties;
 
-    String token = "";
+    static String token = "";
 
     Map<String, String> param, header;
 
@@ -77,34 +76,31 @@ public class TokenTest extends BaseTest {
         assertEquals(hp.getUid(), "123");
     }
 
-    public void jwt() {
+    public static void jwt() {
         //
-        Map<String, Object> header = Maps.newConcurrentMap();
-        header.put("user", "xxx");
+        Map<String, Object> headers = Maps.newConcurrentMap();
+        headers.put("user", "xxx");
         //
-        Map<String, Object> claims = Maps.newConcurrentMap();
-        claims.put(TokenCfg.UID, "123");
+        Map<String, Object> payload = Maps.newConcurrentMap();
+        payload.put(TokenCfg.UID, "123");
         //
         // token = simple(Configed.FASTBOOT, "api");
         // token = simple(Configed.FASTBOOT, "api", JWT_EXPIRE_M_1);
         // token = simple(Configed.FASTBOOT, "api", claims, JWT_EXPIRE_M_1);
-        token = JwtHelper.simple(Configed.FASTBOOT, "api", header, claims, JwtHelper.JWT_EXPIRE_D_1);
+        token = JwtHelper.simple(Configed.FASTBOOT, "api", headers, payload, JwtHelper.JWT_EXPIRE_D_1);
         System.out.println(token);
         //
-        Jws<Claims> jws = JwtHelper.parser(token);
-        System.out.println("签名信息：" + jws.getSignature());
+        JWT jwt = JwtHelper.parser(token);
+        System.out.println("签名算法：" + jwt.getSigner().getAlgorithm());
         //
-        JwsHeader<?> h = jws.getHeader();
-        System.out.println("头部信息：" + h.getOrDefault("user", "-"));
+        JWTHeader jh = jwt.getHeader();
+        System.out.println("头部信息：" + jh.getClaimsJson());
         //
-        Claims c = jws.getBody();
-        System.out.println("用户id：" + c.getId());
-        System.out.println("主题：" + c.getSubject());
-        System.out.println("签发者：" + c.getIssuer());
-        System.out.println("接收者：" + c.getAudience());
-        System.out.println("登录时间：" + DateUtil.formatDateTime(c.getIssuedAt()));
-        System.out.println("过期时间：" + DateUtil.formatDateTime(c.getExpiration()));
-        System.out.println("是否过期时间：" + JwtHelper.isExpired(c.getExpiration()));
-        System.out.println("附加编号：" + c.getOrDefault(TokenCfg.UID, "-"));
+        JWTPayload jp = jwt.getPayload();
+        System.out.println("负载信息：" + jp.getClaimsJson());
+    }
+
+    public static void main(String[] args) {
+        jwt();
     }
 }
