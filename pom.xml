@@ -100,7 +100,6 @@
 			<groupId>p6spy</groupId>
 			<artifactId>p6spy</artifactId>
 			<version>3.9.1</version>
-			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa -->
 		<dependency>
