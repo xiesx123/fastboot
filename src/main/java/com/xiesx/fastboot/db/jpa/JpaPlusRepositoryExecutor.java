@@ -3,6 +3,7 @@ package com.xiesx.fastboot.db.jpa;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import javax.persistence.EntityManager;
 
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.repository.support.Querydsl;
 import org.springframework.data.jpa.repository.support.QuerydslJpaPredicateExecutor;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.querydsl.SimpleEntityPathResolver;
+import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,6 +92,11 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
     }
 
     @Override
+    public <S extends T, R> R findBy(Predicate predicate, Function<FetchableFluentQuery<S>, R> queryFunction) {
+        return jpaPredicateExecutor.findBy(predicate, queryFunction);
+    }
+
+    @Override
     public long count(Predicate predicate) {
         return jpaPredicateExecutor.count(predicate);
     }
@@ -112,7 +119,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
         // 分页查询
         JPQLQuery<T> jpqlQuery = querydsl.applyPagination(pageable, query);
         // 构造分页
-        return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, query::fetchCount);
+        return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, jpqlQuery::fetchCount);
     }
 
     @Override
@@ -120,7 +127,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
         // 分页查询
         JPQLQuery<T> jpqlQuery = querydsl.applyPagination(pageable, query).orderBy(orders);
         // 构造分页
-        return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, query::fetchCount);
+        return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, jpqlQuery::fetchCount);
     }
 
     @Transactional

@@ -9,17 +9,10 @@ spring:
           url: jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
           username: root
           password: root
-        slave:
-          driver-class-name: org.h2.Driver
-          url: jdbc:h2:~/test
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
-  h2:
-    console:
-      enabled: true
-      path: /h2
 
 fastboot:                                                   # fastboot
   # ======= 数据转换 =======

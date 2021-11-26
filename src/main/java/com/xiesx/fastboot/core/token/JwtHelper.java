@@ -98,8 +98,7 @@ public class JwtHelper {
         Map<String, ?> headers = MapUtil.newConcurrentHashMap(header);
         // 附加信息
         Map<String, ?> payloads = MapUtil.newConcurrentHashMap(claim);
-        // 构造
-        String token = JWT.create()//
+        return JWT.create()//
                 .setJWTId(id)// 唯一身份标识，根据业务需要，可以设置为一个不重复的值，主要用来作为一次性token，从而回避重放攻击
                 .setSubject(subject) // 主题
                 .setIssuer(issuer) // 签发者
@@ -111,7 +110,6 @@ public class JwtHelper {
                 .setAudience(audience) // 接收者
                 .setKey(secret.getBytes())// 密匙
                 .sign();
-        return token;
     }
 
     /**

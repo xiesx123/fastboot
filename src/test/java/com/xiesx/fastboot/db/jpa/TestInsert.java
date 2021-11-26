@@ -75,7 +75,8 @@ public class TestInsert {
         // 插入
         // JPAInsertClause c = mJpaQuery.insert(ql);
         // 方式1（key... 、value...）
-        // row += c.columns(q.ip, q.method, q.type, q.url, q.req, q.res, q.time).values("127.0.0.1", "test",
+        // row += c.columns(ql.ip, ql.method, ql.type, ql.url, ql.req, ql.res, ql.time).values("127.0.0.1",
+        // "test",
         // "GET", "/test", "", "", 1L).execute();
 
         // 方式2（key-value）
