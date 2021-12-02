@@ -42,7 +42,7 @@ public class Result implements AbstractStatus {
      * @return
      */
     @JSONField(ordinal = 4)
-    public Boolean getStatus() {
+    public boolean getStatus() {
         return isSuccess();
     }
 
@@ -53,7 +53,7 @@ public class Result implements AbstractStatus {
      */
     @Override
     @JSONField(serialize = false)
-    public Boolean isSuccess() {
+    public boolean isSuccess() {
         return code == R.CODE_SUCCESS;
     }
 
@@ -63,7 +63,7 @@ public class Result implements AbstractStatus {
      * @return
      */
     @JSONField(serialize = false)
-    public Boolean isFail() {
+    public boolean isFail() {
         return code == R.CODE_FAIL;
     }
 
@@ -73,7 +73,7 @@ public class Result implements AbstractStatus {
      * @return
      */
     @JSONField(serialize = false)
-    public Boolean isError() {
+    public boolean isError() {
         return code == R.CODE_ERROR;
     }
 
@@ -83,7 +83,7 @@ public class Result implements AbstractStatus {
      * @return
      */
     @JSONField(serialize = false)
-    public Boolean isReTry() {
+    public boolean isReTry() {
         return code == R.CODE_RETRY;
     }
 }

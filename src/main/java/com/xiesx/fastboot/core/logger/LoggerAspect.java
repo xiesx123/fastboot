@@ -66,8 +66,8 @@ public class LoggerAspect {
         Method method = signature.getMethod();
         String methodName = method.getName();
         // 默认值
-        Boolean print = true;
-        Boolean format = false;
+        boolean print = true;
+        boolean format = false;
         String operation = "";
         Class<? extends LogStorage> storage = LogStorageProvider.class;
         // 获取类注解（优先）

@@ -13,5 +13,5 @@ public interface AbstractStatus {
      *
      * @return
      */
-    Boolean isSuccess();
+    boolean isSuccess();
 }

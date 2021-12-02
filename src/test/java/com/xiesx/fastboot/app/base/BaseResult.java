@@ -26,7 +26,7 @@ public class BaseResult<T> implements AbstractStatus, Serializable {
     public T data;
 
     @Override
-    public Boolean isSuccess() {
+    public boolean isSuccess() {
         return Objects.equal(code, R.CODE_SUCCESS);
     }
 }

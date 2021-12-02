@@ -52,7 +52,7 @@ public class PResult implements AbstractStatus {
      * @return
      */
     @JSONField(ordinal = 4)
-    public Boolean getStatus() {
+    public boolean getStatus() {
         return isSuccess();
     }
 
@@ -61,7 +61,7 @@ public class PResult implements AbstractStatus {
      */
     @Override
     @JSONField(serialize = false)
-    public Boolean isSuccess() {
+    public boolean isSuccess() {
         return Objects.equal(code, R.CODE_SUCCESS);
     }
 }

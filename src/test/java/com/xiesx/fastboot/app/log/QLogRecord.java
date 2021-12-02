@@ -25,7 +25,7 @@ public class QLogRecord extends EntityPathBase<LogRecord> {
 
     public final StringPath ip = createString("ip");
 
-    public final BooleanPath isDel = createBoolean("isDel");
+    public final BooleanPath del = createBoolean("del");
 
     public final StringPath method = createString("method");
 

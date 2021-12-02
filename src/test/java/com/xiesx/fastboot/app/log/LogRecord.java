@@ -1,6 +1,5 @@
 package com.xiesx.fastboot.app.log;
 
-import java.beans.Transient;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -40,9 +39,9 @@ import lombok.experimental.FieldNameConstants;
 @EntityListeners(AuditingEntityListener.class)
 @DynamicInsert
 @DynamicUpdate
-@Where(clause = "is_del=0")
-@SQLDelete(sql = "update xx_log set is_del=1 where id = ?")
-@SQLDeleteAll(sql = "update xx_log set is_del=1 where id = ?")
+@Where(clause = "del=0")
+@SQLDelete(sql = "update xx_log set del=1 where id = ?")
+@SQLDeleteAll(sql = "update xx_log set del=1 where id = ?")
 public class LogRecord extends JpaPlusEntity<LogRecord> {
 
     private static final long serialVersionUID = 1L;
@@ -130,17 +129,15 @@ public class LogRecord extends JpaPlusEntity<LogRecord> {
      */
     @Column
     @JSONField(serialize = false)
-    private Boolean isDel = false;
+    private boolean del = false;
 
     // ======================
 
-    @Transient
     @JSONField(serialize = false, ordinal = 8)
     public Object getParams() {
         return JSON.parse(req);
     }
 
-    @Transient
     @JSONField(serialize = false, ordinal = 9)
     public Object getResult() {
         return JSON.parse(res);

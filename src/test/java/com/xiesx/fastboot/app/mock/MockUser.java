@@ -56,5 +56,5 @@ public class MockUser {
     private BigDecimal balance;
 
     @JSONField(ordinal = 13)
-    private Boolean enable;
+    private boolean enable;
 }

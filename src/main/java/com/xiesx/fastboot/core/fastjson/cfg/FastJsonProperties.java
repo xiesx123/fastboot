@@ -52,5 +52,5 @@ public class FastJsonProperties {
     private FastJsonConfig config = new FastJsonConfig();
 
     // 脱敏
-    private Boolean desensitize = true;
+    private boolean desensitize = true;
 }

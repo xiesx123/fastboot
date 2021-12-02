@@ -26,11 +26,9 @@ public class RetryResponse implements AbstractStatus {
     @JSONField(ordinal = 3)
     private Object data;
 
-    @JSONField(ordinal = 4)
-    private Boolean success;
-
     @Override
-    public Boolean isSuccess() {
+    @JSONField(ordinal = 4)
+    public boolean isSuccess() {
         return code == 0;
     }
 }

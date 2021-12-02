@@ -33,7 +33,7 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
         // 获取当前处理请求方法
         Method method = methodParameter.getMethod();
         // 使用注解则忽略
-        Boolean isSupport = AnnotationUtil.hasAnnotation(method, IgnoreBody.class);
+        boolean isSupport = AnnotationUtil.hasAnnotation(method, IgnoreBody.class);
         log.debug("method ({}) body write ({}) support", method.getName(), isSupport);
         // true 拦截、false 忽略
         return isSupport;

@@ -64,5 +64,5 @@ public class MockUserDesensitized {
     private BigDecimal balance;
 
     @JSONField(ordinal = 13)
-    private Boolean enable;
+    private boolean enable;
 }

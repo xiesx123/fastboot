@@ -21,7 +21,7 @@ public class MinioProperties {
     /**
      * 是否启用
      */
-    private Boolean enabled = true;
+    private boolean enabled = true;
 
     /**
      * 服务地址

@@ -19,5 +19,5 @@ public class SimpleEvent {
     @NonNull
     private String name;
 
-    private Boolean sleep;
+    private boolean sleep;
 }
