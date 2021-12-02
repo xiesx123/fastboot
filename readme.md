@@ -1,6 +1,6 @@
 # FastBoot
 
-> 基于[`SpringBoot 2.6.0`](https://spring.io/projects/spring-boot)开发，结合工作中封装拓展而来；开箱即用，按需开启，快速开发
+> 基于 [`spring-boot 2.6.0`](https://spring.io/projects/spring-boot) 开发，结合工作中封装拓展而来；开箱即用，按需开启，快速开发
 
 #### 安装
 
@@ -34,18 +34,20 @@
 ```
 
 #### 注解
-| 注解 | 功能 |
-| --- | --- |
-| @GoEnableBody | 启用统一返回 |
-| @GoEnableEventBus| 启用事件总线 |
-| @GoEnableException | 启用全局异常 |
-| @GoEnableFastJson | 启用数据转换 |
-| @GoEnableLimiter | 启用请求限流 |
-| @GoEnableLogger | 启用日志打印 |
-| @@GoEnableSigner| 启用数据签名 |
-| @GoEnableToken | 启用令牌认证 |
+
+|注解|功能|
+|--|--|
+|@GoEnableBody|启用统一返回|
+|@GoEnableEventBus|启用事件总线|
+|@GoEnableException|启用全局异常|
+|@GoEnableFastJson|启用数据转换|
+|@GoEnableLimiter|启用请求限流|
+|@GoEnableLogger|启用日志打印|
+|@@GoEnableSigner|启用数据签名|
+|@GoEnableToken|启用令牌认证|
 
 上述注解按需开启即可使用，如下：
+
 ```
 @Configuration
 // 启用统一返回
@@ -67,8 +69,11 @@
 public class GoCfg {
 }
 ```
+
 #### 配置
+
 yml配置如下
+
 ```
 fastboot:                                                   # fastboot
   # ======= 数据转换 =======
@@ -115,4 +120,4 @@ fastboot:                                                   # fastboot
     secretKey: minioadmin
 ```
 
-> 更多[`文档`](http://go168.xyz/)
+> [`更多文档`](http://go168.xyz/)
