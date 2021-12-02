@@ -173,7 +173,8 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
     @Transactional
     @Override
     public int insert(T entity) {
-        return (int) jpaQueryFactory.insert(path).set(path, entity).execute();
+        // return (int) jpaQueryFactory.insert(path).set(path, entity).execute();
+        return 0;
     }
 
     @Transactional
