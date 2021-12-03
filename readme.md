@@ -1,12 +1,12 @@
 # FastBoot
 
-> 基于 [`spring-boot 2.6.0`](https://spring.io/projects/spring-boot) 开发，结合工作中封装拓展而来；开箱即用，按需开启，快速开发
+> 基于 [`spring-boot 2.6.0`](https://spring.io/projects/spring-boot) 开发，结合工作中封装拓展而来，按需开启，快速开发
 
-#### 安装
+### 安装
 
 [![](https://www.jitpack.io/v/com.gitee.xiesixian/fast-boot.svg)](https://www.jitpack.io/#com.gitee.xiesixian/fast-boot)
 
-#### 启动
+### 启动
 
 ```
     ______           __  ____              __ 
@@ -33,7 +33,7 @@
 [FastBoot][ INFO][06-17 15:52:16]-->[restartedMain:917666][main(FastBootApplication.java:28)] | - Started FastBootApplication 启动成功
 ```
 
-#### 注解
+### 注解
 
 |注解|功能|
 |--|--|
@@ -70,7 +70,7 @@ public class GoCfg {
 }
 ```
 
-#### 配置
+### 配置
 
 yml配置如下
 
@@ -114,7 +114,7 @@ fastboot:                                                   # fastboot
   # ======= 对象存储 =======
   minio:
     enabled: false
-    address: http://192.168.200.168:9090
+    address: 192.168.200.168:9090
     bucket: fastboot
     accessKey: minioadmin
     secretKey: minioadmin
