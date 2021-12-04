@@ -51,8 +51,8 @@ fastboot:                                                   # fastboot
     subject: fastboot
     public-alias: publicCert
     store-pass: 136305973@qq.com
-    public-store-path: E:/license/publicCerts.store
-    license-path: E:/license/license.lic
+    public-store-path: E:/fast/license/publicCerts.store
+    license-path: E:/fast/license/license.lic
     
   # ======= 存储配置 =======
   minio:

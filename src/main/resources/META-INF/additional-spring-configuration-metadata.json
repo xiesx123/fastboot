@@ -19,12 +19,6 @@
 			"description": "令牌认证"
 		},
 		{
-			"name": "fastboot.license",
-			"type": "com.xiesx.fastboot.core.license.cfg.LicenseProperties",
-			"sourceType": "com.xiesx.fastboot.core.license.cfg.LicenseProperties",
-			"description": "授权证书"
-		},
-		{
 			"name": "fastboot.minio",
 			"type": "com.xiesx.fastboot.support.minio.cfg.MinioProperties",
 			"sourceType": "com.xiesx.fastboot.support.minio.cfg.MinioProperties",
@@ -83,37 +77,6 @@
 			"name": "fastboot.token.excludePaths",
 			"type": "java.lang.String",
 			"description": "排除请求"
-		},
-		{
-			"name": "fastboot.license.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "是否启用"
-		},
-		{
-			"name": "fastboot.license.subject",
-			"type": "java.lang.String",
-			"description": "证书主题"
-		},
-		{
-			"name": "fastboot.license.publicAlias",
-			"type": "java.lang.String",
-			"description": "公钥别名"
-		},
-		{
-			"name": "fastboot.license.storePass",
-			"type": "java.lang.String",
-			"description": "私钥密码"
-		},
-		{
-			"name": "fastboot.license.publicStorePath",
-			"type": "java.lang.String",
-			"description": "公钥路径"
-		},
-		{
-			"name": "fastboot.license.licensePath",
-			"type": "java.lang.String",
-			"description": "证书路径"
 		},
 		{
 			"name": "fastboot.minio.enabled",
