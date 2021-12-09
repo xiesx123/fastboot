@@ -32,7 +32,7 @@ public class BodyController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "result")
+    @RequestMapping("result")
     public Result result() {
         return R.succ(MockData.map());
     }
@@ -42,7 +42,7 @@ public class BodyController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "map")
+    @RequestMapping("map")
     public Map<String, Object> map() {
         return MockData.map();
     }
@@ -52,7 +52,7 @@ public class BodyController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "list")
+    @RequestMapping("list")
     public List<String> list() {
         return MockData.list();
     }
@@ -62,7 +62,7 @@ public class BodyController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "string")
+    @RequestMapping("string")
     public String string() {
         return "k1";
     }
@@ -72,7 +72,7 @@ public class BodyController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "fastjson")
+    @RequestMapping("fastjson")
     public JSON json() {
         return MockData.fastjson();
     }
@@ -82,7 +82,7 @@ public class BodyController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "object")
+    @RequestMapping("object")
     public MockUser object() {
         return MockData.user();
     }
@@ -93,7 +93,7 @@ public class BodyController extends BaseController {
      * @return
      */
     @IgnoreBody
-    @RequestMapping(value = "ignore")
+    @RequestMapping("ignore")
     public MockUser ignore() {
         return MockData.user();
     }

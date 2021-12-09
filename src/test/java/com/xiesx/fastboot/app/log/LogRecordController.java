@@ -35,7 +35,7 @@ public class LogRecordController extends BaseController {
      * @param page
      * @return
      */
-    @RequestMapping(value = "page")
+    @RequestMapping("page")
     public PResult page(BaseVo base, PageVo page) {
         // 条件
         Predicate predicate = ql.id.isNotNull();

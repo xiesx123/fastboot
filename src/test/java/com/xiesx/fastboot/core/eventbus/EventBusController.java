@@ -28,7 +28,7 @@ public class EventBusController extends BaseController {
      * @return
      * @throws InterruptedException
      */
-    @RequestMapping(value = "request")
+    @RequestMapping("request")
     public Result request(String p) throws InterruptedException {
         // 发布Base消息
         EventBusHelper.post(new SimpleEvent(p, true));

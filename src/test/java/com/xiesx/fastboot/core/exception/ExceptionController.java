@@ -39,7 +39,7 @@ public class ExceptionController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "runtime")
+    @RequestMapping("runtime")
     public void runtime() {
         log.debug("空指针,抛  {}  异常", NullPointerException.class);
         throw new NullPointerException("手动抛空指针异常");
@@ -60,7 +60,7 @@ public class ExceptionController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "hibernate/validator")
+    @RequestMapping("hibernate/validator")
     public void validator(@NotBlank String p) {
         log.debug("参数空,抛 {} 异常", ConstraintViolationException.class);
     }
@@ -70,7 +70,7 @@ public class ExceptionController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "spring/validator")
+    @RequestMapping("spring/validator")
     public void validator(@Validated BaseVo base) {
         log.debug("参数空,抛 {} 异常", BindException.class);
     }
@@ -80,7 +80,7 @@ public class ExceptionController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "database")
+    @RequestMapping("database")
     public void database() {
         log.debug("无此表,抛 {} 异常", SQLSyntaxErrorException.class);
         JdbcTemplatePlus.queryForMap("select * from xx_test");// 不捕获
@@ -92,7 +92,7 @@ public class ExceptionController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "custom")
+    @RequestMapping("custom")
     public void custom() {
         log.debug("自定义,抛 {} 异常", RunException.class);
         throw new RunException(RunExc.SIGN);

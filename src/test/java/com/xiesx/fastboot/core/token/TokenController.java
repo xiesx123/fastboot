@@ -24,7 +24,7 @@ import com.xiesx.fastboot.core.token.header.HttpHeaderParams;
 @GoLogger(storage = LogStorageSimpleProvider.class)
 public class TokenController extends BaseController {
 
-    @RequestMapping(value = "header")
+    @RequestMapping("header")
     public Result header(String name, @GoToken String uid, @GoHeader HttpHeaderParams p1) {
         return R.succ(Lists.newArrayList(name, uid, p1));
     }
