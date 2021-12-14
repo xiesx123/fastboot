@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONValidator;
 import com.xiesx.fastboot.support.validate.annotation.VJson;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 
 /**
  * @title VJsonRule.java
@@ -24,6 +25,6 @@ public class VJsonRule implements ConstraintValidator<VJson, String> {
         if (StrUtil.isBlank(s)) {
             return false;
         }
-        return JSONValidator.from(s).validate();
+        return JSONValidator.from(s).validate() && JSONUtil.isJson(s);
     }
 }
