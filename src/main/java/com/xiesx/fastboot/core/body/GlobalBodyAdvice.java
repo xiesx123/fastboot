@@ -53,7 +53,7 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
         if (returnType.equals(Void.TYPE)) {
             return null;
         }
-        if (obj instanceof AbstractStatus) {
+        if (obj instanceof AbstractStatus || obj instanceof String) {
             return obj;
         }
         return obj == null ? R.succ() : R.succ(obj);
