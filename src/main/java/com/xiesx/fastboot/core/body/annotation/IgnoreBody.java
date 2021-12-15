@@ -12,15 +12,9 @@ import com.xiesx.fastboot.core.logger.cfg.LoggerCfg;
  * @author xiesx
  * @date 2021-04-04 17:52:45
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Import({LoggerCfg.class})
 @Documented
 public @interface IgnoreBody {
-
-    boolean print() default true;
-
-    boolean format() default false;
-
-    boolean storage() default false;
 }

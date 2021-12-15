@@ -1,7 +1,6 @@
 package com.xiesx.fastboot.core.body;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -32,9 +31,11 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> converterType) {
         // 获取当前处理请求方法
         Method method = methodParameter.getMethod();
-        // 使用注解则忽略
-        boolean isSupport = AnnotationUtil.hasAnnotation(method, IgnoreBody.class);
-        log.debug("method ({}) body write ({}) support", method.getName(), !isSupport);
+        // 获取类注解
+        boolean isSupport = AnnotationUtil.hasAnnotation(method.getDeclaringClass(), IgnoreBody.class);
+        // 获取方法注解
+        isSupport = AnnotationUtil.hasAnnotation(method, IgnoreBody.class);
+        log.debug("{} body write support {} ", method.getName(), !isSupport);
         // true 拦截、false 忽略
         return !isSupport;
     }
@@ -43,14 +44,14 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
     public Object beforeBodyWrite(Object obj, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> converter, ServerHttpRequest req, ServerHttpResponse res) {
         // 获取当前处理请求方法
         Method method = methodParameter.getMethod();
-        log.debug("method ({}) before body write advice", method.getName());
+        log.debug("{} body write advice", method.getName());
         // 获取返回类型
         Class<?> returnType = method.getReturnType();
         // 判断Void类型
         if (returnType.equals(Void.TYPE)) {
             return null;
         }
-        if (obj instanceof AbstractStatus || obj instanceof Map<?, ?> || obj instanceof Iterable<?> || obj instanceof com.alibaba.fastjson.JSON || obj instanceof String) {
+        if (obj instanceof AbstractStatus) {
             return obj;
         }
         return obj == null ? R.succ() : R.succ(obj);
