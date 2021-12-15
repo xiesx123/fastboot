@@ -20,7 +20,6 @@ import com.querydsl.jpa.impl.JPAQuery;
  * @date 2021-04-04 18:04:00
  */
 @NoRepositoryBean
-@SuppressWarnings("unchecked")
 public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T, ID>, QuerydslPredicateExecutor<T> {
 
     T findOne(ID id);
@@ -31,13 +30,13 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     <S extends T> S insertOrUpdate(S entity);
 
-    <S extends T> List<S> insertOrUpdate(S... entities);
+    <S extends T> List<S> insertOrUpdate(@SuppressWarnings("unchecked") S... entities);
 
     <S extends T> List<S> insertOrUpdate(List<S> entities);
 
     int insertOrUpdateRow(T entity);
 
-    int insertOrUpdateRow(T... entities);
+    int insertOrUpdateRow(@SuppressWarnings("unchecked") T... entities);
 
     int insertOrUpdateRow(List<T> entities);
 
@@ -46,7 +45,7 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     int update(T entity, Predicate... predicate);
 
-    int delete(ID... ids);
+    int delete(@SuppressWarnings("unchecked") ID... ids);
 
     int delete(List<ID> ids);
 
