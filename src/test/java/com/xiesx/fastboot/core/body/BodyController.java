@@ -12,7 +12,7 @@ import com.xiesx.fastboot.app.mock.MockData;
 import com.xiesx.fastboot.app.mock.MockUser;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
-import com.xiesx.fastboot.core.body.annotation.IgnoreBody;
+import com.xiesx.fastboot.core.body.annotation.RestBodyIgnore;
 import com.xiesx.fastboot.core.logger.LogStorageSimpleProvider;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 
@@ -92,7 +92,7 @@ public class BodyController extends BaseController {
      *
      * @return
      */
-    @IgnoreBody
+    @RestBodyIgnore
     @RequestMapping("ignore")
     public MockUser ignore() {
         return MockData.user();
