@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 import org.springframework.context.annotation.Import;
 
-import com.xiesx.fastboot.core.token.cfg.TokenCfg;
+import com.xiesx.fastboot.core.token.configuration.TokenCfg;
 
 /**
  * @title GoEnableToken.java

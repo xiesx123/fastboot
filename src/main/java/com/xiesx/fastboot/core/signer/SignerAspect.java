@@ -19,7 +19,7 @@ import com.xiesx.fastboot.base.config.Ordered;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.core.signer.annotation.GoSigner;
-import com.xiesx.fastboot.core.signer.cfg.SignerProperties;
+import com.xiesx.fastboot.core.signer.configuration.SignerProperties;
 
 import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.StrUtil;

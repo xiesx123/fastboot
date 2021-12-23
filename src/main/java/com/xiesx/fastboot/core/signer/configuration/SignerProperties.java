@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.core.signer.cfg;
+package com.xiesx.fastboot.core.signer.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

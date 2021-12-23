@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.xiesx.fastboot.support.minio.cfg.MinioCfg,\
+com.xiesx.fastboot.support.minio.configuration.MinioCfg,\
 com.xiesx.fastboot.SpringContext,\
 cn.hutool.extra.spring.SpringUtil

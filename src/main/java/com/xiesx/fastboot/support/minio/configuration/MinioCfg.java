@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.support.minio.cfg;
+package com.xiesx.fastboot.support.minio.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

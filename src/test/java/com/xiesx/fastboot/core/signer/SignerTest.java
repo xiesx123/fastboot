@@ -21,7 +21,7 @@ import com.google.common.collect.Maps;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.app.base.BaseResult;
 import com.xiesx.fastboot.app.base.BaseTest;
-import com.xiesx.fastboot.core.signer.cfg.SignerProperties;
+import com.xiesx.fastboot.core.signer.configuration.SignerProperties;
 
 import io.restassured.response.Response;
 

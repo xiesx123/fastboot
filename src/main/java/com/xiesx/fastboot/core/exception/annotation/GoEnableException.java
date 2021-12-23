@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 import org.springframework.context.annotation.Import;
 
 import com.xiesx.fastboot.core.exception.GlobalExceptionAdvice;
-import com.xiesx.fastboot.support.validate.cfg.ValidatorCfg;
+import com.xiesx.fastboot.support.validate.configuration.ValidatorCfg;
 
 /**
  * @title GoEnableException.java

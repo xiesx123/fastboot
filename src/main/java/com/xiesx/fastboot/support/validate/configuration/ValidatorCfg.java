@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.support.validate.cfg;
+package com.xiesx.fastboot.support.validate.configuration;
 
 import javax.validation.Validation;
 import javax.validation.Validator;

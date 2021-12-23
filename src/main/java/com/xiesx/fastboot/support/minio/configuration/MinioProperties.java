@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.support.minio.cfg;
+package com.xiesx.fastboot.support.minio.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

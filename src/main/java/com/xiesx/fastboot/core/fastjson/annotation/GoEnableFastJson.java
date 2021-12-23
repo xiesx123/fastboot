@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 import org.springframework.context.annotation.Import;
 
-import com.xiesx.fastboot.core.fastjson.cfg.FastJsonCfg;
+import com.xiesx.fastboot.core.fastjson.configuration.FastJsonCfg;
 
 /**
  * @title GoEnableFastJson.java

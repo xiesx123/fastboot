@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.app.cfg;
+package com.xiesx.fastboot.app.configuration;
 
 import org.springframework.context.annotation.Configuration;
 

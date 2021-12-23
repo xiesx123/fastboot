@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.core.limiter.cfg;
+package com.xiesx.fastboot.core.limiter.configuration;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Import;

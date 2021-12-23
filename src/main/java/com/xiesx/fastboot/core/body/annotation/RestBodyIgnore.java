@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 import org.springframework.context.annotation.Import;
 
-import com.xiesx.fastboot.core.logger.cfg.LoggerCfg;
+import com.xiesx.fastboot.core.logger.configuration.LoggerCfg;
 
 /**
  * @title RestBodyIgnore.java

@@ -2,26 +2,26 @@
 	"groups": [
 		{
 			"name": "fastboot.fastjson",
-			"type": "com.xiesx.fastboot.core.fastjson.cfg.FastJsonProperties",
-			"sourceType": "com.xiesx.fastboot.core.fastjson.cfg.FastJsonProperties",
+			"type": "com.xiesx.fastboot.core.fastjson.configuration.FastJsonProperties",
+			"sourceType": "com.xiesx.fastboot.core.fastjson.configuration.FastJsonProperties",
 			"description": "FastJson"
 		},
 		{
 			"name": "fastboot.signer",
-			"type": "com.xiesx.fastboot.core.signer.cfg.SignProperties",
-			"sourceType": "com.xiesx.fastboot.core.signer.cfg.SignProperties",
+			"type": "com.xiesx.fastboot.core.signer.configuration.SignProperties",
+			"sourceType": "com.xiesx.fastboot.core.signer.configuration.SignProperties",
 			"description": "数据签名"
 		},
 		{
 			"name": "fastboot.token",
-			"type": "com.xiesx.fastboot.core.token.cfg.TokenProperties",
-			"sourceType": "com.xiesx.fastboot.core.token.cfg.TokenProperties",
+			"type": "com.xiesx.fastboot.core.token.configuration.TokenProperties",
+			"sourceType": "com.xiesx.fastboot.core.token.configuration.TokenProperties",
 			"description": "令牌认证"
 		},
 		{
 			"name": "fastboot.minio",
-			"type": "com.xiesx.fastboot.support.minio.cfg.MinioProperties",
-			"sourceType": "com.xiesx.fastboot.support.minio.cfg.MinioProperties",
+			"type": "com.xiesx.fastboot.support.minio.configuration.MinioProperties",
+			"sourceType": "com.xiesx.fastboot.support.minio.configuration.MinioProperties",
 			"description": "对象存储"
 		}
 	],

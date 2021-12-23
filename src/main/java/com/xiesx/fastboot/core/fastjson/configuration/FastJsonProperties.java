@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.core.fastjson.cfg;
+package com.xiesx.fastboot.core.fastjson.configuration;
 
 import java.util.List;
 

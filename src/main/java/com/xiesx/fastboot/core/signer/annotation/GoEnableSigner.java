@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 import org.springframework.context.annotation.Import;
 
-import com.xiesx.fastboot.core.signer.cfg.SignerCfg;
+import com.xiesx.fastboot.core.signer.configuration.SignerCfg;
 
 /**
  * @title GoEnableSigner.java

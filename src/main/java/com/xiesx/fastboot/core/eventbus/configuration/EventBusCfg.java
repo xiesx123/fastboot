@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.core.eventbus.cfg;
+package com.xiesx.fastboot.core.eventbus.configuration;
 
 import java.util.Map;
 

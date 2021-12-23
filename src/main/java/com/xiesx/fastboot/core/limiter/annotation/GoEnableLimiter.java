@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 import org.springframework.context.annotation.Import;
 
-import com.xiesx.fastboot.core.limiter.cfg.LimiterCfg;
+import com.xiesx.fastboot.core.limiter.configuration.LimiterCfg;
 
 /**
  * @title GoEnableLimiter.java

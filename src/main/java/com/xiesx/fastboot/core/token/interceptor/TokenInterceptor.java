@@ -16,8 +16,8 @@ import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.core.token.JwtHelper;
 import com.xiesx.fastboot.core.token.annotation.GoHeader;
 import com.xiesx.fastboot.core.token.annotation.GoToken;
-import com.xiesx.fastboot.core.token.cfg.TokenCfg;
-import com.xiesx.fastboot.core.token.cfg.TokenProperties;
+import com.xiesx.fastboot.core.token.configuration.TokenCfg;
+import com.xiesx.fastboot.core.token.configuration.TokenProperties;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.exceptions.ValidateException;

@@ -22,8 +22,8 @@ import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.app.base.BaseResult;
 import com.xiesx.fastboot.app.base.BaseTest;
 import com.xiesx.fastboot.base.config.Configed;
-import com.xiesx.fastboot.core.token.cfg.TokenCfg;
-import com.xiesx.fastboot.core.token.cfg.TokenProperties;
+import com.xiesx.fastboot.core.token.configuration.TokenCfg;
+import com.xiesx.fastboot.core.token.configuration.TokenProperties;
 import com.xiesx.fastboot.core.token.header.HttpHeaderParams;
 
 import cn.hutool.jwt.JWT;

@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 import org.springframework.context.annotation.Import;
 
-import com.xiesx.fastboot.core.eventbus.cfg.EventBusCfg;
+import com.xiesx.fastboot.core.eventbus.configuration.EventBusCfg;
 
 /**
  * @title GoEnableEventBus.java

@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.core.logger.cfg;
+package com.xiesx.fastboot.core.logger.configuration;
 
 import org.springframework.context.annotation.Import;
 

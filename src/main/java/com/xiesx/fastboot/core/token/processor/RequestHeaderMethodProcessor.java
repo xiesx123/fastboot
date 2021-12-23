@@ -12,7 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.core.token.annotation.GoHeader;
 import com.xiesx.fastboot.core.token.annotation.GoToken;
-import com.xiesx.fastboot.core.token.cfg.TokenCfg;
+import com.xiesx.fastboot.core.token.configuration.TokenCfg;
 import com.xiesx.fastboot.core.token.header.HttpHeaderParams;
 
 import cn.hutool.core.bean.BeanUtil;

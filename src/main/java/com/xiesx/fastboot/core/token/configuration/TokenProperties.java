@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.core.token.cfg;
+package com.xiesx.fastboot.core.token.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
