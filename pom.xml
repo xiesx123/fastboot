@@ -116,7 +116,7 @@
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
-			<version>5.7.16</version>
+			<version>5.7.17</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
 		<dependency>
@@ -128,19 +128,13 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.78</version>
+			<version>1.2.79</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.dongliu/requests -->
 		<dependency>
 			<groupId>net.dongliu</groupId>
 			<artifactId>requests</artifactId>
 			<version>5.0.8</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/de.schlichtherle.truelicense/truelicense-core -->
-		<dependency>
-			<groupId>de.schlichtherle.truelicense</groupId>
-			<artifactId>truelicense-core</artifactId>
-			<version>1.33</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.minio/minio -->
 		<dependency>
