@@ -1,7 +1,5 @@
 package com.xiesx.fastboot.base.result;
 
-import lombok.NonNull;
-
 /**
  * @title R.java
  * @description
@@ -56,107 +54,90 @@ public class R {
      * 成功
      */
     public static Result succ() {
-        return Result.builder().code(CODE_SUCCESS).msg(MSG_SUCCESS).build();
+        return build(CODE_SUCCESS, MSG_SUCCESS);
     }
 
-    public static Result succ(@NonNull Object data) {
-        return Result.builder().code(CODE_SUCCESS).msg(MSG_SUCCESS).data(data).build();
+    public static Result succ(Object data) {
+        return build(CODE_SUCCESS, MSG_SUCCESS, data);
     }
 
-    public static Result succ(@NonNull String msg) {
-        return Result.builder().code(CODE_SUCCESS).msg(msg).build();
+    public static Result succ(String msg) {
+        return build(CODE_SUCCESS, msg);
     }
 
-    public static Result succ(@NonNull String msg, @NonNull Object data) {
-        return Result.builder().code(CODE_SUCCESS).msg(msg).data(data).build();
-    }
-
-    public static Result succ(@NonNull Integer code, @NonNull String msg) {
-        return Result.builder().code(code).msg(msg).build();
-    }
-
-    public static Result succ(@NonNull Integer code, @NonNull String msg, @NonNull Object data) {
-        return Result.builder().code(code).msg(msg).data(data).build();
+    public static Result succ(String msg, Object data) {
+        return build(CODE_SUCCESS, msg, data);
     }
 
     /**
      * 失败
      */
     public static Result fail() {
-        return Result.builder().code(CODE_FAIL).msg(MSG_FAIL).build();
+        return build(CODE_FAIL, MSG_FAIL);
     }
 
-    public static Result fail(@NonNull Object data) {
-        return Result.builder().code(CODE_FAIL).msg(MSG_FAIL).data(data).build();
+    public static Result fail(Object data) {
+        return build(CODE_FAIL, MSG_FAIL, data);
     }
 
-    public static Result fail(@NonNull String msg) {
-        return Result.builder().code(CODE_FAIL).msg(msg).build();
+    public static Result fail(String msg) {
+        return build(CODE_FAIL, msg);
     }
 
-    public static Result fail(@NonNull String msg, Object data) {
-        return Result.builder().code(CODE_FAIL).msg(msg).data(data).build();
-    }
-
-    public static Result fail(@NonNull Integer code, @NonNull String msg) {
-        return Result.builder().code(code).msg(msg).build();
-    }
-
-    public static Result fail(@NonNull Integer code, @NonNull String msg, Object data) {
-        return Result.builder().code(code).msg(msg).data(data).build();
+    public static Result fail(String msg, Object data) {
+        return build(CODE_FAIL, msg, data);
     }
 
     /**
      * 异常
      */
     public static Result error() {
-        return Result.builder().code(CODE_ERROR).msg(MSG_FAIL).build();
+        return build(CODE_ERROR, MSG_FAIL);
     }
 
-    public static Result error(@NonNull Object data) {
-        return Result.builder().code(CODE_ERROR).msg(MSG_FAIL).data(data).build();
+    public static Result error(Object data) {
+        return build(CODE_ERROR, MSG_FAIL, data);
     }
 
-    public static Result error(@NonNull String msg) {
-        return Result.builder().code(CODE_ERROR).msg(msg).build();
+    public static Result error(String msg) {
+        return build(CODE_ERROR, msg);
     }
 
-    public static Result error(@NonNull String msg, Object data) {
-        return Result.builder().code(CODE_ERROR).msg(msg).data(data).build();
-    }
-
-    public static Result error(@NonNull Integer code, @NonNull String msg) {
-        return Result.builder().code(code).msg(msg).build();
-    }
-
-    public static Result error(@NonNull Integer code, @NonNull String msg, Object data) {
-        return Result.builder().code(code).msg(msg).data(data).build();
+    public static Result error(String msg, Object data) {
+        return build(CODE_ERROR, msg, data);
     }
 
     /**
      * 重试
      */
     public static Result retry() {
-        return Result.builder().code(CODE_RETRY).msg(MSG_RETRY).build();
+        return build(CODE_RETRY, MSG_RETRY);
     }
 
-    public static Result retry(@NonNull Object data) {
-        return Result.builder().code(CODE_RETRY).msg(MSG_RETRY).data(data).build();
+    public static Result retry(Object data) {
+        return build(CODE_RETRY, MSG_RETRY, data);
     }
 
-    public static Result retry(@NonNull String msg) {
-        return Result.builder().code(CODE_RETRY).msg(msg).build();
+    public static Result retry(String msg) {
+        return build(CODE_RETRY, msg);
     }
 
-    public static Result retry(@NonNull String msg, Object data) {
-        return Result.builder().code(CODE_RETRY).msg(msg).data(data).build();
+    public static Result retry(String msg, Object data) {
+        return build(CODE_RETRY, msg, data);
     }
 
-    public static Result retry(@NonNull Integer code, @NonNull String msg) {
+    /**
+     * 构造
+     * 
+     * @param code
+     * @param msg
+     * @return
+     */
+    public static Result build(Integer code, String msg) {
         return Result.builder().code(code).msg(msg).build();
     }
 
-    public static Result retry(@NonNull Integer code, @NonNull String msg, Object data) {
+    public static Result build(Integer code, String msg, Object data) {
         return Result.builder().code(code).msg(msg).data(data).build();
     }
 }

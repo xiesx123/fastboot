@@ -46,7 +46,7 @@ public class GlobalExceptionAdvice {
     public Result runtimeException(HttpServletRequest request, Exception e) {
         String msg = ExceptionUtil.getMessage(e);
         log.error("runtime exception \n---------------------- \n{} \n----------------------", msg);
-        return R.error(RunExc.RUNTIME.getCode(), ExceptionUtil.getSimpleMessage(e));
+        return R.build(RunExc.RUNTIME.getCode(), ExceptionUtil.getSimpleMessage(e));
     }
 
     /**
@@ -69,7 +69,7 @@ public class GlobalExceptionAdvice {
         } else {
             msg = ExceptionUtil.getSimpleMessage(e);
         }
-        return R.error(RunExc.REQUEST.getCode(), msg);
+        return R.build(RunExc.REQUEST.getCode(), msg);
     }
 
     /**
@@ -95,7 +95,7 @@ public class GlobalExceptionAdvice {
         if (e instanceof ValidationException) {
             msgs.addAll(ValidatorHelper.extractPropertyAndMessageAsList((ConstraintViolationException) e));
         }
-        return R.error(RunExc.VALIDATOR.getCode(), RunExc.VALIDATOR.getMsg(), msgs);
+        return R.build(RunExc.VALIDATOR.getCode(), RunExc.VALIDATOR.getMsg(), msgs);
     }
 
     /**
@@ -114,7 +114,7 @@ public class GlobalExceptionAdvice {
         } else {
             msg = ExceptionUtil.getSimpleMessage(e);
         }
-        return R.error(RunExc.DBASE.getCode(), msg);
+        return R.build(RunExc.DBASE.getCode(), msg);
     }
 
     /**
@@ -128,6 +128,6 @@ public class GlobalExceptionAdvice {
     public Result customRunException(HttpServletRequest request, RunException e) {
         String msg = ExceptionUtil.getMessage(e);
         log.error("custom run exception \n---------------------- \n{} \n----------------------", msg);
-        return R.error(e.getStatus(), ExceptionUtil.getSimpleMessage(e));
+        return R.build(e.getStatus(), ExceptionUtil.getSimpleMessage(e));
     }
 }
