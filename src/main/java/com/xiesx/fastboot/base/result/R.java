@@ -1,5 +1,10 @@
 package com.xiesx.fastboot.base.result;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONConfig;
+import cn.hutool.json.JSONUtil;
+
 /**
  * @title R.java
  * @description
@@ -7,6 +12,8 @@ package com.xiesx.fastboot.base.result;
  * @date 2021-04-06 09:58:49
  */
 public class R {
+
+    public static JSONConfig jcfg = JSONConfig.create().setOrder(true).setIgnoreError(true).setIgnoreNullValue(true).setTransientSupport(true);
 
     public static Integer CODE_SUCCESS = 0;
 
@@ -128,7 +135,7 @@ public class R {
 
     /**
      * 构造
-     * 
+     *
      * @param code
      * @param msg
      * @return
@@ -139,5 +146,55 @@ public class R {
 
     public static Result build(Integer code, String msg, Object data) {
         return Result.builder().code(code).msg(msg).data(data).build();
+    }
+
+    /**
+     * 表达式
+     *
+     * @param result
+     * @return
+     */
+    public static Object eval(Object obj, String expression) {
+        return JSONUtil.getByPath(parse(obj), expression);
+    }
+
+    public static <T> T eval(Object obj, String expression, T bean) {
+        return JSONUtil.getByPath(parse(obj), expression, bean);
+    }
+
+    /**
+     * 解析
+     *
+     * @param obj
+     * @return
+     */
+    public static JSON parse(Object obj) {
+        return JSONUtil.parse(obj, jcfg);
+    }
+
+    /**
+     * 转换
+     *
+     * @param result
+     * @return
+     */
+    public static <T> T toBean(String json, Class<T> beanClass) {
+        return JSONUtil.toBean(json, beanClass);
+    }
+
+    public static Result toBean(String json) {
+        return toBean(json, Result.class);
+    }
+
+    public static Result toBean(Exception e) {
+        return R.error(ExceptionUtil.getSimpleMessage(e));
+    }
+
+    public static String toJsonStr(Object obj) {
+        return JSONUtil.toJsonStr(obj, jcfg);
+    }
+
+    public static String toJsonPrettyStr(Object obj) {
+        return JSONUtil.toJsonPrettyStr(obj);
     }
 }
