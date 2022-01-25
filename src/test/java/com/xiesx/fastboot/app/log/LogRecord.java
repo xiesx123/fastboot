@@ -41,7 +41,7 @@ import lombok.experimental.FieldNameConstants;
 @DynamicUpdate
 @Where(clause = "del=0")
 @SQLDelete(sql = "update xx_log set del=1 where id = ?")
-@SQLDeleteAll(sql = "update xx_log set del=1")
+@SQLDeleteAll(sql = "update xx_log set del=1 where id = ?")
 public class LogRecord extends JpaPlusEntity<LogRecord> {
 
     private static final long serialVersionUID = 1L;
