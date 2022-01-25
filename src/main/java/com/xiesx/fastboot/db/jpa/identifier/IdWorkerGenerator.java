@@ -22,6 +22,7 @@ import cn.hutool.core.util.StrUtil;
  * @author xiesx
  * @date 2021-04-04 18:03:55
  */
+@SuppressWarnings("deprecation")
 public class IdWorkerGenerator implements Configurable, IdentifierGenerator {
 
     /**
