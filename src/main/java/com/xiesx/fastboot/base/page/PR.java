@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 
 import com.xiesx.fastboot.base.result.R;
 
+import cn.hutool.core.convert.Convert;
 import lombok.NonNull;
 
 /**
@@ -24,5 +25,9 @@ public class PR {
 
     public static PResult create(@NonNull List<?> data, Integer total) {
         return PResult.builder().code(R.CODE_SUCCESS).msg(data.isEmpty() ? MSG_EMPTY : "操作成功").data(data).count(total).build();
+    }
+
+    public static PResult create(@NonNull List<?> data, Long total) {
+        return PResult.builder().code(R.CODE_SUCCESS).msg(data.isEmpty() ? MSG_EMPTY : "操作成功").data(data).count(Convert.toInt(total)).build();
     }
 }

@@ -2,7 +2,7 @@ package com.xiesx.fastboot.db.jpa;
 
 import java.io.Serializable;
 
-import com.alibaba.fastjson.JSON;
+import com.xiesx.fastboot.base.result.R;
 
 /**
  * @title JpaPlusEntity.java
@@ -16,6 +16,6 @@ public abstract class JpaPlusEntity<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public String toJSONString() {
-        return JSON.toJSONString(this);
+        return R.toJsonStr(this);
     }
 }

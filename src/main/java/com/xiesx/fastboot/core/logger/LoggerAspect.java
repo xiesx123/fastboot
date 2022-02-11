@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.fastjson.JSON;
 import com.xiesx.fastboot.base.config.Ordered;
+import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 import com.xiesx.fastboot.core.logger.storage.LogStorage;
 import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
@@ -97,7 +97,7 @@ public class LoggerAspect {
         });
         // 执行前打印入参
         if (print) {
-            log.info(LOG_BEFORE_FORMAT, methodName, JSON.toJSONString(newArgs, format));
+            log.info(LOG_BEFORE_FORMAT, methodName, format ? R.toJsonPrettyStr(newArgs) : R.toJsonStr(newArgs));
         }
         // 重新计时
         interval.restart();
@@ -107,7 +107,7 @@ public class LoggerAspect {
         long time = interval.interval();
         // 执行后打印结果
         if (print) {
-            log.info(LOG_AFTER_FORMAT, time, methodName, JSON.toJSONString(result, format));
+            log.info(LOG_AFTER_FORMAT, time, methodName, format ? R.toJsonPrettyStr(result) : R.toJsonStr(result));
         }
         // 日志存储
         Singleton.get(storage, operation, methodName, newArgs, time).record(result);

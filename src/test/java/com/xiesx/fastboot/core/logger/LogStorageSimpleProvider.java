@@ -1,9 +1,9 @@
 package com.xiesx.fastboot.core.logger;
 
-import com.alibaba.fastjson.JSON;
 import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.app.log.LogRecord;
 import com.xiesx.fastboot.app.log.LogRecordRepository;
+import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
 
 import lombok.extern.log4j.Log4j2;
@@ -33,8 +33,8 @@ public class LogStorageSimpleProvider extends LogStorageProvider {
                 .setMethod(method)//
                 .setType(type)//
                 .setUrl(uri)//
-                .setReq(JSON.toJSONString(parameters))//
-                .setRes(JSON.toJSONString(result))//
+                .setReq(R.toJsonStr(parameters))//
+                .setRes(R.toJsonStr(result))//
                 .setTime(time);
         // 保存日志
         logRecord = mLogRecordRepository.insertOrUpdate(logRecord);
