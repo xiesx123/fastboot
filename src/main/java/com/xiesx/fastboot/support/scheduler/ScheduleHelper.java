@@ -32,6 +32,18 @@ public class ScheduleHelper {
     /**
      * 增加SimpleJob
      *
+     * @param cls 任务实现类
+     * @param interval 时间表达式 (这是每隔多少秒为一次任务)
+     * @param repeat 运行的次数 （<0:表示不限次数）
+     */
+    public static void addJob(Class<? extends Job> cls, int interval, int repeat) {
+        // 创建
+        addJob(cls.getSimpleName(), cls, interval, repeat, null);
+    }
+
+    /**
+     * 增加SimpleJob
+     *
      * @param job 任务名称
      * @param cls 任务实现类
      * @param interval 时间表达式 (这是每隔多少秒为一次任务)
@@ -89,6 +101,16 @@ public class ScheduleHelper {
         simpleScheduleBuilder.repeatForever();
         // 创建
         createJob(job, group, cls, simpleScheduleBuilder, data);
+    }
+
+    /**
+     * 增加CronJob
+     *
+     * @param cls 任务实现类
+     * @param cron 时间表达式 （如：0/5 * * * * ? ）
+     */
+    public static void addJob(Class<? extends Job> cls, String cron) {
+        addJob(cls.getSimpleName(), cls, cron, null);
     }
 
     /**
