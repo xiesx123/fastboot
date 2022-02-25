@@ -140,10 +140,12 @@ public class R {
      * @param msg
      * @return
      */
+    @SuppressWarnings("resource")
     public static Result build(Integer code, String msg) {
         return new Result().code(code).msg(msg);
     }
 
+    @SuppressWarnings("resource")
     public static Result build(Integer code, String msg, Object data) {
         return new Result().code(code).msg(msg).data(data);
     }
