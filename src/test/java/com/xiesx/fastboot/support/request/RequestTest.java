@@ -11,7 +11,6 @@ import com.xiesx.fastboot.support.retry.RetryResponse;
 import lombok.extern.log4j.Log4j2;
 import net.dongliu.requests.RawResponse;
 import net.dongliu.requests.RequestBuilder;
-import net.dongliu.requests.Requests;
 
 /**
  * @title RequestTest.java
@@ -31,7 +30,7 @@ public class RequestTest {
         // 构造请求
         RequestBuilder req = Requests.get(URL);
         // 请求重试
-        RawResponse response = RequestsHelper.retry(req);
+        RawResponse response = Requests.retry(req);
         // 获取结果
         RetryResponse result = response.readToJson(RetryResponse.class);
         // 验证结果，如果结果正确则返回，错误则重试

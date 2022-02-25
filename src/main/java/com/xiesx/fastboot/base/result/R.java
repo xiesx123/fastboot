@@ -141,11 +141,11 @@ public class R {
      * @return
      */
     public static Result build(Integer code, String msg) {
-        return Result.builder().code(code).msg(msg).build();
+        return new Result().code(code).msg(msg);
     }
 
     public static Result build(Integer code, String msg, Object data) {
-        return Result.builder().code(code).msg(msg).data(data).build();
+        return new Result().code(code).msg(msg).data(data);
     }
 
     /**

@@ -4,8 +4,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.xiesx.fastboot.base.AbstractStatus;
 
 import cn.hutool.core.date.DateUtil;
-import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
 
 /**
@@ -15,7 +15,7 @@ import lombok.experimental.FieldNameConstants;
  * @date 2021-04-06 09:59:48
  */
 @Data
-@Builder
+@Accessors(fluent = true)
 @FieldNameConstants(innerTypeName = "FIELDS")
 public class Result implements AbstractStatus {
 
@@ -57,6 +57,8 @@ public class Result implements AbstractStatus {
         return isSuccess();
     }
 
+    // =========================
+
     /**
      * 判断是否成功
      *
@@ -97,4 +99,15 @@ public class Result implements AbstractStatus {
     public boolean isReTry() {
         return code == R.CODE_RETRY;
     }
+
+    // =========================
+
+    public String toJsonString() {
+        return R.toJsonStr(this);
+    }
+
+    public String toJsonPrettyStr() {
+        return R.toJsonPrettyStr(this);
+    }
+
 }

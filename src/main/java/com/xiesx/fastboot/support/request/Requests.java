@@ -5,20 +5,26 @@ import java.util.concurrent.TimeUnit;
 import com.xiesx.fastboot.support.retry.*;
 
 import lombok.NonNull;
+import net.dongliu.requests.Methods;
 import net.dongliu.requests.RawResponse;
 import net.dongliu.requests.RequestBuilder;
+import net.dongliu.requests.json.FastJsonProcessor;
+import net.dongliu.requests.json.JsonLookup;
 
 /**
- * @title RequestsHelper.java
+ * @title Requests.java
  * @description
  * @author xiesx
- * @date 2020-8-11 8:50:53
+ * @date 2022-02-25 11:28:15
  */
-public class RequestsHelper {
+public class Requests {
 
     private static Retryer<RawResponse> retry;
 
     static {
+        // 默认网络转化器
+        JsonLookup.getInstance().register(new FastJsonProcessor());
+        // 默认网络重试器
         retry = RetryerBuilder.<RawResponse>newBuilder()
                 // 重试条件
                 .retryIfException()
@@ -46,5 +52,31 @@ public class RequestsHelper {
 
     public static RawResponse retry(@NonNull RequestBuilder request, @NonNull Retryer<RawResponse> retry) {
         return HttpRetryer.retry(request, retry);
+    }
+
+    // ====================
+
+    public static RequestBuilder get(String url) {
+        return net.dongliu.requests.Requests.newRequest(Methods.GET, url);
+    }
+
+    public static RequestBuilder post(String url) {
+        return net.dongliu.requests.Requests.newRequest(Methods.POST, url);
+    }
+
+    public static RequestBuilder put(String url) {
+        return net.dongliu.requests.Requests.newRequest(Methods.PUT, url);
+    }
+
+    public static RequestBuilder delete(String url) {
+        return net.dongliu.requests.Requests.newRequest(Methods.DELETE, url);
+    }
+
+    public static RequestBuilder head(String url) {
+        return net.dongliu.requests.Requests.newRequest(Methods.HEAD, url);
+    }
+
+    public static RequestBuilder patch(String url) {
+        return net.dongliu.requests.Requests.newRequest(Methods.PATCH, url);
     }
 }

@@ -14,13 +14,12 @@ import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
-import com.xiesx.fastboot.support.request.RequestsHelper;
+import com.xiesx.fastboot.support.request.Requests;
 
 import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.log4j.Log4j2;
 import net.dongliu.requests.RawResponse;
 import net.dongliu.requests.RequestBuilder;
-import net.dongliu.requests.Requests;
 
 /**
  * @title RetryerTest.java
@@ -43,7 +42,7 @@ public class RetryerTest {
                 .retryIfException()
                 // 返回指定结果时重试
                 .retryIfResult((@Nullable Result result) -> {
-                    if (ObjectUtil.isNull(result) || result.getCode() == -3) {
+                    if (ObjectUtil.isNull(result) || result.code() == -3) {
                         return true;
                     }
                     return false;
@@ -74,7 +73,7 @@ public class RetryerTest {
                             try {
                                 V result = attempt.get();
                                 if (result instanceof Result) {
-                                    log.warn("onRetry number:{} error:{} result:{} statusCode:{} delay:{}", number, isError, isResult, ((Result) result).getCode(), delay);
+                                    log.warn("onRetry number:{} error:{} result:{} statusCode:{} delay:{}", number, isError, isResult, ((Result) result).code(), delay);
                                 }
                             } catch (ExecutionException e) {
                                 log.error("onResult exception:{}", e.getCause().toString());
@@ -89,7 +88,7 @@ public class RetryerTest {
                 // 构造请求
                 RequestBuilder req = Requests.get(URL);
                 // 请求重试
-                RawResponse response = RequestsHelper.retry(req);
+                RawResponse response = Requests.retry(req);
                 // 获取结果
                 RetryResponse test = response.readToJson(RetryResponse.class);
                 // 验证结果，如果结果正确则返回，错误则重试
@@ -99,7 +98,7 @@ public class RetryerTest {
                 return R.retry(test.getMsg());
             });
             // 验证结果，如果结果正确则返回，错误则重试
-            log.info(JSON.toJSONString(R.succ(result.getData())));
+            log.info(JSON.toJSONString(R.succ(result.data())));
         } catch (ExecutionException | RetryException e) {
             throw new RunException(RunExc.RETRY, "test retry");
         }

@@ -73,7 +73,7 @@ public class ExecutorTest {
 
         @Override
         public void onSuccess(@Nullable Result result) {
-            log.info(result.getMsg());
+            log.info(result.msg());
         }
 
         @Override
@@ -95,7 +95,7 @@ public class ExecutorTest {
 
         @Override
         public void onSuccess(Result result) {
-            log.info(result.getMsg());
+            log.info(result.msg());
         }
 
         @Override

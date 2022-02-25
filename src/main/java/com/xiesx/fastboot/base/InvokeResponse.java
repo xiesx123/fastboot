@@ -1,69 +1,37 @@
 package com.xiesx.fastboot.base;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.xiesx.fastboot.base.result.R;
+import com.xiesx.fastboot.base.result.Result;
 
-import lombok.Data;
+import cn.hutool.core.lang.Console;
+import cn.hutool.core.lang.Dict;
 import lombok.experimental.Accessors;
-import lombok.experimental.FieldNameConstants;
 
 /**
- * @title RequestsResponse.java
+ * @title InvokeResponse.java
  * @description
  * @author xiesx
  * @date 2022-02-23 16:26:33
  */
-@Data
 @Accessors(fluent = true)
-@FieldNameConstants(innerTypeName = "FIELDS")
-public class InvokeResponse implements AbstractStatus {
+public class InvokeResponse<T> extends Result {
 
-    @JSONField(ordinal = 1)
-    private Integer code = 0;
-
-    @JSONField(ordinal = 2)
-    private String msg = "";
-
+    /**
+     * 数据
+     */
     @JSONField(ordinal = 3)
-    private Object data = new Object();
+    public T data;
 
-    public InvokeResponse() {}
-
-    /**
-     * 成功
-     *
-     * @return
-     */
-    @JSONField(ordinal = 4)
-    public boolean isSuccess() {
-        return code == 0;
+    public T data() {
+        return data;
     }
 
-    /**
-     * 警告
-     *
-     * @return
-     */
-    @JSONField(ordinal = 5)
-    public boolean isWarn() {
-        return code > 0;
-    }
+    public static void main(String[] args) {
+        String json = "{\"code\":0,\"msg\":\"ok\",\"data\":{\"id\":1642321505626}}";
 
-    /**
-     * 异常
-     *
-     * @return
-     */
-    @JSONField(ordinal = 6)
-    public boolean isError() {
-        return code < 0;
-    }
-
-    public String toJsonString() {
-        return R.toJsonStr(this);
-    }
-
-    public String toJsonPrettyStr() {
-        return R.toJsonPrettyStr(this);
+        InvokeResponse<Dict> res12 = JSON.parseObject(json, new TypeReference<InvokeResponse<Dict>>() {});
+        Console.log(res12.data());
     }
 }
