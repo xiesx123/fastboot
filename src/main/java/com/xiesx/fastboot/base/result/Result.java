@@ -17,7 +17,7 @@ import lombok.experimental.FieldNameConstants;
 @Data
 @Accessors(fluent = true)
 @FieldNameConstants(innerTypeName = "FIELDS")
-public class Result implements AbstractStatus {
+public class Result implements AbstractStatus, AutoCloseable {
 
     /**
      * 状态
@@ -110,4 +110,9 @@ public class Result implements AbstractStatus {
         return R.toJsonPrettyStr(this);
     }
 
+    // =========================
+
+    @Override
+    public void close() throws Exception {
+    }
 }
