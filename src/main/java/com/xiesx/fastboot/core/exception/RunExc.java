@@ -29,7 +29,6 @@ public enum RunExc {
 
     SIGN(6000, "签名错误"), // --> SignerAspect
 
-
     MINIO(9000, "对象存储"), // --> MinioBucketClient | MinioObjectClient
 
     UNKNOWN(9999, "未知");
