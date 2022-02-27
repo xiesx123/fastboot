@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import com.xiesx.fastboot.support.validate.ValidatorVo.TestVoValid.B;
 import com.xiesx.fastboot.support.validate.ValidatorVo.TestVoValid.C;
-import com.xiesx.fastboot.support.validate.annotation.VEmpty;
+import com.xiesx.fastboot.support.validate.annotation.VBlank;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class ValidatorVo {
 
-    @VEmpty(message = "昵称不能为空", groups = B.class)
+    @VBlank(message = "昵称不能为空", groups = B.class)
     private String nickname;
 
     @NotNull(message = "验证码不能为空", groups = C.class)

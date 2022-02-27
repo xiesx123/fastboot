@@ -1,38 +1,36 @@
 package com.xiesx.fastboot.support.scheduler.decorator;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
 import com.xiesx.fastboot.support.scheduler.ScheduleHelper;
 import com.xiesx.fastboot.support.scheduler.job.TimeJob;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.Dict;
+
 /**
- * @title DefaultDecorator.java
+ * @title SchedulerDecorator.java
  * @description
  * @author xiesx
- * @date 2020-7-21 22:42:58
+ * @date 2022-02-27 12:42:35
  */
-public class SchedulerDecorator extends BaseDecorator implements ISchedule {
+public class SchedulerDecorator extends AbstractDecorator implements ISchedule {
 
     public SchedulerDecorator() {
         super();
     }
 
-    public SchedulerDecorator(ISchedule decoratedJob) {
-        super(decoratedJob);
+    public SchedulerDecorator(ISchedule schedule) {
+        super(schedule);
     }
 
     @Override
     public void init() {
-        if (isStart()) {
-            Map<String, String> map = Maps.newConcurrentMap();
-            map.put("key", "time ");
-            ScheduleHelper.addJob(TimeJob.simple_job_name, TimeJob.class, "0/10 * * * * ?", map);
+        if (isRun()) {
+            ScheduleHelper.addJob(TimeJob.class.getSimpleName(), TimeJob.class, "0/10 * * * * ?", Dict.create().set(TimeJob.FIELDS.time, DateUtil.now()));
         }
     }
 
     @Override
-    public boolean isStart() {
+    public boolean isRun() {
         return false;
     }
 }

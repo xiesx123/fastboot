@@ -3,20 +3,20 @@ package com.xiesx.fastboot.support.validate.annotation.constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.xiesx.fastboot.support.validate.annotation.VEmpty;
+import com.xiesx.fastboot.support.validate.annotation.VBlank;
 
 import cn.hutool.core.util.StrUtil;
 
 /**
  * @title VEmptyRule.java
- * @description 验证数字规则
+ * @description
  * @author xiesx
- * @date 2020-7-21 22:45:00
+ * @date 2022-02-27 21:11:52
  */
-public class VEmptyRule implements ConstraintValidator<VEmpty, String> {
+public class VBlankRule implements ConstraintValidator<VBlank, String> {
 
     @Override
-    public void initialize(VEmpty number) {}
+    public void initialize(VBlank number) {}
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {

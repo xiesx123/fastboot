@@ -16,5 +16,5 @@ public interface ISchedule {
     /**
      * 是否启动
      */
-    public boolean isStart();
+    public boolean isRun();
 }

@@ -20,6 +20,7 @@ public class InvokeResponse<T> extends Result {
     @JSONField(ordinal = 3)
     public T data;
 
+    @Override
     public T data() {
         return data;
     }

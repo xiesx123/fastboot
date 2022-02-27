@@ -7,7 +7,7 @@ import org.quartz.JobExecutionException;
 
 import com.xiesx.fastboot.support.scheduler.ScheduleHelper;
 
-import cn.hutool.core.date.DateUtil;
+import lombok.experimental.FieldNameConstants;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -17,13 +17,14 @@ import lombok.extern.log4j.Log4j2;
  * @date 2020-7-21 22:43:29
  */
 @Log4j2
+@FieldNameConstants(innerTypeName = "FIELDS")
 public class TimeJob implements Job {
 
-    public static final String simple_job_name = "SimpleJob";
+    public String time;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         JobDataMap map = context.getMergedJobDataMap();
-        log.info("simple job {} {}，当前任务{}个，正在运行 {}", map.getString("key"), DateUtil.now(), ScheduleHelper.queryAllJob().size(), ScheduleHelper.queryRunJob().size());
+        log.info("simple job {}，当前任务{}个，正在运行 {}", map.getString(TimeJob.FIELDS.time), ScheduleHelper.queryAllJob().size(), ScheduleHelper.queryRunJob().size());
     }
 }

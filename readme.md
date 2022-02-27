@@ -1,6 +1,6 @@
 # FastBoot
 
-> 基于 [`spring-boot 2.6.0`](https://spring.io/projects/spring-boot) 开发，结合工作中封装拓展而来，按需开启，快速开发
+> 基于 [`spring-boot v2.6.4`](https://spring.io/projects/spring-boot) 开发，结合工作中封装拓展而来，按需开启，快速开发
 
 ### 安装
 
@@ -13,7 +13,7 @@
    / ____/___ ______/ /_/ __ )____  ____  / /_
   / /_  / __ `/ ___/ __/ __  / __ \/ __ \/ __/
  / __/ / /_/ (__  ) /_/ /_/ / /_/ / /_/ / /_  
-/_/    \__,_/____/\__/_____/\____/\____/\__/  Power By SpringBoot (v2.6.0) 
+/_/    \__,_/____/\__/_____/\____/\____/\__/  Power By SpringBoot (v2.6.4) 
 
 
 [FastBoot][ INFO][06-17 15:52:13]-->[restartedMain:914820][logStarting(StartupInfoLogger.java:55)] | - Starting FastBootApplication using Java 1.8.0_282 on DESKTOP-OEU754I with PID 96 (D:\Projects\gotv\fast-boot\target\test-classes started by Administrator in D:\Projects\gotv\fast-boot)
