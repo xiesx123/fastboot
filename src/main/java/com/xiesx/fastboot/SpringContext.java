@@ -1,7 +1,6 @@
 package com.xiesx.fastboot;
 
-import javax.validation.Validator;
-
+import org.quartz.Scheduler;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -54,7 +53,7 @@ public class SpringContext implements ApplicationContextAware, ApplicationListen
             serverpath = System.getProperty("user.dir");
             log.info("Startup Server name: " + servername + ", path: " + serverpath);
 
-            if (SpringHelper.hasBean(Validator.class).isPresent()) {
+            if (SpringHelper.hasBean(Scheduler.class).isPresent()) {
                 ISchedule job = new SchedulerDecorator();
                 job.init();
                 log.info("Startup Scheduler {} Job Completed.", ScheduleHelper.queryAllJob().size());
