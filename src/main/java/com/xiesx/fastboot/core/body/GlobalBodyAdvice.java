@@ -27,6 +27,11 @@ import lombok.extern.log4j.Log4j2;
 @RestControllerAdvice
 public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
 
+    /**
+     * 需要忽略的地址
+     */
+    private static String[] ignores = new String[] {"/swagger-resources", "/api-docs"};
+
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> converterType) {
         // 获取当前处理请求方法
@@ -44,6 +49,11 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object obj, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> converter, ServerHttpRequest req, ServerHttpResponse res) {
+        // 判断url是否需要拦截
+        if (this.ignoring(req.getURI().toString())) {
+            System.out.println(req.getURI().toString());
+            return obj;
+        }
         // 获取当前处理请求方法
         Method method = methodParameter.getMethod();
         log.debug("{} body write advice", method.getName());
@@ -57,5 +67,14 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
             return obj;
         }
         return obj == null ? R.succ() : R.succ(obj);
+    }
+
+    private boolean ignoring(String uri) {
+        for (String string : ignores) {
+            if (uri.contains(string)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
