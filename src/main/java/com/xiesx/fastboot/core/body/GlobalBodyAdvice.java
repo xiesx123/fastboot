@@ -51,7 +51,6 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
     public Object beforeBodyWrite(Object obj, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> converter, ServerHttpRequest req, ServerHttpResponse res) {
         // 判断url是否需要拦截
         if (this.ignoring(req.getURI().toString())) {
-            System.out.println(req.getURI().toString());
             return obj;
         }
         // 获取当前处理请求方法
