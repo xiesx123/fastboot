@@ -13,7 +13,7 @@ import cn.hutool.json.JSONUtil;
  */
 public class R {
 
-    public static JSONConfig jcfg = JSONConfig.create().setOrder(true).setIgnoreError(true).setIgnoreNullValue(true).setTransientSupport(true);
+    public static JSONConfig jcfg = JSONConfig.create().setIgnoreError(true).setIgnoreNullValue(true).setTransientSupport(true);
 
     public static Integer CODE_SUCCESS = 0;
 

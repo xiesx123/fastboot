@@ -25,6 +25,6 @@ public class VJsonRule implements ConstraintValidator<VJson, String> {
         if (StrUtil.isBlank(s)) {
             return false;
         }
-        return JSONValidator.from(s).validate() && JSONUtil.isJson(s);
+        return JSONValidator.from(s).validate() && JSONUtil.isTypeJSON(s);
     }
 }

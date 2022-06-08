@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.alibaba.fastjson.TypeReference;
 import com.google.common.collect.Maps;
@@ -35,7 +35,7 @@ public abstract class BaseTest {
     //
     protected static TypeReference<BaseResult<List<Object>>> tr_B_List = new TypeReference<BaseResult<List<Object>>>() {};
 
-    @LocalServerPort
+    @Value("${local.server.port}")
     int port;
 
     @BeforeEach
