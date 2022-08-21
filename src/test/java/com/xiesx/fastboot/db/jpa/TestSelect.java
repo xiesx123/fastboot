@@ -9,13 +9,11 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
@@ -37,7 +35,6 @@ import cn.hutool.core.util.StrUtil;
  * @date 2021-06-06 23:21:06
  */
 @TestMethodOrder(OrderAnnotation.class)
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = FastBootApplication.class)
 public class TestSelect {
 

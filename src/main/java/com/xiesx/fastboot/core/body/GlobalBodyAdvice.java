@@ -15,6 +15,7 @@ import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.core.body.annotation.RestBodyIgnore;
 
 import cn.hutool.core.annotation.AnnotationUtil;
+import cn.hutool.core.util.ArrayUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -30,7 +31,7 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
     /**
      * 需要忽略的地址
      */
-    private static String[] ignores = new String[] {"/swagger-resources", "/api-docs"};
+    private static String[] ignores = {"/swagger-resources", "/api-docs"};
 
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -50,7 +51,7 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object obj, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> converter, ServerHttpRequest req, ServerHttpResponse res) {
         // 判断url是否需要拦截
-        if (this.ignoring(req.getURI().toString())) {
+        if (ArrayUtil.contains(ignores, req.getURI().toString())) {
             return obj;
         }
         // 获取当前处理请求方法
@@ -66,14 +67,5 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
             return obj;
         }
         return obj == null ? R.succ() : R.succ(obj);
-    }
-
-    private boolean ignoring(String uri) {
-        for (String string : ignores) {
-            if (uri.contains(string)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

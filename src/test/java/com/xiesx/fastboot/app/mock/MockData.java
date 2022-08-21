@@ -82,7 +82,7 @@ public class MockData {
         // builder.email("123456789@qq.com");
         // builder.password(RandomUtil.randomString(8));
         // builder.carnumber("京A88888");
-        // builder.balance(new BigDecimal(100.123));
+        // builder.balance(new BigDecimal(100.000));
         // return builder.build();
 
         // ============================== chain构造
@@ -99,7 +99,7 @@ public class MockData {
                 .setPassword(RandomUtil.randomString(8))//
                 .setCarnumber("京A88888")//
                 .setStatus(StatusEnum.A)//
-                .setBalance(new BigDecimal(100.123));
+                .setBalance(new BigDecimal(100.000));
 
         // ============================== fluent构造
 
@@ -116,7 +116,7 @@ public class MockData {
         // .email("123456789@qq.com")//
         // .password(RandomUtil.randomString(8))//
         // .carnumber("京A88888")//
-        // .balance(new BigDecimal(100.123));//
+        // .balance(new BigDecimal(100.000));//
         // return user;
     }
 

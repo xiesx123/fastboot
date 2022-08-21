@@ -45,19 +45,3 @@ fastboot:                                                   # fastboot
     - /token/**
     exclude-paths:                        # 排除路径
     - /js/**
-    
-  # ======= 证书配置 =======
-  license:
-    subject: fastboot
-    public-alias: publicCert
-    store-pass: 136305973@qq.com
-    public-store-path: E:/fast/license/publicCerts.store
-    license-path: E:/fast/license/license.lic
-    
-  # ======= 存储配置 =======
-  minio:
-    enabled: false
-    address: 192.168.200.168:9000
-    bucket: fastboot
-    access-key: minioadmin
-    secret-key: minioadmin

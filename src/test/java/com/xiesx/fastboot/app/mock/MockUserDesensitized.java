@@ -5,7 +5,7 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.xiesx.fastboot.app.enums.StatusEnum;
-import com.xiesx.fastboot.core.fastjson.annotation.GoDesensitized;
+import com.xiesx.fastboot.core.json.annotation.GoDesensitized;
 
 import cn.hutool.core.util.DesensitizedUtil.DesensitizedType;
 import lombok.Data;

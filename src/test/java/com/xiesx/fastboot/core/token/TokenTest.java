@@ -10,11 +10,9 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
@@ -26,6 +24,7 @@ import com.xiesx.fastboot.core.token.configuration.TokenCfg;
 import com.xiesx.fastboot.core.token.configuration.TokenProperties;
 import com.xiesx.fastboot.core.token.header.HttpHeaderParams;
 
+import cn.hutool.core.lang.Console;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTHeader;
 import cn.hutool.jwt.JWTPayload;
@@ -38,7 +37,6 @@ import io.restassured.response.Response;
  * @date 2021-06-06 23:20:50
  */
 @TestMethodOrder(OrderAnnotation.class)
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class TokenTest extends BaseTest {
 
@@ -88,16 +86,16 @@ public class TokenTest extends BaseTest {
         // token = simple(Configed.FASTBOOT, "api", JWT_EXPIRE_M_1);
         // token = simple(Configed.FASTBOOT, "api", claims, JWT_EXPIRE_M_1);
         token = JwtHelper.simple(Configed.FASTBOOT, "api", headers, payload, JwtHelper.JWT_EXPIRE_D_1);
-        System.out.println(token);
+        Console.log(token);
         //
         JWT jwt = JwtHelper.parser(token);
-        System.out.println("签名算法：" + jwt.getSigner().getAlgorithm());
+        Console.log("签名算法：" + jwt.getSigner().getAlgorithm());
         //
         JWTHeader jh = jwt.getHeader();
-        System.out.println("头部信息：" + jh.getClaimsJson());
+        Console.log("头部信息：" + jh.getClaimsJson());
         //
         JWTPayload jp = jwt.getPayload();
-        System.out.println("负载信息：" + jp.getClaimsJson());
+        Console.log("负载信息：" + jp.getClaimsJson());
     }
 
     public static void main(String[] args) {

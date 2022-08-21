@@ -1,0 +1,20 @@
+package com.xiesx.fastboot.core.event.annotation;
+
+import java.lang.annotation.*;
+
+import org.springframework.context.annotation.Import;
+
+import com.xiesx.fastboot.core.event.configuration.EventBusCfg;
+
+/**
+ * @title GoEnableEventBus.java
+ * @description
+ * @author xiesx
+ * @date 2021-04-24 01:34:54
+ */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Import(EventBusCfg.class)
+@Documented
+public @interface GoEnableEventBus {
+}

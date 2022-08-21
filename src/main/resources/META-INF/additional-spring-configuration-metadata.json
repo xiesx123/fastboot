@@ -17,12 +17,6 @@
 			"type": "com.xiesx.fastboot.core.token.configuration.TokenProperties",
 			"sourceType": "com.xiesx.fastboot.core.token.configuration.TokenProperties",
 			"description": "令牌认证"
-		},
-		{
-			"name": "fastboot.minio",
-			"type": "com.xiesx.fastboot.support.minio.configuration.MinioProperties",
-			"sourceType": "com.xiesx.fastboot.support.minio.configuration.MinioProperties",
-			"description": "对象存储"
 		}
 	],
 	"properties": [
@@ -77,40 +71,6 @@
 			"name": "fastboot.token.excludePaths",
 			"type": "java.lang.String",
 			"description": "排除请求"
-		},
-		{
-			"name": "fastboot.minio.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "是否启用"
-		},
-		{
-			"name": "fastboot.minio.address",
-			"type": "java.lang.String",
-			"defaultValue": false,
-			"description": "服务地址"
-		},
-		{
-			"name": "fastboot.minio.bucket",
-			"type": "java.lang.String",
-			"defaultValue": "fastboot",
-			"description": "默认桶"
-		},
-		{
-			"name": "fastboot.minio.accessKey",
-			"type": "java.lang.String",
-			"description": "访问密钥"
-		},
-		{
-			"name": "fastboot.minio.secretKey",
-			"type": "java.lang.String",
-			"description": "秘密密钥"
-		},
-		{
-			"name": "fastboot.minio.secure",
-			"type": "java.lang.Boolean",
-			"defaultValue": false,
-			"description": "是否启用Https"
 		}
 	]
 }

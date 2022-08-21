@@ -3,7 +3,7 @@ package com.xiesx.fastboot.base.result;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.xiesx.fastboot.base.AbstractStatus;
 
-import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.SystemClock;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
@@ -44,7 +44,7 @@ public class Result implements AbstractStatus {
      */
     @JSONField(ordinal = 4)
     public long getTime() {
-        return DateUtil.current();
+        return SystemClock.now();
     }
 
     /**

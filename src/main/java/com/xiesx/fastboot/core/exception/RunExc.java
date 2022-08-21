@@ -15,6 +15,8 @@ public enum RunExc {
 
     RUNTIME(1000, "运行错误"), // --> GlobalExceptionAdvice --> runtimeException
 
+    ASYNC(1010, "执行错误"), // --> GlobalExceptionAdvice --> runtimeException
+
     REQUEST(2000, "请求失败"), // --> GlobalExceptionAdvice --> requestException
 
     RETRY(2010, "重试失败"), // --> HttpRetryer
@@ -28,8 +30,6 @@ public enum RunExc {
     TOKEN(5000, "令牌错误"), // --> TokenInterceptor
 
     SIGN(6000, "签名错误"), // --> SignerAspect
-
-    MINIO(9000, "对象存储"), // --> MinioBucketClient | MinioObjectClient
 
     UNKNOWN(9999, "未知");
 

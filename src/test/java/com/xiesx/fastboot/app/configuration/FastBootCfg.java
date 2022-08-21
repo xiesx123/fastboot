@@ -3,12 +3,12 @@ package com.xiesx.fastboot.app.configuration;
 import org.springframework.context.annotation.Configuration;
 
 import com.xiesx.fastboot.core.body.annotation.GoEnableBody;
-import com.xiesx.fastboot.core.eventbus.annotation.GoEnableEventBus;
+import com.xiesx.fastboot.core.event.annotation.GoEnableEventBus;
 import com.xiesx.fastboot.core.exception.annotation.GoEnableException;
-import com.xiesx.fastboot.core.fastjson.annotation.GoEnableFastJson;
+import com.xiesx.fastboot.core.json.annotation.GoEnableFastJson;
 import com.xiesx.fastboot.core.limiter.annotation.GoEnableLimiter;
 import com.xiesx.fastboot.core.logger.annotation.GoEnableLogger;
-import com.xiesx.fastboot.core.signer.annotation.GoEnableSigner;
+import com.xiesx.fastboot.core.signature.annotation.GoEnableSigner;
 import com.xiesx.fastboot.core.token.annotation.GoEnableToken;
 
 /**

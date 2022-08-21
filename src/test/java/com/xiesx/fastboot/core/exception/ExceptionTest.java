@@ -6,10 +6,8 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.alibaba.fastjson.JSON;
 import com.xiesx.fastboot.FastBootApplication;
@@ -25,7 +23,6 @@ import io.restassured.response.Response;
  * @date 2021-06-06 23:20:06
  */
 @TestMethodOrder(OrderAnnotation.class)
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ExceptionTest extends BaseTest {
 
