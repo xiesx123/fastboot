@@ -41,17 +41,17 @@ public class SignerAspect {
     @Autowired
     SignerProperties properties;
 
-    @Pointcut("@annotation(com.xiesx.fastboot.core.signer.annotation.GoSigner)")
+    @Pointcut("@annotation(com.xiesx.fastboot.core.signature.annotation.GoSigner)")
     public void signerPointcut() {}
 
     @Before("signerPointcut()")
     public void before(JoinPoint joinPoint) {
-        log.debug("signer pointcut before");
+        log.debug("signature pointcut before");
     }
 
     @After("signerPointcut()")
     public void after() {
-        log.debug(" signer pointcut after");
+        log.debug(" signature pointcut after");
     }
 
     @Around("signerPointcut()")

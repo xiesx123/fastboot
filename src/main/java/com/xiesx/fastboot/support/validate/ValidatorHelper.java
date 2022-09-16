@@ -28,7 +28,7 @@ public class ValidatorHelper {
 
     public static Validator get() {
         Validator validator = SpringHelper.getBean(Validator.class);
-        Assert.notNull(validator, () -> new RunException(RunExc.DBASE, "pom need dependency hibernate-validator"));
+        Assert.notNull(validator, () -> new RunException(RunExc.DBASE, "pom need dependency spring-boot-starter-validation"));
         return validator;
     }
 
