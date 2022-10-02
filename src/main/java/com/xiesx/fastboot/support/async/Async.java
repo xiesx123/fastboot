@@ -1,16 +1,22 @@
 package com.xiesx.fastboot.support.async;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import org.jboss.logging.MDC;
+
 import com.google.common.util.concurrent.*;
+import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.support.async.callback.DefaultFutureCallback;
 
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjUtil;
 import lombok.NonNull;
 
 /**
@@ -24,7 +30,11 @@ public class Async {
     /**
      * 缓存性线程池
      */
-    private static ListeningExecutorService les = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
+    private static ListeningExecutorService les = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool((Runnable r) -> {
+        Thread thread = new Thread(r);
+        thread.setName(Configed.FASTBOOT);
+        return thread;
+    }));
 
     /**
      * 获取
@@ -42,7 +52,7 @@ public class Async {
      * @return
      */
     public static ListenableFuture<?> submit(@NonNull Runnable task) {
-        return les.submit(task);
+        return les.submit(wrap(task, MDC.getMap()));
     }
 
     /**
@@ -53,7 +63,7 @@ public class Async {
      * @return
      */
     public static <T> ListenableFuture<T> submit(@NonNull Callable<T> task) {
-        return les.submit(task);
+        return les.submit(wrap(task, MDC.getMap()));
     }
 
     /**
@@ -65,7 +75,7 @@ public class Async {
      * @return
      */
     public static <T> ListenableFuture<T> submit(@NonNull Callable<T> task, @NonNull FutureCallback<T> callback) {
-        ListenableFuture<T> future = les.submit(task);
+        ListenableFuture<T> future = les.submit(wrap(task, MDC.getMap()));
         Futures.addCallback(future, callback, MoreExecutors.directExecutor());
         return future;
     }
@@ -78,7 +88,7 @@ public class Async {
      * @return
      */
     public static <T> ListenableFuture<T> submit(@NonNull DefaultFutureCallback<T> task) {
-        return submit(task, task);
+        return submit(wrap(task, MDC.getMap()), task);
     }
 
     /**
@@ -127,5 +137,49 @@ public class Async {
     public static void shutdownNow() {
         // shutdownNow，执行后不再接受新任务，如果有等待任务，移出队列；有正在执行的，尝试停止service_data.shutdownNow();
         les.shutdownNow();
+    }
+
+
+    /**
+     * 封装任务，加入TraceId，无返回值
+     * 
+     * @param runnable
+     * @param mdcContext
+     * @return
+     */
+    public static Runnable wrap(final Runnable runnable, final Map<String, Object> mdcContext) {
+        return new Runnable() {
+
+            @Override
+            public void run() {
+                mdcContext.forEach((k, v) -> {
+                    MDC.put(k, v);
+                });
+                MDC.put(Configed.TRACEID, ObjUtil.defaultIfNull(MDC.get(Configed.TRACEID), IdUtil.nanoId()));
+                runnable.run();
+            }
+        };
+    }
+
+    /**
+     * 封装任务，加入TraceId，有返回值
+     * 
+     * @param callable
+     * @param mdcContext
+     * @param <T>
+     * @return
+     */
+    public static <T> Callable<T> wrap(final Callable<T> callable, final Map<String, Object> mdcContext) {
+        return new Callable<T>() {
+
+            @Override
+            public T call() throws Exception {
+                mdcContext.forEach((k, v) -> {
+                    MDC.put(k, v);
+                });
+                MDC.put(Configed.TRACEID, ObjUtil.defaultIfNull(MDC.get(Configed.TRACEID), IdUtil.nanoId()));
+                return callable.call();
+            }
+        };
     }
 }

@@ -1,7 +1,0 @@
-logging:
-  config: classpath:log4j2/pre.xml
-
-spring:
-  devtools:
-    restart:
-      enabled: false   

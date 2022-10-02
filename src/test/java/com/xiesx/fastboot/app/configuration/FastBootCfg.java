@@ -2,7 +2,7 @@ package com.xiesx.fastboot.app.configuration;
 
 import org.springframework.context.annotation.Configuration;
 
-import com.xiesx.fastboot.core.body.annotation.GoEnableBody;
+import com.xiesx.fastboot.core.advice.annotation.GoEnableBody;
 import com.xiesx.fastboot.core.event.annotation.GoEnableEventBus;
 import com.xiesx.fastboot.core.exception.annotation.GoEnableException;
 import com.xiesx.fastboot.core.json.annotation.GoEnableFastJson;

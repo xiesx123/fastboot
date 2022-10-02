@@ -46,12 +46,12 @@ public class SignerAspect {
 
     @Before("signerPointcut()")
     public void before(JoinPoint joinPoint) {
-        log.debug("signature pointcut before");
+        log.trace("signature pointcut before");
     }
 
     @After("signerPointcut()")
     public void after() {
-        log.debug(" signature pointcut after");
+        log.trace(" signature pointcut after");
     }
 
     @Around("signerPointcut()")

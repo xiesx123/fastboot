@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.core.body;
+package com.xiesx.fastboot.core.advice;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +37,7 @@ public class BodyTest extends BaseTest {
     @Order(1)
     public void result() {
         Response res = get("/body/result");
-        BaseResult<Map<String, Object>> result = JSON.parseObject(res.asString(), tr_B_Map);
+        BaseResult<Map<String, Object>> result = gtBaseMap.parseObject(res.asString());
         assertNotNull(result);
         assertTrue(result.isSuccess());
         assertEquals(result.getData().get("k1"), "1");
@@ -47,20 +47,22 @@ public class BodyTest extends BaseTest {
     @Order(2)
     public void map() {
         Response res = get("/body/map");
-        Map<String, Object> result = JSON.parseObject(res.asString(), tr_Map);
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals(result.get("k1"), "1");
+        BaseResult<Map<String, Object>> result = gtBaseMap.parseObject(res.asString());
+        Map<String, Object> data = result.getData();
+        assertNotNull(data);
+        assertFalse(data.isEmpty());
+        assertEquals(data.get("k1"), "1");
     }
 
     @Test
     @Order(3)
     public void list() {
         Response res = get("/body/list");
-        List<Object> result = JSON.parseArray(res.asString(), Object.class);
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals(result.get(0), "k1");
+        BaseResult<List<Object>> result = gtBaseList.parseObject(res.asString());
+        List<Object> data = result.getData();
+        assertNotNull(data);
+        assertFalse(data.isEmpty());
+        assertEquals(data.get(0), "k1");
     }
 
     @Test
@@ -77,18 +79,19 @@ public class BodyTest extends BaseTest {
     @Order(5)
     public void fastjson() {
         Response res = get("/body/fastjson");
-        JSONObject result = JSON.parseObject(res.asString());
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals(result.get("k1"), "1");
-        assertEquals(result.getJSONArray("list").get(0), "k1");
+        BaseResult<JSON> result = gtBaseJson.parseObject(res.asString());
+        JSONObject data = (JSONObject) result.getData();
+        assertNotNull(data);
+        assertFalse(data.isEmpty());
+        assertEquals(data.get("k1"), "1");
+        assertEquals(data.getJSONArray("list").get(0), "k1");
     }
 
     @Test
     @Order(6)
     public void object() {
         Response res = get("/body/object");
-        BaseResult<Object> result = JSON.parseObject(res.asString(), tr_B_Obj);
+        BaseResult<Object> result = gtBaseObj.parseObject(res.asString());
         MockUser user = Convert.convert(MockUser.class, result.getData());
         assertNotNull(user);
         assertFalse(ObjectUtil.isEmpty(user));
@@ -96,7 +99,7 @@ public class BodyTest extends BaseTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void ignore() {
         Response res = get("/body/ignore");
         MockUser user = JSON.parseObject(res.asString(), MockUser.class);

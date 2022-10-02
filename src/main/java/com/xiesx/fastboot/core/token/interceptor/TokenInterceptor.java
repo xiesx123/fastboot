@@ -36,7 +36,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.debug("token pre handle");
+        log.trace("token preHandle");
         // 获取token配置
         String key = SpringHelper.hasBean(TokenProperties.class).map(TokenProperties::getHeader).get();
         // 获取方法信息
@@ -57,7 +57,7 @@ public class TokenInterceptor implements HandlerInterceptor {
                             // 解析token
                             JSONObject claims = JwtHelper.parser(token).getPayloads();
                             // 设置request
-                            request.setAttribute(TokenCfg.UID, claims.getStr(TokenCfg.UID, ""));
+                            request.setAttribute(TokenCfg.UID, claims.getStr(TokenCfg.UID, StrUtil.EMPTY));
                         } catch (Exception e) {
                             log.error("jwt token error", e);
                             if (e instanceof ValidateException) {
@@ -74,11 +74,11 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        log.debug("token post handle");
+        log.trace("token postHandle");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        log.debug("token after completion");
+        log.trace("token afterCompletion");
     }
 }

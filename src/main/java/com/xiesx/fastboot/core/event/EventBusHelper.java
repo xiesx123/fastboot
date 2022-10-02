@@ -37,7 +37,7 @@ public class EventBusHelper {
      */
     public static void register(@NonNull EventAdapter<?> handler) {
         eventbus.register(handler);
-        log.info("Registered event : {}", handler.getClass());
+        log.debug("registered event : {}", handler.getClass());
     }
 
     /**
@@ -56,6 +56,6 @@ public class EventBusHelper {
      */
     public static void unregister(@NonNull EventAdapter<?> handler) {
         eventbus.unregister(handler);
-        log.info("Unregisted event : {}", handler.getClass());
+        log.debug("unregisted event : {}", handler.getClass());
     }
 }

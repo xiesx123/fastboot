@@ -39,6 +39,6 @@ public class LogStorageSimpleProvider extends LogStorageProvider {
         // 保存日志
         logRecord = mLogRecordRepository.insertOrUpdate(logRecord);
         // 打印日志编号
-        log.info("log record id {}", logRecord.getId());
+        log.info("log id {}", logRecord.getId());
     }
 }

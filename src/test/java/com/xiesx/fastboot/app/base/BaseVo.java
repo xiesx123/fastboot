@@ -2,6 +2,7 @@ package com.xiesx.fastboot.app.base;
 
 import javax.validation.constraints.NotNull;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 
 /**
@@ -20,7 +21,7 @@ public class BaseVo {
     private Long[] ids;
 
     /** 搜索词 **/
-    private String keyword = "";
+    private String keyword = StrUtil.EMPTY;
 
     @NotNull
     private String key;

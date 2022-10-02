@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.core.body;
+package com.xiesx.fastboot.core.advice;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ import com.xiesx.fastboot.app.mock.MockData;
 import com.xiesx.fastboot.app.mock.MockUser;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
-import com.xiesx.fastboot.core.body.annotation.RestBodyIgnore;
+import com.xiesx.fastboot.core.advice.annotation.RestBodyIgnore;
 import com.xiesx.fastboot.core.logger.LogStorageSimpleProvider;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 

@@ -8,8 +8,9 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
+import com.xiesx.fastboot.core.json.reference.GenericType;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -23,17 +24,19 @@ import io.restassured.response.Response;
 public abstract class BaseTest {
 
     //
-    protected static TypeReference<Object> tr_Obj = new TypeReference<Object>() {};
+    protected static GenericType<Object> gtObj = new GenericType<Object>() {};
 
-    protected static TypeReference<Map<String, Object>> tr_Map = new TypeReference<Map<String, Object>>() {};
-
-    //
-    protected static TypeReference<BaseResult<Object>> tr_B_Obj = new TypeReference<BaseResult<Object>>() {};
-
-    protected static TypeReference<BaseResult<Map<String, Object>>> tr_B_Map = new TypeReference<BaseResult<Map<String, Object>>>() {};
+    protected static GenericType<Map<String, Object>> gtMap = new GenericType<Map<String, Object>>() {};
 
     //
-    protected static TypeReference<BaseResult<List<Object>>> tr_B_List = new TypeReference<BaseResult<List<Object>>>() {};
+    protected static GenericType<BaseResult<Object>> gtBaseObj = new GenericType<BaseResult<Object>>() {};
+
+    protected static GenericType<BaseResult<Map<String, Object>>> gtBaseMap = new GenericType<BaseResult<Map<String, Object>>>() {};
+
+    protected static GenericType<BaseResult<List<Object>>> gtBaseList = new GenericType<BaseResult<List<Object>>>() {};
+
+    //
+    protected static GenericType<BaseResult<JSON>> gtBaseJson = new GenericType<BaseResult<JSON>>() {};
 
     @Value("${local.server.port}")
     int port;

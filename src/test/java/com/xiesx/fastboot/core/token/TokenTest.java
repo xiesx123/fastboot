@@ -25,6 +25,7 @@ import com.xiesx.fastboot.core.token.configuration.TokenProperties;
 import com.xiesx.fastboot.core.token.header.HttpHeaderParams;
 
 import cn.hutool.core.lang.Console;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTHeader;
 import cn.hutool.jwt.JWTPayload;
@@ -43,7 +44,7 @@ public class TokenTest extends BaseTest {
     @Autowired
     TokenProperties properties;
 
-    static String token = "";
+    static String token = StrUtil.EMPTY;
 
     Map<String, String> param, header;
 
@@ -64,7 +65,7 @@ public class TokenTest extends BaseTest {
     @Order(1)
     public void header() {
         Response res = post("/token/header", header, param);
-        BaseResult<List<Object>> result = JSON.parseObject(res.asString(), tr_B_List);
+        BaseResult<List<Object>> result = gtBaseList.parseObject(res.asString());
         assertNotNull(result);
         assertTrue(result.isSuccess());
         assertEquals(result.getData().get(0), "fasotboot");

@@ -66,6 +66,6 @@ public class LogStorageProvider implements LogStorage {
         uri = request.getRequestURI();
         ip = ServletUtil.getClientIP(request, HEAD_IP);
         parameters = ServletUtil.getParamMap(request);
-        log.debug(LOG_STORAHE_FORMAT, url, uri, type, method, args, parameters, result, operation);
+        log.trace(LOG_STORAHE_FORMAT, url, uri, type, method, args, parameters, result, operation);
     }
 }

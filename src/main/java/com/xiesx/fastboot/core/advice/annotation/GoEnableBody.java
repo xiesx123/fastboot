@@ -1,10 +1,10 @@
-package com.xiesx.fastboot.core.body.annotation;
+package com.xiesx.fastboot.core.advice.annotation;
 
 import java.lang.annotation.*;
 
 import org.springframework.context.annotation.Import;
 
-import com.xiesx.fastboot.core.body.GlobalBodyAdvice;
+import com.xiesx.fastboot.core.advice.GlobalBodyAdvice;
 
 /**
  * @title GoEnableBody.java

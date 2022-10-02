@@ -52,7 +52,7 @@ public class ExceptionController extends BaseController {
      */
     @RequestMapping(value = "request", method = RequestMethod.POST)
     public void request() {
-        log.debug("非post请求,抛 {} 异常", HttpRequestMethodNotSupportedException.class);
+        log.info("非post请求,抛 {} 异常", HttpRequestMethodNotSupportedException.class);
     }
 
     /**
@@ -62,7 +62,7 @@ public class ExceptionController extends BaseController {
      */
     @RequestMapping("hibernate/validator")
     public void validator(@NotBlank String p) {
-        log.debug("参数空,抛 {} 异常", ConstraintViolationException.class);
+        log.info("参数空,抛 {} 异常", ConstraintViolationException.class);
     }
 
     /**
@@ -72,7 +72,7 @@ public class ExceptionController extends BaseController {
      */
     @RequestMapping("spring/validator")
     public void validator(@Validated BaseVo base) {
-        log.debug("参数空,抛 {} 异常", BindException.class);
+        log.info("参数空,抛 {} 异常", BindException.class);
     }
 
     /**
@@ -82,7 +82,7 @@ public class ExceptionController extends BaseController {
      */
     @RequestMapping("database")
     public void database() {
-        log.debug("无此表,抛 {} 异常", SQLSyntaxErrorException.class);
+        log.info("无此表,抛 {} 异常", SQLSyntaxErrorException.class);
         JdbcTemplatePlus.queryForMap("select * from xx_test");// 不捕获
         JdbcTemplatePlus.get().queryForMap("select * from xx_test", Maps.newConcurrentMap());// 全局捕获
     }
@@ -94,7 +94,7 @@ public class ExceptionController extends BaseController {
      */
     @RequestMapping("custom")
     public void custom() {
-        log.debug("自定义,抛 {} 异常", RunException.class);
+        log.info("自定义,抛 {} 异常", RunException.class);
         throw new RunException(RunExc.SIGN);
     }
 }

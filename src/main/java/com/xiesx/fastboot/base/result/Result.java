@@ -1,7 +1,10 @@
 package com.xiesx.fastboot.base.result;
 
+import org.jboss.logging.MDC;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import com.xiesx.fastboot.base.AbstractStatus;
+import com.xiesx.fastboot.base.config.Configed;
 
 import cn.hutool.core.date.SystemClock;
 import lombok.Data;
@@ -48,11 +51,22 @@ public class Result implements AbstractStatus {
     }
 
     /**
-     * 当前状态
+     * trace
      *
      * @return
      */
     @JSONField(ordinal = 5)
+    public String getTrace() {
+        return (String) MDC.get(Configed.TRACEID);
+    }
+
+
+    /**
+     * 当前状态
+     *
+     * @return
+     */
+    @JSONField(ordinal = 6)
     public boolean getStatus() {
         return isSuccess();
     }

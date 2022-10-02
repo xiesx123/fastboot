@@ -9,4 +9,6 @@ package com.xiesx.fastboot.base.config;
 public class Configed {
 
     public final static String FASTBOOT = "fastboot";
+
+    public final static String TRACEID = "traceid";
 }

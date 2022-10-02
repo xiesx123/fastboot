@@ -38,12 +38,12 @@ public class LimiterAspect {
 
     @Before("limiterPointcut()")
     public void before(JoinPoint joinPoint) {
-        log.debug("limiter pointcut before");
+        log.trace("limiter pointcut before");
     }
 
     @After("limiterPointcut()")
     public void after() {
-        log.debug(" limiter pointcut after");
+        log.trace(" limiter pointcut after");
     }
 
     @Around("limiterPointcut()")

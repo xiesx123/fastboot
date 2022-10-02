@@ -12,6 +12,11 @@ spring:
       ddl-auto: update
 
 fastboot:                                                   # fastboot
+  # ======= 统一返回 ======= 
+  advice:
+    body-ignores-urls:                    # 忽略路径
+    - /swagger-resources,/api-docs
+    - /body/*  
   # ======= 数据转换 =======
   fastjson:
     supported-media-types:                # 支持媒体类型，默认text/html、application/json

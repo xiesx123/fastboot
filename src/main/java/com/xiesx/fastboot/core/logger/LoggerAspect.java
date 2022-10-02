@@ -24,6 +24,7 @@ import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -38,9 +39,9 @@ import lombok.extern.log4j.Log4j2;
 @Order(Ordered.ASPECT_ORDER_LOGGER)
 public class LoggerAspect {
 
-    private static final String LOG_BEFORE_FORMAT = "| request {} | {}";
+    private static final String LOG_BEFORE_FORMAT = "| request  {} | {}";
 
-    private static final String LOG_AFTER_FORMAT = "| response time {}ms | {} | {} ";
+    private static final String LOG_AFTER_FORMAT = "| response {}ms | {} | {} ";
 
     private TimeInterval interval = new TimeInterval();
 
@@ -49,12 +50,12 @@ public class LoggerAspect {
 
     @Before("loggerPointcut()")
     public void before(JoinPoint joinPoint) {
-        log.debug("logger pointcut before");
+        log.trace("logger pointcut before");
     }
 
     @After("loggerPointcut()")
     public void after() {
-        log.debug(" logger pointcut after");
+        log.trace(" logger pointcut after");
     }
 
     @Around("loggerPointcut()")
@@ -68,7 +69,7 @@ public class LoggerAspect {
         // 默认值
         boolean print = true;
         boolean format = false;
-        String operation = "";
+        String operation = StrUtil.EMPTY;
         Class<? extends LogStorage> storage = LogStorageProvider.class;
         // 获取类注解（优先）
         if (AnnotationUtil.hasAnnotation(cls, GoLogger.class)) {

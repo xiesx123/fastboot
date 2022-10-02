@@ -2,8 +2,13 @@ package com.xiesx.fastboot.support.request;
 
 import java.util.concurrent.TimeUnit;
 
+import org.jboss.logging.MDC;
+
+import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.support.retry.*;
 
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjUtil;
 import lombok.NonNull;
 import net.dongliu.requests.Methods;
 import net.dongliu.requests.RawResponse;
@@ -57,26 +62,17 @@ public class Requests {
     // ====================
 
     public static RequestBuilder get(String url) {
-        return net.dongliu.requests.Requests.newRequest(Methods.GET, url);
+        MDC.put(Configed.TRACEID, ObjUtil.defaultIfNull(MDC.get(Configed.TRACEID), IdUtil.nanoId()));
+        return net.dongliu.requests.Requests.newRequest(Methods.GET, url).headers(MDC.getMap());
     }
 
     public static RequestBuilder post(String url) {
-        return net.dongliu.requests.Requests.newRequest(Methods.POST, url);
-    }
-
-    public static RequestBuilder put(String url) {
-        return net.dongliu.requests.Requests.newRequest(Methods.PUT, url);
+        MDC.put(Configed.TRACEID, ObjUtil.defaultIfNull(MDC.get(Configed.TRACEID), IdUtil.nanoId()));
+        return net.dongliu.requests.Requests.newRequest(Methods.POST, url).headers(MDC.getMap());
     }
 
     public static RequestBuilder delete(String url) {
-        return net.dongliu.requests.Requests.newRequest(Methods.DELETE, url);
-    }
-
-    public static RequestBuilder head(String url) {
-        return net.dongliu.requests.Requests.newRequest(Methods.HEAD, url);
-    }
-
-    public static RequestBuilder patch(String url) {
-        return net.dongliu.requests.Requests.newRequest(Methods.PATCH, url);
+        MDC.put(Configed.TRACEID, ObjUtil.defaultIfNull(MDC.get(Configed.TRACEID), IdUtil.nanoId()));
+        return net.dongliu.requests.Requests.newRequest(Methods.DELETE, url).headers(MDC.getMap());
     }
 }

@@ -32,7 +32,7 @@ public class FastJsonTest extends BaseTest {
     @Order(1)
     public void json() {
         Response res = get("/fastjson/json");
-        BaseResult<Object> result = JSON.parseObject(res.asString(), tr_B_Obj);
+        BaseResult<Object> result = gtBaseObj.parseObject(res.asString());
         MockUser user = JSON.parseObject(result.getData().toString(), MockUser.class);
         assertNotNull(result);
         assertTrue(result.isSuccess());
@@ -43,7 +43,7 @@ public class FastJsonTest extends BaseTest {
     @Order(2)
     public void desensitized() {
         Response res = get("/fastjson/json/desensitized");
-        BaseResult<Object> result = JSON.parseObject(res.asString(), tr_B_Obj);
+        BaseResult<Object> result = gtBaseObj.parseObject(res.asString());
         MockUserDesensitized user = JSON.parseObject(result.getData().toString(), MockUserDesensitized.class);
         assertNotNull(result);
         assertTrue(result.isSuccess());

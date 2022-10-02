@@ -15,11 +15,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializeFilter;
-import com.alibaba.fastjson.serializer.StringCodec;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.google.common.collect.Lists;
 import com.xiesx.fastboot.core.json.filter.FastContextValueFilter;
+import com.xiesx.fastboot.core.json.serialize.ToStringSerializer;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.util.ArrayUtil;
@@ -60,9 +60,9 @@ public class FastJsonCfg implements WebMvcConfigurer {
         fastJsonConfig.setSerializerFeatures(ArrayUtil.addAll(FastJsonProperties.SERIALIZER_FEATURES, fastJsonConfig.getSerializerFeatures()));
         // 序列化配置
         SerializeConfig serializeConfig = fastJsonConfig.getSerializeConfig();
-        serializeConfig.put(Long.class, StringCodec.instance);
-        serializeConfig.put(Long.TYPE, StringCodec.instance);
-        serializeConfig.put(BigInteger.class, StringCodec.instance);
+        serializeConfig.put(Long.class, ToStringSerializer.instance);
+        serializeConfig.put(Long.TYPE, ToStringSerializer.instance);
+        serializeConfig.put(BigInteger.class, ToStringSerializer.instance);
         fastJsonConfig.setSerializeConfig(serializeConfig);
         // 序列化过滤器
         List<SerializeFilter> filters = Lists.newArrayList(fastJsonConfig.getSerializeFilters());

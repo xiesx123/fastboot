@@ -10,7 +10,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-import com.alibaba.fastjson.JSON;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.app.base.BaseResult;
 import com.xiesx.fastboot.app.base.BaseTest;
@@ -31,7 +30,7 @@ public class LimiterTest extends BaseTest {
     @Order(1)
     public void limiter() {
         Response res = get("/limiter/limit");
-        BaseResult<Object> result = JSON.parseObject(res.asString(), tr_B_Obj);
+        BaseResult<Object> result = gtBaseObj.parseObject(res.asString());
         assertNotNull(result);
         assertTrue(result.isSuccess());
     }
