@@ -12,7 +12,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.xiesx.fastboot.base.AbstractStatus;
+import com.xiesx.fastboot.base.IStatus;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.core.advice.annotation.RestBodyIgnore;
 import com.xiesx.fastboot.core.advice.configuration.AdviceProperties;
@@ -68,7 +68,7 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
         if (returnType.equals(Void.TYPE)) {
             return null;
         }
-        if (obj instanceof AbstractStatus || obj instanceof String) {
+        if (obj instanceof IStatus || obj instanceof String) {
             return obj;
         }
         return obj == null ? R.succ() : R.succ(obj);

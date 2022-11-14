@@ -1,10 +1,12 @@
 package com.xiesx.fastboot.support.request;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.support.retry.RetryResponse;
 
@@ -20,6 +22,7 @@ import net.dongliu.requests.RequestBuilder;
  */
 @Log4j2
 @TestMethodOrder(OrderAnnotation.class)
+@SpringBootTest(classes = FastBootApplication.class)
 public class RequestTest {
 
     public final static String URL = "https://front-gateway.mtime.cn/ticket/schedule/showing/movies.api?locationId=561";

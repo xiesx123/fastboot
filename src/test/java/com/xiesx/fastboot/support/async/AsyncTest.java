@@ -14,7 +14,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
-import com.xiesx.fastboot.support.async.callback.DefaultFutureCallback;
+import com.xiesx.fastboot.support.async.callback.AsyncFutureCallback;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -84,7 +84,7 @@ public class AsyncTest {
     }
 
     @AllArgsConstructor
-    public static class MyTask extends DefaultFutureCallback<Result> {
+    public static class MyTask extends AsyncFutureCallback<Result> {
 
         public String keyword;
 

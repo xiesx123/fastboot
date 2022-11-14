@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.base.Objects;
-import com.xiesx.fastboot.base.AbstractStatus;
+import com.xiesx.fastboot.base.IStatus;
 import com.xiesx.fastboot.base.result.R;
 
 import lombok.Builder;
@@ -20,7 +20,7 @@ import lombok.experimental.FieldNameConstants;
 @Data
 @Builder
 @FieldNameConstants(innerTypeName = "FIELDS")
-public class PResult implements AbstractStatus {
+public class PResult implements IStatus {
 
     /**
      * 状态
@@ -62,6 +62,6 @@ public class PResult implements AbstractStatus {
     @Override
     @JSONField(serialize = false)
     public boolean isSuccess() {
-        return Objects.equal(code, R.CODE_SUCCESS);
+        return Objects.equal(code, R.SUCCESS_CODE);
     }
 }

@@ -3,7 +3,7 @@ package com.xiesx.fastboot.app.base;
 import java.io.Serializable;
 
 import com.google.common.base.Objects;
-import com.xiesx.fastboot.base.AbstractStatus;
+import com.xiesx.fastboot.base.IStatus;
 import com.xiesx.fastboot.base.result.R;
 
 import lombok.Data;
@@ -15,7 +15,7 @@ import lombok.Data;
  * @date 2021-06-06 23:18:50
  */
 @Data
-public class BaseResult<T> implements AbstractStatus, Serializable {
+public class BaseResult<T> implements IStatus, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,6 +27,6 @@ public class BaseResult<T> implements AbstractStatus, Serializable {
 
     @Override
     public boolean isSuccess() {
-        return Objects.equal(code, R.CODE_SUCCESS);
+        return Objects.equal(code, R.SUCCESS_CODE);
     }
 }

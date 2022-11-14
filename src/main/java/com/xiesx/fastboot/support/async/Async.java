@@ -13,7 +13,7 @@ import com.google.common.util.concurrent.*;
 import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
-import com.xiesx.fastboot.support.async.callback.DefaultFutureCallback;
+import com.xiesx.fastboot.support.async.callback.AsyncFutureCallback;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
@@ -52,7 +52,7 @@ public class Async {
      * @return
      */
     public static ListenableFuture<?> submit(@NonNull Runnable task) {
-        return les.submit(wrap(task, MDC.getMap()));
+        return les.submit(task);// TODO wrap(task, MDC.getMap())
     }
 
     /**
@@ -63,7 +63,7 @@ public class Async {
      * @return
      */
     public static <T> ListenableFuture<T> submit(@NonNull Callable<T> task) {
-        return les.submit(wrap(task, MDC.getMap()));
+        return les.submit(task);// TODO wrap(task, MDC.getMap())
     }
 
     /**
@@ -75,7 +75,7 @@ public class Async {
      * @return
      */
     public static <T> ListenableFuture<T> submit(@NonNull Callable<T> task, @NonNull FutureCallback<T> callback) {
-        ListenableFuture<T> future = les.submit(wrap(task, MDC.getMap()));
+        ListenableFuture<T> future = les.submit(task);// TODO wrap(task, MDC.getMap())
         Futures.addCallback(future, callback, MoreExecutors.directExecutor());
         return future;
     }
@@ -87,8 +87,8 @@ public class Async {
      * @param task
      * @return
      */
-    public static <T> ListenableFuture<T> submit(@NonNull DefaultFutureCallback<T> task) {
-        return submit(wrap(task, MDC.getMap()), task);
+    public static <T> ListenableFuture<T> submit(@NonNull AsyncFutureCallback<T> task) {
+        return submit(task, task);// TODO wrap(task, MDC.getMap())
     }
 
     /**
@@ -98,7 +98,7 @@ public class Async {
      * @param tasks
      * @return
      */
-    public static <T> List<Future<T>> invokeAll(@NonNull List<DefaultFutureCallback<T>> tasks) {
+    public static <T> List<Future<T>> invokeAll(@NonNull List<Callable<T>> tasks) {
         try {
             return les.invokeAll(tasks);
         } catch (InterruptedException e) {
@@ -113,7 +113,7 @@ public class Async {
      * @param tasks
      * @return
      */
-    public static <T> List<Future<T>> invokeAll(@NonNull List<DefaultFutureCallback<T>> tasks, int timeout) {
+    public static <T> List<Future<T>> invokeAll(@NonNull List<Callable<T>> tasks, int timeout) {
         try {
             return les.invokeAll(tasks, timeout, TimeUnit.SECONDS);
         } catch (Exception e) {
@@ -142,44 +142,36 @@ public class Async {
 
     /**
      * 封装任务，加入TraceId，无返回值
-     * 
+     *
      * @param runnable
      * @param mdcContext
      * @return
      */
     public static Runnable wrap(final Runnable runnable, final Map<String, Object> mdcContext) {
-        return new Runnable() {
-
-            @Override
-            public void run() {
-                mdcContext.forEach((k, v) -> {
-                    MDC.put(k, v);
-                });
-                MDC.put(Configed.TRACEID, ObjUtil.defaultIfNull(MDC.get(Configed.TRACEID), IdUtil.nanoId()));
-                runnable.run();
-            }
+        return () -> {
+            mdcContext.forEach((k, v) -> {
+                MDC.put(k, v);
+            });
+            MDC.put(Configed.TRACEID, ObjUtil.defaultIfNull(MDC.get(Configed.TRACEID), IdUtil.nanoId(6)));
+            runnable.run();
         };
     }
 
     /**
      * 封装任务，加入TraceId，有返回值
-     * 
+     *
      * @param callable
      * @param mdcContext
      * @param <T>
      * @return
      */
     public static <T> Callable<T> wrap(final Callable<T> callable, final Map<String, Object> mdcContext) {
-        return new Callable<T>() {
-
-            @Override
-            public T call() throws Exception {
-                mdcContext.forEach((k, v) -> {
-                    MDC.put(k, v);
-                });
-                MDC.put(Configed.TRACEID, ObjUtil.defaultIfNull(MDC.get(Configed.TRACEID), IdUtil.nanoId()));
-                return callable.call();
-            }
+        return () -> {
+            mdcContext.forEach((k, v) -> {
+                MDC.put(k, v);
+            });
+            MDC.put(Configed.TRACEID, ObjUtil.defaultIfNull(MDC.get(Configed.TRACEID), IdUtil.nanoId(6)));
+            return callable.call();
         };
     }
 }

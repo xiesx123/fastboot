@@ -3,7 +3,7 @@ package com.xiesx.fastboot.support.retry;
 import org.jboss.logging.MDC;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.xiesx.fastboot.base.AbstractStatus;
+import com.xiesx.fastboot.base.IStatus;
 import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.base.result.R;
 
@@ -17,7 +17,7 @@ import lombok.Data;
  * @date 2021-06-06 23:21:26
  */
 @Data
-public class RetryResponse implements AbstractStatus {
+public class RetryResponse implements IStatus {
 
     @JSONField(ordinal = 1)
     private Integer code;
@@ -48,6 +48,6 @@ public class RetryResponse implements AbstractStatus {
     @Override
     @JSONField(serialize = false)
     public boolean isSuccess() {
-        return code == R.CODE_SUCCESS;
+        return code == R.SUCCESS_CODE;
     }
 }

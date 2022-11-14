@@ -6,7 +6,7 @@ package com.xiesx.fastboot.base;
  * @author xiesx
  * @date 2021-04-06 09:59:52
  */
-public interface AbstractStatus {
+public interface IStatus {
 
     /**
      * 是否成功

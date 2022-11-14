@@ -13,7 +13,7 @@ import lombok.extern.log4j.Log4j2;
  * @date 2020-7-21 22:39:54
  */
 @Log4j2
-public class DefaultFutureCallback<T> implements Callable<T>, FutureCallback<T> {
+public class AsyncFutureCallback<T> implements Callable<T>, FutureCallback<T> {
 
     /**
      * 执行

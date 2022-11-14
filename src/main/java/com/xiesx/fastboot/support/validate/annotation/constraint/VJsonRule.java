@@ -3,7 +3,7 @@ package com.xiesx.fastboot.support.validate.annotation.constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson.JSON;
 import com.xiesx.fastboot.support.validate.annotation.VJson;
 
 import cn.hutool.core.util.StrUtil;

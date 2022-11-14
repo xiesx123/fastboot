@@ -3,7 +3,7 @@ package com.xiesx.fastboot.base.result;
 import org.jboss.logging.MDC;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.xiesx.fastboot.base.AbstractStatus;
+import com.xiesx.fastboot.base.IStatus;
 import com.xiesx.fastboot.base.config.Configed;
 
 import cn.hutool.core.date.SystemClock;
@@ -20,7 +20,7 @@ import lombok.experimental.FieldNameConstants;
 @Data
 @Accessors(fluent = true)
 @FieldNameConstants(innerTypeName = "FIELDS")
-public class Result implements AbstractStatus {
+public class Result implements IStatus {
 
     /**
      * 状态
@@ -81,7 +81,7 @@ public class Result implements AbstractStatus {
     @Override
     @JSONField(serialize = false)
     public boolean isSuccess() {
-        return code == R.CODE_SUCCESS;
+        return code == R.SUCCESS_CODE;
     }
 
     /**
@@ -91,7 +91,7 @@ public class Result implements AbstractStatus {
      */
     @JSONField(serialize = false)
     public boolean isFail() {
-        return code == R.CODE_FAIL;
+        return code == R.FAIL_CODE;
     }
 
     /**
@@ -101,7 +101,7 @@ public class Result implements AbstractStatus {
      */
     @JSONField(serialize = false)
     public boolean isError() {
-        return code == R.CODE_ERROR;
+        return code == R.ERROR_CODE;
     }
 
     /**
@@ -111,7 +111,7 @@ public class Result implements AbstractStatus {
      */
     @JSONField(serialize = false)
     public boolean isReTry() {
-        return code == R.CODE_RETRY;
+        return code == R.RETRY_CODE;
     }
 
     // =========================
