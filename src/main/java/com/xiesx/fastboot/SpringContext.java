@@ -14,6 +14,7 @@ import com.xiesx.fastboot.support.scheduler.decorator.SchedulerDecorator;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.system.SystemUtil;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -49,10 +50,9 @@ public class SpringContext implements ApplicationContextAware, ApplicationListen
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (event.getApplicationContext().getParent() == null) {
-            servername = FileUtil.getName(System.getProperty("user.dir"));
-            serverpath = System.getProperty("user.dir");
-            log.info("Startup Server name: " + servername + ", path: " + serverpath);
-
+            serverpath = SystemUtil.getUserInfo().getCurrentDir();
+            servername = FileUtil.getName(serverpath);
+            log.info("Startup Server name: {}, path: {}", servername, serverpath);
             if (SpringHelper.hasBean(Scheduler.class).isPresent()) {
                 ISchedule job = new SchedulerDecorator();
                 job.init();
