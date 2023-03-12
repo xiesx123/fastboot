@@ -96,6 +96,19 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- ==========================jsp========================== -->
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<!-- ==========================数据库========================== -->
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
@@ -172,12 +185,13 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
-			<!-- 文档 
+			<!-- 文档 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
 					<charset>UTF-8</charset>
+					<encoding>UTF-8</encoding>
 					<docencoding>UTF-8</docencoding>
 				</configuration>
 				<executions>
@@ -187,11 +201,11 @@
 							<goal>jar</goal>
 						</goals>
 						<configuration>
-							<additionalparam>-Xdoclint:none</additionalparam>
+							<additionalJOption>-Xdoclint:none</additionalJOption>
 						</configuration>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin> 
 			<!-- 测试 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
