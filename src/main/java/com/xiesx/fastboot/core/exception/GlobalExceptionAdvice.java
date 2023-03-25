@@ -8,12 +8,9 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -45,7 +42,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler({RuntimeException.class, Exception.class})
     public Result runtimeException(HttpServletRequest request, Exception e) {
         String msg = ExceptionUtil.getMessage(e);
-        log.error("runtime exception \n---------------------- \n{} \n----------------------", msg);
+        log.error("\n-------------------------------------------- \n{} \n--------------------------------------------", msg);
         return R.build(RunExc.RUNTIME.getCode(), ExceptionUtil.getSimpleMessage(e));
     }
 
@@ -59,17 +56,8 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler({HttpMessageConversionException.class, ServletException.class})
     public Result requestException(HttpServletRequest request, Exception e) {
         String msg = ExceptionUtil.getMessage(e);
-        log.error("request exception \n---------------------- \n{} \n----------------------", msg);
-        if (e instanceof HttpMessageConversionException) {
-            msg = "当前参数解析失败"; // HttpMessageConversionException 400 - Bad Request
-        } else if (e instanceof HttpRequestMethodNotSupportedException) {
-            msg = "不支持当前请求方法"; // ServletException 405 - Method Not Allowed
-        } else if (e instanceof HttpMediaTypeNotSupportedException) {
-            msg = "不支持当前媒体类型"; // ServletException 415 - Unsupported Media Type
-        } else {
-            msg = ExceptionUtil.getSimpleMessage(e);
-        }
-        return R.build(RunExc.REQUEST.getCode(), msg);
+        log.error("\n-------------------------------------------- \n{} \n--------------------------------------------", msg, e);
+        return R.build(RunExc.REQUEST.getCode(), ExceptionUtil.getSimpleMessage(e));
     }
 
     /**
@@ -82,7 +70,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler({BindException.class, ValidationException.class})
     public Result validatorException(HttpServletRequest request, Exception e) {
         String msg = ExceptionUtil.getMessage(e);
-        log.error("validator exception \n---------------------- \n{} \n----------------------", msg);
+        log.error("\n-------------------------------------------- \n{} \n--------------------------------------------", msg, e);
         List<String> msgs = Lists.newArrayList();
         // Spring Violation 验证 --> Java Violation，这里有BindException接收
         if (e instanceof BindException) {
@@ -108,13 +96,8 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler({DataAccessException.class})
     public Result databaseException(HttpServletRequest request, Exception e) {
         String msg = ExceptionUtil.getMessage(e);
-        log.error("database exception \n---------------------- \n{} \n----------------------", msg);
-        if (e instanceof EmptyResultDataAccessException) {
-            msg = "数据不存在";
-        } else {
-            msg = ExceptionUtil.getSimpleMessage(e);
-        }
-        return R.build(RunExc.DBASE.getCode(), msg);
+        log.error("\n-------------------------------------------- \n{} \n--------------------------------------------", msg, e);
+        return R.build(RunExc.DBASE.getCode(), ExceptionUtil.getSimpleMessage(e));
     }
 
     /**
@@ -127,7 +110,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler({RunException.class})
     public Result customRunException(HttpServletRequest request, RunException e) {
         String msg = ExceptionUtil.getMessage(e);
-        log.error("custom run exception \n---------------------- \n{} \n----------------------", msg);
+        log.error("\n-------------------------------------------- \n{} \n--------------------------------------------", msg, e);
         return R.build(e.getStatus(), ExceptionUtil.getSimpleMessage(e));
     }
 }

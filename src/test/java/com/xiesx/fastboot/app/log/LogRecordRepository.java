@@ -2,9 +2,7 @@ package com.xiesx.fastboot.app.log;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.xiesx.fastboot.db.jpa.JpaPlusRepository;
 
@@ -25,9 +23,4 @@ public interface LogRecordRepository extends JpaPlusRepository<LogRecord, String
     // 方式3: 内置注解查询
     @Query(value = "select * from xx_log where time >= ?1", nativeQuery = true)
     List<LogRecord> findByTimeout(Long time);
-
-    @Transactional
-    @Modifying
-    @Query(value = "update xx_log set method=?1, id=?2", nativeQuery = true)
-    int updateType(Integer method, Long id);
 }

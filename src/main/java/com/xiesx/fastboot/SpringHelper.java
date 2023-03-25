@@ -2,9 +2,9 @@ package com.xiesx.fastboot;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.context.ApplicationContext;
 
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.NonNull;
 
 /**
@@ -21,40 +21,38 @@ public class SpringHelper {
      * @return
      */
     public static ApplicationContext getContext() {
-        return Optional.ofNullable(SpringContext.getApplicationContext()).orElse(null);
+        return SpringUtil.getApplicationContext();
     }
 
     /**
      * 通过class获取Bean
      *
-     * @param <T> Bean类型
-     * @param clazz Bean类
+     * @param clazz<T> Bean类
      * @return Bean对象
      */
     public static <T> T getBean(@NonNull Class<T> clazz) {
-        return Optional.ofNullable(getContext()).map(ac -> ac.getBean(clazz)).orElse(null);
+        return SpringUtil.getBean(clazz);
+    }
+
+    /**
+     * 通过name获取Bean
+     *
+     * @param name
+     * @return Bean对象
+     */
+    public static <T> T getBean(@NonNull String name) {
+        return SpringUtil.getBean(name);
     }
 
     /**
      * 通过class、name获取Bean
      *
+     * @param name
      * @param <T> Bean类型
-     * @param clazz Bean类
      * @return Bean对象
      */
-    public static <T> T getBean(@NonNull Class<T> clazz, @NonNull String name) {
-        return Optional.ofNullable(getContext()).map(ac -> ac.getBean(name, clazz)).orElse(null);
-    }
-
-    /**
-     * 通过class获取Bean(Qulifier)
-     *
-     * @param clazz
-     * @param qualifier
-     * @return
-     */
-    public static <T> T getBean(@NonNull String qualifier, @NonNull Class<T> clazz) {
-        return Optional.ofNullable(getContext()).map(ac -> BeanFactoryAnnotationUtils.qualifiedBeanOfType(ac.getAutowireCapableBeanFactory(), clazz, qualifier)).orElse(null);
+    public static <T> T getBean(@NonNull String name, @NonNull Class<T> clazz) {
+        return SpringUtil.getBean(name, clazz);
     }
 
     /**

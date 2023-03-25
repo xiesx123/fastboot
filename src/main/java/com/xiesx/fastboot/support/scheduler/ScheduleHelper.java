@@ -14,6 +14,7 @@ import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.map.MapUtil;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -183,7 +184,7 @@ public class ScheduleHelper {
             // 构建实例
             JobDetail jobDetail = JobBuilder.newJob(cls).withIdentity(job, group).build();
             // 设置参数
-            if (data != null && data.size() > 0) {
+            if (MapUtil.isNotEmpty(data)) {
                 jobDetail.getJobDataMap().putAll(data);
             }
             // 构建触发器

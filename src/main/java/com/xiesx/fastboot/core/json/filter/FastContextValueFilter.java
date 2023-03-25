@@ -8,10 +8,7 @@ import com.alibaba.fastjson.serializer.ContextValueFilter;
 import com.xiesx.fastboot.core.json.annotation.GoDesensitized;
 
 import cn.hutool.core.annotation.AnnotationUtil;
-import cn.hutool.core.util.ClassUtil;
-import cn.hutool.core.util.DesensitizedUtil;
-import cn.hutool.core.util.NumberUtil;
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -38,7 +35,8 @@ public class FastContextValueFilter implements ContextValueFilter {
             return DesensitizedUtil.desensitized((String) value, desensitization.type());
         }
         if (ObjectUtil.isNotNull(value) && value instanceof BigDecimal) {
-            return NumberUtil.decimalFormat(context.getFormat(), value);
+            String format = StrUtil.nullToDefault(context.getFormat(), "0.00");
+            return NumberUtil.decimalFormat(format, value);
         }
         return value;
     }

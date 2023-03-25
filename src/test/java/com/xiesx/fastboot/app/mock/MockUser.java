@@ -52,7 +52,7 @@ public class MockUser {
     @JSONField(ordinal = 11)
     private StatusEnum status;
 
-    @JSONField(ordinal = 12, format = "0.00")
+    @JSONField(ordinal = 12)
     private BigDecimal balance;
 
     @JSONField(ordinal = 13)

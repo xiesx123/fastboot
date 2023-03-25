@@ -5,6 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import lombok.extern.log4j.Log4j2;
 
@@ -25,7 +26,7 @@ public abstract class EventAdapter<T> {
     @Subscribe
     @AllowConcurrentEvents
     public void onEvent(T event) {
-        if (ReflectUtil.getMethod(this.getClass(), EVENT_METHOD, event.getClass()) != null) {
+        if (ObjectUtil.isNotNull(ReflectUtil.getMethod(this.getClass(), EVENT_METHOD, event.getClass()))) {
             try {
                 ParameterizedType p = (ParameterizedType) this.getClass().getGenericSuperclass();
                 Class<T> c = (Class<T>) p.getActualTypeArguments()[0];
