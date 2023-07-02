@@ -24,8 +24,6 @@ import com.xiesx.fastboot.core.json.serialize.ToStringSerializer;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
-import net.dongliu.requests.json.FastJsonProcessor;
-import net.dongliu.requests.json.JsonLookup;
 
 /**
  * @title FastJsonCfg.java
@@ -103,8 +101,6 @@ public class FastJsonCfg implements WebMvcConfigurer {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        // 默认网络请求转化器
-        JsonLookup.getInstance().register(new FastJsonProcessor());
         // string 转换器
         converters.add(0, new StringHttpMessageConverter());
         // json 转换器

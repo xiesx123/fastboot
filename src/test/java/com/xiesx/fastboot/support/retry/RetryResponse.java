@@ -1,11 +1,9 @@
 package com.xiesx.fastboot.support.retry;
 
-import org.jboss.logging.MDC;
-
 import com.alibaba.fastjson.annotation.JSONField;
 import com.xiesx.fastboot.base.IStatus;
-import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.base.result.R;
+import com.yomahub.tlog.context.TLogContext;
 
 import cn.hutool.core.date.SystemClock;
 import lombok.Data;
@@ -35,7 +33,7 @@ public class RetryResponse implements IStatus {
 
     @JSONField(ordinal = 5)
     public String getTrace() {
-        return (String) MDC.get(Configed.TRACEID);
+        return TLogContext.getTraceId();
     }
 
     @JSONField(ordinal = 6)

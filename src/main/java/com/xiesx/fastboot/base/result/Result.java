@@ -1,10 +1,8 @@
 package com.xiesx.fastboot.base.result;
 
-import org.jboss.logging.MDC;
-
 import com.alibaba.fastjson.annotation.JSONField;
 import com.xiesx.fastboot.base.IStatus;
-import com.xiesx.fastboot.base.config.Configed;
+import com.yomahub.tlog.context.TLogContext;
 
 import cn.hutool.core.date.SystemClock;
 import lombok.Data;
@@ -57,7 +55,7 @@ public class Result implements IStatus {
      */
     @JSONField(ordinal = 5)
     public String getTrace() {
-        return (String) MDC.get(Configed.TRACEID);
+        return TLogContext.getTraceId();
     }
 
 

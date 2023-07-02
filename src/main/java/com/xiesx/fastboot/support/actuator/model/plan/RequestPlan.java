@@ -2,9 +2,9 @@ package com.xiesx.fastboot.support.actuator.model.plan;
 
 import com.xiesx.fastboot.support.actuator.plans.AbstractPlan;
 
+import cn.hutool.http.Method;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.dongliu.requests.Methods;
 
 /**
  * @title HttpPlan.java
@@ -19,7 +19,7 @@ public class RequestPlan extends AbstractPlan {
     /**
      * 请求方式
      */
-    private String method = Methods.GET;
+    private Method method = Method.GET;
 
     /**
      * 请求地址

@@ -1,22 +1,17 @@
 package com.xiesx.fastboot.support.async;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
-import org.jboss.logging.MDC;
-
+import com.alibaba.ttl.TransmittableThreadLocal;
+import com.alibaba.ttl.threadpool.TtlExecutors;
 import com.google.common.util.concurrent.*;
 import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.support.async.callback.AsyncFutureCallback;
+import com.yomahub.tlog.core.thread.TLogInheritableTask;
 
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ObjUtil;
 import lombok.NonNull;
 
 /**
@@ -30,17 +25,29 @@ public class Async {
     /**
      * 缓存性线程池
      */
-    private static ListeningExecutorService les = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool((Runnable r) -> {
+    public static ExecutorService es = Executors.newCachedThreadPool(r -> {
         Thread thread = new Thread(r);
         thread.setName(Configed.FASTBOOT);
         return thread;
-    }));
+    });
 
     /**
-     * 获取
-     *
-     * @return
+     * 线程池（在使用线程池等会池化复用线程的执行组件情况下传递ThreadLocal值）
      */
+    public static ExecutorService ttles = TtlExecutors.getTtlExecutorService(es);
+
+    /**
+     * 线程池（监听）
+     */
+    public static ListeningExecutorService les = MoreExecutors.listeningDecorator(ttles);
+
+    /**
+     * 上下文
+     */
+    public static TransmittableThreadLocal<String> context = new TransmittableThreadLocal<>();
+
+    // ===============================
+
     public static ListeningExecutorService getExecutorService() {
         return les;
     }
@@ -52,7 +59,7 @@ public class Async {
      * @return
      */
     public static ListenableFuture<?> submit(@NonNull Runnable task) {
-        return les.submit(task);// TODO wrap(task, MDC.getMap())
+        return les.submit(wrap(task));
     }
 
     /**
@@ -63,7 +70,7 @@ public class Async {
      * @return
      */
     public static <T> ListenableFuture<T> submit(@NonNull Callable<T> task) {
-        return les.submit(task);// TODO wrap(task, MDC.getMap())
+        return les.submit(task);
     }
 
     /**
@@ -75,7 +82,7 @@ public class Async {
      * @return
      */
     public static <T> ListenableFuture<T> submit(@NonNull Callable<T> task, @NonNull FutureCallback<T> callback) {
-        ListenableFuture<T> future = les.submit(task);// TODO wrap(task, MDC.getMap())
+        ListenableFuture<T> future = les.submit(task);
         Futures.addCallback(future, callback, MoreExecutors.directExecutor());
         return future;
     }
@@ -88,7 +95,7 @@ public class Async {
      * @return
      */
     public static <T> ListenableFuture<T> submit(@NonNull AsyncFutureCallback<T> task) {
-        return submit(task, task);// TODO wrap(task, MDC.getMap())
+        return submit(task, task);
     }
 
     /**
@@ -139,39 +146,15 @@ public class Async {
         les.shutdownNow();
     }
 
+    // ===============================
 
-    /**
-     * 封装任务，加入TraceId，无返回值
-     *
-     * @param runnable
-     * @param mdcContext
-     * @return
-     */
-    public static Runnable wrap(final Runnable runnable, final Map<String, Object> mdcContext) {
-        return () -> {
-            mdcContext.forEach((k, v) -> {
-                MDC.put(k, v);
-            });
-            MDC.put(Configed.TRACEID, ObjUtil.defaultIfNull(MDC.get(Configed.TRACEID), IdUtil.nanoId(6)));
-            runnable.run();
-        };
-    }
+    public static Runnable wrap(final Runnable runnable) {
+        return new TLogInheritableTask() {
 
-    /**
-     * 封装任务，加入TraceId，有返回值
-     *
-     * @param callable
-     * @param mdcContext
-     * @param <T>
-     * @return
-     */
-    public static <T> Callable<T> wrap(final Callable<T> callable, final Map<String, Object> mdcContext) {
-        return () -> {
-            mdcContext.forEach((k, v) -> {
-                MDC.put(k, v);
-            });
-            MDC.put(Configed.TRACEID, ObjUtil.defaultIfNull(MDC.get(Configed.TRACEID), IdUtil.nanoId(6)));
-            return callable.call();
+            @Override
+            public void runTask() {
+                runnable.run();
+            }
         };
     }
 }

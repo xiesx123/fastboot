@@ -7,19 +7,19 @@ import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.support.actuator.ActuatorContext;
 import com.xiesx.fastboot.support.actuator.aviator.AviatorManager;
 import com.xiesx.fastboot.support.actuator.model.plan.RequestPlan;
-import com.xiesx.fastboot.support.request.Requests;
+import com.xiesx.fastboot.support.request.HttpRequests;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import net.dongliu.requests.RawResponse;
-import net.dongliu.requests.RequestBuilder;
 
 /**
  * @title RequestCallable.java
@@ -57,11 +57,11 @@ public class RequestCallable implements Callable<Dict> {
             log.debug("{} 请求地址 {}", trace, plan.getUrl());
             log.debug("{} 请求参数 {}", trace, R.toJsonStr(plan.params()));
             // 构造请求
-            RequestBuilder req = net.dongliu.requests.Requests.newRequest(plan.getMethod(), plan.getUrl()).timeout(plan.getTimeout());
+            HttpRequest req = HttpRequest.of(plan.getUrl()).method(plan.getMethod()).timeout(plan.getTimeout());
             // 请求重试
-            RawResponse res = Requests.retry(req);
+            HttpResponse res = HttpRequests.retry(req);
             // 获取结果
-            String body = res.readToText();
+            String body = res.body();
             log.debug("{} 请求响应 {}", trace, R.toJsonStr(body));
             // 判断格式
             if (!JSONUtil.isTypeJSON(body)) {
@@ -69,11 +69,11 @@ public class RequestCallable implements Callable<Dict> {
             }
             // 判断状态，记录所有结果，传递下个任务使用
             JSON json = JSON.parseObject(body);
-            if (res.statusCode() == 200) {
+            if (res.isOk()) {
                 result.set(plan.ret(), json);
             } else
             // （错误 + 不可忽略），记录error信息
-            if (res.statusCode() != 200 && !plan.ignoreFailure()) {
+            if (!res.isOk() && !plan.ignoreFailure()) {
                 result.set(ActuatorContext.FIELDS.error, R.fail(body));
             } else {
                 throw new RuntimeException(StrUtil.format("{} 调度执行 {} 已终止 {}", trace, R.toJsonStr(json)));

@@ -10,9 +10,9 @@ import com.xiesx.fastboot.support.retry.RetryException;
 import com.xiesx.fastboot.support.retry.RetryListener;
 import com.xiesx.fastboot.support.retry.Retryer;
 
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
 import lombok.extern.log4j.Log4j2;
-import net.dongliu.requests.RawResponse;
-import net.dongliu.requests.RequestBuilder;
 
 /**
  * @title HttpRetryer.java
@@ -41,7 +41,7 @@ public class HttpRetryer {
     /**
      * 重试条件
      */
-    public static Predicate<RawResponse> reRetryPredicate = raw -> (raw.statusCode() != 200);
+    public static Predicate<HttpResponse> reRetryPredicate = raw -> (!raw.isOk());
 
     /**
      * 重试监听
@@ -64,8 +64,8 @@ public class HttpRetryer {
             } else if (attempt.hasResult()) {
                 try {
                     V result = attempt.get();
-                    if (result instanceof RawResponse) {
-                        log.trace("retry number:{} error:{} result:{} code:{} delay:{}", number, isError, isResult, ((RawResponse) result).statusCode(), delay);
+                    if (result instanceof HttpResponse) {
+                        log.trace("retry number:{} error:{} result:{} code:{} delay:{}", number, isError, isResult, ((HttpResponse) result).getStatus(), delay);
                     }
                 } catch (ExecutionException e) {
                     log.error("result exception:{}", e.getCause().toString());
@@ -82,9 +82,9 @@ public class HttpRetryer {
      * @param retry
      * @return
      */
-    public static RawResponse retry(RequestBuilder request, Retryer<RawResponse> retry) {
+    public static HttpResponse retry(HttpRequest request, Retryer<HttpResponse> retry) {
         try {
-            return retry.call(() -> request.send());
+            return retry.call(() -> request.execute());
         } catch (ExecutionException | RetryException e) {
             throw new RunException(RunExc.REQUEST, "http retry error");
         }

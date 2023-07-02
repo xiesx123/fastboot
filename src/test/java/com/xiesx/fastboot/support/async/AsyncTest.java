@@ -37,7 +37,7 @@ public class AsyncTest {
         // 执行任务,监听结果
         Async.submit(() -> R.succ("2"), new MyFutureCallback());
         // 执行任务,监听结果
-        Async.submit(new MyTask("3"));
+        Async.submit(new MyCallable("3"));
         // 执行任务,返回结果
         ListenableFuture<String> future1 = Async.submit(() -> "4");
         ListenableFuture<String> future2 = Futures.transform(future1, input -> input + " transform", MoreExecutors.directExecutor());
@@ -84,7 +84,7 @@ public class AsyncTest {
     }
 
     @AllArgsConstructor
-    public static class MyTask extends AsyncFutureCallback<Result> {
+    public static class MyCallable extends AsyncFutureCallback<Result> {
 
         public String keyword;
 
