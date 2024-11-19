@@ -53,11 +53,22 @@ public class SpringContext implements ApplicationContextAware, ApplicationListen
             serverpath = SystemUtil.getUserInfo().getCurrentDir();
             servername = FileUtil.getName(serverpath);
             log.info("Startup Server name: {}, path: {}", servername, serverpath);
-            if (SpringHelper.hasBean(Scheduler.class).isPresent()) {
-                ISchedule job = new SchedulerDecorator();
-                job.init();
-                log.info("Startup Scheduler {} Job Completed.", ScheduleHelper.queryAllJob().size());
+            if (checkSchedulerClassExists()) {
+                if (SpringHelper.hasBean(Scheduler.class).isPresent()) {
+                    ISchedule job = new SchedulerDecorator();
+                    job.init();
+                    log.info("Startup Scheduler {} Job Completed.", ScheduleHelper.queryAllJob().size());
+                }
             }
+        }
+    }
+
+    private boolean checkSchedulerClassExists() {
+        try {
+            Class.forName("org.quartz.Scheduler");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
         }
     }
 }
