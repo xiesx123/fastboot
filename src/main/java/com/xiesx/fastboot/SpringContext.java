@@ -1,5 +1,8 @@
 package com.xiesx.fastboot;
 
+import java.util.List;
+import java.util.Map;
+
 import org.quartz.Scheduler;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -43,7 +46,7 @@ public class SpringContext implements ApplicationContextAware, ApplicationListen
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         SpringContext.applicationContext = applicationContext;
         if (ObjectUtil.isNotNull(applicationContext)) {
-            log.info("Spring ApplicationContext completed.");
+            log.debug("Spring ApplicationContext completed.");
         }
     }
 
@@ -57,7 +60,10 @@ public class SpringContext implements ApplicationContextAware, ApplicationListen
                 if (SpringHelper.hasBean(Scheduler.class).isPresent()) {
                     ISchedule job = new SchedulerDecorator();
                     job.init();
-                    log.info("Startup Scheduler {} Job Completed.", ScheduleHelper.queryAllJob().size());
+                    List<Map<String, Object>> jobs = ScheduleHelper.queryAllJob();
+                    if (!jobs.isEmpty()) {
+                        log.info("Startup Scheduler {} Job Completed.", ScheduleHelper.queryAllJob().size());
+                    }
                 }
             }
         }

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.xiesx.fastboot.base.IStatus;
 import com.yomahub.tlog.context.TLogContext;
 
-import cn.hutool.core.date.SystemClock;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
@@ -37,16 +36,6 @@ public class Result implements IStatus {
      */
     @JSONField(ordinal = 3)
     public Object data;
-
-    /**
-     * 执行时间
-     *
-     * @return
-     */
-    @JSONField(ordinal = 4)
-    public long getTime() {
-        return SystemClock.now();
-    }
 
     /**
      * trace
