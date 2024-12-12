@@ -66,17 +66,17 @@ public class ScheduleHelper {
      */
     public static void addJob(String job, Class<? extends Job> cls, int interval, int repeat, Map<? extends String, ? extends Object> data) {
         // 构建SimpleScheduleBuilder规则
-        SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule()//
+        SimpleScheduleBuilder simpleBuilder = SimpleScheduleBuilder.simpleSchedule()//
                 // 几秒钟重复执行
                 .withIntervalInSeconds(interval);
         if (repeat > 0) {
             // 重复次数
-            simpleScheduleBuilder.withRepeatCount(repeat);
+            simpleBuilder.withRepeatCount(repeat);
         }
         // 一直执行
-        simpleScheduleBuilder.repeatForever();
+        simpleBuilder.repeatForever();
         // 创建
-        createJob(job, cls, simpleScheduleBuilder, data);
+        createJob(job, cls, simpleBuilder, data);
     }
 
     /**
@@ -91,17 +91,17 @@ public class ScheduleHelper {
      */
     public static void addJob(String job, String group, Class<? extends Job> cls, int interval, int repeat, Map<? extends String, ? extends Object> data) {
         // 构建SimpleScheduleBuilder规则
-        SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
+        SimpleScheduleBuilder simpleBuilder = SimpleScheduleBuilder.simpleSchedule()
                 // 几秒钟重复执行
                 .withIntervalInSeconds(interval);
         if (repeat > 0) {
             // 重复次数
-            simpleScheduleBuilder.withRepeatCount(repeat);
+            simpleBuilder.withRepeatCount(repeat);
         }
         // 一直执行
-        simpleScheduleBuilder.repeatForever();
+        simpleBuilder.repeatForever();
         // 创建
-        createJob(job, group, cls, simpleScheduleBuilder, data);
+        createJob(job, group, cls, simpleBuilder, data);
     }
 
     /**
@@ -135,9 +135,9 @@ public class ScheduleHelper {
      */
     public static void addJob(String job, Class<? extends Job> cls, String cron, Map<? extends String, ? extends Object> data) {
         // 构建CronScheduleBuilder规则
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
+        CronScheduleBuilder cronBuilder = CronScheduleBuilder.cronSchedule(cron);
         // 创建
-        createJob(job, cls, cronScheduleBuilder, data);
+        createJob(job, cls, cronBuilder, data);
     }
 
     /**
@@ -151,9 +151,9 @@ public class ScheduleHelper {
      */
     public static void addJob(String job, String group, Class<? extends Job> cls, String cron, Map<? extends String, ? extends Object> data) {
         // 构建CronScheduleBuilder规则
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
+        CronScheduleBuilder cronBuilder = CronScheduleBuilder.cronSchedule(cron);
         // 创建
-        createJob(job, group, cls, cronScheduleBuilder, data);
+        createJob(job, group, cls, cronBuilder, data);
     }
 
     // ============================
@@ -188,10 +188,14 @@ public class ScheduleHelper {
                 jobDetail.getJobDataMap().putAll(data);
             }
             // 构建触发器
-            TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger().withIdentity(job, group);
-            triggerBuilder.withSchedule(ScheduleBuilder);
-            triggerBuilder.startNow();
-            get().scheduleJob(jobDetail, triggerBuilder.build());
+            TriggerBuilder<Trigger> trigger = TriggerBuilder.newTrigger().withIdentity(job, group);
+            trigger.withSchedule(ScheduleBuilder);
+            trigger.startNow();
+            // 判断是否存在
+            Scheduler scheduler = get();
+            if (!scheduler.checkExists(jobDetail.getKey())) {
+                scheduler.scheduleJob(jobDetail, trigger.build());
+            }
         } catch (SchedulerException e) {
             log.error("create job error {}", e.getMessage());
         }
@@ -230,15 +234,15 @@ public class ScheduleHelper {
             TriggerKey triggerKey = TriggerKey.triggerKey(job, group);
             SimpleTrigger trigger = (SimpleTrigger) scheduler.getTrigger(triggerKey);
             //
-            SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule() // 几秒钟重复执行
+            SimpleScheduleBuilder simpleBuilder = SimpleScheduleBuilder.simpleSchedule() // 几秒钟重复执行
                     .withIntervalInSeconds(interval);
             if (repeat > 0) {
                 // 重复次数
-                simpleScheduleBuilder.withRepeatCount(repeat);
+                simpleBuilder.withRepeatCount(repeat);
             }
             // 一直执行
-            simpleScheduleBuilder.repeatForever();
-            trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(simpleScheduleBuilder).build();
+            simpleBuilder.repeatForever();
+            trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(simpleBuilder).build();
             // 重启触发器
             scheduler.rescheduleJob(triggerKey, trigger);
         } catch (SchedulerException e) {
@@ -396,6 +400,21 @@ public class ScheduleHelper {
         } catch (SchedulerException e) {
             log.error("shutdown job error {}", e.getMessage());
         }
+    }
+
+    /**
+     * 是否存在
+     *
+     * @throws SchedulerException
+     */
+    public static boolean checkExists(JobKey jobKey) {
+        Scheduler scheduler = get();
+        try {
+            return scheduler.checkExists(jobKey);
+        } catch (SchedulerException e) {
+            log.error("check job exists error {}", e.getMessage());
+        }
+        return false;
     }
 
     /**
