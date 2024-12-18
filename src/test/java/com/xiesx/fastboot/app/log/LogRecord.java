@@ -2,23 +2,18 @@ package com.xiesx.fastboot.app.log;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.hibernate.annotations.*;
-import org.hibernate.annotations.Parameter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.xiesx.fastboot.db.jpa.JpaPlusEntity;
+import com.xiesx.fastboot.db.jpa.identifier.GeneratedIdWorker;
 
+import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -39,7 +34,7 @@ import lombok.experimental.FieldNameConstants;
 @EntityListeners(AuditingEntityListener.class)
 @DynamicInsert
 @DynamicUpdate
-@Where(clause = "del=0")
+@SQLRestriction("del=0")
 @SQLDelete(sql = "update xx_log set del=1 where id = ?")
 @SQLDeleteAll(sql = "update xx_log set del=1 where id = ?")
 public class LogRecord extends JpaPlusEntity<LogRecord> {
@@ -51,13 +46,7 @@ public class LogRecord extends JpaPlusEntity<LogRecord> {
      */
     @Id
     @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", // 名称
-            strategy = "com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator", // 生成策略
-            parameters = {// 生成参数
-                    @Parameter(name = "prefix", value = "L"), // 前缀，L
-                    @Parameter(name = "workerId", value = "1"), // 终端ID，默认0
-                    @Parameter(name = "centerId", value = "1") // 数据中心ID，默认0
-            })
+    @GeneratedIdWorker
     @JSONField(ordinal = 1)
     private String id;
 

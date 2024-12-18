@@ -12,11 +12,11 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializeConfig;
-import com.alibaba.fastjson.serializer.SerializeFilter;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.filter.Filter;
+import com.alibaba.fastjson2.support.config.FastJsonConfig;
+import com.alibaba.fastjson2.support.spring6.http.converter.FastJsonHttpMessageConverter;
+import com.alibaba.fastjson2.writer.ObjectWriterProvider;
 import com.google.common.collect.Lists;
 import com.xiesx.fastboot.core.json.filter.FastContextValueFilter;
 import com.xiesx.fastboot.core.json.serialize.ToStringSerializer;
@@ -55,19 +55,18 @@ public class FastJsonCfg implements WebMvcConfigurer {
             fastJsonConfig.setDateFormat(DatePattern.NORM_DATETIME_PATTERN);
         }
         // 序列化特性
-        fastJsonConfig.setSerializerFeatures(ArrayUtil.addAll(FastJsonProperties.SERIALIZER_FEATURES, fastJsonConfig.getSerializerFeatures()));
+        fastJsonConfig.setWriterFeatures(ArrayUtil.addAll(FastJsonProperties.SERIALIZER_FEATURES, fastJsonConfig.getWriterFeatures()));
         // 序列化配置
-        SerializeConfig serializeConfig = fastJsonConfig.getSerializeConfig();
-        serializeConfig.put(Long.class, ToStringSerializer.instance);
-        serializeConfig.put(Long.TYPE, ToStringSerializer.instance);
-        serializeConfig.put(BigInteger.class, ToStringSerializer.instance);
-        fastJsonConfig.setSerializeConfig(serializeConfig);
+        ObjectWriterProvider owp = new ObjectWriterProvider();
+        owp.register(Long.class, ToStringSerializer.instance);
+        owp.register(Long.TYPE, ToStringSerializer.instance);
+        owp.register(BigInteger.class, ToStringSerializer.instance);
         // 序列化过滤器
-        List<SerializeFilter> filters = Lists.newArrayList(fastJsonConfig.getSerializeFilters());
+        List<Filter> filters = Lists.newArrayList(fastJsonConfig.getWriterFilters());
         FastContextValueFilter fcv = new FastContextValueFilter();
         fcv.setDesensitize(fastJsonProperties.isDesensitize());// 是否开启脱敏
         filters.add(fcv);// 默认过滤器
-        fastJsonConfig.setSerializeFilters(filters.toArray(new SerializeFilter[filters.size()]));
+        fastJsonConfig.setWriterFilters(filters.toArray(new Filter[filters.size()]));
         return fastJsonConfig;
     }
 

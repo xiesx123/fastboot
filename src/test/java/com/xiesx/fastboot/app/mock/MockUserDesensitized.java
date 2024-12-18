@@ -3,7 +3,7 @@ package com.xiesx.fastboot.app.mock;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.xiesx.fastboot.app.enums.StatusEnum;
 import com.xiesx.fastboot.core.json.annotation.GoDesensitized;
 

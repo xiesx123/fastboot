@@ -2,7 +2,7 @@ package com.xiesx.fastboot.base.page;
 
 import java.util.List;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.google.common.base.Objects;
 import com.xiesx.fastboot.base.IStatus;
 import com.xiesx.fastboot.base.result.R;

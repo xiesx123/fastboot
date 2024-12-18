@@ -1,12 +1,13 @@
 package com.xiesx.fastboot.db.jpa.cfg;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import jakarta.persistence.EntityManager;
+
 
 /**
  * @title JpaPlusCfg.java

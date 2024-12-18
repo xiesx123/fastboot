@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.app.mock.MockData;
 import com.xiesx.fastboot.app.mock.MockUser;
@@ -73,7 +73,7 @@ public class BodyController extends BaseController {
      * @return
      */
     @RequestMapping("fastjson")
-    public JSON json() {
+    public JSONObject json() {
         return MockData.fastjson();
     }
 

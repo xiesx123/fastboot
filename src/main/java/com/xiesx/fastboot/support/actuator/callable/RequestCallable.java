@@ -2,7 +2,8 @@ package com.xiesx.fastboot.support.actuator.callable;
 
 import java.util.concurrent.Callable;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.support.actuator.ActuatorContext;
 import com.xiesx.fastboot.support.actuator.aviator.AviatorManager;
@@ -68,7 +69,7 @@ public class RequestCallable implements Callable<Dict> {
                 result.set(ActuatorContext.FIELDS.error, R.fail("响应数据格式错误"));
             }
             // 判断状态，记录所有结果，传递下个任务使用
-            JSON json = JSON.parseObject(body);
+            JSONObject json = JSON.parseObject(body);
             if (res.isOk()) {
                 result.set(plan.ret(), json);
             } else

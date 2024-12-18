@@ -5,11 +5,9 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-import javax.annotation.Nullable;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
@@ -25,6 +23,7 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
+import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -66,7 +65,7 @@ public class PlanPerformFunction implements Function<Dict, Dict> {
         List<Callable<Dict>> callables = Lists.newArrayList();
         // 计算单个多个
         List<JSONObject> jos = Lists.newArrayList();
-        String json = plans.toJSONString();
+        String json = plans.toString();
         if (plans instanceof JSONObject) {
             jos.add(JSON.parseObject(json));
         } else if (plans instanceof JSONArray) {

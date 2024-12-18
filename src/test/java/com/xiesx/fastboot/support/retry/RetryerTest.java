@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
 import com.xiesx.fastboot.core.exception.RunExc;
@@ -90,7 +90,7 @@ public class RetryerTest {
                 // 请求重试
                 HttpResponse response = HttpRequests.retry(req);
                 // 获取结果
-                RetryResponse data = com.alibaba.fastjson.JSON.parseObject(response.body(), RetryResponse.class);
+                RetryResponse data = JSON.parseObject(response.body(), RetryResponse.class);
                 // 验证结果，如果结果正确则返回，错误则重试
                 if (data.isSuccess()) {
                     return R.succ(data.getData());

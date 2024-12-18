@@ -1,10 +1,10 @@
 package com.xiesx.fastboot.db.jpa.factory;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
+
+import jakarta.persistence.EntityManager;
 
 /**
  * @title JpaPlusRepositoryFactoryBean.java

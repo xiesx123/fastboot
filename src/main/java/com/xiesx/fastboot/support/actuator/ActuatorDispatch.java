@@ -2,7 +2,7 @@ package com.xiesx.fastboot.support.actuator;
 
 import java.util.List;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;

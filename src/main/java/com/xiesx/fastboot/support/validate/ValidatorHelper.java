@@ -4,11 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
-import javax.validation.groups.Default;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.SpringHelper;
@@ -16,6 +11,10 @@ import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 
 import cn.hutool.core.lang.Assert;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
+import jakarta.validation.groups.Default;
 import lombok.NonNull;
 
 /**

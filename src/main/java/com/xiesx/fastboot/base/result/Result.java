@@ -1,6 +1,6 @@
 package com.xiesx.fastboot.base.result;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.xiesx.fastboot.base.IStatus;
 import com.yomahub.tlog.context.TLogContext;
 

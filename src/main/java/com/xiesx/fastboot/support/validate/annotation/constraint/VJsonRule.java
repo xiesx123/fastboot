@@ -1,13 +1,12 @@
 package com.xiesx.fastboot.support.validate.annotation.constraint;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSONValidator;
 import com.xiesx.fastboot.support.validate.annotation.VJson;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * @title VJsonRule.java
@@ -25,6 +24,6 @@ public class VJsonRule implements ConstraintValidator<VJson, String> {
         if (StrUtil.isBlank(s)) {
             return false;
         }
-        return JSONUtil.isTypeJSON(s) && (JSON.isValidObject(s) || JSON.isValidArray(s));
+        return JSONUtil.isTypeJSON(s) && JSONValidator.from(s).validate();
     }
 }

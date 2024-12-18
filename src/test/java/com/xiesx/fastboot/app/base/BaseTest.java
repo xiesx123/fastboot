@@ -8,7 +8,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.core.json.reference.GenericType;
 

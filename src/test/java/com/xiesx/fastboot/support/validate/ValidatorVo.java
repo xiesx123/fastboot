@@ -1,11 +1,10 @@
 package com.xiesx.fastboot.support.validate;
 
-import javax.validation.constraints.NotNull;
-
 import com.xiesx.fastboot.support.validate.ValidatorVo.TestVoValid.B;
 import com.xiesx.fastboot.support.validate.ValidatorVo.TestVoValid.C;
 import com.xiesx.fastboot.support.validate.annotation.VBlank;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

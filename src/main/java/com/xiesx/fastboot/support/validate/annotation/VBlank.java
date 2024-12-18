@@ -7,10 +7,10 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-
 import com.xiesx.fastboot.support.validate.annotation.constraint.VBlankRule;
+
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 /**
  * @title VEmpty.java

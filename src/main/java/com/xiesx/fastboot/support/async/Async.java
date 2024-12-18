@@ -10,7 +10,6 @@ import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.support.async.callback.AsyncFutureCallback;
-import com.yomahub.tlog.core.thread.TLogInheritableTask;
 
 import lombok.NonNull;
 
@@ -59,7 +58,7 @@ public class Async {
      * @return
      */
     public static ListenableFuture<?> submit(@NonNull Runnable task) {
-        return les.submit(wrap(task));
+        return les.submit(task);
     }
 
     /**
@@ -144,17 +143,5 @@ public class Async {
     public static void shutdownNow() {
         // shutdownNow，执行后不再接受新任务，如果有等待任务，移出队列；有正在执行的，尝试停止service_data.shutdownNow();
         les.shutdownNow();
-    }
-
-    // ===============================
-
-    public static Runnable wrap(final Runnable runnable) {
-        return new TLogInheritableTask() {
-
-            @Override
-            public void runTask() {
-                runnable.run();
-            }
-        };
     }
 }

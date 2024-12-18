@@ -2,9 +2,6 @@ package com.xiesx.fastboot.core.logger;
 
 import java.lang.reflect.Method;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -25,6 +22,8 @@ import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import lombok.extern.log4j.Log4j2;
 
 /**

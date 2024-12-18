@@ -3,8 +3,8 @@ package com.xiesx.fastboot.core.json.filter;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 
-import com.alibaba.fastjson.serializer.BeanContext;
-import com.alibaba.fastjson.serializer.ContextValueFilter;
+import com.alibaba.fastjson2.filter.BeanContext;
+import com.alibaba.fastjson2.filter.ContextValueFilter;
 import com.xiesx.fastboot.core.json.annotation.GoDesensitized;
 
 import cn.hutool.core.annotation.AnnotationUtil;

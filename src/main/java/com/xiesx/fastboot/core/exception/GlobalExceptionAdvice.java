@@ -2,11 +2,6 @@ package com.xiesx.fastboot.core.exception;
 
 import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.BindException;
@@ -20,6 +15,10 @@ import com.xiesx.fastboot.base.result.Result;
 import com.xiesx.fastboot.support.validate.ValidatorHelper;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ValidationException;
 import lombok.extern.log4j.Log4j2;
 
 /**

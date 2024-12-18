@@ -2,12 +2,11 @@ package com.xiesx.fastboot.core.logger.storage;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import cn.hutool.extra.servlet.ServletUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -64,8 +63,8 @@ public class LogStorageProvider implements LogStorage {
         type = request.getMethod();
         url = request.getRequestURL().toString();
         uri = request.getRequestURI();
-        ip = ServletUtil.getClientIP(request, HEAD_IP);
-        parameters = ServletUtil.getParamMap(request);
+        ip = ServletUtil.getClientIP((javax.servlet.http.HttpServletRequest) request, HEAD_IP);
+        parameters = ServletUtil.getParamMap((javax.servlet.ServletRequest) request);
         log.trace(LOG_STORAHE_FORMAT, url, uri, type, method, args, parameters, result, operation);
     }
 }

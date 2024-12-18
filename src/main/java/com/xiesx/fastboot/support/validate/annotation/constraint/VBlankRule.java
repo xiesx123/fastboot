@@ -1,11 +1,10 @@
 package com.xiesx.fastboot.support.validate.annotation.constraint;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
 import com.xiesx.fastboot.support.validate.annotation.VBlank;
 
 import cn.hutool.core.util.StrUtil;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * @title VEmptyRule.java

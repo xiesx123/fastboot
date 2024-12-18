@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,6 +27,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import cn.hutool.core.lang.Assert;
+import jakarta.persistence.EntityManager;
 
 /**
  * @title JpaPlusRepositoryExecutor.java
@@ -54,7 +53,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
         this.entityManager = entityManager;
         this.jpaQueryFactory = new JPAQueryFactory(entityManager);
         this.path = SimpleEntityPathResolver.INSTANCE.createPath(domainClass);
-        this.querydsl = new Querydsl(entityManager, new PathBuilder<T>(path.getType(), path.getMetadata()));
+        this.querydsl = new Querydsl(entityManager, new PathBuilder<>(path.getType(), path.getMetadata()));
         this.jpaPredicateExecutor =
                 new QuerydslJpaPredicateExecutor<>(JpaEntityInformationSupport.getEntityInformation(domainClass, entityManager), entityManager, SimpleEntityPathResolver.INSTANCE, getRepositoryMethodMetadata());
     }

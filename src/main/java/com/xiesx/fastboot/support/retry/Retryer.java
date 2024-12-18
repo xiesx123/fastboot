@@ -100,7 +100,7 @@ public final class Retryer<V> {
      */
     public Retryer(@Nonnull AttemptTimeLimiter<V> attemptTimeLimiter, @Nonnull StopStrategy stopStrategy, @Nonnull WaitStrategy waitStrategy, @Nonnull BlockStrategy blockStrategy,
             @Nonnull Predicate<Attempt<V>> rejectionPredicate) {
-        this(attemptTimeLimiter, stopStrategy, waitStrategy, blockStrategy, rejectionPredicate, new ArrayList<RetryListener>());
+        this(attemptTimeLimiter, stopStrategy, waitStrategy, blockStrategy, rejectionPredicate, new ArrayList<>());
     }
 
     /**

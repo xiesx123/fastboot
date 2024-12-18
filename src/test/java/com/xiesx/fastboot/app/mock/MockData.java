@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
 import com.xiesx.fastboot.app.enums.StatusEnum;
 
@@ -38,7 +37,7 @@ public class MockData {
         return Lists.newArrayList(map().keySet());
     }
 
-    public static JSON fastjson() {
+    public static JSONObject fastjson() {
         JSONObject jo = new JSONObject(map());
         jo.put("list", list());
         return jo;

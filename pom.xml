@@ -16,36 +16,32 @@
 		<!-- 编码 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- maven -->
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		<!-- test -->
 		<skip.test>true</skip.test>
 		<!-- java -->
-		<java.version>1.8</java.version>
+		<java.version>8</java.version>
 		<!-- dependencies -->
 		<p6spy.version>3.9.1</p6spy.version>
 		<guava.version>33.3.1-jre</guava.version>
-		<hutool.version>5.8.32</hutool.version>
+		<hutool.version>5.8.34</hutool.version>
 		<fastjson.version>2.0.53</fastjson.version>
-		<aviator.version>5.3.3</aviator.version>
+		<tlog.version>1.5.2</tlog.version>
+		<aviator.version>5.4.3</aviator.version>
 	</properties>
 	<!-- 父类 -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.13</version>
+		<version>3.4.0</version>
 		<relativePath />
 	</parent>
 	<!-- 依赖 -->
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.yomahub</groupId>
-			<artifactId>tlog-all-spring-boot-starter</artifactId>
-			<version>1.5.1</version>
 		</dependency>
 		<!-- ==========================spring-boot========================== -->
 		<!-- starter -->
@@ -58,6 +54,10 @@
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-json</artifactId>
+                </exclusion>
 			</exclusions>
 		</dependency>
 		<!-- web -->
@@ -103,21 +103,17 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- ==========================jsp========================== -->
-		<!--
-		https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
-			<scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<scope>provided</scope>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>4.0.1</version>
+		    <scope>provided</scope>
 		</dependency>
 		<!-- ==========================数据库========================== -->
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -131,39 +127,54 @@
 			<version>${p6spy.version}</version>
 			<optional>true</optional>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa -->
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>
+			<classifier>jakarta</classifier>
 		</dependency>
 		<!-- ==========================工具========================== -->
-		<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
 			<version>${hutool.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<dependency>
+		    <groupId>com.yomahub</groupId>
+		    <artifactId>tlog-hutool-http</artifactId>
+		    <version>${tlog.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.yomahub</groupId>
+		    <artifactId>tlog-rest-template</artifactId>
+	     	<version>${tlog.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
 		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>${fastjson.version}</version>
+		    <groupId>com.alibaba.fastjson2</groupId>
+		    <artifactId>fastjson2</artifactId>
+		    <version>${fastjson.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.googlecode.aviator/aviator -->
+		<dependency>
+		    <groupId>com.alibaba.fastjson2</groupId>
+		    <artifactId>fastjson2-extension-spring6</artifactId>
+		    <version>${fastjson.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.googlecode.aviator</groupId>
 			<artifactId>aviator</artifactId>
 			<version>${aviator.version}</version>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>transmittable-thread-local</artifactId>
+			<version>2.14.5</version>
+		</dependency>
 		<!-- ==========================测试========================== -->
-		<!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
@@ -183,6 +194,14 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+			<!-- 版本 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<configuration>
+					<generateBackupPoms>false</generateBackupPoms>
+				</configuration>
+			</plugin>
 			<!-- 测试 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -195,27 +214,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-			</plugin>
-			<!-- 文档 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<charset>UTF-8</charset>
-					<encoding>UTF-8</encoding>
-					<docencoding>UTF-8</docencoding>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<additionalJOption>-Xdoclint:none</additionalJOption>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

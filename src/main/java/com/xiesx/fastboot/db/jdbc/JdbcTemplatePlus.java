@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.SpringHelper;
@@ -183,7 +183,7 @@ public class JdbcTemplatePlus {
         if (MapUtil.isEmpty(map)) {
             return null;
         }
-        return JSON.toJavaObject(new JSONObject(map), cla);
+        return JSON.to(cla, new JSONObject(map));
     }
 
     private static <T> List<T> result(List<Map<String, Object>> list, Class<T> cla) {

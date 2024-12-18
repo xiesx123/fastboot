@@ -9,7 +9,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.app.base.BaseResult;
 import com.xiesx.fastboot.app.base.BaseTest;

@@ -2,9 +2,6 @@ package com.xiesx.fastboot.core.exception;
 
 import java.sql.SQLSyntaxErrorException;
 
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.NotBlank;
-
 import org.springframework.validation.BindException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -19,6 +16,8 @@ import com.xiesx.fastboot.core.logger.LogStorageSimpleProvider;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 import com.xiesx.fastboot.db.jdbc.JdbcTemplatePlus;
 
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.constraints.NotBlank;
 import lombok.extern.log4j.Log4j2;
 
 /**

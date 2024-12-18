@@ -1,8 +1,7 @@
 package com.xiesx.fastboot.app.base;
 
-import javax.validation.constraints.NotNull;
-
 import cn.hutool.core.util.StrUtil;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**

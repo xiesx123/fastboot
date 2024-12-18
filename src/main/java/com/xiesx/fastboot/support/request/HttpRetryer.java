@@ -41,7 +41,7 @@ public class HttpRetryer {
     /**
      * 重试条件
      */
-    public static Predicate<HttpResponse> reRetryPredicate = raw -> (!raw.isOk());
+    public static Predicate<HttpResponse> reRetryPredicate = raw -> !raw.isOk();
 
     /**
      * 重试监听
