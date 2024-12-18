@@ -50,11 +50,11 @@ public abstract class BaseTest {
         return given().when().get(url);
     }
 
-    public static Response post(String url, Map<String, String> param) {
+    public static Response post(String url, Map<String, Object> param) {
         return post(url, Maps.newConcurrentMap(), param);
     }
 
-    public static Response post(String url, Map<String, String> headers, Map<String, String> param) {
+    public static Response post(String url, Map<String, Object> headers, Map<String, Object> param) {
         return given().headers(headers).formParams(param).when().post(url);
     }
 }

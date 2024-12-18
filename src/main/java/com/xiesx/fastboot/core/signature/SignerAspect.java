@@ -21,7 +21,6 @@ import com.xiesx.fastboot.core.signature.configuration.SignerProperties;
 
 import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 
@@ -66,7 +65,7 @@ public class SignerAspect {
         // 获取请求信息
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         // 获取参数
-        Map<String, String> parms = ServletUtil.getParamMap((javax.servlet.ServletRequest) request);
+        Map<String, String[]> parms = request.getParameterMap();
         // 是否进行效验
         if (!signer.ignore() && !parms.isEmpty()) {
             // 获取sign

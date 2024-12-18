@@ -35,7 +35,7 @@ public class SignerTest extends BaseTest {
     @Autowired
     SignerProperties properties;
 
-    Map<String, String> param, header;
+    Map<String, Object> param, header;
 
     @BeforeEach
     public void befoe() {

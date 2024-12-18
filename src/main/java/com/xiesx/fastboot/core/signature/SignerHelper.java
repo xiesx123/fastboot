@@ -22,7 +22,7 @@ public class SignerHelper {
      * @param key
      * @return
      */
-    public static String getSignature(@NonNull Map<String, String> param, @NonNull String key) {
+    public static String getSignature(@NonNull Map<String, ?> param, @NonNull String key) {
         return SecureUtil.signParams(DigestAlgorithm.MD5, MapUtil.sort(param), key);
     }
 }

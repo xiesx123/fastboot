@@ -46,7 +46,7 @@ public class TokenTest extends BaseTest {
 
     static String token = StrUtil.EMPTY;
 
-    Map<String, String> param, header;
+    Map<String, Object> param, header;
 
     @BeforeEach
     public void befoe() {
