@@ -33,55 +33,6 @@ public class ScheduleHelper {
     /**
      * 增加SimpleJob
      *
-     * @param cls 任务实现类
-     * @param interval 时间表达式 (这是每隔多少秒为一次任务)
-     * @param repeat 运行的次数 （<0:表示不限次数）
-     */
-    public static void addJob(Class<? extends Job> cls, int interval, int repeat) {
-        // 创建
-        addJob(cls.getSimpleName(), cls, interval, repeat, null);
-    }
-
-    /**
-     * 增加SimpleJob
-     *
-     * @param job 任务名称
-     * @param cls 任务实现类
-     * @param interval 时间表达式 (这是每隔多少秒为一次任务)
-     * @param repeat 运行的次数 （<0:表示不限次数）
-     */
-    public static void addJob(String job, Class<? extends Job> cls, int interval, int repeat) {
-        // 创建
-        addJob(job, cls, interval, repeat, null);
-    }
-
-    /**
-     * 增加SimpleJob
-     *
-     * @param job 任务名称
-     * @param cls 任务实现类
-     * @param interval 时间表达式 (这是每隔多少秒为一次任务)
-     * @param repeat 运行的次数 （<0:表示不限次数）
-     * @param data 参数
-     */
-    public static void addJob(String job, Class<? extends Job> cls, int interval, int repeat, Map<? extends String, ? extends Object> data) {
-        // 构建SimpleScheduleBuilder规则
-        SimpleScheduleBuilder simpleBuilder = SimpleScheduleBuilder.simpleSchedule()//
-                // 几秒钟重复执行
-                .withIntervalInSeconds(interval);
-        if (repeat > 0) {
-            // 重复次数
-            simpleBuilder.withRepeatCount(repeat);
-        }
-        // 一直执行
-        simpleBuilder.repeatForever();
-        // 创建
-        createJob(job, cls, simpleBuilder, data);
-    }
-
-    /**
-     * 增加SimpleJob
-     *
      * @param job 任务名称
      * @param group 任务组名
      * @param cls 任务实现类
@@ -89,6 +40,16 @@ public class ScheduleHelper {
      * @param repeat 运行的次数 （<0:表示不限次数）
      * @param data 参数
      */
+    public static void addJob(Class<? extends Job> cls, int interval, int repeat) {
+        // 创建
+        addJob(cls.getSimpleName(), JOB_GROUP_NAME, cls, interval, repeat, null);
+    }
+
+    public static void addJob(Class<? extends Job> cls, int interval, int repeat, Map<? extends String, ? extends Object> data) {
+        // 创建
+        addJob(cls.getSimpleName(), JOB_GROUP_NAME, cls, interval, repeat, data);
+    }
+
     public static void addJob(String job, String group, Class<? extends Job> cls, int interval, int repeat, Map<? extends String, ? extends Object> data) {
         // 构建SimpleScheduleBuilder规则
         SimpleScheduleBuilder simpleBuilder = SimpleScheduleBuilder.simpleSchedule()
@@ -107,48 +68,20 @@ public class ScheduleHelper {
     /**
      * 增加CronJob
      *
-     * @param cls 任务实现类
-     * @param cron 时间表达式 （如：0/5 * * * * ? ）
-     */
-    public static void addJob(Class<? extends Job> cls, String cron) {
-        addJob(cls.getSimpleName(), cls, cron, null);
-    }
-
-    /**
-     * 增加CronJob
-     *
-     * @param job 任务名称
-     * @param cls 任务实现类
-     * @param cron 时间表达式 （如：0/5 * * * * ? ）
-     */
-    public static void addJob(String job, Class<? extends Job> cls, String cron) {
-        addJob(job, cls, cron, null);
-    }
-
-    /**
-     * 增加CronJob
-     *
-     * @param job 任务名称
-     * @param cls 任务实现类
-     * @param cron 时间表达式 （如：0/5 * * * * ? ）
-     * @param data 参数
-     */
-    public static void addJob(String job, Class<? extends Job> cls, String cron, Map<? extends String, ? extends Object> data) {
-        // 构建CronScheduleBuilder规则
-        CronScheduleBuilder cronBuilder = CronScheduleBuilder.cronSchedule(cron);
-        // 创建
-        createJob(job, cls, cronBuilder, data);
-    }
-
-    /**
-     * 增加CronJob
-     *
      * @param job 任务名称
      * @param group 任务组名
      * @param cls 任务实现类
      * @param cron 时间表达式 （如：0/5 * * * * ? ）
      * @param data 参数
      */
+    public static void addJob(Class<? extends Job> cls, String cron) {
+        addJob(cls.getSimpleName(), JOB_GROUP_NAME, cls, cron, null);
+    }
+
+    public static void addJob(Class<? extends Job> cls, String cron, Map<? extends String, ? extends Object> data) {
+        addJob(cls.getSimpleName(), JOB_GROUP_NAME, cls, cron, data);
+    }
+
     public static void addJob(String job, String group, Class<? extends Job> cls, String cron, Map<? extends String, ? extends Object> data) {
         // 构建CronScheduleBuilder规则
         CronScheduleBuilder cronBuilder = CronScheduleBuilder.cronSchedule(cron);

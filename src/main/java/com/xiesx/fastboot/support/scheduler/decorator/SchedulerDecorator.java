@@ -25,7 +25,7 @@ public class SchedulerDecorator extends AbstractDecorator implements ISchedule {
     @Override
     public void init() {
         if (isRun()) {
-            ScheduleHelper.addJob(TimeJob.class.getSimpleName(), TimeJob.class, "0/10 * * * * ?", Dict.create().set(TimeJob.FIELDS.time, DateUtil.now()));
+            ScheduleHelper.addJob(TimeJob.class, "0/10 * * * * ?", Dict.create().set(TimeJob.FIELDS.time, DateUtil.now()));
         }
     }
 
