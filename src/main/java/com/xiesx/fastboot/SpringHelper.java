@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import org.springframework.context.ApplicationContext;
 
+import cn.hutool.core.net.NetUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.NonNull;
 
@@ -14,6 +16,18 @@ import lombok.NonNull;
  * @date 2021-09-06 11:42:01
  */
 public class SpringHelper {
+
+    /**
+     * 获取项目地址
+     *
+     * @return
+     */
+    public static String getUrl() {
+        String host = NetUtil.getLocalhost().getHostAddress();
+        String port = SpringUtil.getProperty("server.port");
+        String path = SpringUtil.getProperty("server.servlet.context-path");
+        return CharSequenceUtil.format("http://{}:{}{}", host, port, path);
+    }
 
     /**
      * 获取上下文

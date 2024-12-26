@@ -98,8 +98,8 @@ public class ScheduleHelper {
      * @param ScheduleBuilder 时间表达式 (这是每隔多少秒为一次任务)
      * @param data 参数
      */
-    public static void createJob(String job, Class<? extends Job> cls, ScheduleBuilder<? extends Trigger> ScheduleBuilder, Map<? extends String, ? extends Object> data) {
-        createJob(job, JOB_GROUP_NAME, cls, ScheduleBuilder, data);
+    public static void createJob(String job, Class<? extends Job> cls, ScheduleBuilder<? extends Trigger> schedule, Map<? extends String, ? extends Object> data) {
+        createJob(job, JOB_GROUP_NAME, cls, schedule, data);
     }
 
     /**
@@ -112,7 +112,7 @@ public class ScheduleHelper {
      * @param repeat 运行的次数 （<0:表示不限次数）
      * @param data 参数
      */
-    public static void createJob(String job, String group, Class<? extends Job> cls, ScheduleBuilder<? extends Trigger> ScheduleBuilder, Map<? extends String, ? extends Object> data) {
+    public static void createJob(String job, String group, Class<? extends Job> cls, ScheduleBuilder<? extends Trigger> schedule, Map<? extends String, ? extends Object> data) {
         try {
             // 构建实例
             JobDetail jobDetail = JobBuilder.newJob(cls).withIdentity(job, group).build();
@@ -122,7 +122,7 @@ public class ScheduleHelper {
             }
             // 构建触发器
             TriggerBuilder<Trigger> trigger = TriggerBuilder.newTrigger().withIdentity(job, group);
-            trigger.withSchedule(ScheduleBuilder);
+            trigger.withSchedule(schedule);
             trigger.startNow();
             // 判断是否存在
             Scheduler scheduler = get();
