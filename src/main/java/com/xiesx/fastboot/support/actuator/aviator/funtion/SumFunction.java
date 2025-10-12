@@ -1,7 +1,5 @@
 package com.xiesx.fastboot.support.actuator.aviator.funtion;
 
-import java.util.Map;
-
 import com.googlecode.aviator.runtime.function.AbstractFunction;
 import com.googlecode.aviator.runtime.function.FunctionUtils;
 import com.googlecode.aviator.runtime.type.AviatorDouble;
@@ -9,12 +7,8 @@ import com.googlecode.aviator.runtime.type.AviatorObject;
 
 import lombok.extern.log4j.Log4j2;
 
-/**
- * @title SumFunction.java
- * @description
- * @author xiesx
- * @date 2021-11-12 17:45:40
- */
+import java.util.Map;
+
 @Log4j2
 public class SumFunction extends AbstractFunction {
 
@@ -25,7 +19,8 @@ public class SumFunction extends AbstractFunction {
         Number left = FunctionUtils.getNumberValue(args1, env);
         Number right = FunctionUtils.getNumberValue(args2, env);
         AviatorDouble doub = new AviatorDouble(left.doubleValue() + right.doubleValue());
-        log.debug("{}({},{}) -> {}", getName(), left, right, FunctionUtils.getBooleanValue(doub, env));
+        log.debug(
+                "{}({},{}) -> {}", getName(), left, right, FunctionUtils.getNumberValue(doub, env));
         return doub;
     }
 

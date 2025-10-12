@@ -1,21 +1,16 @@
 package com.xiesx.fastboot.core.advice.configuration;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import cn.hutool.core.util.StrUtil;
 
 import com.google.common.collect.Lists;
 
-import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 
-/**
- * @title AdviceProperties.java
- * @description
- * @author xiesx
- * @date 2022-10-01 21:58:15
- */
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 @ConfigurationProperties(prefix = AdviceProperties.PREFIX)
 public class AdviceProperties {

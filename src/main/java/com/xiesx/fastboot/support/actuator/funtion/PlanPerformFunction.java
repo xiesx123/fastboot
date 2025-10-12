@@ -1,9 +1,9 @@
 package com.xiesx.fastboot.support.actuator.funtion;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
+import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.lang.Console;
+import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.StrUtil;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
@@ -19,37 +19,30 @@ import com.xiesx.fastboot.support.actuator.model.plan.RequestPlan;
 import com.xiesx.fastboot.support.actuator.plans.AbstractPlan;
 import com.xiesx.fastboot.support.async.Async;
 
-import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.lang.Console;
-import cn.hutool.core.lang.Dict;
-import cn.hutool.core.util.StrUtil;
-import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-/**
- * @title PlanPerformFunction.java
- * @description 任务执行
- * @author xiesx
- * @date 2021-08-02 09:53:47
- */
+import org.jspecify.annotations.Nullable;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+
 @Data
 @Log4j2
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class PlanPerformFunction implements Function<Dict, Dict> {
 
-    @NonNull
-    Integer idx;
+    @NonNull Integer idx;
 
-    @NonNull
-    JSON plans;
+    @NonNull JSON plans;
 
-    @NonNull
-    ActuatorContext context;
+    @NonNull ActuatorContext context;
 
     @Override
     public @Nullable Dict apply(@Nullable Dict input) {
@@ -85,7 +78,9 @@ public class PlanPerformFunction implements Function<Dict, Dict> {
             }
             // 判断类型
             if (plan.type().isHttp()) {
-                callables.add(new RequestCallable(JSON.parseObject(jo.toJSONString(), RequestPlan.class), context));
+                callables.add(
+                        new RequestCallable(
+                                JSON.parseObject(jo.toJSONString(), RequestPlan.class), context));
             }
         }
         log.debug("{} 等待执行数量 {} 个", trace, callables.size());
@@ -108,14 +103,9 @@ public class PlanPerformFunction implements Function<Dict, Dict> {
         return result;
     }
 
-    /**
-     * 参数提取
-     *
-     * @param params
-     * @param templates
-     * @return
-     */
-    public static Map<String, Object> extract(Map<String, Object> params, Map<String, Object> templates) {
+    /** 参数提取 */
+    public static Map<String, Object> extract(
+            Map<String, Object> params, Map<String, Object> templates) {
         // 参数构造
         Map<String, Object> map = Maps.newConcurrentMap();
         // 判断模板
@@ -123,19 +113,20 @@ public class PlanPerformFunction implements Function<Dict, Dict> {
             return map;
         }
         // 循环处理老的参数
-        params.forEach((k, v) -> {
-            String val = v.toString();
-            if (StrUtil.contains(val, '$')) {
-                try {
-                    map.put(k, R.eval(templates, val));
-                } catch (Exception e) {
-                    // log.error("extract", e);
-                    map.put(k, "");
-                }
-            } else {
-                map.put(k, v);
-            }
-        });
+        params.forEach(
+                (k, v) -> {
+                    String val = v.toString();
+                    if (StrUtil.contains(val, '$')) {
+                        try {
+                            map.put(k, R.eval(templates, val));
+                        } catch (Exception e) {
+                            // log.error("extract", e);
+                            map.put(k, "");
+                        }
+                    } else {
+                        map.put(k, v);
+                    }
+                });
         return map;
     }
 

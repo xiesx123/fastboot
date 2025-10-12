@@ -1,17 +1,11 @@
 package com.xiesx.fastboot.db.ds.factory;
 
-import javax.sql.DataSource;
+import cn.hutool.db.ds.simple.SimpleDataSource;
 
 import com.xiesx.fastboot.db.ds.IDataSource;
 
-import cn.hutool.db.ds.simple.SimpleDataSource;
+import javax.sql.DataSource;
 
-/**
- * @title DataSourceSimpleFactory.java
- * @description
- * @author Sixian.xie
- * @date 2021年3月29日 下午6:04:27
- */
 public class DataSourceSimpleFactory implements IDataSource {
 
     @Override

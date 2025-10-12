@@ -1,24 +1,16 @@
 package com.xiesx.fastboot.db.jpa.annotation;
 
-import java.lang.annotation.*;
+import com.xiesx.fastboot.db.jpa.cfg.JpaPlusCfg;
+import com.xiesx.fastboot.db.jpa.factory.JpaPlusRepositoryFactoryBean;
 
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.xiesx.fastboot.db.jpa.cfg.JpaPlusCfg;
-import com.xiesx.fastboot.db.jpa.factory.JpaPlusRepositoryFactoryBean;
+import java.lang.annotation.*;
 
-/**
- * @title EnableJpaPlusRepositories.java
- * @description
- * @author xiesx
- * @date 2020-7-21 22:32:26
- */
 @EnableJpaRepositories(repositoryFactoryBeanClass = JpaPlusRepositoryFactoryBean.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Import({JpaPlusCfg.class})
 @Documented
-public @interface EnableJpaPlusRepositories {
-
-}
+public @interface EnableJpaPlusRepositories {}

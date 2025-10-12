@@ -1,16 +1,5 @@
 package com.xiesx.fastboot.support.validate;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
 import com.alibaba.fastjson2.JSON;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.base.result.R;
@@ -21,21 +10,26 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import jakarta.validation.groups.Default;
+
 import lombok.extern.log4j.Log4j2;
 
-/**
- * @title ValidatorTest.java
- * @description
- * @author xiesx
- * @date 2021-06-06 23:21:31
- */
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 @Log4j2
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class)
 public class ValidatorTest {
 
-    @Autowired
-    Validator validator;
+    @Autowired Validator validator;
 
     @Test
     @Order(1)

@@ -1,9 +1,24 @@
 package com.xiesx.fastboot.core.token;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
-import java.util.Map;
+import cn.hutool.core.lang.Console;
+import cn.hutool.jwt.JWT;
+import cn.hutool.jwt.JWTHeader;
+import cn.hutool.jwt.JWTPayload;
+
+import com.alibaba.fastjson2.JSON;
+import com.google.common.collect.Maps;
+import com.xiesx.fastboot.FastBootApplication;
+import com.xiesx.fastboot.app.base.BaseResult;
+import com.xiesx.fastboot.app.base.BaseTest;
+import com.xiesx.fastboot.base.config.Configed;
+import com.xiesx.fastboot.core.token.configuration.TokenCfg;
+import com.xiesx.fastboot.core.token.configuration.TokenProperties;
+
+import io.restassured.response.Response;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -14,79 +29,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-import com.alibaba.fastjson2.JSON;
-import com.google.common.collect.Maps;
-import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.base.BaseResult;
-import com.xiesx.fastboot.app.base.BaseTest;
-import com.xiesx.fastboot.base.config.Configed;
-import com.xiesx.fastboot.core.token.configuration.TokenCfg;
-import com.xiesx.fastboot.core.token.configuration.TokenProperties;
-import com.xiesx.fastboot.core.token.header.HttpHeaderParams;
+import java.util.List;
+import java.util.Map;
 
-import cn.hutool.core.lang.Console;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.jwt.JWT;
-import cn.hutool.jwt.JWTHeader;
-import cn.hutool.jwt.JWTPayload;
-import io.restassured.response.Response;
-
-/**
- * @title TokenTest.java
- * @description
- * @author xiesx
- * @date 2021-06-06 23:20:50
- */
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class TokenTest extends BaseTest {
 
-    @Autowired
-    TokenProperties properties;
-
-    static String token = StrUtil.EMPTY;
+    @Autowired TokenProperties properties;
 
     Map<String, Object> param, header;
 
-    @BeforeEach
-    public void befoe() {
-        // 生成token
-        jwt();
-        // 参数
-        param = Maps.newConcurrentMap();
-        param.put("name", "fasotboot");
-        param.put("p1", "1");
-        // 头部
-        header = Maps.newConcurrentMap();
-        header.put(properties.getHeader(), token);
-    }
-
-    @Test
-    @Order(1)
-    public void header() {
-        Response res = post("/token/header", header, param);
-        BaseResult<List<Object>> result = gtBaseList.parseObject(res.asString());
-        assertNotNull(result);
-        assertTrue(result.isSuccess());
-        assertEquals(result.getData().get(0), "fasotboot");
-        assertEquals(result.getData().get(1), "123");
-        //
-        HttpHeaderParams hp = JSON.parseObject(result.getData().get(2).toString(), HttpHeaderParams.class);
-        assertEquals(hp.getUid(), "123");
-    }
-
-    public static void jwt() {
+    public static String generate() {
         //
         Map<String, Object> headers = Maps.newConcurrentMap();
-        headers.put("user", "xxx");
+        headers.put("subscribe", "free");
         //
         Map<String, Object> payload = Maps.newConcurrentMap();
-        payload.put(TokenCfg.UID, "123");
+        payload.put(TokenCfg.UID, "1");
         //
-        // token = simple(Configed.FASTBOOT, "api");
-        // token = simple(Configed.FASTBOOT, "api", JWT_EXPIRE_M_1);
-        // token = simple(Configed.FASTBOOT, "api", claims, JWT_EXPIRE_M_1);
-        token = JwtHelper.simple(Configed.FASTBOOT, "api", headers, payload, JwtHelper.JWT_EXPIRE_D_1);
+        String token =
+                JwtHelper.simple(
+                        Configed.FASTBOOT, "api", headers, payload, JwtHelper.JWT_EXPIRE_M_1);
         Console.log(token);
         //
         JWT jwt = JwtHelper.parser(token);
@@ -97,9 +61,36 @@ public class TokenTest extends BaseTest {
         //
         JWTPayload jp = jwt.getPayload();
         Console.log("负载信息：" + jp.getClaimsJson());
+
+        return token;
+    }
+
+    @BeforeEach
+    public void befoe() {
+        // 参数
+        param = Maps.newConcurrentMap();
+        param.put("name", "fasotboot");
+        // 头部
+        header = Maps.newConcurrentMap();
+        header.put(properties.getHeader(), generate());
+        header.put("h1", 1);
+    }
+
+    @Test
+    @Order(1)
+    public void header() {
+        Response response = get("token/header", header, param);
+        BaseResult<List<Object>> result = gtbl.parseObject(response.asString());
+        assertNotNull(result);
+        assertTrue(result.isSuccess());
+        assertEquals(result.getData().get(0), "fasotboot");
+        assertEquals(result.getData().get(1), "1");
+        assertEquals(result.getData().get(2), "free");
+        TokenVo hp = JSON.parseObject(result.getData().get(3).toString(), TokenVo.class);
+        assertEquals(hp.getH1(), "1");
     }
 
     public static void main(String[] args) {
-        jwt();
+        generate();
     }
 }

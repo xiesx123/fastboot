@@ -1,13 +1,5 @@
 package com.xiesx.fastboot.support.async;
 
-import java.util.concurrent.ExecutionException;
-
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -19,12 +11,14 @@ import com.xiesx.fastboot.support.async.callback.AsyncFutureCallback;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-/**
- * @title ExecutorTest.java
- * @description
- * @author xiesx
- * @date 2021-06-06 23:21:11
- */
+import org.jspecify.annotations.Nullable;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+import java.util.concurrent.ExecutionException;
+
 @Log4j2
 @TestMethodOrder(OrderAnnotation.class)
 public class AsyncTest {
@@ -40,19 +34,24 @@ public class AsyncTest {
         Async.submit(new MyCallable("3"));
         // 执行任务,返回结果
         ListenableFuture<String> future1 = Async.submit(() -> "4");
-        ListenableFuture<String> future2 = Futures.transform(future1, input -> input + " transform", MoreExecutors.directExecutor());
-        Futures.addCallback(future2, new FutureCallback<String>() {
+        ListenableFuture<String> future2 =
+                Futures.transform(
+                        future1, input -> input + " transform", MoreExecutors.directExecutor());
+        Futures.addCallback(
+                future2,
+                new FutureCallback<String>() {
 
-            @Override
-            public void onSuccess(@Nullable String result) {
-                log.info(result);
-            }
+                    @Override
+                    public void onSuccess(@Nullable String result) {
+                        log.info(result);
+                    }
 
-            @Override
-            public void onFailure(Throwable t) {
-                log.info(t.getMessage());
-            }
-        }, MoreExecutors.directExecutor());
+                    @Override
+                    public void onFailure(@Nullable Throwable t) {
+                        log.info(t.getMessage());
+                    }
+                },
+                MoreExecutors.directExecutor());
     }
 
     public static class MyRunnable implements Runnable {
@@ -78,7 +77,7 @@ public class AsyncTest {
         }
 
         @Override
-        public void onFailure(Throwable t) {
+        public void onFailure(@Nullable Throwable t) {
             log.info(t.getMessage());
         }
     }
@@ -95,12 +94,12 @@ public class AsyncTest {
         }
 
         @Override
-        public void onSuccess(Result result) {
+        public void onSuccess(@Nullable Result result) {
             log.info(result.msg());
         }
 
         @Override
-        public void onFailure(Throwable t) {
+        public void onFailure(@Nullable Throwable t) {
             log.info(t.getMessage());
         }
     }

@@ -1,100 +1,69 @@
 package com.xiesx.fastboot.core.advice;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.alibaba.fastjson2.JSONObject;
 import com.xiesx.fastboot.app.base.BaseController;
 import com.xiesx.fastboot.app.mock.MockData;
 import com.xiesx.fastboot.app.mock.MockUser;
+import com.xiesx.fastboot.base.config.Configed;
+import com.xiesx.fastboot.base.page.PR;
+import com.xiesx.fastboot.base.page.PResult;
+import com.xiesx.fastboot.base.page.PageVo;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
 import com.xiesx.fastboot.core.advice.annotation.RestBodyIgnore;
 import com.xiesx.fastboot.core.logger.LogStorageSimpleProvider;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 
-/**
- * @title BodyController.java
- * @description
- * @author xiesx
- * @date 2021-04-03 15:49:29
- */
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
+
 @RestController
-@RequestMapping("/body")
+@RequestMapping("body")
 @GoLogger(storage = LogStorageSimpleProvider.class)
 public class BodyController extends BaseController {
 
-    /**
-     * FastBoot Result 类型
-     *
-     * @return
-     */
-    @RequestMapping("result")
+    @GetMapping("result")
     public Result result() {
         return R.succ(MockData.map());
     }
 
-    /**
-     * Java Map 类型
-     *
-     * @return
-     */
-    @RequestMapping("map")
+    @GetMapping("page")
+    public PResult page(PageVo vo) {
+        return PR.create(mLogRecordRepository.findAll(PageRequest.of(vo.getPage(), vo.getSize())));
+    }
+
+    @GetMapping("map")
     public Map<String, Object> map() {
         return MockData.map();
     }
 
-    /**
-     * Java Iterable 类型
-     *
-     * @return
-     */
-    @RequestMapping("list")
+    @GetMapping("list")
     public List<String> list() {
         return MockData.list();
     }
 
-    /**
-     * Java String 类型
-     *
-     * @return
-     */
-    @RequestMapping("string")
+    @GetMapping("string")
     public String string() {
-        return "k1";
+        return Configed.FASTBOOT;
     }
 
-    /**
-     * FastJson JSON 类型
-     *
-     * @return
-     */
-    @RequestMapping("fastjson")
-    public JSONObject json() {
-        return MockData.fastjson();
-    }
-
-    /**
-     * Java Object 类型
-     *
-     * @return
-     */
-    @RequestMapping("object")
+    @GetMapping("object")
     public MockUser object() {
         return MockData.user();
     }
 
-    /**
-     * @IgnoreBody忽略Advice返回
-     *
-     * @return
-     */
+    @GetMapping("ignore")
+    public MockUser ignoreYml() {
+        return MockData.user();
+    }
+
     @RestBodyIgnore
-    @RequestMapping("ignore")
-    public MockUser ignore() {
+    @GetMapping("ignore/annotation")
+    public MockUser ignoreAnnotation() {
         return MockData.user();
     }
 }

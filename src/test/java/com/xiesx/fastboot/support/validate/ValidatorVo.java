@@ -5,15 +5,10 @@ import com.xiesx.fastboot.support.validate.ValidatorVo.TestVoValid.C;
 import com.xiesx.fastboot.support.validate.annotation.VBlank;
 
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * @title ValidatorVo.java
- * @description
- * @author xiesx
- * @date 2021-06-06 23:21:34
- */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ValidatorVo {
@@ -29,13 +24,10 @@ public class ValidatorVo {
 
     public interface TestVoValid {
 
-        public interface A {
-        }
+        public interface A {}
 
-        public interface B {
-        }
+        public interface B {}
 
-        public interface C {
-        }
+        public interface C {}
     }
 }

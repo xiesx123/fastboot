@@ -3,22 +3,17 @@ package com.xiesx.fastboot.support.validate.annotation;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
 import cn.hutool.core.lang.RegexPool;
+
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-/**
- * @title VNumber.java
- * @description 数字判断
- * @author xiesx
- * @date 2020-7-21 22:44:29
- */
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 // 文档生成标识
 @Documented
 // 申明注解的作用位置
@@ -33,9 +28,9 @@ import jakarta.validation.constraints.Pattern;
 @Pattern(regexp = RegexPool.NUMBERS, message = "{fastboot.number}")
 public @interface VNumber {
 
-    String message() default "{fastboot.error}";// 错误提示信息默认值，可以使用el表达式。
+    String message() default "{fastboot.error}"; // 错误提示信息默认值，可以使用el表达式。
 
-    Class<?>[] groups() default {};// 约束注解在验证时所属的组别
+    Class<?>[] groups() default {}; // 约束注解在验证时所属的组别
 
-    Class<? extends Payload>[] payload() default {};// 约束注解的有效负载
+    Class<? extends Payload>[] payload() default {}; // 约束注解的有效负载
 }

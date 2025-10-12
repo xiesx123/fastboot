@@ -1,76 +1,76 @@
 {
-	"groups": [
-		{
-			"name": "fastboot.fastjson",
-			"type": "com.xiesx.fastboot.core.fastjson.configuration.FastJsonProperties",
-			"sourceType": "com.xiesx.fastboot.core.fastjson.configuration.FastJsonProperties",
-			"description": "FastJson"
-		},
-		{
-			"name": "fastboot.signer",
-			"type": "com.xiesx.fastboot.core.signer.configuration.SignProperties",
-			"sourceType": "com.xiesx.fastboot.core.signer.configuration.SignProperties",
-			"description": "数据签名"
-		},
-		{
-			"name": "fastboot.token",
-			"type": "com.xiesx.fastboot.core.token.configuration.TokenProperties",
-			"sourceType": "com.xiesx.fastboot.core.token.configuration.TokenProperties",
-			"description": "令牌认证"
-		}
-	],
-	"properties": [
-		{
-			"name": "fastboot.fastjson.supportedMediaTypes",
-			"type": "java.lang.String",
-			"defaultValue": "application/json",
-			"description": "支持类型"
-		},
-		{
-			"name": "fastboot.fastjson.desensitize",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "数据脱敏"
-		},
-		{
-			"name": "fastboot.signer.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "是否启用"
-		},
-		{
-			"name": "fastboot.signer.header",
-			"type": "java.lang.String",
-			"defaultValue": "signer",
-			"description": "数据签名header"
-		},
-		{
-			"name": "fastboot.signer.secret",
-			"type": "java.lang.String",
-			"defaultValue": "fastboot!@#",
-			"description": "数据签名secret"
-		},
-		{
-			"name": "fastboot.token.enabled",
-			"type": "java.lang.Boolean",
-			"defaultValue": true,
-			"description": "是否启用"
-		},
-		{
-			"name": "fastboot.token.header",
-			"type": "java.lang.String",
-			"defaultValue": "token",
-			"description": "令牌认证header"
-		},
-		{
-			"name": "fastboot.token.includePaths",
-			"type": "java.lang.String",
-			"description": "包含请求"
-		},
-		{
-			"name": "fastboot.token.excludePaths",
-			"type": "java.lang.String",
-			"description": "排除请求"
-		}
-	]
+  "groups": [
+    {
+      "name": "fastboot.fastjson",
+      "type": "com.xiesx.fastboot.core.fastjson.configuration.FastJsonProperties",
+      "sourceType": "com.xiesx.fastboot.core.fastjson.configuration.FastJsonProperties",
+      "description": "FastJson"
+    },
+    {
+      "name": "fastboot.signer",
+      "type": "com.xiesx.fastboot.core.signer.configuration.SignProperties",
+      "sourceType": "com.xiesx.fastboot.core.signer.configuration.SignProperties",
+      "description": "数据签名"
+    },
+    {
+      "name": "fastboot.token",
+      "type": "com.xiesx.fastboot.core.token.configuration.TokenProperties",
+      "sourceType": "com.xiesx.fastboot.core.token.configuration.TokenProperties",
+      "description": "令牌认证"
+    }
+  ],
+  "properties": [
+    {
+      "name": "fastboot.fastjson.supportedMediaTypes",
+      "type": "java.lang.String",
+      "defaultValue": "application/json",
+      "description": "支持类型"
+    },
+    {
+      "name": "fastboot.fastjson.desensitize",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "数据脱敏"
+    },
+    {
+      "name": "fastboot.signer.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "是否启用"
+    },
+    {
+      "name": "fastboot.signer.header",
+      "type": "java.lang.String",
+      "defaultValue": "signer",
+      "description": "数据签名header"
+    },
+    {
+      "name": "fastboot.signer.secret",
+      "type": "java.lang.String",
+      "defaultValue": "fastboot!@#",
+      "description": "数据签名secret"
+    },
+    {
+      "name": "fastboot.token.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "是否启用"
+    },
+    {
+      "name": "fastboot.token.header",
+      "type": "java.lang.String",
+      "defaultValue": "token",
+      "description": "令牌认证header"
+    },
+    {
+      "name": "fastboot.token.includePaths",
+      "type": "java.lang.String",
+      "description": "包含请求"
+    },
+    {
+      "name": "fastboot.token.excludePaths",
+      "type": "java.lang.String",
+      "description": "排除请求"
+    }
+  ]
 }

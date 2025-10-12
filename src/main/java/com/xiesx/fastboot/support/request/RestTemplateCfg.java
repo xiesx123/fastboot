@@ -1,6 +1,6 @@
 package com.xiesx.fastboot.support.request;
 
-import java.util.Collections;
+import com.yomahub.tlog.resttemplate.TLogRestTemplateInterceptor;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -9,14 +9,8 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import com.yomahub.tlog.resttemplate.TLogRestTemplateInterceptor;
+import java.util.Collections;
 
-/**
- * @title RestTemplateCfg.java
- * @description
- * @author xiesx
- * @date 2023-07-02 19:45:33
- */
 @Configuration
 public class RestTemplateCfg {
 

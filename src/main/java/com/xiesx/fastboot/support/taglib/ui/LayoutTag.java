@@ -1,9 +1,10 @@
 package com.xiesx.fastboot.support.taglib.ui;
 
-import com.xiesx.fastboot.support.taglib.TagUtils;
-
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+
+import com.xiesx.fastboot.support.taglib.TagUtils;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.jsp.JspException;
@@ -14,14 +15,10 @@ public class LayoutTag extends BaseUITag {
 
     private BaseUITag __ui;
 
-    /**
-     * Layout模板文件内容
-     */
+    /** Layout模板文件内容 */
     private String __tmplContent;
 
-    /**
-     * 自定义占位符名称, 若未提供则默认为body
-     */
+    /** 自定义占位符名称, 若未提供则默认为body */
     private String name;
 
     @Override
@@ -32,7 +29,12 @@ public class LayoutTag extends BaseUITag {
         }
         try {
             if (StrUtil.isNotBlank(this.getSrc())) {
-                __tmplContent = TagUtils.includeJSP((HttpServletRequest) this.pageContext.getRequest(), (HttpServletResponse) this.pageContext.getResponse(), this.buildSrcUrl(), __ui.getCharsetEncoding());
+                __tmplContent =
+                        TagUtils.includeJSP(
+                                (HttpServletRequest) this.pageContext.getRequest(),
+                                (HttpServletResponse) this.pageContext.getResponse(),
+                                this.buildSrcUrl(),
+                                __ui.getCharsetEncoding());
             } else {
                 __tmplContent = "";
             }
@@ -68,9 +70,12 @@ public class LayoutTag extends BaseUITag {
             __ui.writerToScriptPart(this.getScriptPartContent());
             __tmplContent = this.mergeContent(StrUtil.blankToDefault(__tmplContent, ""));
             if (StrUtil.isNotBlank(name) && !"body".equalsIgnoreCase(name)) {
-                __ui.putProperty(name, !isCleanup() ? __tmplContent : TagUtils.replaceRegClear(__tmplContent));
+                __ui.putProperty(
+                        name,
+                        !isCleanup() ? __tmplContent : TagUtils.replaceRegClear(__tmplContent));
             } else {
-                __ui.writerToBodyPart(!isCleanup() ? __tmplContent : TagUtils.replaceRegClear(__tmplContent));
+                __ui.writerToBodyPart(
+                        !isCleanup() ? __tmplContent : TagUtils.replaceRegClear(__tmplContent));
             }
         } catch (Exception e) {
             throw new JspException(TagUtils.unwrapThrow(e));

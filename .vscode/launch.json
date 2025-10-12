@@ -1,0 +1,31 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "TokenTest",
+      "request": "launch",
+      "mainClass": "com.xiesx.fastboot.core.token.TokenTest",
+      "projectName": "fast-boot"
+    },
+    {
+      "type": "java",
+      "name": "FastBoot",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.xiesx.fastboot.FastBootApplication",
+      "projectName": "fast-boot",
+      "envFile": "${workspaceFolder}/.env",
+      "vmArgs": "-Dlog4j.skipJansi=false"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-ActuatorContext<fast-boot>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.xiesx.fastboot.support.actuator.ActuatorContext",
+      "projectName": "fast-boot",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

@@ -1,38 +1,26 @@
 package com.xiesx.fastboot.core.token;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import com.google.common.collect.Maps;
-import com.xiesx.fastboot.base.config.Configed;
-
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.jwt.JWT;
 
-/**
- * @title JwtHelper.java
- * @description
- * @author xiesx
- * @date 2020-7-21 22:37:47
- */
+import com.google.common.collect.Maps;
+import com.xiesx.fastboot.base.config.Configed;
+
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 public class JwtHelper {
 
-    /**
-     * 密钥
-     */
+    /** 密钥 */
     public static final String JWT_SECRET = Configed.FASTBOOT;
 
-    /**
-     * 生成方
-     */
-    private final static String JWT_ISSUER = Configed.FASTBOOT;
+    /** 生成方 */
+    private static final String JWT_ISSUER = Configed.FASTBOOT;
 
-    /**
-     * 有效时间
-     */
+    /** 有效时间 */
     public static final long JWT_EXPIRE_M_1 = TimeUnit.MINUTES.toSeconds(1); // 1分钟
 
     public static final long JWT_EXPIRE_M_5 = TimeUnit.MINUTES.toSeconds(5); // 5分钟
@@ -47,49 +35,106 @@ public class JwtHelper {
 
     public static final long JWT_EXPIRE_D_30 = TimeUnit.DAYS.toSeconds(30); // 30天
 
-    /**
-     * 生成
-     *
-     * @return
-     */
+    /** 生成 */
     public static String simple(String subject, String audience) {
-        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, null, null, JWT_EXPIRE_D_1, JWT_SECRET);
+        return create(
+                IdUtil.fastSimpleUUID(),
+                subject,
+                JWT_ISSUER,
+                audience,
+                null,
+                null,
+                JWT_EXPIRE_D_1,
+                JWT_SECRET);
     }
 
     public static String simple(String subject, String audience, long timeout) {
-        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, Maps.newHashMap(), Maps.newHashMap(), timeout, JWT_SECRET);
+        return create(
+                IdUtil.fastSimpleUUID(),
+                subject,
+                JWT_ISSUER,
+                audience,
+                Maps.newHashMap(),
+                Maps.newHashMap(),
+                timeout,
+                JWT_SECRET);
     }
 
-    public static String simple(String subject, String audience, Map<String, Object> claim, long timeout) {
-        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, Maps.newHashMap(), claim, timeout, JWT_SECRET);
+    public static String simple(
+            String subject, String audience, Map<String, Object> claim, long timeout) {
+        return create(
+                IdUtil.fastSimpleUUID(),
+                subject,
+                JWT_ISSUER,
+                audience,
+                Maps.newHashMap(),
+                claim,
+                timeout,
+                JWT_SECRET);
     }
 
-    public static String simple(String subject, String audience, Map<String, Object> header, Map<String, Object> claim, long timeout) {
-        return create(IdUtil.fastSimpleUUID(), subject, JWT_ISSUER, audience, header, claim, timeout, JWT_SECRET);
+    public static String simple(
+            String subject,
+            String audience,
+            Map<String, Object> header,
+            Map<String, Object> claim,
+            long timeout) {
+        return create(
+                IdUtil.fastSimpleUUID(),
+                subject,
+                JWT_ISSUER,
+                audience,
+                header,
+                claim,
+                timeout,
+                JWT_SECRET);
     }
 
-    public static String simple(String subject, String issuer, String audience, Map<String, Object> claim, long timeout) {
-        return create(IdUtil.fastSimpleUUID(), subject, issuer, audience, Maps.newHashMap(), claim, timeout, JWT_SECRET);
+    public static String simple(
+            String subject,
+            String issuer,
+            String audience,
+            Map<String, Object> claim,
+            long timeout) {
+        return create(
+                IdUtil.fastSimpleUUID(),
+                subject,
+                issuer,
+                audience,
+                Maps.newHashMap(),
+                claim,
+                timeout,
+                JWT_SECRET);
     }
 
-    public static String simple(String subject, String issuer, String audience, Map<String, Object> header, Map<String, Object> claim, long timeout) {
-        return create(IdUtil.fastSimpleUUID(), subject, issuer, audience, header, claim, timeout, JWT_SECRET);
+    public static String simple(
+            String subject,
+            String issuer,
+            String audience,
+            Map<String, Object> header,
+            Map<String, Object> claim,
+            long timeout) {
+        return create(
+                IdUtil.fastSimpleUUID(),
+                subject,
+                issuer,
+                audience,
+                header,
+                claim,
+                timeout,
+                JWT_SECRET);
     }
 
-    /**
-     * 创建令牌
-     *
-     * @param id 唯一身份标识
-     * @param subject 主题
-     * @param issuer 签发者
-     * @param audience 接收者
-     * @param header 头部信息
-     * @param claim 私有属性
-     * @param timeout 头部信息
-     * @param secret 密匙
-     * @return
-     */
-    public static String create(String id, String subject, String issuer, String audience, Map<String, ?> header, Map<String, ?> claim, long timeout, String secret) {
+    /** 创建令牌 */
+    public static String create(
+            String id,
+            String subject,
+            String issuer,
+            String audience,
+            Map<String, ?> header,
+            Map<String, ?> claim,
+            long timeout,
+            String secret) {
         // 开始时间
         Date staDate = DateUtil.date();
         // 结束时间
@@ -98,26 +143,21 @@ public class JwtHelper {
         Map<String, ?> headers = MapUtil.newConcurrentHashMap(header);
         // 附加信息
         Map<String, ?> payloads = MapUtil.newConcurrentHashMap(claim);
-        return JWT.create()//
-                .setJWTId(id)// 唯一身份标识，根据业务需要，可以设置为一个不重复的值，主要用来作为一次性token，从而回避重放攻击
+        return JWT.create() //
+                .setJWTId(id) // 唯一身份标识，根据业务需要，可以设置为一个不重复的值，主要用来作为一次性token，从而回避重放攻击
                 .setSubject(subject) // 主题
                 .setIssuer(issuer) // 签发者
-                .setIssuedAt(staDate)// 签发时间
-                .setExpiresAt(endDate)// 过期时间
-                .setNotBefore(DateUtil.date())// 生效时间
-                .addHeaders(headers)// 头部信息
-                .addPayloads(payloads)// 私有属性
+                .setIssuedAt(staDate) // 签发时间
+                .setExpiresAt(endDate) // 过期时间
+                .setNotBefore(DateUtil.date()) // 生效时间
+                .addHeaders(headers) // 头部信息
+                .addPayloads(payloads) // 私有属性
                 .setAudience(audience) // 接收者
-                .setKey(secret.getBytes())// 密匙
+                .setKey(secret.getBytes()) // 密匙
                 .sign();
     }
 
-    /**
-     * 解析令牌
-     *
-     * @param token
-     * @return
-     */
+    /** 解析令牌 */
     public static JWT parser(String secret, String token) {
         return JWT.of(token).setKey(secret.getBytes());
     }
@@ -126,12 +166,7 @@ public class JwtHelper {
         return JWT.of(token).setKey(JWT_SECRET.getBytes());
     }
 
-    /**
-     * 验证
-     *
-     * @param token
-     * @return
-     */
+    /** 验证 */
     public static boolean validate(String secret, String token) {
         return JWT.of(token).setKey(secret.getBytes()).verify();
     }

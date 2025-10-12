@@ -3,53 +3,77 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.gitee.xiesixian</groupId>
-	<artifactId>fast-boot</artifactId>
+	<groupId>com.xiesx.fastboot</groupId>
+	<artifactId>fastboot</artifactId>
 	<version>master-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<!-- 信息 -->
 	<name>FastBoot</name>
-	<url>https://gitee.com/xiesixian/fast-boot</url>
-	<description>fast boot</description>
-	<!-- 全局 -->
+	<description>Fast, efficient, and lightweight Spring Boot development for rapid application building</description>
+	<url>https://github.com/xiesx123/FastBoot</url>
+
+	<licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+	<developers>
+		<developer>
+			<email>xiesx123@gmail.com</email>
+			<url>https://github.com/xiesx123</url>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://github.com/xiesx123/FastBoot.git</url>
+		<connection>scm:git:https://github.com/xiesx123/FastBoot.git</connection>
+	</scm>
+
+	<issueManagement>
+        <system>Github Issue</system>
+        <url>https://github.com/xiesx123/FastBoot/issues/issues</url>
+    </issueManagement>
+
 	<properties>
 		<!-- 编码 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<!-- maven -->
-		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		<!-- test -->
 		<skip.test>true</skip.test>
 		<!-- java -->
-		<java.version>8</java.version>
-		<!-- dependencies -->
+		<java.version>21</java.version>
+		<!-- database -->
+		<mysql.version>8.0.32</mysql.version>
 		<p6spy.version>3.9.1</p6spy.version>
-		<guava.version>33.3.1-jre</guava.version>
-		<hutool.version>5.8.34</hutool.version>
-		<fastjson.version>2.0.53</fastjson.version>
+		<!-- tools -->
+		<guava.version>33.5.0-jre</guava.version>
+		<hutool.version>5.8.40</hutool.version>
+		<fastjson.version>2.0.59</fastjson.version>
 		<tlog.version>1.5.2</tlog.version>
+		<ttl.version>2.14.5</ttl.version>
 		<aviator.version>5.4.3</aviator.version>
 	</properties>
-	<!-- 父类 -->
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.4.0</version>
 		<relativePath />
 	</parent>
-	<!-- 依赖 -->
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
-		<!-- ==========================spring-boot========================== -->
+		<!-- ==========================spring========================== -->
 		<!-- starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 			<exclusions>
-				<!-- 去掉默认配置 -->
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
@@ -102,51 +126,48 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- ==========================jsp========================== -->
+		<!-- ==========================tomcat========================== -->
+		<!-- tomcat -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
-		<!-- ==========================数据库========================== -->
+		<!-- ==========================database========================== -->
+		<!-- mysql -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.32</version>
+			<version>${mysql.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/p6spy/p6spy -->
+		<!-- p6spy -->
 		<dependency>
 			<groupId>p6spy</groupId>
 			<artifactId>p6spy</artifactId>
 			<version>${p6spy.version}</version>
 			<optional>true</optional>
 		</dependency>
+		<!-- querydsl -->
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
 			<version>${querydsl.version}</version>
 			<classifier>jakarta</classifier>
 		</dependency>
-		<!-- ==========================工具========================== -->
+		<!-- ==========================tools========================== -->
+		<!-- guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+		<!-- hutool -->
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
 			<version>${hutool.version}</version>
 		</dependency>
-		<dependency>
-		    <groupId>com.yomahub</groupId>
-		    <artifactId>tlog-hutool-http</artifactId>
-		    <version>${tlog.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.yomahub</groupId>
-		    <artifactId>tlog-rest-template</artifactId>
-	     	<version>${tlog.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
+		<!-- fastjson -->
 		<dependency>
 		    <groupId>com.alibaba.fastjson2</groupId>
 		    <artifactId>fastjson2</artifactId>
@@ -157,45 +178,45 @@
 		    <artifactId>fastjson2-extension-spring6</artifactId>
 		    <version>${fastjson.version}</version>
 		</dependency>
+		<!-- tlog -->
+		<dependency>
+			<groupId>com.yomahub</groupId>
+			<artifactId>tlog-hutool-http</artifactId>
+			<version>${tlog.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.yomahub</groupId>
+		    <artifactId>tlog-rest-template</artifactId>
+	     	<version>${tlog.version}</version>
+		</dependency>
+		<!-- aviator -->
 		<dependency>
 			<groupId>com.googlecode.aviator</groupId>
 			<artifactId>aviator</artifactId>
 			<version>${aviator.version}</version>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>transmittable-thread-local</artifactId>
-			<version>2.14.5</version>
-		</dependency>
-		<!-- ==========================测试========================== -->
+		<!-- ==========================test========================== -->
+		<!-- rest-assured -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<!-- 编译 -->
+	
+	<dependencyManagement>
+        <dependencies>
+		 <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${ttl.version}</version>
+            </dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<build>
-		<finalName>${project.artifactId}</finalName>
 		<plugins>
-			<!-- 编译 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
-			<!-- 版本 -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>versions-maven-plugin</artifactId>
-				<configuration>
-					<generateBackupPoms>false</generateBackupPoms>
-				</configuration>
-			</plugin>
 			<!-- 测试 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -204,28 +225,101 @@
 					<skipTests>${skip.test}</skipTests>
 				</configuration>
 			</plugin>
+
+			<!-- 编译 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+
+			<!-- 版本 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<configuration>
+					<generateBackupPoms>false</generateBackupPoms>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<doCheck>false</doCheck>
+					<doUpdate>false</doUpdate>
+					<shortRevisionLength>8</shortRevisionLength>
+					<scmBranchPropertyName>buildBranch</scmBranchPropertyName>
+					<timestampPropertyName>buildTimestamp</timestampPropertyName>
+					<timestampFormat>yyyy-MM-dd HH:mm:ss</timestampFormat>
+				</configuration>
+			</plugin>
+
+			<!-- 模版 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>templating-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+					 	<id>filtering-java-templates</id>	
+						<goals>
+							<goal>filter-sources</goal>
+						</goals>
+						<configuration>
+                            <sourceDirectory>src/main/java-templates</sourceDirectory>
+                        </configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			 <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-generated-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- 打包 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Version>${project.version}</Implementation-Version>
+							<Implementation-Branch>${buildBranch}</Implementation-Branch>
+							<Implementation-Build>${buildNumber}</Implementation-Build>
+							<Implementation-Timestamp>${buildTimestamp}</Implementation-Timestamp>
+						</manifestEntries>
+					</archive>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-	<!-- 开发者 -->
-	<developers>
-		<developer>
-			<name>xiesx</name>
-			<email>136305973@qq.com</email>
-		</developer>
-	</developers>
-	<!-- 授权 -->
-	<licenses>
-		<license>
-			<name>GNU General Public License version 3</name>
-			<url>https://opensource.org/licenses/GPL-3.0</url>
-		</license>
-	</licenses>
-	<!-- 仓库 -->
+
 	<repositories>
 		<repository>
 			<id>aliyunmaven</id>

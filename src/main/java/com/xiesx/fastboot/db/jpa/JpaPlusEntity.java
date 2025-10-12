@@ -1,18 +1,11 @@
 package com.xiesx.fastboot.db.jpa;
 
-import java.io.Serializable;
-
 import com.xiesx.fastboot.base.result.R;
 
-/**
- * @title JpaPlusEntity.java
- * @description
- * @author xiesx
- * @date 2021-04-04 18:03:38
- */
+import java.io.Serializable;
+
 public abstract class JpaPlusEntity<T> implements Serializable {
 
-    /** 序列化 */
     private static final long serialVersionUID = 1L;
 
     public String toJSONString() {

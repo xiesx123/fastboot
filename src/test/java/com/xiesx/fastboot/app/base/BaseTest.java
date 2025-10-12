@@ -2,12 +2,6 @@ package com.xiesx.fastboot.app.base;
 
 import static io.restassured.RestAssured.given;
 
-import java.util.List;
-import java.util.Map;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.springframework.beans.factory.annotation.Value;
-
 import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.core.json.reference.GenericType;
@@ -15,28 +9,34 @@ import com.xiesx.fastboot.core.json.reference.GenericType;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
-/**
- * @title BaseTest.java
- * @description
- * @author xiesx
- * @date 2020-12-21 6:16:27
- */
+import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.List;
+import java.util.Map;
+
 public abstract class BaseTest {
 
     //
-    protected static GenericType<Object> gtObj = new GenericType<Object>() {};
+    protected static GenericType<Object> gto = new GenericType<Object>() {};
 
-    protected static GenericType<Map<String, Object>> gtMap = new GenericType<Map<String, Object>>() {};
+    protected static GenericType<Map<String, Object>> gtm =
+            new GenericType<Map<String, Object>>() {};
 
-    //
-    protected static GenericType<BaseResult<Object>> gtBaseObj = new GenericType<BaseResult<Object>>() {};
-
-    protected static GenericType<BaseResult<Map<String, Object>>> gtBaseMap = new GenericType<BaseResult<Map<String, Object>>>() {};
-
-    protected static GenericType<BaseResult<List<Object>>> gtBaseList = new GenericType<BaseResult<List<Object>>>() {};
+    protected static GenericType<List<Object>> gtl = new GenericType<List<Object>>() {};
 
     //
-    protected static GenericType<BaseResult<JSON>> gtBaseJson = new GenericType<BaseResult<JSON>>() {};
+    protected static GenericType<BaseResult<Object>> gtbo =
+            new GenericType<BaseResult<Object>>() {};
+
+    protected static GenericType<BaseResult<Map<String, Object>>> gtbm =
+            new GenericType<BaseResult<Map<String, Object>>>() {};
+
+    protected static GenericType<BaseResult<List<Object>>> gtbl =
+            new GenericType<BaseResult<List<Object>>>() {};
+
+    //
+    protected static GenericType<BaseResult<JSON>> gtbj = new GenericType<BaseResult<JSON>>() {};
 
     @Value("${local.server.port}")
     int port;
@@ -50,11 +50,15 @@ public abstract class BaseTest {
         return given().when().get(url);
     }
 
-    public static Response post(String url, Map<String, Object> param) {
+    public static Response get(String url, Map<String, ?> headers, Map<String, ?> param) {
+        return given().headers(headers).formParams(param).when().get(url);
+    }
+
+    public static Response post(String url, Map<String, ?> param) {
         return post(url, Maps.newConcurrentMap(), param);
     }
 
-    public static Response post(String url, Map<String, Object> headers, Map<String, Object> param) {
+    public static Response post(String url, Map<String, ?> headers, Map<String, ?> param) {
         return given().headers(headers).formParams(param).when().post(url);
     }
 }

@@ -1,42 +1,32 @@
 package com.xiesx.fastboot.support.async.callback;
 
-import java.util.concurrent.Callable;
-
 import com.google.common.util.concurrent.FutureCallback;
 
 import lombok.extern.log4j.Log4j2;
 
-/**
- * @title ExecutorTask.java
- * @description 基类任务：线程池，基类任务，定义3种状态
- * @author xiesx
- * @date 2020-7-21 22:39:54
- */
+import org.jspecify.annotations.Nullable;
+
+import java.util.concurrent.Callable;
+
 @Log4j2
 public class AsyncFutureCallback<T> implements Callable<T>, FutureCallback<T> {
 
-    /**
-     * 执行
-     */
+    /** 执行 */
     @Override
     public T call() throws Exception {
         log.trace("executor task call.......");
         return null;
     }
 
-    /**
-     * 成功
-     */
+    /** 成功 */
     @Override
-    public void onSuccess(T t) {
+    public void onSuccess(@Nullable T t) {
         log.trace("executor task call success");
     }
 
-    /**
-     * 失败
-     */
+    /** 失败 */
     @Override
-    public void onFailure(Throwable e) {
+    public void onFailure(@Nullable Throwable e) {
         log.error("executor task call fail", e);
     }
 }

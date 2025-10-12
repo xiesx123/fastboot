@@ -3,35 +3,28 @@ package com.xiesx.fastboot.core.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/**
- * @title RunExc.java
- * @description 异常枚举处理类
- * @author xiesx
- * @date 2020-7-21 22:30:51
- */
 @Getter
 @AllArgsConstructor
 public enum RunExc {
+    RUNTIME(1000, "Runtime Error"), // --> GlobalExceptionAdvice --> runtimeException
 
-    RUNTIME(1000, "运行错误"), // --> GlobalExceptionAdvice --> runtimeException
+    ASYNC(1010, "Execution Error"), // --> GlobalExceptionAdvice --> runtimeException
 
-    ASYNC(1010, "执行错误"), // --> GlobalExceptionAdvice --> runtimeException
+    REQUEST(2000, "Request Failed"), // --> GlobalExceptionAdvice --> requestException
 
-    REQUEST(2000, "请求失败"), // --> GlobalExceptionAdvice --> requestException
+    RETRY(2010, "Retry Failed"), // --> HttpRetryer
 
-    RETRY(2010, "重试失败"), // --> HttpRetryer
+    LIMITER(2020, "Request Rate Limited"), // --> LimiterAspect
 
-    LIMITER(2020, "请求限流"), // --> LimiterAspect
+    VALIDATOR(3000, "Validation Error"), // --> GlobalExceptionAdvice --> validatorException
 
-    VALIDATOR(3000, "校验错误"), // --> GlobalExceptionAdvice --> validatorException
+    DBASE(4000, "Database Error"), // --> GlobalExceptionAdvice --> jdbcException
 
-    DBASE(4000, "数据错误"), // --> GlobalExceptionAdvice --> jdbcException
+    TOKEN(5000, "Token Error"), // --> TokenInterceptor
 
-    TOKEN(5000, "令牌错误"), // --> TokenInterceptor
+    SIGN(6000, "Signature Error"), // --> SignerAspect
 
-    SIGN(6000, "签名错误"), // --> SignerAspect
-
-    UNKNOWN(9999, "未知");
+    UNKNOWN(9999, "Unknown");
 
     private Integer code;
 

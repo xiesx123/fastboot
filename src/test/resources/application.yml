@@ -11,40 +11,33 @@ spring:
     hibernate:
       ddl-auto: update
 
-fastboot:                                                   # fastboot
-  # ======= 统一返回 ======= 
-  advice:
+fastboot:                                 # fastboot
+  advice:                                 # ======= 统一返回
     body-ignores-urls:                    # 忽略路径
     - /swagger-resources,/api-docs
-    - /body/*  
-  # ======= 数据转换 =======
-  fastjson:
-    supported-media-types:                # 支持媒体类型，默认text/html、application/json
-    - text/html;charset=UTF-8
-    - application/json;charset=UTF-8
+    - /body/ignore  
+  
+  fastjson:                               # ======= 数据转换（fastjson实现）
+    supported-media-types:                # 支持媒体类型，默认：text/html、application/json
+      - text/html;charset=UTF-8
+      - application/json;charset=UTF-8
     config:                               # 配置
-      charset: utf-8                      # 编码格式，默认UTF-8
-      date-format: yyyy-MM-dd HH:mm:ss    # 日期格式，默认yyyy-MM-dd HH:mm:ss
-      serializer-features:                # 序列化
+      charset: utf-8                      # 编码格式，默认：UTF-8
+      date-format: yyyy-MM-dd HH:mm:ss    # 日期格式，默认：yyyy-MM-dd HH:mm:ss
+      writer-features:                    # 序列化
         - PrettyFormat                    # 格式化输出
         - WriteNullBooleanAsFalse         # 布尔类型如果为null，输出为false，而不是null
         - WriteEnumUsingToString          # 枚举类型用ToString输出
-    # serialize-filters:
-    #   - DesensitizeFilter
-      features:
-        - OrderedField
-    # classSerializeFilters:
-    # writeContentLength: true
-    desensitize: true                     # 启用脱敏
+      reader-features:
+        - UseDoubleForDecimals
+    desensitize: true                     # 启用脱敏，默认：false
     
-  # ======= 数据签名 =======
-  signer:
-    header: sign                          # 签名键，默认sign
-    secret: fastboot!@#                   # 加密串，默认fastboot!@#
+  signer:                                 # ======= 数据签名
+    header: sign                          # 签名键，默认：sign
+    secret: fastboot!@#                   # 加密串，默认：fastboot!@#
     
-  # ======= 令牌认证 =======
-  token:
-    header: token                         # 令牌键，默认token
+  token:                                  # ======= 令牌认证
+    header: token                         # 令牌键，默认：token
     include-paths:                        # 包含路径
     - /api/**
     - /token/**

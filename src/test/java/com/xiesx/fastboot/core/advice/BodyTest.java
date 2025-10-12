@@ -1,9 +1,21 @@
 package com.xiesx.fastboot.core.advice;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
-import java.util.Map;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.ObjectUtil;
+
+import com.alibaba.fastjson2.JSON;
+import com.xiesx.fastboot.FastBootApplication;
+import com.xiesx.fastboot.app.base.BaseResult;
+import com.xiesx.fastboot.app.base.BaseTest;
+import com.xiesx.fastboot.app.mock.MockUser;
+import com.xiesx.fastboot.base.config.Configed;
+
+import io.restassured.response.Response;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -12,23 +24,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.base.BaseResult;
-import com.xiesx.fastboot.app.base.BaseTest;
-import com.xiesx.fastboot.app.mock.MockUser;
+import java.util.List;
+import java.util.Map;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.ObjectUtil;
-import io.restassured.response.Response;
-
-/**
- * @title BodyTest.java
- * @description
- * @author xiesx
- * @date 2021-06-06 23:19:42
- */
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class BodyTest extends BaseTest {
@@ -36,8 +34,8 @@ public class BodyTest extends BaseTest {
     @Test
     @Order(1)
     public void result() {
-        Response res = get("/body/result");
-        BaseResult<Map<String, Object>> result = gtBaseMap.parseObject(res.asString());
+        Response response = get("body/result");
+        BaseResult<Map<String, Object>> result = gtbm.parseObject(response.asString());
         assertNotNull(result);
         assertTrue(result.isSuccess());
         assertEquals(result.getData().get("k1"), "1");
@@ -45,66 +43,72 @@ public class BodyTest extends BaseTest {
 
     @Test
     @Order(2)
-    public void map() {
-        Response res = get("/body/map");
-        BaseResult<Map<String, Object>> result = gtBaseMap.parseObject(res.asString());
-        Map<String, Object> data = result.getData();
-        assertNotNull(data);
-        assertFalse(data.isEmpty());
-        assertEquals(data.get("k1"), "1");
+    public void page() {
+        Response response = get("body/page");
+        BaseResult<List<Object>> result = gtbl.parseObject(response.asString());
+        assertNotNull(result);
+        assertTrue(result.isSuccess());
+        assertTrue(result.getData().size() > 1);
     }
 
     @Test
     @Order(3)
-    public void list() {
-        Response res = get("/body/list");
-        BaseResult<List<Object>> result = gtBaseList.parseObject(res.asString());
-        List<Object> data = result.getData();
-        assertNotNull(data);
-        assertFalse(data.isEmpty());
-        assertEquals(data.get(0), "k1");
+    public void map() {
+        Response response = get("body/map");
+        Map<String, Object> result = gtm.parseObject(response.asString());
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(result.get("k1"), "1");
     }
 
     @Test
     @Order(4)
-    public void string() {
-        Response res = get("/body/string");
-        String result = res.asString();
+    public void list() {
+        Response response = get("body/list");
+        List<Object> result = gtl.parseObject(response.asString());
         assertNotNull(result);
         assertFalse(result.isEmpty());
-        assertEquals(result, "k1");
+        assertEquals(result.get(0), "k1");
     }
 
     @Test
     @Order(5)
-    public void fastjson() {
-        Response res = get("/body/fastjson");
-        BaseResult<JSON> result = gtBaseJson.parseObject(res.asString());
-        JSONObject data = (JSONObject) result.getData();
-        assertNotNull(data);
-        assertFalse(data.isEmpty());
-        assertEquals(data.get("k1"), "1");
-        assertEquals(data.getJSONArray("list").get(0), "k1");
+    public void string() {
+        Response response = get("body/string");
+        String result = response.asString();
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(result, Configed.FASTBOOT);
     }
 
     @Test
     @Order(6)
     public void object() {
-        Response res = get("/body/object");
-        BaseResult<Object> result = gtBaseObj.parseObject(res.asString());
+        Response response = get("body/object");
+        BaseResult<Object> result = gtbo.parseObject(response.asString());
         MockUser user = Convert.convert(MockUser.class, result.getData());
         assertNotNull(user);
         assertFalse(ObjectUtil.isEmpty(user));
-        assertEquals(user.getTel(), "13800138000");
+        assertEquals(user.getTel(), "138****8000");
     }
 
     @Test
     @Order(7)
     public void ignore() {
-        Response res = get("/body/ignore");
-        MockUser user = JSON.parseObject(res.asString(), MockUser.class);
+        Response response = get("body/ignore");
+        MockUser user = JSON.parseObject(response.asString(), MockUser.class);
         assertNotNull(user);
         assertFalse(ObjectUtil.isEmpty(user));
-        assertEquals(user.getTel(), "13800138000");
+        assertEquals(user.getTel(), "138****8000");
+    }
+
+    @Test
+    @Order(8)
+    public void ignore_annotation() {
+        Response response = get("body/ignore/annotation");
+        MockUser user = JSON.parseObject(response.asString(), MockUser.class);
+        assertNotNull(user);
+        assertFalse(ObjectUtil.isEmpty(user));
+        assertEquals(user.getTel(), "138****8000");
     }
 }

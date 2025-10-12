@@ -16,8 +16,9 @@ package com.xiesx.fastboot.support.retry;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
+import com.google.errorprone.annotations.Immutable;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * An exception indicating that none of the attempts of the {@link Retryer} succeeded. If the last
@@ -41,7 +42,12 @@ public final class RetryException extends Exception {
      * @param lastFailedAttempt what happened the last time we failed
      */
     public RetryException(int numberOfFailedAttempts, @Nonnull Attempt<?> lastFailedAttempt) {
-        this("Retrying failed to complete successfully after " + numberOfFailedAttempts + " attempts.", numberOfFailedAttempts, lastFailedAttempt);
+        this(
+                "Retrying failed to complete successfully after "
+                        + numberOfFailedAttempts
+                        + " attempts.",
+                numberOfFailedAttempts,
+                lastFailedAttempt);
     }
 
     /**
@@ -51,8 +57,13 @@ public final class RetryException extends Exception {
      * @param numberOfFailedAttempts times we've tried and failed
      * @param lastFailedAttempt what happened the last time we failed
      */
-    public RetryException(String message, int numberOfFailedAttempts, Attempt<?> lastFailedAttempt) {
-        super(message, checkNotNull(lastFailedAttempt, "Last attempt was null").hasException() ? lastFailedAttempt.getExceptionCause() : null);
+    public RetryException(
+            String message, int numberOfFailedAttempts, Attempt<?> lastFailedAttempt) {
+        super(
+                message,
+                checkNotNull(lastFailedAttempt, "Last attempt was null").hasException()
+                        ? lastFailedAttempt.getExceptionCause()
+                        : null);
         this.numberOfFailedAttempts = numberOfFailedAttempts;
         this.lastFailedAttempt = lastFailedAttempt;
     }

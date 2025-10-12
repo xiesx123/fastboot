@@ -1,9 +1,17 @@
 package com.xiesx.fastboot.db.jpa;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
+import cn.hutool.core.lang.Assert;
+
+import com.google.common.collect.Lists;
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import jakarta.persistence.EntityManager;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,28 +23,17 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.querydsl.SimpleEntityPathResolver;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.collect.Lists;
-import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.PathBuilder;
-import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
-import cn.hutool.core.lang.Assert;
-import jakarta.persistence.EntityManager;
-
-/**
- * @title JpaPlusRepositoryExecutor.java
- * @description
- * @author xiesx
- * @date 2021-04-04 18:04:05
- */
 @Transactional(readOnly = true)
-public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID> implements JpaPlusRepository<T, ID> {
+public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
+        implements JpaPlusRepository<T, ID> {
 
     protected final EntityManager entityManager;
 
@@ -53,45 +50,52 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
         this.entityManager = entityManager;
         this.jpaQueryFactory = new JPAQueryFactory(entityManager);
         this.path = SimpleEntityPathResolver.INSTANCE.createPath(domainClass);
-        this.querydsl = new Querydsl(entityManager, new PathBuilder<>(path.getType(), path.getMetadata()));
+        this.querydsl =
+                new Querydsl(entityManager, new PathBuilder<>(path.getType(), path.getMetadata()));
         this.jpaPredicateExecutor =
-                new QuerydslJpaPredicateExecutor<>(JpaEntityInformationSupport.getEntityInformation(domainClass, entityManager), entityManager, SimpleEntityPathResolver.INSTANCE, getRepositoryMethodMetadata());
+                new QuerydslJpaPredicateExecutor<>(
+                        JpaEntityInformationSupport.getEntityInformation(
+                                domainClass, entityManager),
+                        entityManager,
+                        SimpleEntityPathResolver.INSTANCE,
+                        getRepositoryMethodMetadata());
     }
 
     // ========================== QuerydslPredicateExecutor
 
     @Override
-    public Optional<T> findOne(Predicate predicate) {
+    public @NonNull Optional<T> findOne(Predicate predicate) {
         return jpaPredicateExecutor.findOne(predicate);
     }
 
     @Override
-    public List<T> findAll(Predicate predicate) {
+    public @NonNull List<T> findAll(Predicate predicate) {
         return jpaPredicateExecutor.findAll(predicate);
     }
 
     @Override
-    public List<T> findAll(Predicate predicate, Sort sort) {
+    public @NonNull List<T> findAll(Predicate predicate, Sort sort) {
         return jpaPredicateExecutor.findAll(predicate, sort);
     }
 
     @Override
-    public List<T> findAll(OrderSpecifier<?>... orders) {
+    public @NonNull List<T> findAll(OrderSpecifier<?>... orders) {
         return jpaPredicateExecutor.findAll(orders);
     }
 
     @Override
-    public List<T> findAll(Predicate predicate, OrderSpecifier<?>... orders) {
+    public @NonNull List<T> findAll(Predicate predicate, OrderSpecifier<?>... orders) {
         return jpaPredicateExecutor.findAll(predicate, orders);
     }
 
     @Override
-    public Page<T> findAll(Predicate predicate, Pageable pageable) {
+    public @NonNull Page<T> findAll(Predicate predicate, Pageable pageable) {
         return jpaPredicateExecutor.findAll(predicate, pageable);
     }
 
     @Override
-    public <S extends T, R> R findBy(Predicate predicate, Function<FetchableFluentQuery<S>, R> queryFunction) {
+    public @NonNull <S extends T, R> R findBy(
+            Predicate predicate, Function<FetchableFluentQuery<S>, R> queryFunction) {
         return jpaPredicateExecutor.findBy(predicate, queryFunction);
     }
 
@@ -115,17 +119,13 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Override
     public Page<T> findAll(JPAQuery<T> query, Pageable pageable) {
-        // 分页查询
         JPQLQuery<T> jpqlQuery = querydsl.applyPagination(pageable, query);
-        // 构造分页
         return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, jpqlQuery::fetchCount);
     }
 
     @Override
     public Page<T> findAll(JPAQuery<T> query, Pageable pageable, OrderSpecifier<?>... orders) {
-        // 分页查询
         JPQLQuery<T> jpqlQuery = querydsl.applyPagination(pageable, query).orderBy(orders);
-        // 构造分页
         return PageableExecutionUtils.getPage(jpqlQuery.fetch(), pageable, jpqlQuery::fetchCount);
     }
 
@@ -137,7 +137,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public <S extends T> List<S> insertOrUpdate(@SuppressWarnings("unchecked") S... entities) {
+    public <S extends T> List<S> insertOrUpdate(S... entities) {
         return insertOrUpdate(Arrays.asList(entities));
     }
 
@@ -157,7 +157,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public int insertOrUpdateRow(@SuppressWarnings("unchecked") T... entities) {
+    public int insertOrUpdateRow(T... entities) {
         return insertOrUpdateRow(Arrays.asList(entities));
     }
 
@@ -184,7 +184,7 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Transactional
     @Override
-    public int delete(@SuppressWarnings("unchecked") ID... ids) {
+    public int delete(ID... ids) {
         Assert.notNull(ids, "ids must not be null!");
         int rows = 0;
         for (ID id : ids) {

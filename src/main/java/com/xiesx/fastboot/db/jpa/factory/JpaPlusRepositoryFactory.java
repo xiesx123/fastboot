@@ -1,20 +1,15 @@
 package com.xiesx.fastboot.db.jpa.factory;
 
-import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
-import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
-import org.springframework.data.repository.core.RepositoryInformation;
-import org.springframework.data.repository.core.RepositoryMetadata;
-
 import com.xiesx.fastboot.db.jpa.JpaPlusRepositoryExecutor;
 
 import jakarta.persistence.EntityManager;
 
-/**
- * @title JpaPlusRepositoryFactory.java
- * @description
- * @author xiesx
- * @date 2021-04-04 18:03:44
- */
+import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
+import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
+import org.springframework.data.repository.core.RepositoryInformation;
+import org.springframework.data.repository.core.RepositoryMetadata;
+import org.springframework.lang.NonNull;
+
 public class JpaPlusRepositoryFactory extends JpaRepositoryFactory {
 
     public JpaPlusRepositoryFactory(EntityManager entityManager) {
@@ -22,12 +17,13 @@ public class JpaPlusRepositoryFactory extends JpaRepositoryFactory {
     }
 
     @Override
-    protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
+    protected @NonNull Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
         return JpaPlusRepositoryExecutor.class;
     }
 
     @Override
-    protected JpaRepositoryImplementation<?, ?> getTargetRepository(RepositoryInformation information, EntityManager entityManager) {
+    protected @NonNull JpaRepositoryImplementation<?, ?> getTargetRepository(
+            RepositoryInformation information, EntityManager entityManager) {
         return new JpaPlusRepositoryExecutor<>(information.getDomainType(), entityManager);
     }
 }

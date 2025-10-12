@@ -1,19 +1,13 @@
 package com.xiesx.fastboot.app.base;
 
-import java.io.Serializable;
-
 import com.google.common.base.Objects;
 import com.xiesx.fastboot.base.IStatus;
 import com.xiesx.fastboot.base.result.R;
 
 import lombok.Data;
 
-/**
- * @title BaseResult.java
- * @description
- * @author xiesx
- * @date 2021-06-06 23:18:50
- */
+import java.io.Serializable;
+
 @Data
 public class BaseResult<T> implements IStatus, Serializable {
 

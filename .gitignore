@@ -1,33 +1,23 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
 ### STS ###
-.apt_generated
 .classpath
 .factorypath
 .project
 .settings
-.springBeans
-.sts4-cache
+target/
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+### VSCode ###
+*.log
+*.exe
+*.msi
+*.mp4
+*.pyc
+**/temp/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+### Node ###
+**/node_modules/
+**/dist/
+**/cache/
+**/docs/package-lock.json
+**/docs/package.json
 
-### VS Code ###
-.vscode/
+### FastBoot ###

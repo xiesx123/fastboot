@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /FastBoot
+Sitemap: https://xiesx123.github.io/FastBoot/sitemap.xml

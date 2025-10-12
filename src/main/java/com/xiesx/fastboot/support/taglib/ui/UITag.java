@@ -1,9 +1,10 @@
 package com.xiesx.fastboot.support.taglib.ui;
 
-import com.xiesx.fastboot.support.taglib.TagUtils;
-
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+
+import com.xiesx.fastboot.support.taglib.TagUtils;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.jsp.JspException;
@@ -53,9 +54,20 @@ public class UITag extends BaseUITag {
                 /* UI模板文件内容 */
                 String __tmplContent = null;
                 if (StrUtil.isNotBlank(this.getSrc())) {
-                    __tmplContent = TagUtils.includeJSP((HttpServletRequest) this.pageContext.getRequest(), (HttpServletResponse) this.pageContext.getResponse(), this.buildSrcUrl(), this.getCharsetEncoding());
-                    __tmplContent = this.mergeContent(StrUtil.blankToDefault(__tmplContent, "@{body}"));
-                    this.pageContext.getOut().write(!isCleanup() ? __tmplContent : TagUtils.replaceRegClear(__tmplContent));
+                    __tmplContent =
+                            TagUtils.includeJSP(
+                                    (HttpServletRequest) this.pageContext.getRequest(),
+                                    (HttpServletResponse) this.pageContext.getResponse(),
+                                    this.buildSrcUrl(),
+                                    this.getCharsetEncoding());
+                    __tmplContent =
+                            this.mergeContent(StrUtil.blankToDefault(__tmplContent, "@{body}"));
+                    this.pageContext
+                            .getOut()
+                            .write(
+                                    !isCleanup()
+                                            ? __tmplContent
+                                            : TagUtils.replaceRegClear(__tmplContent));
                 }
             } catch (Exception e) {
                 throw new JspException(TagUtils.unwrapThrow(e));

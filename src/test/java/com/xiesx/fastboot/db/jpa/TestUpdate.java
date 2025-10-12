@@ -2,7 +2,12 @@ package com.xiesx.fastboot.db.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
+import com.google.common.collect.Lists;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.xiesx.fastboot.FastBootApplication;
+import com.xiesx.fastboot.app.log.LogRecord;
+import com.xiesx.fastboot.app.log.LogRecordRepository;
+import com.xiesx.fastboot.app.log.QLogRecord;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -13,29 +18,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.collect.Lists;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.log.LogRecord;
-import com.xiesx.fastboot.app.log.LogRecordRepository;
-import com.xiesx.fastboot.app.log.QLogRecord;
+import java.util.List;
 
-/**
- * @title TestUpdate.java
- * @description
- * @author xiesx
- * @date 2021-06-06 23:21:06
- */
 @Transactional
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class)
 public class TestUpdate {
 
-    @Autowired
-    JPAQueryFactory mJpaQuery;
+    @Autowired JPAQueryFactory mJpaQuery;
 
-    @Autowired
-    LogRecordRepository mLogRecordRepository;
+    @Autowired LogRecordRepository mLogRecordRepository;
 
     QLogRecord ql = QLogRecord.logRecord;
 
@@ -43,10 +35,11 @@ public class TestUpdate {
 
     @BeforeEach
     public void befoe() {
-        logRecord = new LogRecord()//
-                .setIp("127.0.0.1")//
-                .setMethod("test")//
-                .setType("GET");
+        logRecord =
+                new LogRecord() //
+                        .setIp("127.0.0.1") //
+                        .setMethod("test") //
+                        .setType("GET");
         logRecord = mLogRecordRepository.insertOrUpdate(logRecord);
     }
 
@@ -68,7 +61,8 @@ public class TestUpdate {
     @Order(2)
     public void update_qdsl() {
         // 方式1（key-value）
-        int row = (int) mJpaQuery.update(ql).set(ql.time, 3L).where(ql.ip.eq("127.0.0.1")).execute();
+        int row =
+                (int) mJpaQuery.update(ql).set(ql.time, 3L).where(ql.ip.eq("127.0.0.1")).execute();
         assertEquals(row, 1);
 
         // 方式2（obj）

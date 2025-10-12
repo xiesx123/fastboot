@@ -1,6 +1,14 @@
 package com.xiesx.fastboot.core.advice;
 
-import java.lang.reflect.Method;
+import cn.hutool.core.annotation.AnnotationUtil;
+import cn.hutool.core.text.AntPathMatcher;
+
+import com.xiesx.fastboot.base.IStatus;
+import com.xiesx.fastboot.base.result.R;
+import com.xiesx.fastboot.core.advice.annotation.RestBodyIgnore;
+import com.xiesx.fastboot.core.advice.configuration.AdviceProperties;
+
+import lombok.extern.log4j.Log4j2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,68 +17,72 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.xiesx.fastboot.base.IStatus;
-import com.xiesx.fastboot.base.result.R;
-import com.xiesx.fastboot.core.advice.annotation.RestBodyIgnore;
-import com.xiesx.fastboot.core.advice.configuration.AdviceProperties;
+import java.lang.reflect.Method;
+import java.util.Map;
 
-import cn.hutool.core.annotation.AnnotationUtil;
-import cn.hutool.core.text.AntPathMatcher;
-import lombok.extern.log4j.Log4j2;
-
-/**
- * @title GlobalBodyAdvice.java
- * @description 统一返回
- * @author xiesx
- * @date 2021-04-04 17:52:50
- */
 @Log4j2
 @EnableConfigurationProperties(AdviceProperties.class)
 @RestControllerAdvice
 public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
 
-    @Autowired
-    AdviceProperties properties;
+    @Autowired AdviceProperties properties;
 
     AntPathMatcher match = new AntPathMatcher();
 
-    @Override
-    public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> converterType) {
+    public boolean supports(
+            MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         // 获取当前处理请求方法
-        Method method = methodParameter.getMethod();
-        // 获取类注解
-        boolean isSupport = AnnotationUtil.hasAnnotation(method.getDeclaringClass(), RestBodyIgnore.class);
+        Method method = returnType.getMethod();
+        if (method == null) {
+            return false;
+        }
+        // 获取类或方法注解
+        boolean isSupport =
+                AnnotationUtil.hasAnnotation(method.getDeclaringClass(), RestBodyIgnore.class);
         if (!isSupport) {
-            // 获取方法注解
             isSupport = AnnotationUtil.hasAnnotation(method, RestBodyIgnore.class);
         }
         log.trace("{} body write support {} ", method.getName(), !isSupport);
-        // true 拦截、false 忽略
+        // true 表示拦截，false 表示忽略
         return !isSupport;
     }
 
     @Override
-    public Object beforeBodyWrite(Object obj, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> converter, ServerHttpRequest req, ServerHttpResponse res) {
-        // 判断url是否需要拦截
-        boolean isAnyMatch = properties.getBodyIgnoresUrls().stream().anyMatch(i -> match.match(i, req.getURI().getPath()));
-        if (isAnyMatch) {
-            return obj;
+    public Object beforeBodyWrite(
+            @Nullable Object body,
+            MethodParameter returnType,
+            MediaType selectedContentType,
+            Class<? extends HttpMessageConverter<?>> selectedConverterType,
+            ServerHttpRequest request,
+            ServerHttpResponse response) {
+
+        // 是否需要拦截
+        boolean isMatch =
+                properties.getBodyIgnoresUrls().stream()
+                        .anyMatch(i -> match.match(i, request.getURI().getPath()));
+        if (isMatch) {
+            return body;
         }
         // 获取当前处理请求方法
-        Method method = methodParameter.getMethod();
-        log.trace("{} body write advice", method.getName());
-        // 获取返回类型
-        Class<?> returnType = method.getReturnType();
-        // 判断Void类型
-        if (returnType.equals(Void.TYPE)) {
-            return null;
+        Method method = returnType.getMethod();
+        if (method != null) {
+            log.trace("{} body write advice", method.getName());
+            // 处理不同的返回类型
+            Class<?> returnTypeCls = method.getReturnType();
+            if (returnTypeCls.equals(Void.TYPE)) {
+                return null;
+            }
         }
-        if (obj instanceof IStatus || obj instanceof String) {
-            return obj;
+        if (body instanceof Map
+                || body instanceof Iterable
+                || body instanceof String
+                || body instanceof IStatus) {
+            return body;
         }
-        return obj == null ? R.succ() : R.succ(obj);
+        return body == null ? R.succ() : R.succ(body);
     }
 }

@@ -1,15 +1,9 @@
 package com.xiesx.fastboot.core.token.configuration;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import lombok.Data;
 
-/**
- * @title TokenProperties.java
- * @description
- * @author xiesx
- * @date 2021-04-04 18:10:25
- */
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 @Data
 @ConfigurationProperties(prefix = TokenProperties.PREFIX)
 public class TokenProperties {

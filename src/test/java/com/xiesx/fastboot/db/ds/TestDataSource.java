@@ -1,33 +1,29 @@
 package com.xiesx.fastboot.db.ds;
 
+import cn.hutool.core.lang.Console;
+import cn.hutool.core.lang.Singleton;
+import cn.hutool.db.Db;
+import cn.hutool.db.Entity;
+
+import com.alibaba.fastjson2.JSON;
+import com.xiesx.fastboot.db.ds.factory.DataSourceSimpleFactory;
+
+import lombok.extern.log4j.Log4j2;
+
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.alibaba.fastjson2.JSON;
-import com.xiesx.fastboot.db.ds.factory.DataSourceSimpleFactory;
-
-import cn.hutool.core.lang.Console;
-import cn.hutool.core.lang.Singleton;
-import cn.hutool.db.Db;
-import cn.hutool.db.Entity;
-import lombok.extern.log4j.Log4j2;
-
-/**
- * @title TestDataSource.java
- * @description
- * @author Sixian.xie
- * @date 2021年3月29日 下午6:04:35
- */
 @Log4j2
 public class TestDataSource {
 
-    public final static String MYSQL_URL = "jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8&serverTimezone=GMT%2B8";
+    public static final String MYSQL_URL =
+            "jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8&serverTimezone=GMT%2B8";
 
-    public final static String MYSQL_USERNAME = "root";
+    public static final String MYSQL_USERNAME = "root";
 
-    public final static String MYSQL_PASSWORD = "root";
+    public static final String MYSQL_PASSWORD = "root";
 
     public static DataSource init(String url, String user, String pass) throws SQLException {
         // 构造数据源

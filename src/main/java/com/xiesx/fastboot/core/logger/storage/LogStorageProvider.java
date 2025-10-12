@@ -1,51 +1,53 @@
 package com.xiesx.fastboot.core.logger.storage;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-/**
- * @title LogStorageSimpleProvider.java
- * @description
- * @author xiesx
- * @date 2021-04-17 18:53:36
- */
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 @Log4j2
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class LogStorageProvider implements LogStorage {
 
-    private static final String[] HEAD_IP =
-            {"HTTP_X_FORWARDED_FOR", "HTTP_X_FORWARDED", "HTTP_X_CLUSTER_CLIENT_IP", "HTTP_CLIENT_IP", "HTTP_FORWARDED_FOR", "HTTP_FORWARDED", "HTTP_VIA", "REMOTE_ADDR", "PROXY_FORWARDED_FOR"};
+    private static final String[] HEAD_IP = {
+        "HTTP_X_FORWARDED_FOR",
+        "HTTP_X_FORWARDED",
+        "HTTP_X_CLUSTER_CLIENT_IP",
+        "HTTP_CLIENT_IP",
+        "HTTP_FORWARDED_FOR",
+        "HTTP_FORWARDED",
+        "HTTP_VIA",
+        "REMOTE_ADDR",
+        "PROXY_FORWARDED_FOR"
+    };
 
     private static final String LOG_STORAHE_FORMAT = "| {} | {} | {} | {} | {} | {} | {} | {} ";
 
-    @NonNull
-    public String operation;
+    @NonNull public String operation;
 
-    @NonNull
-    public String method;
+    @NonNull public String method;
 
-    @NonNull
-    public Object[] args;
+    @NonNull public Object[] args;
 
-    @NonNull
-    public Long time;
+    @NonNull public Long time;
 
     // =============
 
@@ -64,7 +66,12 @@ public class LogStorageProvider implements LogStorage {
     @Override
     public void record(Object result) {
         // 获取请求信息
-        request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null) {
+            log.warn("request attributes is null, maybe not in http request scope.");
+            return;
+        }
+        request = ((ServletRequestAttributes) requestAttributes).getRequest();
         type = request.getMethod();
         url = request.getRequestURL().toString();
         uri = request.getRequestURI();
@@ -74,7 +81,14 @@ public class LogStorageProvider implements LogStorage {
     }
 
     public static String getClientIP(HttpServletRequest request, String... otherHeaderNames) {
-        String[] headers = {"X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR"};
+        String[] headers = {
+            "X-Forwarded-For",
+            "X-Real-IP",
+            "Proxy-Client-IP",
+            "WL-Proxy-Client-IP",
+            "HTTP_CLIENT_IP",
+            "HTTP_X_FORWARDED_FOR"
+        };
         if (ArrayUtil.isNotEmpty(otherHeaderNames)) {
             headers = ArrayUtil.addAll(headers, otherHeaderNames);
         }

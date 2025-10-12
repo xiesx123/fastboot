@@ -1,5 +1,8 @@
 package com.xiesx.fastboot.core.logger;
 
+import com.xiesx.fastboot.FastBootApplication;
+import com.xiesx.fastboot.app.base.BaseTest;
+
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -7,15 +10,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.base.BaseTest;
-
-/**
- * @title LoggerTest.java
- * @description
- * @author xiesx
- * @date 2021-06-06 23:20:28
- */
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class LoggerTest extends BaseTest {
@@ -23,24 +17,24 @@ public class LoggerTest extends BaseTest {
     @Test
     @Order(1)
     public void noprint() {
-        get("/logger/nonprint");
+        get("logger/nonprint");
     }
 
     @Test
     @Order(2)
     public void print() {
-        get("/logger/print");
+        get("logger/print");
     }
 
     @Test
     @Order(3)
     public void format() {
-        get("/logger/format");
+        get("logger/format");
     }
 
     @Test
     @Order(4)
     public void storage() {
-        get("/logger/storage");
+        get("logger/storage");
     }
 }

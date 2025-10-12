@@ -1,22 +1,16 @@
 package com.xiesx.fastboot.core.event;
 
-import java.lang.reflect.ParameterizedType;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReflectUtil;
 
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.ReflectUtil;
 import lombok.extern.log4j.Log4j2;
 
-/**
- * @title EventAdapter.java
- * @description
- * @author xiesx
- * @date 2021-04-24 01:34:31
- */
+import java.lang.reflect.ParameterizedType;
+
 @Log4j2
-@SuppressWarnings({"unchecked", "all"})
 public abstract class EventAdapter<T> {
 
     private static final String EVENT_METHOD = "process";
@@ -26,7 +20,8 @@ public abstract class EventAdapter<T> {
     @Subscribe
     @AllowConcurrentEvents
     public void onEvent(T event) {
-        if (ObjectUtil.isNotNull(ReflectUtil.getMethod(this.getClass(), EVENT_METHOD, event.getClass()))) {
+        if (ObjectUtil.isNotNull(
+                ReflectUtil.getMethod(this.getClass(), EVENT_METHOD, event.getClass()))) {
             try {
                 ParameterizedType p = (ParameterizedType) this.getClass().getGenericSuperclass();
                 Class<T> c = (Class<T>) p.getActualTypeArguments()[0];

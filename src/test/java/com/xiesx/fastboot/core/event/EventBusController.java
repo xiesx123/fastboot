@@ -1,41 +1,20 @@
 package com.xiesx.fastboot.core.event;
 
-import java.util.concurrent.TimeUnit;
+import com.xiesx.fastboot.base.result.R;
+import com.xiesx.fastboot.base.result.Result;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xiesx.fastboot.app.base.BaseController;
-import com.xiesx.fastboot.base.result.R;
-import com.xiesx.fastboot.base.result.Result;
-import com.xiesx.fastboot.core.logger.LogStorageSimpleProvider;
-import com.xiesx.fastboot.core.logger.annotation.GoLogger;
-
-/**
- * @title EventBusController.java
- * @description
- * @author xiesx
- * @date 2021-04-05 17:27:35
- */
 @RestController
-@RequestMapping("/event")
-@GoLogger(storage = LogStorageSimpleProvider.class)
-public class EventBusController extends BaseController {
+@RequestMapping("event")
+public class EventBusController {
 
-    /**
-     * 发布消息
-     *
-     * @return
-     * @throws InterruptedException
-     */
-    @RequestMapping("request")
-    public Result request(String p) throws InterruptedException {
+    @GetMapping("post")
+    public Result request(String p) {
         // 发布Base消息
         EventBusHelper.post(new SimpleEvent(p, true));
-        // 发布Object消息
-        EventBusHelper.post(p);
-        // 模拟耗时操作，线程暂停3秒
-        TimeUnit.SECONDS.sleep(5);
         return R.succ();
     }
 }

@@ -1,18 +1,12 @@
 package com.xiesx.fastboot.app.log;
 
-import java.util.List;
+import com.xiesx.fastboot.db.jpa.JpaPlusRepository;
 
 import org.springframework.data.jpa.repository.Query;
 
-import com.xiesx.fastboot.db.jpa.JpaPlusRepository;
+import java.util.List;
 
-/**
- * @title LogRecordRepository.java
- * @description
- * @author xiesx
- * @date 2021-06-06 23:19:14
- */
-public interface LogRecordRepository extends JpaPlusRepository<LogRecord, String> {
+public interface LogRecordRepository extends JpaPlusRepository<LogRecord, Long> {
 
     // 方式1: 默认生成所有属性名查询
     List<LogRecord> findByType(String type);

@@ -1,32 +1,28 @@
 package com.xiesx.fastboot.support.request;
 
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.boot.test.context.SpringBootTest;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
 
 import com.alibaba.fastjson2.JSON;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.support.retry.RetryResponse;
 
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
 import lombok.extern.log4j.Log4j2;
 
-/**
- * @title RequestTest.java
- * @description
- * @author xiesx
- * @date 2020-8-15 14:09:29
- */
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.boot.test.context.SpringBootTest;
+
 @Log4j2
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class)
 public class RequestTest {
 
-    public final static String URL = "https://front-gateway.mtime.cn/ticket/schedule/showing/movies.api?locationId=561";
+    public static final String URL =
+            "https://front-gateway.mtime.cn/ticket/schedule/showing/movies.api?locationId=561";
 
     @Test
     @Order(1)

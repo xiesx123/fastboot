@@ -1,19 +1,14 @@
 package com.xiesx.fastboot.support.retry;
 
+import cn.hutool.core.date.SystemClock;
+
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.xiesx.fastboot.base.IStatus;
 import com.xiesx.fastboot.base.result.R;
 import com.yomahub.tlog.context.TLogContext;
 
-import cn.hutool.core.date.SystemClock;
 import lombok.Data;
 
-/**
- * @title RetryResponse.java
- * @description
- * @author xiesx
- * @date 2021-06-06 23:21:26
- */
 @Data
 public class RetryResponse implements IStatus {
 

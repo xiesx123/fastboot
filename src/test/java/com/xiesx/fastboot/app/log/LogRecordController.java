@@ -1,12 +1,6 @@
 package com.xiesx.fastboot.app.log;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.hutool.core.util.ObjectUtil;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
@@ -16,26 +10,21 @@ import com.xiesx.fastboot.base.page.PR;
 import com.xiesx.fastboot.base.page.PResult;
 import com.xiesx.fastboot.base.page.PageVo;
 
-import cn.hutool.core.util.ObjectUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @title LogRecordController.java
- * @description
- * @author xiesx
- * @date 2021-04-05 17:27:35
- */
 @RestController
-@RequestMapping("/log")
+@RequestMapping("log")
 public class LogRecordController extends BaseController {
 
-    /**
-     * 分页
-     *
-     * @param base
-     * @param page
-     * @return
-     */
-    @RequestMapping("page")
+    /** 分页 */
+    @GetMapping("page")
     public PResult page(BaseVo base, PageVo page) {
         // 条件
         Predicate predicate = ql.id.isNotNull();

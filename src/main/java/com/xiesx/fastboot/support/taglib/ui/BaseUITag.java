@@ -1,17 +1,19 @@
 package com.xiesx.fastboot.support.taglib.ui;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.regex.Matcher;
+import cn.hutool.core.util.StrUtil;
 
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.support.taglib.TagUtils;
 
-import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.jsp.JspException;
 import jakarta.servlet.jsp.tagext.BodyTagSupport;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.regex.Matcher;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -19,19 +21,13 @@ public abstract class BaseUITag extends BodyTagSupport {
 
     private static final long serialVersionUID = 8425802569545340622L;
 
-    /**
-     * 模板文件路径
-     */
+    /** 模板文件路径 */
     private String src;
 
-    /**
-     * 字符编码
-     */
+    /** 字符编码 */
     private String charsetEncoding;
 
-    /**
-     * 清理占位符
-     */
+    /** 清理占位符 */
     private boolean cleanup = true;
 
     private StringBuilder __tmplBodyPart;
@@ -79,19 +75,25 @@ public abstract class BaseUITag extends BodyTagSupport {
         String _tmplContent = tmplContent;
         if (StrUtil.isNotBlank(_tmplContent)) {
             if (__tmplMetaPart.length() > 0) {
-                _tmplContent = TagUtils.replaceRegText(_tmplContent, "meta", __tmplMetaPart.toString());
+                _tmplContent =
+                        TagUtils.replaceRegText(_tmplContent, "meta", __tmplMetaPart.toString());
             }
             if (__tmplCssPart.length() > 0) {
-                _tmplContent = TagUtils.replaceRegText(_tmplContent, "css", __tmplCssPart.toString());
+                _tmplContent =
+                        TagUtils.replaceRegText(_tmplContent, "css", __tmplCssPart.toString());
             }
             if (__tmplScriptPart.length() > 0) {
-                _tmplContent = TagUtils.replaceRegText(_tmplContent, "script", __tmplScriptPart.toString());
+                _tmplContent =
+                        TagUtils.replaceRegText(
+                                _tmplContent, "script", __tmplScriptPart.toString());
             }
             if (__tmplBodyPart.length() > 0) {
-                _tmplContent = TagUtils.replaceRegText(_tmplContent, "body", __tmplBodyPart.toString());
+                _tmplContent =
+                        TagUtils.replaceRegText(_tmplContent, "body", __tmplBodyPart.toString());
             }
             for (Map.Entry<String, String> _entry : __tmplPropertyPart.entrySet()) {
-                _tmplContent = TagUtils.replaceRegText(_tmplContent, _entry.getKey(), _entry.getValue());
+                _tmplContent =
+                        TagUtils.replaceRegText(_tmplContent, _entry.getKey(), _entry.getValue());
             }
         }
         return _tmplContent;

@@ -1,44 +1,37 @@
 package com.xiesx.fastboot.base.result;
 
-import com.xiesx.fastboot.base.StatusEnum;
-
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONConfig;
 import cn.hutool.json.JSONUtil;
 
-/**
- * @title R.java
- * @description
- * @author xiesx
- * @date 2021-04-06 09:58:49
- */
+import com.xiesx.fastboot.base.StatusEnum;
+
 public class R {
 
-    public static JSONConfig jcfg = JSONConfig.create().setIgnoreError(true).setIgnoreNullValue(true).setTransientSupport(true);
+    public static JSONConfig jcfg =
+            JSONConfig.create()
+                    .setIgnoreError(true)
+                    .setIgnoreNullValue(true)
+                    .setTransientSupport(true);
 
+    //
     public static Integer SUCCESS_CODE = StatusEnum.SUCCESS.getCode();
-
     public static String SUCCESS_MSG = StatusEnum.SUCCESS.getMsg();
 
+    //
     public static Integer FAIL_CODE = StatusEnum.FAIL.getCode();
-
     public static String FAIL_MSG = StatusEnum.FAIL.getMsg();
 
+    //
     public static Integer ERROR_CODE = StatusEnum.ERROR.getCode();
-
     public static String ERROR_MSG = StatusEnum.ERROR.getMsg();
 
+    //
     public static Integer RETRY_CODE = StatusEnum.RETRY.getCode();
-
     public static String RETRY_MSG = StatusEnum.RETRY.getMsg();
 
-    /**
-     * 初始化
-     *
-     * @param code
-     * @param msg
-     */
+    /** 初始化 */
     public static void initSuccess(Integer code, String msg) {
         SUCCESS_CODE = code;
         SUCCESS_MSG = msg;
@@ -59,9 +52,7 @@ public class R {
         RETRY_MSG = msg;
     }
 
-    /**
-     * 成功
-     */
+    /** 成功 */
     public static Result succ() {
         return build(SUCCESS_CODE, SUCCESS_MSG);
     }
@@ -78,9 +69,7 @@ public class R {
         return build(SUCCESS_CODE, msg, data);
     }
 
-    /**
-     * 失败
-     */
+    /** 失败 */
     public static Result fail() {
         return build(FAIL_CODE, FAIL_MSG);
     }
@@ -97,9 +86,7 @@ public class R {
         return build(FAIL_CODE, msg, data);
     }
 
-    /**
-     * 异常
-     */
+    /** 异常 */
     public static Result error() {
         return build(ERROR_CODE, ERROR_MSG);
     }
@@ -116,9 +103,7 @@ public class R {
         return build(ERROR_CODE, msg, data);
     }
 
-    /**
-     * 重试
-     */
+    /** 重试 */
     public static Result retry() {
         return build(RETRY_CODE, RETRY_MSG);
     }
@@ -135,13 +120,7 @@ public class R {
         return build(RETRY_CODE, msg, data);
     }
 
-    /**
-     * 构造
-     *
-     * @param code
-     * @param msg
-     * @return
-     */
+    /** 构造 */
     public static Result build(StatusEnum status) {
         return new Result().code(status.getCode()).msg(status.getMsg());
     }
@@ -154,22 +133,12 @@ public class R {
         return new Result().code(code).msg(msg).data(data);
     }
 
-    /**
-     * 解析
-     *
-     * @param obj
-     * @return
-     */
+    /** 解析 */
     public static JSON parse(Object obj) {
         return JSONUtil.parse(obj, jcfg);
     }
 
-    /**
-     * 转换
-     *
-     * @param result
-     * @return
-     */
+    /** 转换 */
     public static Result toBean(String json) {
         return toBean(json, Result.class);
     }
@@ -182,12 +151,7 @@ public class R {
         return R.error(ExceptionUtil.getSimpleMessage(e));
     }
 
-    /**
-     * 表达式
-     *
-     * @param result
-     * @return
-     */
+    /** 表达式 */
     public static Object eval(Object obj, String expression) {
         return JSONUtil.getByPath(parse(obj), expression);
     }
@@ -196,12 +160,7 @@ public class R {
         return JSONUtil.getByPath(parse(obj), expression, bean);
     }
 
-    /**
-     * 格式化
-     *
-     * @param result
-     * @return
-     */
+    /** 格式化 */
     public static String toJsonStr(Object obj) {
         return JSONUtil.toJsonStr(obj, jcfg);
     }

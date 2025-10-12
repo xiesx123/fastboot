@@ -14,17 +14,17 @@
 
 package com.xiesx.fastboot.support.retry;
 
+import com.google.common.base.Preconditions;
+import com.google.common.util.concurrent.SimpleTimeLimiter;
+import com.google.common.util.concurrent.TimeLimiter;
+import com.google.errorprone.annotations.Immutable;
+
+import jakarta.annotation.Nonnull;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-
-import com.google.common.base.Preconditions;
-import com.google.common.util.concurrent.SimpleTimeLimiter;
-import com.google.common.util.concurrent.TimeLimiter;
 
 /**
  * Factory class for instances of {@link AttemptTimeLimiter}
@@ -44,17 +44,18 @@ public class AttemptTimeLimiters {
     }
 
     /**
-     * For control over thread management, it is preferable to offer an {@link ExecutorService} through
-     * the other factory method, {@link #fixedTimeLimit(long, TimeUnit, ExecutorService)}. See the note
-     * on {@link SimpleTimeLimiter#SimpleTimeLimiter(ExecutorService)}, which this AttemptTimeLimiter
-     * uses.
+     * For control over thread management, it is preferable to offer an {@link ExecutorService}
+     * through the other factory method, {@link #fixedTimeLimit(long, TimeUnit, ExecutorService)}.
+     * See the note on {@link SimpleTimeLimiter#SimpleTimeLimiter(ExecutorService)}, which this
+     * AttemptTimeLimiter uses.
      *
      * @param duration that an attempt may persist before being circumvented
      * @param timeUnit of the 'duration' arg
      * @param <V> the type of the computation result
      * @return an {@link AttemptTimeLimiter} with a fixed time limit for each attempt
      */
-    public static <V> AttemptTimeLimiter<V> fixedTimeLimit(long duration, @Nonnull TimeUnit timeUnit) {
+    public static <V> AttemptTimeLimiter<V> fixedTimeLimit(
+            long duration, @Nonnull TimeUnit timeUnit) {
         Preconditions.checkNotNull(timeUnit);
         return new FixedAttemptTimeLimit<>(duration, timeUnit, Executors.newCachedThreadPool());
     }
@@ -66,7 +67,8 @@ public class AttemptTimeLimiters {
      * @param <V> the type of the computation result
      * @return an {@link AttemptTimeLimiter} with a fixed time limit for each attempt
      */
-    public static <V> AttemptTimeLimiter<V> fixedTimeLimit(long duration, @Nonnull TimeUnit timeUnit, @Nonnull ExecutorService executorService) {
+    public static <V> AttemptTimeLimiter<V> fixedTimeLimit(
+            long duration, @Nonnull TimeUnit timeUnit, @Nonnull ExecutorService executorService) {
         Preconditions.checkNotNull(timeUnit);
         return new FixedAttemptTimeLimit<>(duration, timeUnit, executorService);
     }
@@ -89,11 +91,15 @@ public class AttemptTimeLimiters {
 
         private final TimeUnit timeUnit;
 
-        public FixedAttemptTimeLimit(long duration, @Nonnull TimeUnit timeUnit, @Nonnull ExecutorService executorService) {
+        public FixedAttemptTimeLimit(
+                long duration,
+                @Nonnull TimeUnit timeUnit,
+                @Nonnull ExecutorService executorService) {
             this(SimpleTimeLimiter.create(executorService), duration, timeUnit);
         }
 
-        private FixedAttemptTimeLimit(@Nonnull TimeLimiter timeLimiter, long duration, @Nonnull TimeUnit timeUnit) {
+        private FixedAttemptTimeLimit(
+                @Nonnull TimeLimiter timeLimiter, long duration, @Nonnull TimeUnit timeUnit) {
             Preconditions.checkNotNull(timeLimiter);
             Preconditions.checkNotNull(timeUnit);
             this.timeLimiter = timeLimiter;

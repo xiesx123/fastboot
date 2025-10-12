@@ -1,12 +1,14 @@
 package com.xiesx.fastboot.support.taglib.body;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+
 import com.xiesx.fastboot.support.taglib.TagUtils;
 import com.xiesx.fastboot.support.taglib.ui.BaseUITag;
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.jsp.JspException;
 import jakarta.servlet.jsp.tagext.BodyTagSupport;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -62,10 +64,14 @@ public class ScriptTag extends BodyTagSupport {
             _scriptTmpl.append(" src=\"").append(this.getSrc()).append("\"");
             _isEmpty = false;
         }
-        _scriptTmpl.append(" type=\"").append(StrUtil.blankToDefault(this.getType(), "text/javascript")).append("\">");
+        _scriptTmpl
+                .append(" type=\"")
+                .append(StrUtil.blankToDefault(this.getType(), "text/javascript"))
+                .append("\">");
         if (_isEmpty && StrUtil.isNotBlank(this.getValue())) {
             String _wrapper = StrUtil.blankToDefault(this.getWrapper(), "script");
-            String _content = StrUtil.strip(this.getValue(), "<" + _wrapper + ">", "</" + _wrapper + ">");
+            String _content =
+                    StrUtil.strip(this.getValue(), "<" + _wrapper + ">", "</" + _wrapper + ">");
             if (StrUtil.isNotBlank(_content)) {
                 this.setValue(_content);
             }

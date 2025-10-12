@@ -1,7 +1,5 @@
 package com.xiesx.fastboot.app.configuration;
 
-import org.springframework.context.annotation.Configuration;
-
 import com.xiesx.fastboot.core.advice.annotation.GoEnableBody;
 import com.xiesx.fastboot.core.event.annotation.GoEnableEventBus;
 import com.xiesx.fastboot.core.exception.annotation.GoEnableException;
@@ -11,12 +9,8 @@ import com.xiesx.fastboot.core.logger.annotation.GoEnableLogger;
 import com.xiesx.fastboot.core.signature.annotation.GoEnableSigner;
 import com.xiesx.fastboot.core.token.annotation.GoEnableToken;
 
-/**
- * @title FastBootCfg.java
- * @description
- * @author xiesx
- * @date 2021-04-03 15:58:29
- */
+import org.springframework.context.annotation.Configuration;
+
 @Configuration
 // 启用统一返回
 @GoEnableBody
@@ -34,6 +28,4 @@ import com.xiesx.fastboot.core.token.annotation.GoEnableToken;
 @GoEnableSigner
 // 启用令牌认证
 @GoEnableToken
-public class FastBootCfg {
-
-}
+public class FastBootCfg {}

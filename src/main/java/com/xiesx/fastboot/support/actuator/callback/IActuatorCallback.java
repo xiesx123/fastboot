@@ -1,8 +1,8 @@
 package com.xiesx.fastboot.support.actuator.callback;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
-
 import cn.hutool.core.lang.Dict;
+
+import org.jspecify.annotations.Nullable;
 
 /**
  * @title IActuatorCallback.java

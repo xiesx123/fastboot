@@ -1,6 +1,12 @@
 package com.xiesx.fastboot.support.scheduler;
 
-import java.util.Map;
+import cn.hutool.core.thread.ThreadUtil;
+
+import com.google.common.collect.Maps;
+import com.xiesx.fastboot.FastBootApplication;
+import com.xiesx.fastboot.support.scheduler.job.TimeJob;
+
+import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -8,19 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.google.common.collect.Maps;
-import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.support.scheduler.job.TimeJob;
+import java.util.Map;
 
-import cn.hutool.core.thread.ThreadUtil;
-import lombok.extern.log4j.Log4j2;
-
-/**
- * @title SchedulerTest.java
- * @description
- * @author xiesx
- * @date 2020-12-21 6:16:35
- */
 @Log4j2
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class)

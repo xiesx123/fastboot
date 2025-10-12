@@ -1,6 +1,21 @@
 package com.xiesx.fastboot.core.logger;
 
-import java.lang.reflect.Method;
+import cn.hutool.core.annotation.AnnotationUtil;
+import cn.hutool.core.date.TimeInterval;
+import cn.hutool.core.lang.Singleton;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
+
+import com.xiesx.fastboot.base.config.Ordered;
+import com.xiesx.fastboot.base.result.R;
+import com.xiesx.fastboot.core.logger.annotation.GoLogger;
+import com.xiesx.fastboot.core.logger.storage.LogStorage;
+import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
+
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+
+import lombok.extern.log4j.Log4j2;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -11,40 +26,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.xiesx.fastboot.base.config.Ordered;
-import com.xiesx.fastboot.base.result.R;
-import com.xiesx.fastboot.core.logger.annotation.GoLogger;
-import com.xiesx.fastboot.core.logger.storage.LogStorage;
-import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
+import java.lang.reflect.Method;
 
-import cn.hutool.core.annotation.AnnotationUtil;
-import cn.hutool.core.date.TimeInterval;
-import cn.hutool.core.lang.Singleton;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-import lombok.extern.log4j.Log4j2;
-
-/**
- * @title LoggerAspect.java
- * @description 日志打印切面
- * @author xiesx
- * @date 2020-7-21 22:35:02
- */
 @Log4j2
 @Component
 @Aspect
 @Order(Ordered.ASPECT_ORDER_LOGGER)
 public class LoggerAspect {
 
-    private static final String LOG_BEFORE_FORMAT = "| request  {} | {}";
+    private static final String LOG_BEFORE_FORMAT = "request {} | {}";
 
-    private static final String LOG_AFTER_FORMAT = "| response {}ms | {} | {} ";
+    private static final String LOG_AFTER_FORMAT = "response took {} ms | {} | {} ";
 
     private TimeInterval interval = new TimeInterval();
 
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping) || @annotation(org.springframework.web.bind.annotation.PostMapping) || @annotation(org.springframework.web.bind.annotation.RequestMapping)")
+    @Pointcut(
+            "@annotation(org.springframework.web.bind.annotation.GetMapping) ||"
+                    + " @annotation(org.springframework.web.bind.annotation.PostMapping) ||"
+                    + " @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public void loggerPointcut() {}
 
     @Before("loggerPointcut()")
@@ -59,9 +58,9 @@ public class LoggerAspect {
 
     @Around("loggerPointcut()")
     public Object loggerAroundAspect(ProceedingJoinPoint pjp) throws Throwable {
-        // 获取类信息
+        // 获取类
         Class<?> cls = pjp.getTarget().getClass();
-        // 获取方法信息
+        // 获取方法
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         String methodName = method.getName();
@@ -89,15 +88,24 @@ public class LoggerAspect {
         // 获取入参
         Object[] args = pjp.getArgs();
         // 入参过滤
-        Object[] newArgs = ArrayUtil.filter(args, t -> {
-            if (t instanceof ServletRequest || t instanceof ServletResponse || t instanceof MultipartFile || t instanceof Model) {
-                return false;
-            }
-            return true;
-        });
+        Object[] newArgs =
+                ArrayUtil.filter(
+                        args,
+                        t -> {
+                            if (t instanceof ServletRequest
+                                    || t instanceof ServletResponse
+                                    || t instanceof MultipartFile
+                                    || t instanceof Model) {
+                                return false;
+                            }
+                            return true;
+                        });
         // 执行前打印入参
         if (print) {
-            log.info(LOG_BEFORE_FORMAT, methodName, format ? R.toJsonPrettyStr(newArgs) : R.toJsonStr(newArgs));
+            log.info(
+                    LOG_BEFORE_FORMAT,
+                    methodName,
+                    format ? R.toJsonPrettyStr(newArgs) : R.toJsonStr(newArgs));
         }
         // 重新计时
         interval.restart();
@@ -107,7 +115,11 @@ public class LoggerAspect {
         long time = interval.interval();
         // 执行后打印结果
         if (print) {
-            log.info(LOG_AFTER_FORMAT, time, methodName, format ? R.toJsonPrettyStr(result) : R.toJsonStr(result));
+            log.info(
+                    LOG_AFTER_FORMAT,
+                    time,
+                    methodName,
+                    format ? R.toJsonPrettyStr(result) : R.toJsonStr(result));
         }
         // 日志存储
         Singleton.get(storage, operation, methodName, newArgs, time).record(result);

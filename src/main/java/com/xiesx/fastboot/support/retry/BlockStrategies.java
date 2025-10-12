@@ -14,11 +14,9 @@
 
 package com.xiesx.fastboot.support.retry;
 
-import javax.annotation.concurrent.Immutable;
+import com.google.errorprone.annotations.Immutable;
 
-/**
- * Factory class for {@link BlockStrategy} instances.
- */
+/** Factory class for {@link BlockStrategy} instances. */
 public final class BlockStrategies {
 
     private static final BlockStrategy THREAD_SLEEP_STRATEGY = new ThreadSleepStrategy();

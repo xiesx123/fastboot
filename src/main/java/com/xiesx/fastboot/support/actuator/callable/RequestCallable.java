@@ -1,6 +1,12 @@
 package com.xiesx.fastboot.support.actuator.callable;
 
-import java.util.concurrent.Callable;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.TimeInterval;
+import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.json.JSONUtil;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -10,34 +16,21 @@ import com.xiesx.fastboot.support.actuator.aviator.AviatorManager;
 import com.xiesx.fastboot.support.actuator.model.plan.RequestPlan;
 import com.xiesx.fastboot.support.request.HttpRequests;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.date.TimeInterval;
-import cn.hutool.core.lang.Dict;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
-import cn.hutool.json.JSONUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
-/**
- * @title RequestCallable.java
- * @description
- * @author xiesx
- * @date 2022-11-12 20:03:43
- */
+import java.util.concurrent.Callable;
+
 @Data
 @Log4j2
 @EqualsAndHashCode(callSuper = false)
 public class RequestCallable implements Callable<Dict> {
 
-    @NonNull
-    RequestPlan plan;
+    @NonNull RequestPlan plan;
 
-    @NonNull
-    ActuatorContext context;
+    @NonNull ActuatorContext context;
 
     @Override
     public Dict call() throws Exception {
@@ -53,12 +46,18 @@ public class RequestCallable implements Callable<Dict> {
         }
         // 计时器
         TimeInterval timer = DateUtil.timer();
-        log.debug("{} ===============执行请求{}==============>", context.getTrace(), isInvoke ? "开始" : "忽略");
+        log.debug(
+                "{} ===============执行请求{}==============>",
+                context.getTrace(),
+                isInvoke ? "开始" : "忽略");
         if (isInvoke) {
             log.debug("{} 请求地址 {}", trace, plan.getUrl());
             log.debug("{} 请求参数 {}", trace, R.toJsonStr(plan.params()));
             // 构造请求
-            HttpRequest req = HttpRequest.of(plan.getUrl()).method(plan.getMethod()).timeout(plan.getTimeout());
+            HttpRequest req =
+                    HttpRequest.of(plan.getUrl())
+                            .method(plan.getMethod())
+                            .timeout(plan.getTimeout());
             // 请求重试
             HttpResponse res = HttpRequests.retry(req);
             // 获取结果
@@ -77,7 +76,8 @@ public class RequestCallable implements Callable<Dict> {
             if (!res.isOk() && !plan.ignoreFailure()) {
                 result.set(ActuatorContext.FIELDS.error, R.fail(body));
             } else {
-                throw new RuntimeException(StrUtil.format("{} 调度执行 {} 已终止 {}", trace, R.toJsonStr(json)));
+                throw new RuntimeException(
+                        StrUtil.format("{} 调度执行 {} 已终止 {}", trace, R.toJsonStr(json)));
             }
         } else {
             log.debug("{} 请求忽略 {}", trace, plan.rule());
@@ -85,7 +85,10 @@ public class RequestCallable implements Callable<Dict> {
             result.putIfAbsent(plan.ret(), "ignore");
         }
         log.debug("{} 执行结果 {}", trace, R.toJsonStr(result.getObj(plan.ret())));
-        log.debug("{} ===============执行请求结束==============> 耗时{}ms\r\n", context.getTrace(), timer.intervalMs());
+        log.debug(
+                "{} ===============执行请求结束==============> 耗时{}ms\r\n",
+                context.getTrace(),
+                timer.intervalMs());
         return result;
     }
 }

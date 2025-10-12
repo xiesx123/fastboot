@@ -1,45 +1,42 @@
 package com.xiesx.fastboot.db.jdbc;
 
-import java.util.List;
-import java.util.Map;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.map.MapUtil;
 
-import org.springframework.jdbc.core.namedparam.*;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.lang.Assert;
-import cn.hutool.core.map.MapUtil;
 import lombok.extern.log4j.Log4j2;
 
-/**
- * @title JdbcTemplatePlus.java
- * @description
- * @author xiesx
- * @date 2020-7-21 22:32:10
- */
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+
 @Log4j2
 public class JdbcTemplatePlus {
 
     public static NamedParameterJdbcTemplate get() {
-        NamedParameterJdbcTemplate mNamedParameterJdbcTemplate = SpringHelper.getBean(NamedParameterJdbcTemplate.class);
-        Assert.notNull(mNamedParameterJdbcTemplate, () -> new RunException(RunExc.DBASE, "pom need dependency spring-jdbc"));
+        NamedParameterJdbcTemplate mNamedParameterJdbcTemplate =
+                SpringHelper.getBean(NamedParameterJdbcTemplate.class);
+        Assert.notNull(
+                mNamedParameterJdbcTemplate,
+                () -> new RunException(RunExc.DBASE, "pom need dependency spring-jdbc"));
         return mNamedParameterJdbcTemplate;
     }
 
-    /**
-     * 查询Map
-     *
-     * @param sql
-     * @return
-     */
+    /** 查询Map */
     public static Map<String, Object> queryForMap(String sql) {
         try {
             return get().queryForMap(sql, Maps.newConcurrentMap());
@@ -76,12 +73,7 @@ public class JdbcTemplatePlus {
         }
     }
 
-    /**
-     * 查询List
-     *
-     * @param sql
-     * @return
-     */
+    /** 查询List */
     public static List<Map<String, Object>> queryForList(String sql) {
         try {
             return get().queryForList(sql, Maps.newConcurrentMap());
@@ -118,12 +110,7 @@ public class JdbcTemplatePlus {
         }
     }
 
-    /**
-     * 插入、更新、删除
-     *
-     * @param sql
-     * @return
-     */
+    /** 插入、更新、删除 */
     @Transactional
     public static int update(String sql) {
         try {
@@ -144,12 +131,7 @@ public class JdbcTemplatePlus {
         }
     }
 
-    /**
-     * 插入、更新、删除（批量）
-     *
-     * @param sql
-     * @return
-     */
+    /** 插入、更新、删除（批量） */
     @Transactional
     public static int batchUpdate(String sql, List<?> data) {
         try {
@@ -160,12 +142,7 @@ public class JdbcTemplatePlus {
         }
     }
 
-    /**
-     * 参数填充
-     *
-     * @param obj
-     * @return
-     */
+    /** 参数填充 */
     private static SqlParameterSource parameter(Object obj) {
         if (obj instanceof Map) {
             return new MapSqlParameterSource(Convert.toMap(String.class, Object.class, obj));
@@ -173,24 +150,26 @@ public class JdbcTemplatePlus {
         return new BeanPropertySqlParameterSource(obj);
     }
 
-    /**
-     * 数据填充
-     *
-     * @param map
-     * @return
-     */
+    /** 数据填充 */
     private static <T> T result(Map<String, Object> map, Class<T> cla) {
         if (MapUtil.isEmpty(map)) {
             return null;
         }
-        return JSON.to(cla, new JSONObject(map));
+        return BeanUtil.toBean(
+                map,
+                cla,
+                CopyOptions.create()
+                        .setIgnoreCase(true)
+                        .setIgnoreError(true)
+                        .setIgnoreNullValue(true));
     }
 
     private static <T> List<T> result(List<Map<String, Object>> list, Class<T> cla) {
         List<T> data = Lists.newArrayList();
-        list.forEach(map -> {
-            data.add(result(map, cla));
-        });
+        list.forEach(
+                map -> {
+                    data.add(result(map, cla));
+                });
         return data;
     }
 }

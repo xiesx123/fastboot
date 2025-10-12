@@ -2,18 +2,7 @@ package com.xiesx.fastboot.db.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import cn.hutool.core.util.StrUtil;
 
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
@@ -26,23 +15,26 @@ import com.xiesx.fastboot.app.log.LogRecord;
 import com.xiesx.fastboot.app.log.LogRecordRepository;
 import com.xiesx.fastboot.app.log.QLogRecord;
 
-import cn.hutool.core.util.StrUtil;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
-/**
- * @title TestSelect.java
- * @description
- * @author xiesx
- * @date 2021-06-06 23:21:06
- */
+import java.util.List;
+
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class)
 public class TestSelect {
 
-    @Autowired
-    JPAQueryFactory mJpaQuery;
+    @Autowired JPAQueryFactory mJpaQuery;
 
-    @Autowired
-    LogRecordRepository mLogRecordRepository;
+    @Autowired LogRecordRepository mLogRecordRepository;
 
     QLogRecord ql = QLogRecord.logRecord;
 
@@ -51,7 +43,12 @@ public class TestSelect {
         // 零时数据
         List<LogRecord> logRecords = Lists.newArrayList();
         for (int i = 1; i <= 10; i++) {
-            logRecords.add(new LogRecord().setIp(StrUtil.format("127.0.{}.1", i)).setMethod("test").setType("GET").setTime(10L));
+            logRecords.add(
+                    new LogRecord()
+                            .setIp(StrUtil.format("127.0.{}.1", i))
+                            .setMethod("test")
+                            .setType("GET")
+                            .setTime(10L));
         }
         // 先删除
         mLogRecordRepository.delete(ql.id.isNotNull());
@@ -84,10 +81,12 @@ public class TestSelect {
     @Order(14)
     public void select_query_dsl() {
         // 构造查询
-        List<LogRecord> list = mJpaQuery.selectFrom(ql)// 查表
-                .where(ql.type.eq("GET"), ql.ip.eq("127.0.1.1"))// 条件
-                .orderBy(ql.createDate.desc()) // 排序
-                .fetch();
+        List<LogRecord> list =
+                mJpaQuery
+                        .selectFrom(ql) // 查表
+                        .where(ql.type.eq("GET"), ql.ip.eq("127.0.1.1")) // 条件
+                        .orderBy(ql.createDate.desc()) // 排序
+                        .fetch();
         // 验证
         assertEquals(list.size(), 1);
     }
@@ -96,7 +95,9 @@ public class TestSelect {
     @Order(21)
     public void page_jpa() {
         // 分页
-        Page<LogRecord> data = mLogRecordRepository.findAll(ql.type.likeIgnoreCase("%GET%"), PageRequest.of(0, 10));
+        Page<LogRecord> data =
+                mLogRecordRepository.findAll(
+                        ql.type.likeIgnoreCase("%GET%"), PageRequest.of(0, 10));
         // 验证
         assertEquals(data.getContent().size(), 10);
     }

@@ -8,51 +8,30 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;
 
-/**
- * @title Result.java
- * @description
- * @author xiesx
- * @date 2021-04-06 09:59:48
- */
 @Data
 @Accessors(fluent = true)
 @FieldNameConstants(innerTypeName = "FIELDS")
 public class Result implements IStatus {
 
-    /**
-     * 状态
-     */
+    /** 状态 */
     @JSONField(ordinal = 1)
     public Integer code;
 
-    /**
-     * 消息
-     */
+    /** 消息 */
     @JSONField(ordinal = 2)
     public String msg;
 
-    /**
-     * 数据
-     */
+    /** 数据 */
     @JSONField(ordinal = 3)
     public Object data;
 
-    /**
-     * trace
-     *
-     * @return
-     */
+    /** 链路跟踪 */
     @JSONField(ordinal = 5)
     public String getTrace() {
         return TLogContext.getTraceId();
     }
 
-
-    /**
-     * 当前状态
-     *
-     * @return
-     */
+    /** 当前状态 */
     @JSONField(ordinal = 6)
     public boolean getStatus() {
         return isSuccess();
@@ -60,42 +39,26 @@ public class Result implements IStatus {
 
     // =========================
 
-    /**
-     * 判断是否成功
-     *
-     * @return
-     */
+    /** 判断是否成功 */
     @Override
     @JSONField(serialize = false)
     public boolean isSuccess() {
         return code == R.SUCCESS_CODE;
     }
 
-    /**
-     * 判断是否失败
-     *
-     * @return
-     */
+    /** 判断是否失败 */
     @JSONField(serialize = false)
     public boolean isFail() {
         return code == R.FAIL_CODE;
     }
 
-    /**
-     * 判断是否异常
-     *
-     * @return
-     */
+    /** 判断是否异常 */
     @JSONField(serialize = false)
     public boolean isError() {
         return code == R.ERROR_CODE;
     }
 
-    /**
-     * 判断是否重试失败
-     *
-     * @return
-     */
+    /** 判断是否重试失败 */
     @JSONField(serialize = false)
     public boolean isReTry() {
         return code == R.RETRY_CODE;

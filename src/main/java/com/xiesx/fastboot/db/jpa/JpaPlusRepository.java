@@ -1,6 +1,8 @@
 package com.xiesx.fastboot.db.jpa;
 
-import java.util.List;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.jpa.impl.JPAQuery;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,19 +10,11 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryImplementati
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.jpa.impl.JPAQuery;
+import java.util.List;
 
-/**
- * @title JpaPlusRepository.java
- * @description {@link querydsl}
- *              http://www.querydsl.com/static/querydsl/latest/reference/html/index.html
- * @author xiesx
- * @date 2021-04-04 18:04:00
- */
 @NoRepositoryBean
-public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T, ID>, QuerydslPredicateExecutor<T> {
+public interface JpaPlusRepository<T, ID>
+        extends JpaRepositoryImplementation<T, ID>, QuerydslPredicateExecutor<T> {
 
     T findOne(ID id);
 
@@ -30,13 +24,13 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     <S extends T> S insertOrUpdate(S entity);
 
-    <S extends T> List<S> insertOrUpdate(@SuppressWarnings("unchecked") S... entities);
+    <S extends T> List<S> insertOrUpdate(S... entities);
 
     <S extends T> List<S> insertOrUpdate(List<S> entities);
 
     int insertOrUpdateRow(T entity);
 
-    int insertOrUpdateRow(@SuppressWarnings("unchecked") T... entities);
+    int insertOrUpdateRow(T... entities);
 
     int insertOrUpdateRow(List<T> entities);
 
@@ -45,7 +39,7 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     int update(T entity, Predicate... predicate);
 
-    int delete(@SuppressWarnings("unchecked") ID... ids);
+    int delete(ID... ids);
 
     int delete(List<ID> ids);
 

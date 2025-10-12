@@ -1,0 +1,68 @@
+{
+  // 外部格式化工具（https://github.com/google/google-java-format/releases）
+  "google-java-format.executable-path": "D:/Develop Files/Java/google-java-format.exe",
+  // 格式化风格（Google 官方风格或 AOSP 风格）
+  "google-java-format.style": "aosp",
+  // 额外参数（如跳过导入排序等）
+  "google-java-format.extra-args": "",
+  // 格式化文件类型
+  "folderformatter.extensions": ["md", "java", "json"],
+  // java
+  "[java]": {
+    // 使用 Google-Java-Format 作为 Java 格式化器
+    "editor.defaultFormatter": "Google-Java-Format-Plugin.google-java-format-plugin",
+    // 保存时格式化
+    "editor.formatOnSave": true
+  },
+  // 启用空指针分析
+  "java.compile.nullAnalysis.mode": "automatic",
+  // 自动重新加载项目构建配置
+  "java.configuration.updateBuildConfiguration": "automatic",
+  // 包显示视图（IntelliJ 风格）
+  "java.dependency.packagePresentation": "hierarchical",
+  // 当项目 构建失败 时，是否仍然继续启动调试
+  "java.debug.settings.onBuildFailureProceed": true,
+  // 是否显示非Java资源
+  "java.project.explorer.showNonJavaResources": true,
+  // 字体大小
+  "editor.fontSize": 14,
+  // 隐藏文件夹
+  "files.exclude": {
+    // STS
+    "**/*.settings": true,
+    ".classpath": true,
+    ".factorypath": true,
+    ".project": true,
+    "target": true,
+    "src": false,
+    // 文档
+    "docs/**/.vitepress/cache": true,
+    "docs/**/dist": true,
+    "docs/node_modules": true,
+    "docs/package*.json": true,
+    // 项目
+    ".github": true,
+    "docs": false,
+    "logs": true,
+    "LICENSE": true,
+    "README*": true
+  },
+  // 默认终端
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  // 终端配置（设置 UTF-8 编码）
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "args": [
+        "-NoLogo",
+        "-NoExit",
+        "-Command",
+        "chcp 65001; $env:TERM='xterm-256color'; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8"
+      ]
+    },
+    "Command Prompt": {
+      "path": "C:\\Windows\\System32\\cmd.exe",
+      "args": ["/K", "chcp 65001"]
+    }
+  }
+}

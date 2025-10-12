@@ -1,6 +1,9 @@
 package com.xiesx.fastboot.support.actuator;
 
-import java.util.List;
+import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.lang.Dict;
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ObjectUtil;
 
 import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Lists;
@@ -15,37 +18,25 @@ import com.xiesx.fastboot.support.actuator.model.ActuatorEnv;
 import com.xiesx.fastboot.support.actuator.model.ActuatorPlan;
 import com.xiesx.fastboot.support.async.Async;
 
-import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.lang.Dict;
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.ObjectUtil;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-/**
- * @title ProcessorDispatch.java
- * @description 任务调度
- * @author xiesx
- * @date 2021-07-30 16:49:28
- */
+import java.util.List;
+
 @Log4j2
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class ActuatorDispatch {
 
-    @NonNull
-    ActuatorEnv env;
+    @NonNull ActuatorEnv env;
 
-    @NonNull
-    ActuatorPlan model;
+    @NonNull ActuatorPlan model;
 
     IActuatorCallback<? super Dict> callback;
 
-    /**
-     * 调度执行
-     */
+    /** 调度执行 */
     public void execute() {
         // 当前环境
         ActuatorContext context = ActuatorContext.builder().trace(env.getTrace()).build();
@@ -85,7 +76,9 @@ public class ActuatorDispatch {
         log.debug(">>>调度结束 {}\r\n", env.getTrace());
     }
 
-    private ListenableFuture<Dict> future(Integer idx, JSON plans, ListenableFuture<Dict> input, ActuatorContext current) {
-        return Futures.transform(input, new PlanPerformFunction(idx, plans, current), Async.getExecutorService());
+    private ListenableFuture<Dict> future(
+            Integer idx, JSON plans, ListenableFuture<Dict> input, ActuatorContext current) {
+        return Futures.transform(
+                input, new PlanPerformFunction(idx, plans, current), Async.getExecutorService());
     }
 }
