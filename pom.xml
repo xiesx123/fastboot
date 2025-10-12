@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 	<name>FastBoot</name>
 	<description>Fast, efficient, and lightweight Spring Boot development for rapid application building</description>
-	<url>https://github.com/xiesx123/FastBoot</url>
+	<url>https://github.com/xiesx123/fastboot</url>
 
 	<licenses>
         <license>
@@ -27,13 +27,13 @@
 	</developers>
 
 	<scm>
-		<url>https://github.com/xiesx123/FastBoot.git</url>
-		<connection>scm:git:https://github.com/xiesx123/FastBoot.git</connection>
+		<url>https://github.com/xiesx123/fastboot.git</url>
+		<connection>scm:git:https://github.com/xiesx123/fastboot.git</connection>
 	</scm>
 
 	<issueManagement>
         <system>Github Issue</system>
-        <url>https://github.com/xiesx123/FastBoot/issues/issues</url>
+        <url>https://github.com/xiesx123/fastboot/issues/issues</url>
     </issueManagement>
 
 	<properties>

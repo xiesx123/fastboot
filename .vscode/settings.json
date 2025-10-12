@@ -38,7 +38,7 @@
     "**/.vitepress/cache": true,
     "**/node_modules": true,
     "**/dist": true,
-    "package-lock.json": true,
+    "**/package-lock.json": true,
     // FastBoot
     ".github": true,
     "docs": false,

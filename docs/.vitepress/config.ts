@@ -118,7 +118,7 @@ export default defineConfig({
           // },
         ],
         socialLinks: [
-          { icon: "github", link: "https://github.com/xiesx123/FastBoot" },
+          { icon: "github", link: "https://github.com/xiesx123/fastboot" },
         ],
       },
     },
