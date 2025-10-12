@@ -23,7 +23,7 @@
   // 当项目 构建失败 时，是否仍然继续启动调试
   "java.debug.settings.onBuildFailureProceed": true,
   // 是否显示非Java资源
-  "java.project.explorer.showNonJavaResources": true,
+  "java.project.explorer.showNonJavaResources": false,
   // 字体大小
   "editor.fontSize": 14,
   // 隐藏文件夹

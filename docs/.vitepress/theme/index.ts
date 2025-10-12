@@ -80,7 +80,7 @@ export default {
     const route = useRoute();
 
     // 代码块折叠
-     codeblocksFold({route, frontmatter});
+    codeblocksFold({route, frontmatter});
 
     // 图片预览
     const imageViewerProps = {
