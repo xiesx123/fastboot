@@ -19,5 +19,3 @@ target/
 **/cache/
 **/docs/package-lock.json
 **/docs/package.json
-
-### FastBoot ###

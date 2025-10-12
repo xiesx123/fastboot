@@ -1,10 +1,16 @@
+<div align="center">
+
+<h1 align="center">FastBoot </h1>
+
 快速、高效、轻量级的 Spring Boot 开发，用于快速构建应用程序
 
-### 安装
+</div>
+
+## 安装
 
 [![](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
 
-- 添加 `JitPack` 仓库
+- 添加仓库 `JitPack`
 
 ```xml [pom.xml]
 <repositories>
@@ -14,7 +20,6 @@
   </repository>
 </repositories>
 ```
-
 - 添加依赖
 
 ```xml
@@ -25,7 +30,8 @@
 </dependency>
 ```
 
-[![](https://www.jitpack.io/v/com.gitee.xiesixian/fast-boot.svg)](https://www.jitpack.io/#com.gitee.xiesixian/fast-boot)
+
+## 注解
 
 ```java
 @Configuration
@@ -49,7 +55,7 @@ public class GoCfg {
 }
 ```
 
-### 配置
+## 配置
 
 ```yml
 fastboot:                                 # fastboot
