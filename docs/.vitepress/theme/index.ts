@@ -15,6 +15,8 @@ import "vitepress-plugin-back-to-top/dist/style.css";
 // codeblocks-fold
 import codeblocksFold from 'vitepress-plugin-codeblocks-fold'; 
 import 'vitepress-plugin-codeblocks-fold/style/index.css';
+// analytics
+import googleAnalytics from "vitepress-plugin-google-analytics";
 // group-icons
 import "virtual:group-icons.css";
 // viewer
@@ -36,15 +38,6 @@ export const Theme: ThemeConfig = {
     const { frontmatter } = useData()
     if (frontmatter.value?.layoutClass) {
       props.class = frontmatter.value.layoutClass
-    }
-    // 根据路由 path 动态选择广告组件
-    const getCustomAd = () => {
-      const { page, site } = useData()
-      const base = site.value.base || ''                // 获取站点 base
-      const relativePath = page.value.relativePath || ''
-      const fullPath = base + relativePath              // 拼接完整路径
-      // console.debug(relativePath)
-      return null
     }
     // 注入插槽
     return h(DefaultTheme.Layout, props, {
@@ -77,6 +70,7 @@ export default {
     ctx.app.use(NolebasePagePropertiesPlugin<{progress: number}>() as Plugin, { properties: { 'zh': [{ key: 'wordCount', type: 'dynamic', title: '字数', options: { type: 'wordsCount' } }, { key: 'readingTime', type: 'dynamic', title: '阅读', options: { type: 'readingTime', dateFnsLocaleName: 'zhCN' } }], "en": [{ key: 'wordCount', type: 'dynamic', title: 'Word count', options: { type: 'wordsCount' } }, { key: 'readingTime', type: 'dynamic', title: 'Reading time', options: { type: 'readingTime', dateFnsLocaleName: 'enUS' } }] } }); // 页面属性
     backToTop(); // back-to-top
     enhanceAppWithTabs(ctx.app); //tabs
+    googleAnalytics({ id: "G-K1B7H0K4Z5" }); //analytics
     nprogress(ctx); //nprogress
   },
   setup() {
