@@ -2,13 +2,25 @@
   "configurations": [
     {
       "type": "java",
-      "name": "FastBoot",
+      "name": "dev",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "mainClass": "com.xiesx.fastboot.FastBootApplication",
       "projectName": "fast-boot",
       "envFile": "${workspaceFolder}/.env",
-      "vmArgs": "-Dlog4j.skipJansi=false"
+      "vmArgs": "-Dlog4j.skipJansi=false",
+      "mainClass": "com.xiesx.fastboot.FastBootApplication",
+      "args": "--spring.profiles.active=dev"
+    },
+    {
+      "type": "java",
+      "name": "prod",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "projectName": "fast-boot",
+      "envFile": "${workspaceFolder}/.env",
+      "vmArgs": "-Dlog4j.skipJansi=false",
+      "mainClass": "com.xiesx.fastboot.FastBootApplication",
+      "args": "--spring.profiles.active=prod"
     },
   ]
 }

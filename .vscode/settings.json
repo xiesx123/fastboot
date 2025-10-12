@@ -29,23 +29,20 @@
   // 隐藏文件夹
   "files.exclude": {
     // STS
-    "**/*.settings": true,
+    ".settings": true,
     ".classpath": true,
     ".factorypath": true,
     ".project": true,
     "target": true,
-    "src": false,
-    // 文档
-    "docs/**/.vitepress/cache": true,
-    "docs/**/dist": true,
-    "docs/node_modules": true,
-    "docs/package*.json": true,
-    // 项目
-    ".github": true,
+    // Docs
+    "**/.vitepress/cache": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/*-lock.json": true,
+    // FastBoot
+    ".github": false,
     "docs": false,
-    "logs": true,
-    "LICENSE": true,
-    "README*": true
+    "README*": false
   },
   // 默认终端
   "terminal.integrated.defaultProfile.windows": "PowerShell",
@@ -57,7 +54,7 @@
         "-NoLogo",
         "-NoExit",
         "-Command",
-        "chcp 65001; $env:TERM='xterm-256color'; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8"
+        "chcp 65001; [System.Text.Encoding]::UTF8; [Console]::OutputEncoding"
       ]
     },
     "Command Prompt": {

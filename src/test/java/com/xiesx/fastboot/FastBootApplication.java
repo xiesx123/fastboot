@@ -21,6 +21,6 @@ public class FastBootApplication {
         SpringApplication app = new SpringApplication(FastBootApplication.class);
         app.setBannerMode(Banner.Mode.CONSOLE);
         app.run(args);
-        log.info("Started FastBootApplication Successfully.{}",Version.VERSION);
+        log.info("Started FastBootApplication Successfully");
     }
 }

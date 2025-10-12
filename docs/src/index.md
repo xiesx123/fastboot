@@ -3,7 +3,7 @@ layout: home
 
 hero:
   name: FastBoot
-  tagline: 🚀Flexible, efficient, and scalable to unleash creative potential
+  tagline: 🚀 快速、高效、轻量级的 Spring Boot 开发
   # image:
   #   dark: /favicon.svg
   #   light: /favicon.svg
@@ -14,15 +14,9 @@ hero:
       link: /quick-start.md
 
 features:
-  - icon: 🎬
-    title: Content Creation
-    details: Boost efficiency and unleash creative potential
-  - icon: 🌍
-    title: Multilingual Translation/Dubbing
-    details: Localize content and publish across languages
-  - icon: ✂️
-    title: Professional Post-Editing
-    details: Export professional drafts to assist post-production
-  - icon: ⚙️
-    title: Independent Deployment
-    details: Flexible deployment to ensure data security
+  - title: 快速
+    details: xx
+  - title: 高效
+    details: xxx
+  - title: 轻量
+    details: x

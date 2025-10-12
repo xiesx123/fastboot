@@ -16,7 +16,7 @@ import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 
 // refer https://vitepress.dev/reference/site-config for details
 export default defineConfig({
-  base: "/FastBoot/",
+  base: "/fastboot/",
   srcDir: "src",
   assetsDir: "static",
   lang: "zh-CN",
@@ -25,12 +25,12 @@ export default defineConfig({
   cleanUrls: true,
   metaChunk: true,
   sitemap: {
-    hostname: 'https://xiesx123.github.io/FastBoot/'
+    hostname: 'https://xiesx123.github.io/fastboot/'
   },
   head: [
-    ["link", { rel: "icon", type: "image/x-icon", href: "/FastBoot/favicon.ico" }],
-    ["link", { rel: "preload stylesheet", href: "/FastBoot/style.Avo_XaLv.css" }],
-    ["script", { src: "/FastBoot/js/iconify-icon.min.js" }],
+    ["link", { rel: "icon", type: "image/x-icon", href: "/fastboot/favicon.ico" }],
+    ["link", { rel: "preload stylesheet", href: "/fastboot/style.Avo_XaLv.css" }],
+    ["script", { src: "/fastboot/js/iconify-icon.min.js" }],
     ["meta", { property: "og:type", content: "website" }],
     ["meta", { property: "og:site_name", content: "FastBoot" }],
   ],
@@ -45,7 +45,7 @@ export default defineConfig({
       lang: "zh",
       description: "灵活、高效、可扩展，专属视频剪辑配音工具箱，释放创作潜力.",
       head: [
-        ["meta", { property: "og:image", content: "https://xiesx123.github.io/FastBoot/images/FastBoot_zh.png" }],
+        ["meta", { property: "og:image", content: "https://xiesx123.github.io/fastboot/images/FastBoot_zh.png" }],
       ],
       themeConfig: {
         darkModeSwitchLabel: "切换主题",
@@ -98,6 +98,7 @@ export default defineConfig({
           },
           {
             text: "拓展",
+            collapsed: true,
             items: [
               { text: "异步增强", link: "/support/async" },
               { text: "网络请求", link: "/support/request" },

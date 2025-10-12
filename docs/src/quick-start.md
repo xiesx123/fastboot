@@ -1,34 +1,57 @@
 # FastBoot
 
-FastBoot 为创作者而生，专注于解决 视频翻译、跨语言配音、个性化配音 等内容创作流程中的高频重复工作。只需提供素材，将自动完成语音识别、翻译、合成、草稿导出，提升创作效率，释放创作潜力 ！
+🚀 快速、高效、轻量级的 Spring Boot 开发，用于快速构建应用程序
 
-### 安装
+[![](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
+
+## 安装
+
+- 添加仓库 `JitPack`
+
+```xml [pom.xml]
+<repositories>
+  <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+  </repository>
+</repositories>
+```
+
+- 添加依赖
 
 ```xml
 <dependency>
-  <groupId>com.xiesx.fastboot</groupId>
-  <artifactId>fastboot</artifactId>
-  <version>master-SNAPSHOT</version>
-<dependency>
+    <groupId>com.github.xiesx123</groupId>
+    <artifactId>fastBoot</artifactId>
+    <version>master-SNAPSHOT</version>
+</dependency>
 ```
 
-### 使用
+## 注解
 
 ```java
 @Configuration
-@GoEnableBody       // 启用统一返回
-@GoEnableEventBus   // 启用事件总线
-@GoEnableException  // 启用全局异常
-@GoEnableFastJson   // 启用数据转换
-@GoEnableLimiter    // 启用请求限流
-@GoEnableLogger     // 启用日志打印
-@GoEnableSigner     // 启用数据签名
-@GoEnableToken      // 启用令牌认证
+// 启用统一返回
+@GoEnableBody
+// 启用事件总线
+@GoEnableEventBus
+// 启用全局异常
+@GoEnableException
+// 启用FastJson
+@GoEnableFastJson
+// 启用请求限流
+@GoEnableLimiter
+// 启用日志打印
+@GoEnableLogger
+// 启用数据签名
+@GoEnableSigner
+// 启用令牌认证
+@GoEnableToken
 public class GoCfg {
 }
 ```
 
-### 配置
+## 配置
 
 ```yml
 fastboot:                                 # fastboot
@@ -66,7 +89,7 @@ fastboot:                                 # fastboot
     - /js/**
 ```
 
-### 启动
+## 启动
 
 ```log
 ______        _  ______             _   

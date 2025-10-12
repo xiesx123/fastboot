@@ -10,7 +10,6 @@
 > - 方法内代码冗余
 
 `Hibernate-validator`应运而生，与持久层框架`Hibernate`没有什么关系，是对`JSR 380（Bean Validation 2.0）`、`JSR 303（Bean Validation 1.0）`规范的实现；部分注解如下：
-![](images/validation.png)
 
 ## 依赖
 
@@ -301,7 +300,6 @@ private String json;
 
 ### 对象校验
 
-![](images/bean.png)
 上述 1.2.3 都是接收数据时校验 VO，那么在业务对象 BO，持久对象 PO 这类如何去校验？
 
 ```java

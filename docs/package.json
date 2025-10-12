@@ -4,9 +4,7 @@
   "scripts": {
     "docs:dev": "vitepress dev --host",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview",
-    "docs:release": "tsx .vitepress/release.ts",
-    "docs:release2": "vitepress build --base /FastBoot/ --outDir \"D:/Projects/fast/FastBoot/docs\" && xcopy /E /I /Y \"images\" \"D:/Projects/fast/FastBoot/docs/images\""
+    "docs:preview": "vitepress preview"
   },
   "devDependencies": {
     "@types/node": "^20.19.0",
