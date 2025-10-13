@@ -15,6 +15,8 @@ import "vitepress-plugin-back-to-top/dist/style.css";
 // codeblocks-fold
 import codeblocksFold from 'vitepress-plugin-codeblocks-fold'; 
 import 'vitepress-plugin-codeblocks-fold/style/index.css';
+// giscus
+import giscusTalk from "vitepress-plugin-comment-with-giscus";
 // analytics
 import googleAnalytics from "vitepress-plugin-google-analytics";
 // group-icons
@@ -81,6 +83,20 @@ export default {
 
     // 代码块折叠
     codeblocksFold({route, frontmatter});
+
+    // 评论系统 -> https://giscus.app/zh-CN
+    const giscusProps = {
+      repo: "xiesx123/fastboot",
+      repoId: "R_kgDOP7hWOw",
+      category: "Docs", // default: `General`
+      categoryId: "DIC_kwDOP7hWO84CwlMV",
+      mapping: "title", // default: `pathname`
+      inputPosition: "top", // default: `top`
+      lang: "zh-CN", // default: `zh-CN`
+      lightTheme: isDark.value ? "transparent_light" : "light", // default: `light`
+      darkTheme: isDark.value ? "dark" : "transparent_dark", // default: `transparent_dark`
+    };
+    giscusTalk(giscusProps, { frontmatter, route }, true);
 
     // 图片预览
     const imageViewerProps = {

@@ -71,7 +71,7 @@ fastboot:                                 # fastboot
         - PrettyFormat                    # 格式化输出
         - WriteNullBooleanAsFalse         # 布尔类型如果为null，输出为false，而不是null
         - WriteEnumUsingToString          # 枚举类型用ToString输出
-      reader-features:
+      reader-features:                    # 反序列化
         - UseDoubleForDecimals
     desensitize: true                     # 启用脱敏
         ...

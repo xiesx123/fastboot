@@ -39,7 +39,8 @@
     "**/node_modules": true,
     "**/dist": true,
     "**/package-lock.json": true,
-    // FastBoot
+    // fastboot
+    "**/java-templates": true,
     ".github": true,
     "docs": false,
     "README*": false

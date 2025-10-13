@@ -1,5 +1,7 @@
 // vitepress
 import { defineConfig, PageData } from 'vitepress'
+// page meta
+import { transformHeadMeta } from '@nolebase/vitepress-plugin-meta/vitepress'
 // page properties
 import {PageProperties, PagePropertiesMarkdownSection } from '@nolebase/vitepress-plugin-page-properties/vite'
 const links: { url: string; lastmod: PageData['lastUpdated'], changefreq: string }[] = []
@@ -38,15 +40,17 @@ export default defineConfig({
     logo: { src: "/favicon.ico" },
     search: { provider: "local" },
     outline: "deep",
+    lastUpdated: {text: 'Updated at'},
+    editLink: {
+      pattern: 'https://github.com/xiesx123/fastboot/edit/master/docs/src/:path',
+      text: '在 GitHub 上编辑此页'
+    },
   },
   locales: {
     root: {
       label: "简体中文",
       lang: "zh",
-      description: "灵活、高效、可扩展，专属视频剪辑配音工具箱，释放创作潜力.",
-      head: [
-        ["meta", { property: "og:image", content: "https://xiesx123.github.io/fastboot/images/FastBoot_zh.png" }],
-      ],
+      description: "快速、高效、轻量级的 Spring Boot 开发，用于快速构建应用程序",
       themeConfig: {
         darkModeSwitchLabel: "切换主题",
         outlineTitle: "页面目录",
@@ -161,5 +165,13 @@ export default defineConfig({
         lastmod: pageData.lastUpdated,
         changefreq: 'always',
       })
+  },
+  async transformHead(context) {
+    let head = [...context.head]
+    const returnedHead = await transformHeadMeta()(head, context)
+    // console.log(returnedHead);
+    if (typeof returnedHead !== 'undefined')
+      head = returnedHead
+    return head
   },
 });
