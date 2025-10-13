@@ -4,13 +4,14 @@
 
 <h1 align="center">FastBoot</h1>
 
+[![Jitpack](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
+
 🚀 快速、高效、轻量级的 Spring Boot 开发，用于快速构建应用程序
 
 </div>
 
 ## 安装
 
-[![](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
 
 - 添加仓库 `JitPack`
 
