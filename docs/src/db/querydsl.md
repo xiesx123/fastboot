@@ -1,6 +1,6 @@
 # QueryDsl
 
-> 本框架主要封装常用操作，更多见[官方文档](http://www.querydsl.com/static/querydsl/latest/reference/html/index.html)
+ **灵活、高效** 面向对象查询的方式，像写代码一样写 SQL，可靠地构建动态查询
 
 ## 依赖
 
@@ -274,21 +274,16 @@ public void aggregate() {
 @Test
 @Order(5)
 public void tuple() {
-    List<LogRecordPojo> logRecords = mJPAQuery
-                    .select(
-                            Projections.constructor(
-                                    LogRecordPojo.class,
-                                    ql.id,
-                                    ql.ip,
-                                    ql.type,
-                                    ql.time,
-                                    ql.time.min(),
-                                    ql.time.max())
-                    )
-                    .from(ql)
-                    .groupBy(ql.type)
-                    .fetch();
-    assertEquals(logRecords.size(), 2);
+    ConstructorExpression<LogRecordPojo> expression =Projections.constructor(LogRecordPojo.class,
+                    ql.id,
+                    ql.ip,
+                    ql.type,
+                    ql.time,
+                    ql.time.min(),
+                    ql.time.max());
+    List<LogRecordPojo> list = mJPAQuery.select(expression).from(ql).groupBy(ql.type).fetch();
+    assertEquals(list.size(), 2);
+}
 }
 ```
 

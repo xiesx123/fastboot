@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 
 import com.google.common.collect.Lists;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -100,21 +101,17 @@ public class QueryDslTest {
     @Test
     @Order(5)
     public void tuple() {
-        List<LogRecordPojo> logRecords =
-                mJPAQuery
-                        .select(
-                                Projections.constructor(
-                                        LogRecordPojo.class,
-                                        ql.id,
-                                        ql.ip,
-                                        ql.type,
-                                        ql.time,
-                                        ql.time.min(),
-                                        ql.time.max()))
-                        .from(ql)
-                        .groupBy(ql.type)
-                        .fetch();
-        assertEquals(logRecords.size(), 2);
+        ConstructorExpression<LogRecordPojo> expression =
+                Projections.constructor(
+                        LogRecordPojo.class,
+                        ql.id,
+                        ql.ip,
+                        ql.type,
+                        ql.time,
+                        ql.time.min(),
+                        ql.time.max());
+        List<LogRecordPojo> list = mJPAQuery.select(expression).from(ql).groupBy(ql.type).fetch();
+        assertEquals(list.size(), 2);
     }
 
     @Test

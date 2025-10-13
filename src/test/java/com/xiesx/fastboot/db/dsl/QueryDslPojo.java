@@ -17,10 +17,6 @@ public class QueryDslPojo {
 
         public String ip;
 
-        public String type;
-
-        public Long time;
-
         public Long min;
 
         public Long max;

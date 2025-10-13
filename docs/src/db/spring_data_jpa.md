@@ -1,21 +1,34 @@
 # Spring Data Jpa
 
-Spring Data Jpa 的主要类
+基于 **JPA** 标准，并提供了一套简洁的 API 和注解，封装 JPA 的复杂性，简化了数据层的开发工作，使开发人员能够更专注于业务逻辑的实现
 
-- 7 个 Repository 接口：
+```java
+public interface LogRecordRepository extends JpaPlusRepository<LogRecord, Long> {
 
-  - 1.Repository
-  - 2.CrudRepository
-  - 3.PagingAndSortingRepository
-  - 4.QueryByExampleExecutor
-  - 5.JpaRepository
-  - 6.JpaSpeccificationExecutor
-  - 7.QueryDslPredicateExecutor
+    // 方式1: 默认生成所有属性名查询
+    List<LogRecord> findByType(String type);
 
-- 2 个实现类：
-  - 1.SimpleJpaRepository
-  - 2.QueryDslJpaRepository
+    // 方式2: 内置属性表达式（如：And、Equals.....）
+    List<LogRecord> findByTypeAndIp(String type, String ip);
 
+    // 方式3: 内置注解查询、事务更新
+    @Query(value = "select * from xx_log where time >= ?1", nativeQuery = true)
+    List<LogRecord> findByTimeout(Long time);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update xx_log set time=?1 , where id =?2 ", nativeQuery = true)
+    int updateTime(Long time, Long id);
+
+    // 方式4: 内置QueryDsl
+    Iterable<LogRecord> findAll(Predicate predicate);
+}
+```
+
+## 注解
+
+`@EnableJpaPlusRepositories` 
+ 
 ## 依赖
 
 ```xml
@@ -27,7 +40,7 @@ Spring Data Jpa 的主要类
 
 ## 扩展
 
-扩展了`JpaRepositoryImplementation`、`QuerydslPredicateExecutor` 在保留原方法基础上新增对`QueryDsl`的支持
+`JpaPlusRepository` 整合了 `JpaRepositoryImplementation`、`QuerydslPredicateExecutor` 在保留原方法基础上，扩展了对`QueryDsl`的支持
 
 ```java
 public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T, ID>, QuerydslPredicateExecutor<T> {
@@ -50,9 +63,6 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     int insertOrUpdateRow(List<T> entities);
 
-    @Deprecated
-    int insert(T entity);
-
     int update(T entity, Predicate... predicate);
 
     int delete(ID... ids);
@@ -60,20 +70,20 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
     int delete(List<ID> ids);
 
     int delete(Predicate... predicate);
+
+    ...
 }
 ```
 
 ## 使用
 
-启用注解 `@EnableJpaPlusRepositories`
-
 ```java
 @EnableJpaPlusRepositories
 @SpringBootApplication
-public class GotvApplication extends SpringBootServletInitializer {
+public class FastBootApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(GotvApplication.class);
+        SpringApplication app = new SpringApplication(FastBootApplication.class);
         app.run(args);
     }
 }
@@ -181,4 +191,36 @@ public Result delete(BaseVo base) {
 }
 ```
 
-上述只是部分示例，拓展后常规方法共 48 个
+## 其他
+
+### 属性表达式
+
+| 关键字           | 示例                          | 片段                                                    |
+| ---------------- | ----------------------------- | ------------------------------------------------------- |
+| And              | findByNameAndAge              | where x.name = ?1 and x.age = ?2                        |
+| Or               | findByNameOrAge               | where x.name = ?1 or x.age = ?2                         |
+| Is               | findByNameIs                  | where x.name = ?1                                       |
+| Equals           | findByNameEquals              | where x.name = ?1                                       |
+| Between          | findByStartDateBetween        | where x.startDate between ?1 and ?2                     |
+| LessThan         | findByAgeLessThan             | where x.age < ?1                                        |
+| LessThanEqual    | findByAgeLessThanEqual        | where x.age ⇐ ?1                                        |
+| GreaterThan      | findByAgeGreaterThan          | where x.age > ?1                                        |
+| GreaterThanEqual | findByAgeGreaterThanEqual     | where x.age >= ?1                                       |
+| After            | findByStartDateAfter          | where x.startDate > ?1                                  |
+| Before           | findByStartDateBefore         | where x.startDate < ?1                                  |
+| IsNull           | findByAgeIsNull               | where x.age is null                                     |
+| IsNotNull        | findByAgeIsNotNull            | where x.age not null                                    |
+| NotNull          | findByAgeNotNull              | where x.age not null                                    |
+| Like             | findByNameLike                | where x.name like ?1                                    |
+| NotLike          | findByNameNotLike             | where x.name not like ?1                                |
+| StartingWith     | findByNameStartingWith        | where x.name like ?1 (parameter bound with appended %)  |
+| EndingWith       | findByNameEndingWith          | where x.name like ?1 (parameter bound with prepended %) |
+| Containing       | findByNameContaining          | where x.name like ?1 (parameter bound wrapped in %)     |
+| OrderBy          | findByAgeOrderByNameDesc      | where x.age = ?1 order by x.name desc                   |
+| Not              | findByNameNot                 | where x.name <> ?1                                      |
+| In               | findByAgeIn(Collectionages)   | where x.age in ?1                                       |
+| NotIn            | findByAgeNotIn(Collectionage) | where x.age not in ?1                                   |
+| TRUE             | findByActiveTrue()            | where x.active = true                                   |
+| FALSE            | findByActiveFalse()           | where x.active = false                                  |
+| IgnoreCase       | findByNameIgnoreCase          | where UPPER(x.name) = UPPER(?1)                         |
+

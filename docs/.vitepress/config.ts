@@ -93,10 +93,9 @@ export default defineConfig({
           },
           {
             text: "持久化",
-            link: "/db/index",
             items: [
               { text: "QueryDsl", link: "/db/querydsl" },
-              { text: "Spring Data Jdbc", link: "/db/spring_jdbc" },
+              { text: "Spring Data Jdbc", link: "/db/spring_data_jdbc" },
               { text: "Spring Data Jpa", link: "/db/spring_data_jpa" },
             ],
           },
