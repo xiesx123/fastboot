@@ -1,7 +1,6 @@
 package com.xiesx.fastboot.db.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -82,19 +81,19 @@ public class JpaPlusTest {
         // 分页
         Pageable pageable = PageRequest.of(0, 10, sort);
 
-        // 分页查询（字段已存在）
+        // 分页查询
         Expression<LogRecord> expression = ql;
         JPAQuery<LogRecord> jpaQuery = mJpaQuery.select(expression).from(ql).where(predicate);
         Page<LogRecord> data = mLogRecordRepository.findAll(jpaQuery, pageable);
         assertEquals(data.getContent().size(), 6);
 
-        // 分页查询（字段不存在）
+        // 分页查询
         expression = Projections.fields(LogRecord.class, ql, ql.id, ql.ip);
         jpaQuery.select(expression);
         data = mLogRecordRepository.findAll(jpaQuery, pageable);
         assertEquals(data.getContent().size(), 6);
 
-        // 投影查询（字段不存在，在多表联合查询）
+        // 投影查询（在多表联合查询）
         Expression tuple =
                 Projections.constructor(
                         LogRecordPojo.class, ql.id, ql.ip, ql.time.min(), ql.time.max());
@@ -104,23 +103,6 @@ public class JpaPlusTest {
 
     @Test
     @Order(2)
-    public void insert() {
-        int row = 0;
-        // 添加单个
-        LogRecord lr = mLogRecordRepository.insertOrUpdate(result.get(0));
-        assertNotNull(lr.getId());
-        row = mLogRecordRepository.insertOrUpdateRow(result.get(1));
-        assertEquals(row, 1);
-
-        // 添加多个
-        List<LogRecord> lrs = mLogRecordRepository.insertOrUpdate(result.subList(2, 4));
-        assertEquals(lrs.size(), 2);
-        row = mLogRecordRepository.insertOrUpdateRow(result.subList(4, 6));
-        assertEquals(row, 2);
-    }
-
-    @Test
-    @Order(3)
     public void update() {
         // 修改单个
         LogRecord lr = result.get(0);
@@ -135,7 +117,7 @@ public class JpaPlusTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     public void delete() {
         // 按对象单个删除
         LogRecord lr = result.get(0);

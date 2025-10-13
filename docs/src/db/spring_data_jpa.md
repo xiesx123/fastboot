@@ -27,8 +27,8 @@ public interface LogRecordRepository extends JpaPlusRepository<LogRecord, Long> 
 
 ## 注解
 
-`@EnableJpaPlusRepositories` 
- 
+`@EnableJpaPlusRepositories`
+
 ## 依赖
 
 ```xml
@@ -91,33 +91,50 @@ public class FastBootApplication extends SpringBootServletInitializer {
 
 ## 示例
 
-### 单表分页
+### 查询
+
+#### 单表
 
 ```java
-@RequestMapping(value = "page")
-public PaginationResult page(BaseVo base, PaginationVo page) {
-   // 对象
-   QSLog qsLog = QSLog.sLog;
-   // 条件
-   Predicate predicate = qsLog.id.isNotNull();
-   if (ObjectUtils.isNotEmpty(base.getKeyword())) {
-       Predicate p1 = qsLog.id.like("%" + base.getKeyword() + "%");
-       Predicate p2 = qsLog.method.likeIgnoreCase("%" + base.getKeyword() + "%");
-       Predicate p3 = qsLog.type.likeIgnoreCase("%" + base.getKeyword() + "%");
-       predicate = ExpressionUtils.and(predicate, ExpressionUtils.anyOf(p1, p2, p3));
-   }
-   // 排序
-   Sort sort = Sort.by(Direction.ASC, SLog.FIELDS.createDate);
-   // 分页
-   Pageable pageable = PageRequest.of(page.getPage(), page.getLimit(), sort);
-   // 查询
-   Page<SLog> data = mSLogRepository.findAll(predicate, pageable);
-   // 构造
-   return PaginationHelper.create(data);
+Test
+@Order(1)
+public void select() {
+    // 条件
+    String keyword = "GET";
+    Predicate predicate = ql.id.isNotNull();
+    if (ObjectUtil.isNotEmpty(keyword)) {
+        Predicate p1 = ql.id.like("%" + keyword + "%");
+        Predicate p2 = ql.method.likeIgnoreCase("%" + keyword + "%");
+        Predicate p3 = ql.type.likeIgnoreCase("%" + keyword + "%");
+        predicate = ExpressionUtils.and(predicate, ExpressionUtils.anyOf(p1, p2, p3));
+    }
+    // 排序
+    Sort sort = Sort.by(Direction.ASC, LogRecord.FIELDS.createDate);
+    // 分页
+    Pageable pageable = PageRequest.of(0, 10, sort);
+
+    // 分页查询
+    Expression<LogRecord> expression = ql;
+    JPAQuery<LogRecord> jpaQuery = mJpaQuery.select(expression).from(ql).where(predicate);
+    Page<LogRecord> data = mLogRecordRepository.findAll(jpaQuery, pageable);
+    assertEquals(data.getContent().size(), 6);
+
+    // 分页查询
+    expression = Projections.fields(LogRecord.class, ql, ql.id, ql.ip);
+    jpaQuery.select(expression);
+    data = mLogRecordRepository.findAll(jpaQuery, pageable);
+    assertEquals(data.getContent().size(), 6);
+
+    // 投影查询（多表联合查询）
+    Expression tuple =
+            Projections.constructor(
+                    LogRecordPojo.class, ql.id, ql.ip, ql.time.min(), ql.time.max());
+    jpaQuery.select(tuple);
+    assertEquals(jpaQuery.fetch().size(), 1);
 }
 ```
 
-### 多表分页
+#### 多表
 
 ```java
 @RequestMapping(value = "page")
@@ -156,38 +173,42 @@ public PaginationResult page(BaseVo base, PaginationVo page) {
 }
 ```
 
-### 添加
+### 更新插入
 
 ```java
-@RequestMapping(value = "save")
-@Transactional
-public Result save(BaseVo base) {
-   User user = new User();
-   int row = mUserRepository.insertOrUpdate(user);
-   return (row >= 1) ? R.succ() : R.fail();
-}
-```
+@Test
+@Order(2)
+public void update() {
+    // 修改单个
+    LogRecord lr = result.get(0);
+    lr.setTime(100L);
+    LogRecord lr2 = mLogRecordRepository.insertOrUpdate(lr);
+    assertEquals(lr2.getTime(), 100);
 
-### 修改
-
-```java
-@RequestMapping(value = "update")
-@Transactional
-public Result update(BaseVo base) {
-   QUser qUser = QUser.user;
-   int row = (int) mJPAQueryFactory.update(qUser).set(qUser.isEnable, 1).where(qUser.id.in(base.getIds()));
-   return (row >= 1) ? R.succ() : R.fail();
+    // 修改多个
+    lr.setTime(101L);
+    List<LogRecord> lrs = mLogRecordRepository.insertOrUpdate(Lists.newArrayList(lr));
+    assertEquals(lrs.get(0).getTime(), 101);
 }
 ```
 
 ### 删除
 
 ```java
-@RequestMapping(value = "delete")
-@Transactional
-public Result delete(BaseVo base) {
-   int row = mUserRepository.delete(base.getIds());
-   return (row >= 1) ? R.succ() : R.fail();
+@Test
+@Order(3)
+public void delete() {
+    // 按对象单个删除
+    LogRecord lr = result.get(0);
+    mLogRecordRepository.delete(lr);
+
+    // 按条件批量删除
+    int row = mLogRecordRepository.delete(ql.type.eq("GET"));
+    assertEquals(row, 6);
+
+    // 按主键批量删除
+    row = mLogRecordRepository.delete(result.stream().map(LogRecord::getId).toList());
+    assertEquals(row, 13);
 }
 ```
 
@@ -223,4 +244,3 @@ public Result delete(BaseVo base) {
 | TRUE             | findByActiveTrue()            | where x.active = true                                   |
 | FALSE            | findByActiveFalse()           | where x.active = false                                  |
 | IgnoreCase       | findByNameIgnoreCase          | where UPPER(x.name) = UPPER(?1)                         |
-
