@@ -22,7 +22,7 @@
 ```xml
 <dependency>
     <groupId>com.github.xiesx123</groupId>
-    <artifactId>fastBoot</artifactId>
+    <artifactId>fastboot</artifactId>
     <version>master-SNAPSHOT</version>
 </dependency>
 ```
