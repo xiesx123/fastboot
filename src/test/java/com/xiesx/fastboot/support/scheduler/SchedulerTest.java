@@ -21,19 +21,17 @@ import java.util.Map;
 @SpringBootTest(classes = FastBootApplication.class)
 public class SchedulerTest {
 
-    String job = "job_test";
-
-    String job_group = "job_group _test";
-
     @Test
     @Order(1)
-    public void scheduler_simple() {
+    public void simple() {
 
-        Map<String, String> map = Maps.newConcurrentMap();
-        map.put("key", "time");
+        String job = TimeJob.class.getSimpleName();
+        Map<String, Object> map = Maps.newConcurrentMap();
+        map.put(TimeJob.FIELDS.job, "simple");
+        map.put(TimeJob.FIELDS.time, "time");
 
         log.info("【添加A】每1秒输出一次 ");
-        ScheduleHelper.addJob(job, job_group, TimeJob.class, 1, 0, map);
+        ScheduleHelper.addJob(TimeJob.class, 1, 0, map);
         ThreadUtil.sleep(2000);
 
         log.info("【修改A】每2秒输出一次");
@@ -45,16 +43,16 @@ public class SchedulerTest {
         ThreadUtil.sleep(1000);
 
         log.info("【添加B】每3秒输出一次");
-        ScheduleHelper.addJob(job, job_group, TimeJob.class, 3, 0, map);
+        ScheduleHelper.addJob(TimeJob.class, 3, 0, map);
         ThreadUtil.sleep(6000);
 
         log.info("【暂停B】");
         ScheduleHelper.pauseJob(job);
-        ThreadUtil.sleep(1000);
+        ThreadUtil.sleep(2000);
 
         log.info("【恢复B】");
         ScheduleHelper.resumeJob(job);
-        ThreadUtil.sleep(1000);
+        ThreadUtil.sleep(2000);
 
         log.info("【移除B】.");
         ScheduleHelper.deleteJob(job);
@@ -63,13 +61,15 @@ public class SchedulerTest {
 
     @Test
     @Order(2)
-    public void scheduler_cron() {
+    public void cron() {
 
-        Map<String, String> map = Maps.newConcurrentMap();
-        map.put("key", "time");
+        String job = TimeJob.class.getSimpleName();
+        Map<String, Object> map = Maps.newConcurrentMap();
+        map.put(TimeJob.FIELDS.job, "cron");
+        map.put(TimeJob.FIELDS.time, "time");
 
         log.info("【添加A】每1秒输出一次 ");
-        ScheduleHelper.addJob(job, job_group, TimeJob.class, "0/1 * * * * ?", map);
+        ScheduleHelper.addJob(TimeJob.class, "0/1 * * * * ?", map);
         ThreadUtil.sleep(2000);
 
         log.info("【修改A】每2秒输出一次");
@@ -81,16 +81,16 @@ public class SchedulerTest {
         ThreadUtil.sleep(1000);
 
         log.info("【添加B】每3秒输出一次");
-        ScheduleHelper.addJob(job, job_group, TimeJob.class, "*/3 * * * * ?", map);
+        ScheduleHelper.addJob(TimeJob.class, "*/3 * * * * ?", map);
         ThreadUtil.sleep(6000);
 
         log.info("【暂停B】");
         ScheduleHelper.pauseJob(job);
-        ThreadUtil.sleep(1000);
+        ThreadUtil.sleep(2000);
 
         log.info("【恢复B】");
         ScheduleHelper.resumeJob(job);
-        ThreadUtil.sleep(1000);
+        ThreadUtil.sleep(2000);
 
         log.info("【移除B】");
         ScheduleHelper.deleteJob(job);

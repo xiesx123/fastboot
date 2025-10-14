@@ -35,7 +35,7 @@ public class ScheduleHelper {
 
     // ============================
 
-    /** 增加 SimpleJob */
+    /** 增加 simpleJob */
     public static void addJob(Class<? extends Job> cls, int interval, int repeat) {
         // 创建
         addJob(cls.getSimpleName(), JOB_GROUP_NAME, cls, interval, repeat, null);
@@ -72,7 +72,7 @@ public class ScheduleHelper {
         createJob(job, group, cls, simpleBuilder, data);
     }
 
-    /** 增加 CronJob */
+    /** 增加 cronJob */
     public static void addJob(Class<? extends Job> cls, String cron) {
         addJob(cls.getSimpleName(), JOB_GROUP_NAME, cls, cron, null);
     }

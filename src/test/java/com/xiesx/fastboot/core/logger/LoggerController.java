@@ -6,7 +6,7 @@ import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 import com.xiesx.fastboot.support.async.Async;
-import com.xiesx.fastboot.support.async.AsyncTest.MyCallable;
+import com.xiesx.fastboot.support.async.AsyncTest.MyFutureCallable;
 import com.xiesx.fastboot.support.async.AsyncTest.MyRunnable;
 import com.yomahub.tlog.context.TLogContext;
 
@@ -46,7 +46,7 @@ public class LoggerController {
     @GetMapping("mdc")
     public Result mdc() {
         Async.submit(new MyRunnable("1"));
-        Async.submit(new MyCallable("3"));
+        Async.submit(new MyFutureCallable("3"));
         return R.succ(TLogContext.getTraceId());
     }
 }

@@ -2,12 +2,10 @@ package com.xiesx.fastboot.db.jpa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -68,36 +66,29 @@ public class JpaPlusTest {
     @Order(1)
     public void select() {
         // 条件
-        String keyword = "GET";
-        Predicate predicate = ql.id.isNotNull();
-        if (ObjectUtil.isNotEmpty(keyword)) {
-            Predicate p1 = ql.id.like("%" + keyword + "%");
-            Predicate p2 = ql.method.likeIgnoreCase("%" + keyword + "%");
-            Predicate p3 = ql.type.likeIgnoreCase("%" + keyword + "%");
-            predicate = ExpressionUtils.and(predicate, ExpressionUtils.anyOf(p1, p2, p3));
-        }
+        Predicate predicate = ql.type.likeIgnoreCase("%GET%");
         // 排序
         Sort sort = Sort.by(Direction.ASC, LogRecord.FIELDS.createDate);
         // 分页
         Pageable pageable = PageRequest.of(0, 10, sort);
 
         // 分页查询
-        Expression<LogRecord> expression = ql;
-        JPAQuery<LogRecord> jpaQuery = mJpaQuery.select(expression).from(ql).where(predicate);
+        Expression<LogRecord> exp = ql;
+        JPAQuery<LogRecord> jpaQuery = mJpaQuery.select(exp).from(ql).where(predicate);
         Page<LogRecord> data = mLogRecordRepository.findAll(jpaQuery, pageable);
         assertEquals(data.getContent().size(), 6);
 
         // 分页查询
-        expression = Projections.fields(LogRecord.class, ql, ql.id, ql.ip);
-        jpaQuery.select(expression);
+        Expression<LogRecord> expFields = Projections.fields(LogRecord.class, ql, ql.id, ql.ip);
+        jpaQuery.select(expFields);
         data = mLogRecordRepository.findAll(jpaQuery, pageable);
         assertEquals(data.getContent().size(), 6);
 
         // 投影查询（在多表联合查询）
-        Expression tuple =
+        Expression expTuple =
                 Projections.constructor(
                         LogRecordPojo.class, ql.id, ql.ip, ql.time.min(), ql.time.max());
-        jpaQuery.select(tuple);
+        jpaQuery.select(expTuple);
         assertEquals(jpaQuery.fetch().size(), 1);
     }
 

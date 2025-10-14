@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.xiesx.fastboot.support.retry;
+package com.xiesx.fastboot.support.retryer;
 
 import java.util.concurrent.ExecutionException;
 

@@ -5,10 +5,10 @@
 ```java
 public interface LogRecordRepository extends JpaPlusRepository<LogRecord, Long> {
 
-    // 方式1: 默认生成所有属性名查询
+    // 方式1: 属性名
     List<LogRecord> findByType(String type);
 
-    // 方式2: 内置属性表达式（如：And、Equals.....）
+    // 方式2: 属性表达式（如：And、Equals.....）
     List<LogRecord> findByTypeAndIp(String type, String ip);
 
     // 方式3: 内置注解查询、事务更新
@@ -20,7 +20,7 @@ public interface LogRecordRepository extends JpaPlusRepository<LogRecord, Long> 
     @Query(value = "update xx_log set time=?1 , where id =?2 ", nativeQuery = true)
     int updateTime(Long time, Long id);
 
-    // 方式4: 内置QueryDsl
+    // 方式4: QueryDsl
     Iterable<LogRecord> findAll(Predicate predicate);
 }
 ```
@@ -91,6 +91,8 @@ public class FastBootApplication extends SpringBootServletInitializer {
 
 ## 示例
 
+`QLogRecord ql = QLogRecord.logRecord;`
+
 ### 查询
 
 #### 单表
@@ -100,36 +102,27 @@ Test
 @Order(1)
 public void select() {
     // 条件
-    String keyword = "GET";
-    Predicate predicate = ql.id.isNotNull();
-    if (ObjectUtil.isNotEmpty(keyword)) {
-        Predicate p1 = ql.id.like("%" + keyword + "%");
-        Predicate p2 = ql.method.likeIgnoreCase("%" + keyword + "%");
-        Predicate p3 = ql.type.likeIgnoreCase("%" + keyword + "%");
-        predicate = ExpressionUtils.and(predicate, ExpressionUtils.anyOf(p1, p2, p3));
-    }
+    Predicate predicate = ql.type.likeIgnoreCase("%GET%");
     // 排序
     Sort sort = Sort.by(Direction.ASC, LogRecord.FIELDS.createDate);
     // 分页
     Pageable pageable = PageRequest.of(0, 10, sort);
 
     // 分页查询
-    Expression<LogRecord> expression = ql;
-    JPAQuery<LogRecord> jpaQuery = mJpaQuery.select(expression).from(ql).where(predicate);
+    Expression<LogRecord> exp = ql;
+    JPAQuery<LogRecord> jpaQuery = mJpaQuery.select(exp).from(ql).where(predicate);
     Page<LogRecord> data = mLogRecordRepository.findAll(jpaQuery, pageable);
     assertEquals(data.getContent().size(), 6);
 
     // 分页查询
-    expression = Projections.fields(LogRecord.class, ql, ql.id, ql.ip);
-    jpaQuery.select(expression);
+    Expression<LogRecord> expFields = Projections.fields(LogRecord.class, ql, ql.id, ql.ip);
+    jpaQuery.select(expFields);
     data = mLogRecordRepository.findAll(jpaQuery, pageable);
     assertEquals(data.getContent().size(), 6);
 
     // 投影查询（多表联合查询）
-    Expression tuple =
-            Projections.constructor(
-                    LogRecordPojo.class, ql.id, ql.ip, ql.time.min(), ql.time.max());
-    jpaQuery.select(tuple);
+    Expression expTuple =Projections.constructor(LogRecordPojo.class, ql.id, ql.ip, ql.time.min(), ql.time.max());
+    jpaQuery.select(expTuple);
     assertEquals(jpaQuery.fetch().size(), 1);
 }
 ```
@@ -173,7 +166,7 @@ public PaginationResult page(BaseVo base, PaginationVo page) {
 }
 ```
 
-### 更新插入
+### 更新
 
 ```java
 @Test

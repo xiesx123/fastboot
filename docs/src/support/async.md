@@ -1,6 +1,8 @@
 # 异步增强
 
-- 使用 `ListenableFuture` 监听任务，当完成时可以得到计算结果
+基于 [`Guava`](https://github.com/google/guava) 、[`transmittable-thread-local`](https://github.com/alibaba/transmittable-thread-local) 扩展
+
+- 使用 `ListenableFuture` 监听任务，任务完成时可以得到计算结果
 - 线程池等复用线程的场景下无法正确传递线程本地变量的问题
 
 ## 示例
@@ -18,8 +20,8 @@ public static class MyRunnable implements Runnable {
 
     @Override
     public void run() {
-        // 这里进行耗时异步运算
-        log.info(result);
+        // 耗时运算
+        ThreadUtil.safeSleep(2000);
     }
 }
 ```
@@ -39,25 +41,27 @@ public static class MyFutureCallback implements FutureCallback<Result> {
 }
 ```
 
-```java [MyTask.java]
+```java [MyFutureCallable.java]
 @AllArgsConstructor
-public static class MyTask extends DefaultTask<Result> {
+public static class MyFutureCallable extends AsyncFutureCallback<Result> {
 
     public String keyword;
 
     @Override
     public Result call() throws Exception {
-        // 这里进行耗时异步运算
+        log.info(keyword);
+        // 耗时运算
+        ThreadUtil.safeSleep(2000);
         return R.succ(keyword);
     }
 
     @Override
-    public void onSuccess(Result result) {
-        log.info(result.getMsg());
+    public void onSuccess(@Nullable Result result) {
+        log.info(result.msg());
     }
 
     @Override
-    public void onFailure(Throwable t) {
+    public void onFailure(@Nullable Throwable t) {
         log.info(t.getMessage());
     }
 }
@@ -65,55 +69,65 @@ public static class MyTask extends DefaultTask<Result> {
 
 :::
 
+### 基础
+
 ```java
 @Test
-public void executor() throws InterruptedException, ExecutionException {
-    // 执行任务，不监听结果
-    ExecutorHelper.submit(new MyRunnable("1"));
-
-    // 执行任务，监听结果1
-    ExecutorHelper.submit(new Callable<Result>() {
-
-        @Override
-        public Result call() throws Exception {
-            // 这里进行耗时异步运算
-            return R.succ("2");
-        }
-
-    }, new MyFutureCallback());
-
-    // 执行任务，监听结果2
-    ExecutorHelper.submit(new MyTask("3"));
-
-    // 执行任务
-    ListenableFuture<String> future1 = ExecutorHelper.submit(() -> "4");
-    // 处理结果
-    ListenableFuture<String> future2 = Futures.transform(future1, new Function<String, String>() {
-
-        @Override
-        public String apply(String input) {
-            return input + " transform";
-        }
-    }, MoreExecutors.directExecutor());
-    // 监听结果
-    Futures.addCallback(future2, new FutureCallback<String>() {
-
-        @Override
-        public void onSuccess(@Nullable String result) {
-            log.info(result);
-        }
-
-        @Override
-        public void onFailure(Throwable t) {
-            log.info(t.getMessage());
-        }
-    }, MoreExecutors.directExecutor());
+@Order(1)
+public void executor() {
+    // 执行任务,不监听
+    Async.submit(new MyRunnable("1"));
+    // 执行任务,监听结果
+    Async.submit(new MyFutureCallable("2"));
+    Async.submit(new MyFutureCallable("3"), new MyFutureCallback());
+    Async.submit(() -> R.succ("4"), new MyFutureCallback());
 }
 ```
 
 ```log
-[FastBoot][ INFO][08-22 16:24:49]-->[pool-2-thread-1: 2411][run(ExecutorHelperTest.java:64)] | - 1
-[FastBoot][ INFO][08-22 16:24:49]-->[main: 2421][onSuccess(ExecutorHelperTest.java:72)] | - 2
-[FastBoot][ INFO][08-22 16:24:49]-->[pool-2-thread-1: 2426][onSuccess(ExecutorHelperTest.java:94)] | - 3
-[FastBoot][ INFO][08-22 16:24:49]-->[main: 2432][onSuccess(ExecutorHelperTest.java:43)] | - 4 transform
+2025-10-14 15:18:41 INFO fastboot:3944 AsyncTest.java:39 - 1
+2025-10-14 15:18:41 INFO fastboot:3944 AsyncTest.java:65 - 2
+2025-10-14 15:18:41 INFO fastboot:3945 AsyncTest.java:65 - 3
+2025-10-14 15:18:41 INFO fastboot:3946 AsyncTest.java:49 - 4
+```
+
+### 转换
+
+```java
+@Test
+@Order(2)
+public void transform() {
+    // 初始任务
+    ListenableFuture<Result> future1 = Async.submit(() -> R.succ(4));
+
+    // 处理任务
+    ListenableFuture<Integer> future2 =
+            Futures.transform(
+                    future1,
+                    input -> {
+                        return input.isSuccess() ? Convert.toInt(input.data(), 0) + 1 : 0;
+                    },
+                    MoreExecutors.directExecutor());
+
+    // 监听结果
+    Futures.addCallback(
+            future2,
+            new FutureCallback<Integer>() {
+
+                @Override
+                public void onSuccess(@Nullable Integer result) {
+                    log.info(result);
+                }
+
+                @Override
+                public void onFailure(@Nullable Throwable t) {
+                    log.info(t.getMessage());
+                }
+            },
+            Async.getExecutorService());
+}
+```
+
+```log
+2025-10-14 15:47:15 INFO fastboot:3854 AsyncTest.java:113 - 5
 ```

@@ -44,7 +44,7 @@
 </build>
 ```
 
-配置后，新建实体类为`LogRecord`，会自动生成`QLogRecord`，支持手动生成（已测试）
+配置后，新建实体类为`LogRecord`，会自动生成`QLogRecord`，支持手动编写（已测试）
 
 ::: code-group
 

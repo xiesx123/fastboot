@@ -6,10 +6,10 @@ import cn.hutool.http.HttpResponse;
 import com.google.common.base.Predicate;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
-import com.xiesx.fastboot.support.retry.Attempt;
-import com.xiesx.fastboot.support.retry.RetryException;
-import com.xiesx.fastboot.support.retry.RetryListener;
-import com.xiesx.fastboot.support.retry.Retryer;
+import com.xiesx.fastboot.support.retryer.Attempt;
+import com.xiesx.fastboot.support.retryer.RetryException;
+import com.xiesx.fastboot.support.retryer.RetryListener;
+import com.xiesx.fastboot.support.retryer.Retryer;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -44,13 +44,17 @@ public class HttpRetryer {
                         if (attempt.getExceptionCause().getCause() instanceof RunException) {
                             RunException runException =
                                     (RunException) attempt.getExceptionCause().getCause();
-                            log.trace(
-                                    "exception cause by:{} {}",
+                            log.warn(
+                                    "retry:{} delay:{} exception cause by:{}",
+                                    number,
+                                    delay,
                                     runException.getStatus(),
                                     runException.getMessage());
                         } else {
-                            log.trace(
-                                    "exception cause by:{}",
+                            log.warn(
+                                    "retry:{} delay:{} exception cause by:{}",
+                                    number,
+                                    delay,
                                     attempt.getExceptionCause().toString());
                         }
                     } else if (attempt.hasResult()) {
@@ -58,12 +62,12 @@ public class HttpRetryer {
                             V result = attempt.get();
                             if (result instanceof HttpResponse) {
                                 log.trace(
-                                        "retry number:{} error:{} result:{} code:{} delay:{}",
+                                        "retry:{} delay:{} error:{} result:{} code:{}",
                                         number,
+                                        delay,
                                         isError,
                                         isResult,
-                                        ((HttpResponse) result).getStatus(),
-                                        delay);
+                                        ((HttpResponse) result).getStatus());
                             }
                         } catch (ExecutionException e) {
                             log.error("result exception:{}", e.getCause().toString());

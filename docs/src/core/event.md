@@ -31,9 +31,9 @@ public class SimpleEvent {
 public class SimpleEventHandler extends EventAdapter<SimpleEvent> {
 
     @Override
-    public boolean process(SimpleEvent e) throws InterruptedException {
+    public boolean process(SimpleEvent e) {
         log.debug("==================== 收到【{}】事件 ===================", e.getName());
-        TimeUnit.SECONDS.sleep(2);
+        ThreadUtil.safeSleep(2000);
         log.debug("==================== 结束【{}】事件 ===================", e.getName());
         return true;
     }

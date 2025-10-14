@@ -1,70 +1,103 @@
 # 网络请求
 
-请求网络重试
+基于 [`Hutool`](https://www.hutool.cn/docs/#/http/%E6%A6%82%E8%BF%B0) 扩展，优雅的对网络异常进行重试
 
 ## 示例
+
+重试 `3` 次，间隔 `1` 秒、限制 `2`秒
+
+```java
+public static final String URL = "https://front-gateway.mtime.cn/ticket/schedule/showing/movies.api?locationId=561";
+```
 
 ### 默认
 
 ```java
 @Test
-public void http1() {
+@Order(1)
+public void request() {
     // 构造请求
-    RequestBuilder req = Requests.post(url).params(Parameter.of("k1", "v1"));
+    HttpRequest request = HttpRequest.get(URL);
     // 请求重试
-    RawResponse response = RequestsHelper.retry(req);
-    // 获取结果
-    TestRetryResponse result = response.readToJson(TestRetryResponse.class);
+    HttpResponse response = HttpRequests.retry(request);
+    // 解析结果
+    Object lid = R.eval(response.body(), "$.data.lid");
+    // 验证结果
+    assertEquals(lid, 561);
 }
 ```
 
-### 自定义
+```java
+@GetMapping("request")
+public Result request() {
+    // 构造请求
+    HttpRequest request = HttpRequest.get(URL);
+    // 请求重试
+    HttpResponse response = HttpRequests.retry(request);
+    // 解析结果
+    Object lid = R.eval(response.body(), "$.data.lid");
+    return R.succ(Dict.create().set("lid", lid));
+}
+```
+
+### 重试器
 
 ```java
 @Test
-public void http2() {
+@Order(2)
+public void custom() {
     // 构造请求
-    RequestBuilder builder = HttpHelper.post(url).params(Parameter.of("k1", "v1"));
-    // 构造重试（见下章）
-    Retryer<RawResponse> retryer = RetryerBuilder.<RawResponse>newBuilder().build();
-    // 请求
-    RawResponse response = HttpHelper.retry(builder, retryer);
-    // 获取结果
-    TestRetryResponse result = response.readToJson(TestRetryResponse.class);
+    HttpRequest request = HttpRequest.get(URL);
+    // 自定义重试器
+    Retryer<HttpResponse> retry = RetryerBuilder.<HttpResponse>newBuilder()
+                    // 重试条件
+                    // 1: 当请求异常时重试
+                    .retryIfException()
+                    // 2: 状态码范围在200~299内
+                    .retryIfResult(response -> !response.isOk())
+                    // 等待策略：请求间隔1s
+                    .withWaitStrategy(WaitStrategies.fixedWait(1, TimeUnit.SECONDS))
+                    // 停止策略：尝试请求3次
+                    .withStopStrategy(StopStrategies.stopAfterAttempt(3))
+                    // 时间限制：请求限制2s
+                    .withAttemptTimeLimiter(AttemptTimeLimiters.fixedTimeLimit(2, TimeUnit.SECONDS))
+                    // 重试监听
+                    .withRetryListener(HttpRetryer.reRetryListener)
+                    .build();
+    // 请求重试
+    HttpResponse response = HttpRequests.retry(request, retry);
+    // 解析结果
+    Object lid = R.eval(response.body(), "$.data.lid");
+    // 验证结果
+    assertEquals(lid, 561);
 }
 ```
 
-### 重试验证
-
-这里默认重试了 3 次，每次等 1 秒
-
-```
-[FastBoot][ WARN][08-11 14:09:15]-->[http-nio-9090-exec-9:201147][onRetry(HttpRetryer.java:76)] | - onRetry number:1 error:false result:true statusCode:404 delay:78
-[FastBoot][ WARN][08-11 14:09:16]-->[http-nio-9090-exec-9:202222][onRetry(HttpRetryer.java:76)] | - onRetry number:2 error:false result:true statusCode:404 delay:1153
-[FastBoot][ WARN][08-11 14:09:17]-->[http-nio-9090-exec-9:203302][onRetry(HttpRetryer.java:76)] | - onRetry number:3 error:false result:true statusCode:404 delay:2234
-[FastBoot][ERROR][08-11 14:09:17]-->[http-nio-9090-exec-9:203303][runException(GlobalExceptionAdvice.java:134)] | - runException ......
-com.xiesx.FastBoot.core.exception.RunException: 请求错误:http retry error
-	at com.xiesx.FastBoot.support.request.HttpRetryer.retry(HttpRetryer.java:92) ~[classes/:?]
+```log
+2025-10-14 16:45:40 WARN http-nio-8080-exec-1:393215 HttpRetryer.java:54 - retry:1 delay:2013 exception cause by:java.util.concurrent.TimeoutException
+2025-10-14 16:45:43 WARN http-nio-8080-exec-1:396245 HttpRetryer.java:54 - retry:2 delay:5042 exception cause by:java.util.concurrent.TimeoutException
+2025-10-14 16:45:47 WARN http-nio-8080-exec-1:399270 HttpRetryer.java:54 - retry:3 delay:8068 exception cause by:java.util.concurrent.TimeoutException
 ```
 
-#### 重试成功
+#### 成功
 
-```
+```json
 {
-	"code":0,
-	"msg": "success",
-	"data":{
-	},
-	"success":true
+  "code": 0,
+  "msg": "success",
+  "data": {
+    "lid": 561
+  },
+  "status": true
 }
 ```
 
-#### 重试失败
+#### 失败
 
-```
+```json
 {
-    "code": 2000,
-    "msg": "请求失败:http retry error",
-    "success": false
+  "code": 2000,
+  "msg": "Request Failed: http retry error",
+  "status": false
 }
 ```

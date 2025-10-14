@@ -4,7 +4,7 @@ import cn.hutool.http.HttpInterceptor;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 
-import com.xiesx.fastboot.support.retry.*;
+import com.xiesx.fastboot.support.retryer.*;
 import com.yomahub.tlog.hutoolhttp.TLogHutoolhttpInterceptor;
 
 import org.jspecify.annotations.Nullable;

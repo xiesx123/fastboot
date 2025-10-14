@@ -82,7 +82,7 @@ export default {
     const route = useRoute();
 
     // 代码块折叠
-    codeblocksFold({route, frontmatter});
+    codeblocksFold({ route, frontmatter }, false, 820);
 
     // 评论系统 -> https://giscus.app/zh-CN
     const giscusProps = {

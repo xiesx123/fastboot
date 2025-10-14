@@ -20,7 +20,6 @@ import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
 export default defineConfig({
   base: "/fastboot/",
   srcDir: "src",
-  assetsDir: "static",
   lang: "zh-CN",
   appearance: "dark",
   title: "FastBoot",
@@ -31,7 +30,7 @@ export default defineConfig({
   },
   head: [
     ["link", { rel: "icon", type: "image/x-icon", href: "/fastboot/favicon.ico" }],
-    ["link", { rel: "preload stylesheet", href: "/fastboot/style.Avo_XaLv.css" }],
+    /* ["link", { rel: "preload stylesheet", href: "/fastboot/style.Avo_XaLv.css" }], */
     ["script", { src: "/fastboot/js/iconify-icon.min.js" }],
     ["meta", { property: "og:type", content: "website" }],
     ["meta", { property: "og:site_name", content: "FastBoot" }],
@@ -105,7 +104,7 @@ export default defineConfig({
             items: [
               { text: "异步增强", link: "/support/async" },
               { text: "网络请求", link: "/support/request" },
-              { text: "重试机制", link: "/support/retry" },
+              { text: "重试机制", link: "/support/retryer" },
               { text: "任务调度", link: "/support/scheduler" },
               { text: "数据效验", link: "/support/validate" },
             ],
@@ -168,7 +167,6 @@ export default defineConfig({
   async transformHead(context) {
     let head = [...context.head]
     const returnedHead = await transformHeadMeta()(head, context)
-    // console.log(returnedHead);
     if (typeof returnedHead !== 'undefined')
       head = returnedHead
     return head

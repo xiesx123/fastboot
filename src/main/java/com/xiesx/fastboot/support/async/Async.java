@@ -44,8 +44,8 @@ public class Async {
         return les.submit(task);
     }
 
-    public static <T> ListenableFuture<T> submit(@NonNull Callable<T> task) {
-        return les.submit(task);
+    public static <T> ListenableFuture<T> submit(@NonNull Callable<T> callable) {
+        return les.submit(callable);
     }
 
     public static <T> ListenableFuture<T> submit(
@@ -55,22 +55,22 @@ public class Async {
         return future;
     }
 
-    public static <T> ListenableFuture<T> submit(@NonNull AsyncFutureCallback<T> task) {
-        return submit(task, task);
+    public static <T> ListenableFuture<T> submit(@NonNull AsyncFutureCallback<T> callback) {
+        return submit(callback, callback);
     }
 
     /** 批量提交 */
-    public static <T> List<Future<T>> invokeAll(@NonNull List<Callable<T>> tasks) {
+    public static <T> List<Future<T>> invokeAll(@NonNull List<Callable<T>> callables) {
         try {
-            return les.invokeAll(tasks);
+            return les.invokeAll(callables);
         } catch (InterruptedException e) {
             throw new RunException(RunExc.ASYNC, "executor invoke all");
         }
     }
 
-    public static <T> List<Future<T>> invokeAll(@NonNull List<Callable<T>> tasks, int timeout) {
+    public static <T> List<Future<T>> invokeAll(@NonNull List<Callable<T>> callables, int timeout) {
         try {
-            return les.invokeAll(tasks, timeout, TimeUnit.SECONDS);
+            return les.invokeAll(callables, timeout, TimeUnit.SECONDS);
         } catch (Exception e) {
             throw new RunException(RunExc.ASYNC, "executor invoke all");
         }

@@ -14,13 +14,16 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 @FieldNameConstants(innerTypeName = "FIELDS")
 public class TimeJob extends QuartzJobBean {
 
+    public String job;
+
     public String time;
 
     @Override
     public void executeInternal(JobExecutionContext context) throws JobExecutionException {
         JobDataMap map = context.getMergedJobDataMap();
         log.info(
-                "simple job {}，当前任务{}个，正在运行 {}",
+                "{} job {}，当前任务{}个，正在运行 {}",
+                map.getString(TimeJob.FIELDS.job),
                 map.getString(TimeJob.FIELDS.time),
                 ScheduleHelper.queryAllJob().size(),
                 ScheduleHelper.queryRunJob().size());
