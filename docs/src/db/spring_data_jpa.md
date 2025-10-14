@@ -78,13 +78,17 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 ## 使用
 
 ```java
+@Log4j2
+@EnableJpaAuditing
 @EnableJpaPlusRepositories
 @SpringBootApplication
-public class FastBootApplication extends SpringBootServletInitializer {
+public class FastBootApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
         SpringApplication app = new SpringApplication(FastBootApplication.class);
+        app.setBannerMode(Banner.Mode.CONSOLE);
         app.run(args);
+        log.info("Started FastBootApplication Successfully");
     }
 }
 ```

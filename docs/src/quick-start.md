@@ -6,8 +6,7 @@
 
 [![](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
 
-
-- 添加仓库 `JitPack`
+- 添加仓库
 
 ```xml [pom.xml]
 <repositories>
@@ -48,8 +47,12 @@
 @GoEnableSigner
 // 启用令牌认证
 @GoEnableToken
-public class GoCfg {
-}
+public class FastBootCfg {}
+
+
+// 启用持久化增强
+@EnableJpaPlusRepositories
+public class FastBootApplication {}
 ```
 
 ## 配置

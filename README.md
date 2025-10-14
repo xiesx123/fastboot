@@ -4,6 +4,7 @@
 
 <h1 align="center">FastBoot</h1>
 
+[![VitePress](https://img.shields.io/badge/VitePress-Doc-3E63DD?logo=markdown)](https://xiesx123.github.io/fastboot)
 [![Jitpack](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
 
 🚀 快速、高效、轻量级的 Spring Boot 开发，用于快速构建应用程序
@@ -13,7 +14,7 @@
 ## 安装
 
 
-- 添加仓库 `JitPack`
+- 添加仓库
 
 ```xml [pom.xml]
 <repositories>
@@ -54,8 +55,11 @@
 @GoEnableSigner
 // 启用令牌认证
 @GoEnableToken
-public class GoCfg {
-}
+public class FastBootCfg {}
+
+// 启用持久化增强
+@EnableJpaPlusRepositories
+public class FastBootApplication {}
 ```
 
 ## 配置
