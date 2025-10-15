@@ -5,7 +5,6 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONWriter;
 import com.alibaba.fastjson2.filter.Filter;
 import com.alibaba.fastjson2.support.config.FastJsonConfig;
 import com.alibaba.fastjson2.support.spring6.http.converter.FastJsonHttpMessageConverter;
@@ -45,23 +44,29 @@ public class FastJsonCfg implements WebMvcConfigurer {
         if (ObjectUtil.isEmpty(config.getDateFormat())) {
             config.setDateFormat(DatePattern.NORM_DATETIME_PATTERN);
         }
-        // 序列化特性
-        JSONWriter.Feature[] features =
+        // 序列化 Writer ==============================
+        // 特性
+        config.setWriterFeatures(
                 ArrayUtil.addAll(
-                        FastJsonProperties.SERIALIZER_FEATURES, config.getWriterFeatures());
-        config.setWriterFeatures(features);
-        // 序列化注冊
+                        FastJsonProperties.SERIALIZER_FEATURES, config.getWriterFeatures()));
+        // 注冊
         JSON.register(Long.class, ToStringWriter.instance);
         JSON.register(Long.TYPE, ToStringWriter.instance);
         JSON.register(BigInteger.class, ToStringWriter.instance);
-        // 反序列化注冊
-        JSON.register(Date.class, new ToDateReader());
-        // 序列化过滤器
+        // 过滤器
         List<Filter> filters = Lists.newArrayList(config.getWriterFilters());
-        FastContextValueFilter fcv = new FastContextValueFilter();
+        FastContextValueFilter fcv = new FastContextValueFilter(); // 默认过滤器
         fcv.setDesensitize(fastJsonProperties.isDesensitize()); // 是否开启脱敏
-        filters.add(fcv); // 默认过滤器
+        filters.add(fcv);
         config.setWriterFilters(filters.toArray(new Filter[filters.size()]));
+
+        // 序列化特性 Reader ==============================
+        // 反序列化特性
+        config.setReaderFeatures(
+                ArrayUtil.addAll(
+                        FastJsonProperties.DESERIALIZER_FEATURES, config.getReaderFeatures()));
+        // 注冊
+        JSON.register(Date.class, new ToDateReader());
         return config;
     }
 
