@@ -1,18 +1,27 @@
 <div align="center">
 
-<img src="https://xiesx123.github.io/fastboot/favicon.ico" width="80" />
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://xiesx123.github.io/fastboot/spring_light.png" />
+   <source media="(prefers-color-scheme: light)" srcset="https://xiesx123.github.io/fastboot/spring_dark.png" />
+   <img src="https://xiesx123.github.io/fastboot/spring_light.png" width="80" />
+ </picture>
 
 <h1 align="center">FastBoot</h1>
 
+![GitHub Release](https://img.shields.io/github/tag/xiesx123/fastboot.svg?style=flat&label=Release&color=0078D7)
+![Jitpack Month Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fjitpack.io%2Fapi%2Fdownloads%2Fcom.github.xiesx123%2Ffastboot&query=month&suffix=%20month&style=flat&label=Downloads&link=https%3A%2F%2Fjitpack.io%2F%23xiesx123%2Ffastboot)
+![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat&label=License&color=0078D7)
+
+[![Jitpack](https://img.shields.io/badge/JitPack-Latest-46C118?logo=jitpack&logoColor=white)](https://jitpack.io/#xiesx123/fastboot/master-SNAPSHOT)
 [![VitePress](https://img.shields.io/badge/VitePress-Doc-3E63DD?logo=markdown)](https://xiesx123.github.io/fastboot)
-[![Jitpack](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
+[![OpenJDK](https://img.shields.io/badge/OpenJDK-21+-red?logo=openjdk)](https://adoptium.net/zh-CN/temurin/releases?version=21&os=any&arch=any)
+[![Spring](https://img.shields.io/badge/Spring-6.1.0+-6DB33F?logo=spring&logoColor=white)](https://spring.io/)
 
 🚀 快速、高效、轻量级的 Spring Boot 开发，用于快速构建应用程序
 
 </div>
 
 ## 安装
-
 
 - 添加仓库
 
@@ -59,6 +68,7 @@ public class FastBootCfg {}
 
 // 启用持久化增强
 @EnableJpaPlusRepositories
+@SpringBootApplication
 public class FastBootApplication {}
 ```
 

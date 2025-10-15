@@ -13,21 +13,17 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-// 文档生成标识
 @Documented
-// 申明注解的作用位置
 @Target({ANNOTATION_TYPE, FIELD, METHOD, PARAMETER})
-// 运行时机
 @Retention(RUNTIME)
-// 定义对应的校验器,自定义注解必须指定
 @Constraint(validatedBy = {VJsonRule.class})
 // 不能为空
 @NotBlank(message = "{fastboot.empty}")
 public @interface VJson {
 
-    String message() default "{fastboot.json}"; // 错误提示信息默认值，可以使用el表达式。
+    String message() default "{fastboot.json}";
 
-    Class<?>[] groups() default {}; // 约束注解在验证时所属的组别
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {}; // 约束注解的有效负载
+    Class<? extends Payload>[] payload() default {};
 }

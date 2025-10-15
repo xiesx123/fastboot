@@ -30,13 +30,16 @@ export default defineConfig({
   },
   head: [
     ["link", { rel: "icon", type: "image/x-icon", href: "/fastboot/favicon.ico" }],
-    /* ["link", { rel: "preload stylesheet", href: "/fastboot/style.Avo_XaLv.css" }], */
+    ["link", { rel: "preload stylesheet", href: "/fastboot/style.Avo_XaLv.css" }],
     ["script", { src: "/fastboot/js/iconify-icon.min.js" }],
     ["meta", { property: "og:type", content: "website" }],
     ["meta", { property: "og:site_name", content: "FastBoot" }],
   ],
   themeConfig: {
-    logo: { src: "/favicon.ico" },
+    logo: {
+      light: '/spring_light.png',
+      dark: '/spring_dark.png',
+    },
     search: { provider: "local" },
     outline: "deep",
     lastUpdated: {text: 'Updated at'},
@@ -44,6 +47,10 @@ export default defineConfig({
       pattern: 'https://github.com/xiesx123/fastboot/edit/master/docs/src/:path',
       text: '在 GitHub 上编辑此页'
     },
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2020-present xiesx123'
+    }
   },
   locales: {
     root: {
@@ -73,6 +80,16 @@ export default defineConfig({
             },
           },
         },
+        nav: [
+          {
+            text: "使用",
+            items: [
+              { text: "注解", link: "/core/advice" },
+              { text: "持久化", link: "/db/querydsl" },
+              { text: "扩展", link: "/support/async" },
+            ],
+          },
+        ],
         sidebar: [
           {
             text: "快速开始", link: "/quick-start" 
@@ -109,15 +126,6 @@ export default defineConfig({
               { text: "数据效验", link: "/support/validate" },
             ],
           },
-          // {
-          //   text: "实验性",
-          //   items: [
-          //     { text: "执行器", link: "/support/license" },
-          //     { text: "模板标签", link: "/support/taglib" },
-          //     { text: "代码生成", link: "/support/generate" },
-          //     { text: "授权许可", link: "/support/license" },
-          //   ],
-          // },
         ],
         socialLinks: [
           { icon: "github", link: "https://github.com/xiesx123/fastboot" },

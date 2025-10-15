@@ -15,8 +15,8 @@
 
 ```xml
 <dependency>
-	<groupId>org.hibernate.validator</groupId>
-	<artifactId>hibernate-validator</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
 </dependency>
 ```
 

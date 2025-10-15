@@ -4,8 +4,6 @@
 
 ## 安装
 
-[![](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
-
 - 添加仓库
 
 ```xml [pom.xml]
@@ -26,6 +24,8 @@
     <version>master-SNAPSHOT</version>
 </dependency>
 ```
+
+[![](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
 
 ## 注解
 
@@ -52,6 +52,7 @@ public class FastBootCfg {}
 
 // 启用持久化增强
 @EnableJpaPlusRepositories
+@SpringBootApplication
 public class FastBootApplication {}
 ```
 

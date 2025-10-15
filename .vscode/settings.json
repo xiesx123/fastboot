@@ -43,6 +43,7 @@
     "**/java-templates": true,
     ".github": true,
     "docs": false,
+    "LICENSE": true,
     "README*": false
   },
   // 默认终端
