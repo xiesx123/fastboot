@@ -11,10 +11,9 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.log.LogRecord;
-import com.xiesx.fastboot.app.log.LogRecordRepository;
-import com.xiesx.fastboot.app.log.QLogRecord;
-import com.xiesx.fastboot.db.dsl.QueryDslPojo.LogRecordPojo;
+import com.xiesx.fastboot.test.log.LogRecord;
+import com.xiesx.fastboot.test.log.LogRecordRepository;
+import com.xiesx.fastboot.test.log.QLogRecord;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -23,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +34,7 @@ import java.util.List;
 
 @Transactional
 @TestMethodOrder(OrderAnnotation.class)
-@SpringBootTest(classes = FastBootApplication.class)
+@SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class JpaPlusTest {
 
     @Autowired JPAQueryFactory mJpaQuery;
@@ -87,7 +87,11 @@ public class JpaPlusTest {
         // 投影查询（在多表联合查询）
         Expression expTuple =
                 Projections.constructor(
-                        LogRecordPojo.class, ql.id, ql.ip, ql.time.min(), ql.time.max());
+                        JpaPlusPojo.LogRecordPojo.class,
+                        ql.id,
+                        ql.ip,
+                        ql.time.min(),
+                        ql.time.max());
         jpaQuery.select(expTuple);
         assertEquals(jpaQuery.fetch().size(), 1);
     }

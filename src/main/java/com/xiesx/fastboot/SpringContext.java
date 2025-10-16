@@ -47,7 +47,7 @@ public class SpringContext
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         SpringContext.applicationContext = applicationContext;
-        if (ObjectUtil.isNotNull(applicationContext)) {
+        if (ObjectUtil.isNotNull(getApplicationContext())) {
             log.debug("Spring ApplicationContext completed.");
         }
     }
@@ -55,9 +55,9 @@ public class SpringContext
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (event.getApplicationContext().getParent() == null) {
-            serverpath = SystemUtil.getUserInfo().getCurrentDir();
             servername = FileUtil.getName(serverpath);
-            log.info("Startup Server name: {}, path: {}", servername, serverpath);
+            serverpath = SystemUtil.getUserInfo().getCurrentDir();
+            log.info("Startup Server name: {}, path: {}", getServerName(), getServerPath());
             if (checkSchedulerClassExists() && SpringHelper.hasBean(Scheduler.class).isPresent()) {
                 ISchedule job = new SchedulerDecorator();
                 job.init();

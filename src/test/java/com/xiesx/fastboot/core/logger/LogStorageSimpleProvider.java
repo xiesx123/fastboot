@@ -1,10 +1,10 @@
 package com.xiesx.fastboot.core.logger;
 
 import com.xiesx.fastboot.SpringHelper;
-import com.xiesx.fastboot.app.log.LogRecord;
-import com.xiesx.fastboot.app.log.LogRecordRepository;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
+import com.xiesx.fastboot.test.log.LogRecord;
+import com.xiesx.fastboot.test.log.LogRecordRepository;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -20,11 +20,12 @@ public class LogStorageSimpleProvider extends LogStorageProvider {
     @Override
     public void record(Object result) {
         super.record(result);
-        LogRecord logRecord = new LogRecord() 
-                        .setIp(ip) 
-                        .setMethod(method) 
-                        .setType(type) 
-                        .setUrl(uri) 
+        LogRecord logRecord =
+                new LogRecord()
+                        .setIp(ip)
+                        .setMethod(method)
+                        .setType(type)
+                        .setUrl(uri)
                         .setReq(R.toJsonStr(parameters))
                         .setRes(R.toJsonStr(result))
                         .setTime(time);

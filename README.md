@@ -15,7 +15,7 @@
 [![Jitpack](https://img.shields.io/badge/JitPack-Latest-46C118?logo=jitpack&logoColor=white)](https://jitpack.io/#xiesx123/fastboot/master-SNAPSHOT)
 [![VitePress](https://img.shields.io/badge/VitePress-Doc-3E63DD?logo=markdown)](https://xiesx123.github.io/fastboot)
 [![OpenJDK](https://img.shields.io/badge/OpenJDK-21+-red?logo=openjdk)](https://adoptium.net/zh-CN/temurin/releases?version=21&os=any&arch=any)
-[![Spring](https://img.shields.io/badge/Spring-6.1.0+-6DB33F?logo=spring&logoColor=white)](https://spring.io/)
+[![Spring](https://img.shields.io/badge/Spring-3.4.0+-6DB33F?logo=spring&logoColor=white)](https://spring.io/)
 
 🚀 快速、高效、轻量级的 Spring Boot 开发，用于快速构建应用程序
 

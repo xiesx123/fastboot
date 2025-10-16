@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.alibaba.fastjson2.JSON;
 import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.base.BaseResult;
-import com.xiesx.fastboot.app.base.BaseTest;
-import com.xiesx.fastboot.app.mock.MockUser;
+import com.xiesx.fastboot.test.base.BaseResult;
+import com.xiesx.fastboot.test.base.BaseTest;
+import com.xiesx.fastboot.test.mock.MockUser;
 
 import io.restassured.response.Response;
 

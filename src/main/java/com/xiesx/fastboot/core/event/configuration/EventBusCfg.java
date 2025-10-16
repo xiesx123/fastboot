@@ -9,7 +9,6 @@ import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.core.event.EventAdapter;
 import com.xiesx.fastboot.core.event.EventBusHelper;
 
-import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.beans.factory.DisposableBean;
@@ -41,7 +40,7 @@ public class EventBusCfg implements DisposableBean, ApplicationListener<ContextR
     }
 
     @Override
-    public void onApplicationEvent(@NonNull ContextRefreshedEvent event) {
+    public void onApplicationEvent(ContextRefreshedEvent event) {
         if (event.getApplicationContext().getParent() == null) {
             beans.putAll(SpringHelper.getContext().getBeansOfType(EventAdapter.class));
             beans.values()

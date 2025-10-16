@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.xiesx.fastboot</groupId>
 	<artifactId>fastboot</artifactId>
@@ -12,12 +11,12 @@
 	<url>https://github.com/xiesx123/fastboot</url>
 
 	<licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://opensource.org/licenses/MIT</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://opensource.org/licenses/MIT</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<developers>
 		<developer>
@@ -32,16 +31,14 @@
 	</scm>
 
 	<issueManagement>
-        <system>Github Issue</system>
-        <url>https://github.com/xiesx123/fastboot/issues/issues</url>
-    </issueManagement>
+		<system>Github Issue</system>
+		<url>https://github.com/xiesx123/fastboot/issues/issues</url>
+	</issueManagement>
 
 	<properties>
 		<!-- 编码 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<!-- test -->
-		<skip.test>true</skip.test>
 		<!-- java -->
 		<java.version>21</java.version>
 		<!-- database -->
@@ -62,7 +59,7 @@
 		<version>3.4.0</version>
 		<relativePath />
 	</parent>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -78,10 +75,10 @@
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-json</artifactId>
-                </exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-json</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<!-- web -->
@@ -169,14 +166,14 @@
 		</dependency>
 		<!-- fastjson -->
 		<dependency>
-		    <groupId>com.alibaba.fastjson2</groupId>
-		    <artifactId>fastjson2</artifactId>
-		    <version>${fastjson.version}</version>
+			<groupId>com.alibaba.fastjson2</groupId>
+			<artifactId>fastjson2</artifactId>
+			<version>${fastjson.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.alibaba.fastjson2</groupId>
-		    <artifactId>fastjson2-extension-spring6</artifactId>
-		    <version>${fastjson.version}</version>
+			<groupId>com.alibaba.fastjson2</groupId>
+			<artifactId>fastjson2-extension-spring6</artifactId>
+			<version>${fastjson.version}</version>
 		</dependency>
 		<!-- tlog -->
 		<dependency>
@@ -185,9 +182,9 @@
 			<version>${tlog.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.yomahub</groupId>
-		    <artifactId>tlog-rest-template</artifactId>
-	     	<version>${tlog.version}</version>
+			<groupId>com.yomahub</groupId>
+			<artifactId>tlog-rest-template</artifactId>
+			<version>${tlog.version}</version>
 		</dependency>
 		<!-- aviator -->
 		<dependency>
@@ -204,43 +201,58 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<dependencyManagement>
-        <dependencies>
-		 <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>transmittable-thread-local</artifactId>
-                <version>${ttl.version}</version>
-            </dependency>
+		<dependencies>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>transmittable-thread-local</artifactId>
+				<version>${ttl.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
 		<plugins>
-			<!-- 测试 -->
+			<!-- 测试覆盖率 -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.13</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
-					<skipTests>${skip.test}</skipTests>
+					<excludes>
+						<exclude>com/xiesx/fastboot/support/actuator/**</exclude>
+						<exclude>com/xiesx/fastboot/support/retryer/**</exclude>
+						<exclude>com/xiesx/fastboot/support/scheduler/**</exclude>
+						<exclude>com/xiesx/fastboot/support/taglib/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.hazendaz.maven</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>5.0.0</version>
+				<configuration>
+					<repoToken>${env.COVERALLS_REPO_TOKEN}</repoToken>
 				</configuration>
 			</plugin>
 
-			<!-- 编译 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-
-			<!-- 版本 -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>versions-maven-plugin</artifactId>
-				<configuration>
-					<generateBackupPoms>false</generateBackupPoms>
-				</configuration>
-			</plugin>
-			
+			<!-- 序列号 -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
@@ -262,41 +274,10 @@
 				</configuration>
 			</plugin>
 
-			<!-- 模版 -->
+			<!-- 编译 -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>templating-maven-plugin</artifactId>
-				<version>1.0.0</version>
-				<executions>
-					<execution>
-					 	<id>filtering-java-templates</id>	
-						<goals>
-							<goal>filter-sources</goal>
-						</goals>
-						<configuration>
-                            <sourceDirectory>src/main/java-templates</sourceDirectory>
-                        </configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			 <plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>add-generated-sources</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${project.build.directory}/generated-sources</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
 
 			<!-- 打包 -->

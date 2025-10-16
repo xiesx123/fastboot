@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.base.BaseResult;
-import com.xiesx.fastboot.app.base.BaseTest;
 import com.xiesx.fastboot.core.signature.configuration.SignerProperties;
+import com.xiesx.fastboot.test.base.BaseResult;
+import com.xiesx.fastboot.test.base.BaseTest;
 
 import io.restassured.response.Response;
 
@@ -40,7 +40,7 @@ public class SignerTest extends BaseTest {
         params.put("p1", 1);
         params.put("p2", "2");
         params.put("p3", Lists.newArrayList("31", "32"));
-        params.put("p4", new int[] {41, 42});
+        params.put("p4", Lists.newArrayList(41, 42));
         // 签名
         String sign = SignerHelper.getSignature(params, properties.getSecret());
         // 头部
@@ -60,7 +60,7 @@ public class SignerTest extends BaseTest {
 
     @Test
     public void ignore() {
-        Response response = get("signer/sign/ignore?p1=1&p2=2");
+        Response response = get("signer/sign/ignore", header, params);
         BaseResult<List<Object>> result = gtbl.parseObject(response.asString());
         assertNotNull(result);
         assertTrue(result.isSuccess());

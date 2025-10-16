@@ -305,7 +305,7 @@ private String json;
 ```java
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = FastBootApplication.class)
+@SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ValidatorHelperTest {
 
     @Autowired
@@ -351,13 +351,13 @@ Validator validator;
 
 方式 2
 
-```json
+```java
 Validator validator = SpringHelper.getBean(Validator.class);
 ```
 
 封装方法
 
-```json
+```java
 public static void validate(Object object) throws ConstraintViolationException
 public static void validate(Object object, Class<?>... groups) throws ConstraintViolationException
 

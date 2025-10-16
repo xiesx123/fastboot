@@ -97,6 +97,24 @@ public class FastBootApplication {
 
 `QLogRecord ql = QLogRecord.logRecord;`
 
+```java
+public class JpaPlusPojo {
+
+    @Data
+    @AllArgsConstructor
+    public static class LogRecordPojo {
+
+        public Long id;
+
+        public String ip;
+
+        public Long min;
+
+        public Long max;
+    }
+}
+```
+
 ### 查询
 
 #### 单表

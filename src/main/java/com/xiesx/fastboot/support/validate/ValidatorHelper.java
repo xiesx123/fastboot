@@ -32,7 +32,7 @@ public class ValidatorHelper {
         return validator;
     }
 
-    public static void validate(@NonNull Object object) throws ConstraintViolationException {
+    public static void validate(Object object) throws ConstraintViolationException {
         Set<? extends ConstraintViolation<?>> constraintViolations =
                 get().validate(object, Default.class);
         if (!constraintViolations.isEmpty()) {
@@ -40,7 +40,7 @@ public class ValidatorHelper {
         }
     }
 
-    public static void validate(@NonNull Object object, Class<?>... groups)
+    public static void validate(Object object, Class<?>... groups)
             throws ConstraintViolationException {
         Set<? extends ConstraintViolation<?>> constraintViolations = get().validate(object, groups);
         if (!constraintViolations.isEmpty()) {
@@ -50,7 +50,7 @@ public class ValidatorHelper {
 
     // =============
 
-    public static List<String> extractMessage(@NonNull ConstraintViolationException e) {
+    public static List<String> extractMessage(ConstraintViolationException e) {
         return extractMessage(e.getConstraintViolations());
     }
 

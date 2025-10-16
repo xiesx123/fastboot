@@ -13,12 +13,13 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 import java.util.Map;
 
 @Log4j2
 @TestMethodOrder(OrderAnnotation.class)
-@SpringBootTest(classes = FastBootApplication.class)
+@SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SchedulerTest {
 
     @Test
@@ -60,6 +61,7 @@ public class SchedulerTest {
     }
 
     @Test
+    // @Test
     @Order(2)
     public void cron() {
 

@@ -12,11 +12,11 @@ import cn.hutool.jwt.JWTPayload;
 import com.alibaba.fastjson2.JSON;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.base.BaseResult;
-import com.xiesx.fastboot.app.base.BaseTest;
 import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.core.token.configuration.TokenCfg;
 import com.xiesx.fastboot.core.token.configuration.TokenProperties;
+import com.xiesx.fastboot.test.base.BaseResult;
+import com.xiesx.fastboot.test.base.BaseTest;
 
 import io.restassured.response.Response;
 

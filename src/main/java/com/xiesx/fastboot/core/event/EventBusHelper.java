@@ -6,7 +6,6 @@ import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import com.xiesx.fastboot.base.config.Configed;
 
-import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.concurrent.Executors;
@@ -25,18 +24,18 @@ public class EventBusHelper {
     }
 
     /** 注册 */
-    public static void register(@NonNull EventAdapter<?> handler) {
+    public static void register(EventAdapter<?> handler) {
         eventbus.register(handler);
         log.debug("registered event : {}", handler.getClass());
     }
 
     /** 发布 */
-    public static void post(@NonNull Object object) {
+    public static void post(Object object) {
         eventbus.post(object);
     }
 
     /** 注销 */
-    public static void unregister(@NonNull EventAdapter<?> handler) {
+    public static void unregister(EventAdapter<?> handler) {
         eventbus.unregister(handler);
         log.debug("unregisted event : {}", handler.getClass());
     }

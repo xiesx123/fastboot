@@ -35,10 +35,10 @@ public static int batchUpdate(String sql, List<?> data)
 public class JdbcPlusPojo {
 
     @Data
-    @Accessors(chain = true)
+    @AllArgsConstructor
     public static class LogRecordPojo {
 
-        public String id;
+        public Long id;
 
         public String ip;
 

@@ -1,8 +1,5 @@
 package com.xiesx.fastboot.core.advice;
 
-import com.xiesx.fastboot.app.base.BaseController;
-import com.xiesx.fastboot.app.mock.MockData;
-import com.xiesx.fastboot.app.mock.MockUser;
 import com.xiesx.fastboot.base.config.Configed;
 import com.xiesx.fastboot.base.page.PR;
 import com.xiesx.fastboot.base.page.PResult;
@@ -12,6 +9,9 @@ import com.xiesx.fastboot.base.result.Result;
 import com.xiesx.fastboot.core.advice.annotation.RestBodyIgnore;
 import com.xiesx.fastboot.core.logger.LogStorageSimpleProvider;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
+import com.xiesx.fastboot.test.base.BaseController;
+import com.xiesx.fastboot.test.mock.MockData;
+import com.xiesx.fastboot.test.mock.MockUser;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;

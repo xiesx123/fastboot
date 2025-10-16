@@ -168,10 +168,18 @@ public class JwtHelper {
 
     /** 验证 */
     public static boolean validate(String secret, String token) {
-        return JWT.of(token).setKey(secret.getBytes()).verify();
+        try {
+            return JWT.of(token).setKey(secret.getBytes()).verify();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static boolean validate(String token) {
-        return JWT.of(token).setKey(JWT_SECRET.getBytes()).verify();
+        try {
+            return JWT.of(token).setKey(JWT_SECRET.getBytes()).verify();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

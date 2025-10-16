@@ -17,9 +17,4 @@ public enum StatusEnum {
     private Integer code;
 
     private String msg;
-
-    @Override
-    public String toString() {
-        return msg;
-    }
 }

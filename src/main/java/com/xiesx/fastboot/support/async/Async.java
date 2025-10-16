@@ -40,27 +40,27 @@ public class Async {
     }
 
     /** 提交 */
-    public static ListenableFuture<?> submit(@NonNull Runnable task) {
+    public static ListenableFuture<?> submit(Runnable task) {
         return les.submit(task);
     }
 
-    public static <T> ListenableFuture<T> submit(@NonNull Callable<T> callable) {
+    public static <T> ListenableFuture<T> submit(Callable<T> callable) {
         return les.submit(callable);
     }
 
     public static <T> ListenableFuture<T> submit(
-            @NonNull Callable<T> task, @NonNull FutureCallback<T> callback) {
+            @NonNull Callable<T> task, FutureCallback<T> callback) {
         ListenableFuture<T> future = les.submit(task);
         Futures.addCallback(future, callback, MoreExecutors.directExecutor());
         return future;
     }
 
-    public static <T> ListenableFuture<T> submit(@NonNull AsyncFutureCallback<T> callback) {
+    public static <T> ListenableFuture<T> submit(AsyncFutureCallback<T> callback) {
         return submit(callback, callback);
     }
 
     /** 批量提交 */
-    public static <T> List<Future<T>> invokeAll(@NonNull List<Callable<T>> callables) {
+    public static <T> List<Future<T>> invokeAll(List<Callable<T>> callables) {
         try {
             return les.invokeAll(callables);
         } catch (InterruptedException e) {
@@ -68,7 +68,7 @@ public class Async {
         }
     }
 
-    public static <T> List<Future<T>> invokeAll(@NonNull List<Callable<T>> callables, int timeout) {
+    public static <T> List<Future<T>> invokeAll(List<Callable<T>> callables, int timeout) {
         try {
             return les.invokeAll(callables, timeout, TimeUnit.SECONDS);
         } catch (Exception e) {

@@ -3,8 +3,8 @@ package com.xiesx.fastboot.core.exception;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.base.BaseResult;
-import com.xiesx.fastboot.app.base.BaseTest;
+import com.xiesx.fastboot.test.base.BaseResult;
+import com.xiesx.fastboot.test.base.BaseTest;
 
 import io.restassured.response.Response;
 

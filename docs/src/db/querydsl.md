@@ -1,6 +1,6 @@
 # QueryDsl
 
- **灵活、高效** 面向对象查询的方式，像写代码一样写 SQL，可靠地构建动态查询
+**灵活、高效** 面向对象查询的方式，像写代码一样写 SQL，可靠地构建动态查询
 
 ## 依赖
 
@@ -214,6 +214,28 @@ public class QLogRecord extends EntityPathBase<LogRecord> {
 
 `QLogRecord ql = QLogRecord.logRecord;`
 
+```java
+public class QueryDslPojo {
+
+    @Data
+    @AllArgsConstructor
+    public static class LogRecordPojo {
+
+        public Long id;
+
+        public String ip;
+
+        public String type;
+
+        public Long time;
+
+        public Long min;
+
+        public Long max;
+    }
+}
+```
+
 ### 查询
 
 ```java
@@ -274,7 +296,8 @@ public void aggregate() {
 @Test
 @Order(5)
 public void tuple() {
-    ConstructorExpression<LogRecordPojo> expression =Projections.constructor(LogRecordPojo.class,
+    ConstructorExpression<LogRecordPojo> expression =Projections.constructor(
+                    JpaPlusPojo.LogRecordPojo.class,
                     ql.id,
                     ql.ip,
                     ql.type,

@@ -4,7 +4,7 @@ import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.StrUtil;
 
 import com.google.common.collect.Maps;
-import com.xiesx.fastboot.base.config.Ordered;
+import com.xiesx.fastboot.base.config.Configed.Ordered;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.core.signature.annotation.GoSigner;

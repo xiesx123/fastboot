@@ -1,6 +1,5 @@
 package com.xiesx.fastboot.core.logger;
 
-import com.xiesx.fastboot.app.base.BaseVo;
 import com.xiesx.fastboot.base.page.PageVo;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
@@ -8,6 +7,7 @@ import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 import com.xiesx.fastboot.support.async.Async;
 import com.xiesx.fastboot.support.async.AsyncTest.MyFutureCallable;
 import com.xiesx.fastboot.support.async.AsyncTest.MyRunnable;
+import com.xiesx.fastboot.test.base.BaseVo;
 import com.yomahub.tlog.context.TLogContext;
 
 import org.springframework.web.bind.annotation.GetMapping;

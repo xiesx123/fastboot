@@ -1,7 +1,7 @@
 package com.xiesx.fastboot.core.logger;
 
 import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.base.BaseTest;
+import com.xiesx.fastboot.test.base.BaseTest;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -17,7 +17,7 @@ public class LoggerTest extends BaseTest {
     @Test
     @Order(1)
     public void noprint() {
-        get("logger/nonprint");
+        get("logger/noprint");
     }
 
     @Test

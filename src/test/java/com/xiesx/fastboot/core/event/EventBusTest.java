@@ -1,7 +1,7 @@
 package com.xiesx.fastboot.core.event;
 
 import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.base.BaseTest;
+import com.xiesx.fastboot.test.base.BaseTest;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;

@@ -22,5 +22,6 @@ public class FastBootApplication {
         app.setBannerMode(Banner.Mode.CONSOLE);
         app.run(args);
         log.info("Started FastBootApplication Successfully");
+        log.info(SpringHelper.getUrl());
     }
 }

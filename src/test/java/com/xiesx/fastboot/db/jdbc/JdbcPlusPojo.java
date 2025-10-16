@@ -1,12 +1,12 @@
 package com.xiesx.fastboot.db.jdbc;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
 
 public class JdbcPlusPojo {
 
     @Data
-    @Accessors(chain = true)
+    @NoArgsConstructor
     public static class LogRecordPojo {
 
         public Long id;
@@ -15,7 +15,7 @@ public class JdbcPlusPojo {
 
         public String type;
 
-        public Double time;
+        public Long time;
     }
 
     @Data

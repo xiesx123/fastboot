@@ -12,10 +12,10 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.log.LogRecord;
-import com.xiesx.fastboot.app.log.LogRecordRepository;
-import com.xiesx.fastboot.app.log.QLogRecord;
 import com.xiesx.fastboot.db.dsl.QueryDslPojo.LogRecordPojo;
+import com.xiesx.fastboot.test.log.LogRecord;
+import com.xiesx.fastboot.test.log.LogRecordRepository;
+import com.xiesx.fastboot.test.log.QLogRecord;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -24,13 +24,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Transactional
 @TestMethodOrder(OrderAnnotation.class)
-@SpringBootTest(classes = FastBootApplication.class)
+@SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class QueryDslTest {
 
     @Autowired LogRecordRepository mLogRecordRepository;
@@ -103,7 +104,7 @@ public class QueryDslTest {
     public void tuple() {
         ConstructorExpression<LogRecordPojo> expression =
                 Projections.constructor(
-                        LogRecordPojo.class,
+                        QueryDslPojo.LogRecordPojo.class,
                         ql.id,
                         ql.ip,
                         ql.type,

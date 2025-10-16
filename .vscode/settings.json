@@ -40,7 +40,6 @@
     "**/dist": true,
     "**/package-lock.json": true,
     // fastboot
-    "**/java-templates": true,
     ".github": true,
     "docs": false,
     "LICENSE": true,

@@ -1,8 +1,8 @@
 package com.xiesx.fastboot.core.exception;
 
 import com.google.common.collect.Maps;
-import com.xiesx.fastboot.app.base.BaseVo;
 import com.xiesx.fastboot.db.jdbc.JdbcTemplatePlus;
+import com.xiesx.fastboot.test.base.BaseVo;
 
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.constraints.NotBlank;

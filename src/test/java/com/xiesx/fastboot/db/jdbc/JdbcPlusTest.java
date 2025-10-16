@@ -10,11 +10,11 @@ import cn.hutool.core.util.StrUtil;
 
 import com.google.common.collect.Lists;
 import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.app.log.LogRecord;
-import com.xiesx.fastboot.app.log.LogRecordRepository;
 import com.xiesx.fastboot.db.jdbc.JdbcPlusPojo.CommonPojo;
 import com.xiesx.fastboot.db.jdbc.JdbcPlusPojo.LogRecordPojo;
 import com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator;
+import com.xiesx.fastboot.test.log.LogRecord;
+import com.xiesx.fastboot.test.log.LogRecordRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.Map;
 
 @Transactional
 @TestMethodOrder(OrderAnnotation.class)
-@SpringBootTest(classes = FastBootApplication.class)
+@SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class JdbcPlusTest {
 
     @Autowired LogRecordRepository mLogRecordRepository;
@@ -69,7 +70,9 @@ public class JdbcPlusTest {
     @Order(2)
     public void map2() {
         String sql = "SELECT id, TYPE FROM xx_log WHERE ip = :ip AND type = :type";
-        LogRecordPojo pojo = new LogRecordPojo().setIp("127.0.1.1").setType("GET");
+        LogRecordPojo pojo = new LogRecordPojo();
+        pojo.setIp("127.0.1.1");
+        pojo.setType("GET");
         Map<String, Object> map = BeanUtil.beanToMap(pojo);
         // map
         Map<String, Object> r11 = JdbcTemplatePlus.queryForMap(sql, pojo);
@@ -98,7 +101,8 @@ public class JdbcPlusTest {
     @Order(4)
     public void list2() {
         String sql = "SELECT id, TYPE FROM xx_log WHERE type = :type";
-        LogRecordPojo pojo = new LogRecordPojo().setType("GET");
+        LogRecordPojo pojo = new LogRecordPojo();
+        pojo.setType("GET");
         Map<String, Object> params = BeanUtil.beanToMap(pojo);
         // list map
         List<Map<String, Object>> r11 = JdbcTemplatePlus.queryForList(sql, pojo);

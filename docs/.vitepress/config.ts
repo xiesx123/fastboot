@@ -117,7 +117,6 @@ export default defineConfig({
           },
           {
             text: "拓展",
-            collapsed: true,
             items: [
               { text: "异步增强", link: "/support/async" },
               { text: "网络请求", link: "/support/request" },
