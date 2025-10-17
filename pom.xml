@@ -1,50 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.xiesx.fastboot</groupId>
-	<artifactId>fastboot</artifactId>
+	<artifactId>parent</artifactId>
 	<version>master-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<name>FastBoot</name>
-	<description>Fast, efficient, and lightweight Spring Boot development for rapid application building</description>
+	<packaging>pom</packaging>
+
+	<name>parent</name>
+	<description>Fast, efficient, and lightweight Spring Boot development</description>
 	<url>https://github.com/xiesx123/fastboot</url>
 
-	<licenses>
-		<license>
-			<name>MIT License</name>
-			<url>https://opensource.org/licenses/MIT</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-	<developers>
-		<developer>
-			<email>xiesx123@gmail.com</email>
-			<url>https://github.com/xiesx123</url>
-		</developer>
-	</developers>
-
-	<scm>
-		<url>https://github.com/xiesx123/fastboot.git</url>
-		<connection>scm:git:https://github.com/xiesx123/fastboot.git</connection>
-	</scm>
-
-	<issueManagement>
-		<system>Github Issue</system>
-		<url>https://github.com/xiesx123/fastboot/issues/issues</url>
-	</issueManagement>
-
 	<properties>
-		<!-- 编码 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<!-- java -->
-		<java.version>21</java.version>
-		<!-- database -->
-		<mysql.version>8.0.32</mysql.version>
+
+		<jdk8>8</jdk8>
+		<jdk21>21</jdk21>
+
+		<springboot2>2.7.18</springboot2>
+		<springboot3>3.4.0</springboot3>
+
+		<querydsl500>5.0.0</querydsl500>
+		<querydsl510>5.1.0</querydsl510>
+
+		<fastjson_spring5>fastjson2-extension-spring5</fastjson_spring5>
+		<fastjson_spring6>fastjson2-extension-spring6</fastjson_spring6>
+
+		<fastboot_spring5>extension-spring5</fastboot_spring5>
+		<fastboot_spring6>extension-spring6</fastboot_spring6>
+
+		<coveralls450>4.5.0</coveralls450>
+		<coveralls500>5.0.0</coveralls500>
+
 		<p6spy.version>3.9.1</p6spy.version>
-		<!-- tools -->
 		<guava.version>33.5.0-jre</guava.version>
 		<hutool.version>5.8.40</hutool.version>
 		<fastjson.version>2.0.59</fastjson.version>
@@ -53,146 +43,176 @@
 		<aviator.version>5.4.3</aviator.version>
 	</properties>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.0</version>
-		<relativePath />
-	</parent>
+	<modules>
+		<module>extension-spring5</module>
+		<module>extension-spring6</module>
+		<module>fastboot</module>
+	</modules>
+
+	<profiles>
+		<!-- SpringBoot2 -->
+		<profile>
+			<id>sb2</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<java.version>${jdk8}</java.version>
+				<springboot.version>${springboot2}</springboot.version>
+				<querydsl.version>${querydsl500}</querydsl.version>
+				<classifier></classifier>
+				<coveralls.version>4.5.0</coveralls.version>
+				<fastjson.artifactId>${fastjson_spring5}</fastjson.artifactId>
+				<fastboot.artifactId>${fastboot_spring5}</fastboot.artifactId>
+			</properties>
+			<dependencies>
+				<!-- validation -->
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-validation</artifactId>
+				</dependency>
+				<!-- test -->
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-test</artifactId>
+					<scope>test</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>org.mockito</groupId>
+							<artifactId>mockito-core</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.mockito</groupId>
+					<artifactId>mockito-inline</artifactId>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>3.2.5</version>
+						<configuration>
+							<argLine>-Dnet.bytebuddy.experimental=true</argLine>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- SpringBoot3  -->
+		<profile>
+			<id>sb3</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<java.version>${jdk21}</java.version>
+				<springboot.version>${springboot3}</springboot.version>
+				<querydsl.version>${querydsl510}</querydsl.version>
+				<classifier>jakarta</classifier>
+				<coveralls.version>5.0.0</coveralls.version>
+				<fastjson.artifactId>${fastjson_spring6}</fastjson.artifactId>
+				<fastboot.artifactId>${fastboot_spring6}</fastboot.artifactId>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>jakarta.validation</groupId>
+					<artifactId>jakarta.validation-api</artifactId>
+					<version>3.0.2</version>
+				</dependency>
+				<dependency>
+					<groupId>org.hibernate.validator</groupId>
+					<artifactId>hibernate-validator</artifactId>
+					<version>8.0.0.Final</version>
+				</dependency>
+				<dependency>
+					<groupId>jakarta.servlet</groupId>
+					<artifactId>jakarta.servlet-api</artifactId>
+					<version>6.0.0</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>jakarta.servlet.jsp</groupId>
+					<artifactId>jakarta.servlet.jsp-api</artifactId>
+					<version>3.1.1</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>jakarta.persistence</groupId>
+					<artifactId>jakarta.persistence-api</artifactId>
+					<version>3.1.0</version>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.transformer</groupId>
+						<artifactId>transformer-maven-plugin</artifactId>
+						<version>1.0.0</version>
+						<executions>
+							<execution>
+								<id>jakarta-ee</id>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<phase>package</phase>
+								<configuration>
+									<classifier>jakarta</classifier>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- dependencies -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${springboot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- guava -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+
+			<!-- hutool -->
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+
 		<!-- ==========================spring========================== -->
-		<!-- starter -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-json</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- web -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<!-- configuration -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-		</dependency>
-		<!-- log4j2 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
-		</dependency>
-		<!-- data-jpa -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<!-- quartz -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-quartz</artifactId>
-		</dependency>
-		<!-- validation -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
 		<!-- devtools -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- test -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- ==========================tomcat========================== -->
-		<!-- tomcat -->
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-		</dependency>
-		<!-- ==========================database========================== -->
-		<!-- mysql -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<!-- p6spy -->
-		<dependency>
-			<groupId>p6spy</groupId>
-			<artifactId>p6spy</artifactId>
-			<version>${p6spy.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<!-- querydsl -->
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-jpa</artifactId>
-			<version>${querydsl.version}</version>
-			<classifier>jakarta</classifier>
-		</dependency>
-		<!-- ==========================tools========================== -->
-		<!-- guava -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
-		</dependency>
-		<!-- hutool -->
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-all</artifactId>
-			<version>${hutool.version}</version>
-		</dependency>
-		<!-- fastjson -->
-		<dependency>
-			<groupId>com.alibaba.fastjson2</groupId>
-			<artifactId>fastjson2</artifactId>
-			<version>${fastjson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba.fastjson2</groupId>
-			<artifactId>fastjson2-extension-spring6</artifactId>
-			<version>${fastjson.version}</version>
-		</dependency>
-		<!-- tlog -->
-		<dependency>
-			<groupId>com.yomahub</groupId>
-			<artifactId>tlog-hutool-http</artifactId>
-			<version>${tlog.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.yomahub</groupId>
-			<artifactId>tlog-rest-template</artifactId>
-			<version>${tlog.version}</version>
-		</dependency>
-		<!-- aviator -->
-		<dependency>
-			<groupId>com.googlecode.aviator</groupId>
-			<artifactId>aviator</artifactId>
-			<version>${aviator.version}</version>
-			<optional>true</optional>
-		</dependency>
+
 		<!-- ==========================test========================== -->
 		<!-- rest-assured -->
 		<dependency>
@@ -200,21 +220,22 @@
 			<artifactId>rest-assured</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>transmittable-thread-local</artifactId>
-				<version>${ttl.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+	</dependencies>
 
 	<build>
 		<plugins>
-			<!-- 测试覆盖率 -->
+			<!-- 版本号 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<generateBackupPoms>false</generateBackupPoms>
+				</configuration>
+			</plugin>
+
+			<!-- 覆盖率测试 -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -243,10 +264,11 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>com.github.hazendaz.maven</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>5.0.0</version>
+				<version>${coveralls.version}</version>
 				<configuration>
 					<repoToken>${env.COVERALLS_REPO_TOKEN}</repoToken>
 				</configuration>
@@ -256,6 +278,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>3.2.1</version>
 				<executions>
 					<execution>
 						<phase>validate</phase>
@@ -274,16 +297,33 @@
 				</configuration>
 			</plugin>
 
-			<!-- 编译 -->
+			<!-- 文档 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<charset>UTF-8</charset>
+					<encoding>UTF-8</encoding>
+					<docencoding>UTF-8</docencoding>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<additionalJOption>-Xdoclint:none</additionalJOption>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- 打包 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.2</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -311,4 +351,30 @@
 			<url>https://www.jitpack.io</url>
 		</repository>
 	</repositories>
+
+	<scm>
+		<url>https://github.com/xiesx123/fastboot.git</url>
+		<connection>scm:git:https://github.com/xiesx123/fastboot.git</connection>
+	</scm>
+
+	<developers>
+		<developer>
+			<email>xiesx123@gmail.com</email>
+			<url>https://github.com/xiesx123</url>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://opensource.org/licenses/MIT</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<issueManagement>
+		<system>Github Issue</system>
+		<url>https://github.com/xiesx123/fastboot/issues/issues</url>
+	</issueManagement>
+
 </project>

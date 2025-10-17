@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.xiesx.fastboot.SpringContext,\
+cn.hutool.extra.spring.SpringUtil

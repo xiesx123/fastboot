@@ -343,7 +343,7 @@ public void update() {
 @Test
 @Order(8)
 public void delete() {
-    List<Long> ids = result.stream().map(LogRecord::getId).toList();
+    List<Long> ids = StreamUtil.of(result).map(LogRecord::getId).toList();
     long row = mJPAQuery.delete(ql).where(ql.id.in(ids)).execute();
     assertEquals(row, ids.size());
 }

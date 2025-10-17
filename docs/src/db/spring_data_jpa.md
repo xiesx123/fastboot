@@ -222,7 +222,7 @@ public void delete() {
     assertEquals(row, 6);
 
     // 按主键批量删除
-    row = mLogRecordRepository.delete(result.stream().map(LogRecord::getId).toList());
+    row = mLogRecordRepository.delete(StreamUtil.of(result).map(LogRecord::getId).toList());
     assertEquals(row, 13);
 }
 ```
