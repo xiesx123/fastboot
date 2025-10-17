@@ -37,9 +37,11 @@ features:
 
 <p class="badges">
 
-  <img alt="Release" src="https://img.shields.io/github/tag/xiesx123/fastboot.svg?style=flat&label=Release&color=0078D7" />
-  <a target="_blank" href="https://jitpack.io/#xiesx123/fastboot">
+ <a target="_blank" href="https://jitpack.io/#xiesx123/fastboot">
     <img alt="Discord" src="https://jitpack.io/v/xiesx123/fastboot.svg" />
+  </a>
+  <a target="_blank" href="https://coveralls.io/github/xiesx123/fastboot?branch=master">
+    <img alt="Discord" src="https://coveralls.io/repos/github/xiesx123/fastboot/badge.svg" />
   </a>
 
 </p>

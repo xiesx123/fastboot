@@ -8,15 +8,12 @@
 
 <h1 align="center">FastBoot</h1>
 
-![GitHub Release](https://img.shields.io/github/tag/xiesx123/fastboot.svg?style=flat&label=Release&color=0078D7)
+ [![Jitpack](https://img.shields.io/badge/JitPack-Snapshot-46C118?logo1=jitpack&logoColor=white)](https://jitpack.io/#xiesx123/fastboot/master-SNAPSHOT)
 ![Jitpack Month Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fjitpack.io%2Fapi%2Fdownloads%2Fcom.github.xiesx123%2Ffastboot&query=month&suffix=%20month&style=flat&label=Downloads&link=https%3A%2F%2Fjitpack.io%2F%23xiesx123%2Ffastboot&color=0078D7)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat&label=License&color=0078D7)
 
-[![Jitpack](https://img.shields.io/badge/JitPack-Latest-46C118?logo=jitpack&logoColor=white)](https://jitpack.io/#xiesx123/fastboot/master-SNAPSHOT)
 [![VitePress](https://img.shields.io/badge/VitePress-Doc-3E63DD?logo=markdown)](https://xiesx123.github.io/fastboot)
-[![OpenJDK](https://img.shields.io/badge/OpenJDK-21-red?logo=openjdk)](https://adoptium.net/zh-CN/temurin/releases?version=21&os=any&arch=any)
-[![Spring](https://img.shields.io/badge/Spring-3.4.0-6DB33F?logo=spring&logoColor=white)](https://spring.io/)
-<!-- [![Coverage Status](https://coveralls.io/repos/github/xiesx123/fastboot/badge.svg?branch=master)](https://coveralls.io/github/xiesx123/fastboot?branch=master) -->
+[![Coverage Status](https://coveralls.io/repos/github/xiesx123/fastboot/badge.svg?branch=master)](https://coveralls.io/github/xiesx123/fastboot?branch=master)
 
 🚀 快速、高效、轻量级的 Spring Boot 开发，用于快速构建应用程序
 
@@ -37,11 +34,26 @@
 
 - 添加依赖
 
+[![OpenJDK](https://img.shields.io/badge/openjdk-8-red?logo1=openjdk)](https://adoptium.net/zh-CN/temurin/releases?version=8&os=any&arch=any)
+[![Spring](https://img.shields.io/badge/spring-2.7.18-6DB33F?logo1=spring&logoColor=white)](https://docs.spring.io/spring-boot/docs/2.7.18/reference/html)
+
 ```xml
 <dependency>
     <groupId>com.github.xiesx123</groupId>
     <artifactId>fastboot</artifactId>
     <version>master-SNAPSHOT</version>
+</dependency>
+```
+
+[![OpenJDK](https://img.shields.io/badge/openjdk-21-red?logo1=openjdk)](https://adoptium.net/zh-CN/temurin/releases?version=21&os=any&arch=any)
+[![Spring](https://img.shields.io/badge/spring-3.4.0-6DB33F?logo1=spring&logoColor=white)](https://docs.spring.io/spring-boot/docs/3.4.11/reference/html)
+
+```xml
+<dependency>
+    <groupId>com.github.xiesx123</groupId>
+    <artifactId>fastboot</artifactId>
+    <version>master-SNAPSHOT</version>
+    <classifier>jakarta</classifier>
 </dependency>
 ```
 
