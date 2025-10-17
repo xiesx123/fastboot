@@ -12,6 +12,7 @@ target/
 *.mp4
 *.pyc
 **/temp/
+**/.vscode/
 
 ### Node ###
 **/node_modules/

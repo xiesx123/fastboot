@@ -1,6 +1,5 @@
 package com.xiesx.fastboot.example;
 
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,15 +27,17 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("log")
 public class LogRecordController {
 
-      @Autowired JPAQueryFactory mJPAQueryFactory;
+    @Autowired
+    JPAQueryFactory mJPAQueryFactory;
 
-      @Autowired LogRecordRepository mLogRecordRepository;
+    @Autowired
+    LogRecordRepository mLogRecordRepository;
 
-      QLogRecord ql = QLogRecord.logRecord;
-    
+    QLogRecord ql = QLogRecord.logRecord;
+
     /** 分页 */
     @GetMapping("page")
-    public PResult page(@Validated  @NotBlank  String key, PageVo page) {
+    public PResult page(@Validated String key, PageVo page) {
         // 条件
         Predicate predicate = ql.id.isNotNull();
         if (ObjectUtil.isNotEmpty(key)) {

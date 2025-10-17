@@ -2,8 +2,11 @@ package com.xiesx.fastboot.example;
 
 import java.util.Date;
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.Parameter;
+import jakarta.persistence.*;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,8 +15,6 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.xiesx.fastboot.db.jpa.JpaPlusEntity;
 
-import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -29,9 +30,9 @@ import lombok.experimental.FieldNameConstants;
 @DynamicInsert
 @DynamicUpdate
 // spring5
-@Where(clause = "del=0")
+// @Where(clause = "del=0")
 // spring6
-// @SQLRestriction("del=0")
+//@SQLRestriction("del=0")
 @SQLDelete(sql = "update xx_log set del=1 where id = ?")
 public class LogRecord extends JpaPlusEntity<LogRecord> {
 
@@ -40,17 +41,17 @@ public class LogRecord extends JpaPlusEntity<LogRecord> {
     /** 主键，例（1976241098078683136） */
     @Id
     @GeneratedValue(generator = "idGenerator")
-    // spring5
-    @GenericGenerator(
-            name = "idGenerator",
-            strategy = "com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator",
-            parameters = {
-                @Parameter(name = "prefix", value = ""),
-                @Parameter(name = "centerId", value = "1"),
-                @Parameter(name = "workerId", value = "0")
-            })
+//     spring5
+//     @GenericGenerator(
+//             name = "idGenerator",
+//             strategy = "com.xiesx.fastboot.db.jpa.identifier.IdWorkerGenerator",
+//             parameters = {
+//                 @Parameter(name = "prefix", value = ""),
+//                 @Parameter(name = "centerId", value = "1"),
+//                 @Parameter(name = "workerId", value = "0")
+//             })
     // spring6
-    // @GeneratedIdWorker(prefix = "", centerId = 1, workerId = 0)
+//    @GeneratedIdWorker(prefix = "", centerId = 1, workerId = 0)
     @JSONField(ordinal = 1)
     private Long id;
 
