@@ -148,27 +148,6 @@
 					<scope>provided</scope>
 				</dependency>
 			</dependencies>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.eclipse.transformer</groupId>
-						<artifactId>transformer-maven-plugin</artifactId>
-						<version>1.0.0</version>
-						<executions>
-							<execution>
-								<id>jakarta-ee</id>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<phase>package</phase>
-								<configuration>
-									<classifier>jakarta</classifier>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
 	</profiles>
 
@@ -297,6 +276,45 @@
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<groupId>org.eclipse.transformer</groupId>
+				<artifactId>transformer-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<rules>
+						<jakartaDefaults>true</jakartaDefaults>
+					</rules>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jakarta-ee</id>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<classifier>jakarta</classifier>
+						</configuration>
+					</execution>
+					<execution>
+						<id>javadoc-jar</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<skip>${maven.javadoc.skip}</skip>
+							<artifact>
+								<groupId>io.smallrye.common</groupId>
+								<artifactId>smallrye-common-annotation</artifactId>
+								<version>1.11.0</version>
+								<classifier>javadoc</classifier>
+							</artifact>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- 文档 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -313,6 +331,17 @@
 							<goal>jar</goal>
 						</goals>
 						<configuration>
+							<additionalJOption>-Xdoclint:none</additionalJOption>
+						</configuration>
+					</execution>
+					<execution>
+						<id>attach-jakarta-javadocs</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<classifier>jakarta-javadoc</classifier>
 							<additionalJOption>-Xdoclint:none</additionalJOption>
 						</configuration>
 					</execution>
