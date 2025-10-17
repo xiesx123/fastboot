@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="10">
+	<!-- 配置 -->
+	<Properties>
+		<!-- 存放目录(本地) -->
+		<Property name="path">../logs</Property>
+		<!-- 输出格式 -->
+		<Property name="log_pattern">%-d{yyyy-MM-dd HH:mm:ss}%5p %t:%r %F:%L - %m%n</Property>
+		<Property name="log_pattern_style">%highlight{%-d{yyyy-MM-dd HH:mm:ss}}{cyan}%highlight{%5p}{INFO=white,DEBUG=blue,ERROR=red,WARN=yellow,TRACE=cyan,FATAL=bg_red} %t:%r %style{%F:%L}{cyan} - %highlight{%m%n}{INFO=white,DEBUG=blue,ERROR=red,WARN=yellow,TRACE=cyan,FATAL=bg_red}</Property>
+	</Properties>
+
+	<!-- 追加 -->
+	<Appenders>
+		<!-- 控制台日志 -->
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout  pattern="${sys:log_pattern_style}" />
+		</Console>
+
+		<!-- ALL存档日志 -->
+		<RollingFile name="all" fileName="${path}/fastboot.log" filePattern="${path}/fastboot_%d{MM-dd-yyyy}.log.%i">
+			<!-- 输出格式 -->
+			<PatternLayout pattern="${sys:log_pattern}" />
+			<!-- 最大文件100M -->
+			<SizeBasedTriggeringPolicy size="100 MB" />
+			<!-- 最多产生100个文件 -->
+			<DefaultRolloverStrategy max="100" fileIndex="min" />
+		</RollingFile>
+
+		<!-- Error存档日志 -->
+		<RollingFile name="error" fileName="${path}/fastboot_error.log" filePattern="${path}/fastboot_error_%d{MM-dd-yyyy}.log.%i">
+			<!-- 只输出error及以上级别的信息，否则直接拒绝 -->
+			<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+			<!-- 输出格式 -->
+			<PatternLayout pattern="${sys:log_pattern}" />
+			<!-- 最大文件100M -->
+			<SizeBasedTriggeringPolicy size="100 MB" />
+			<!-- 最多产生100个文件 -->
+			<DefaultRolloverStrategy max="100" fileIndex="min" />
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<!-- 默认DEBUG -->
+		<Root level="info">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="all" />
+			<AppenderRef ref="error" />
+		</Root>
+		<!-- 过滤指定包低于指定级别日志,不显示 -->
+		<Logger name="org.springframework" level="ERROR" />
+		<Logger name="com.zaxxer.hikari" level="ERROR" />
+		<Logger name="org.quartz" level="ERROR" />
+		<Logger name="org.apache" level="ERROR" />
+		<Logger name="org.hibernate" level="ERROR" />
+		<!-- <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" /> -->
+		<Logger name="com.querydsl" level="ERROR" />
+	</Loggers>
+</Configuration>

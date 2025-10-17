@@ -26,7 +26,9 @@ class JwtHelperTest {
         JWT parsedToken = JwtHelper.parser(token);
         assertEquals(subject, parsedToken.getPayload("sub"), "Subject should match");
         assertEquals(
-                audience, ((List) parsedToken.getPayload("aud")).get(0), "Audience should match");
+                audience,
+                ((List<String>) parsedToken.getPayload("aud")).get(0),
+                "Audience should match");
     }
 
     @Test

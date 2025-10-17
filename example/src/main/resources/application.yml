@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+logging:
+  config: classpath:log4j2.xml
+
+spring:
+  profiles:
+    active: dev
+  devtools:
+    restart:
+      enabled: true
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:mysql://127.0.0.1:3306/test?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+
+fastboot:                                 # fastboot
+  advice:                                 # ======= 统一返回
+    body-ignores-urls:                    # 忽略路径
+    - /swagger-resources,/api-docs
+    - /body/ignore  
+  
+  fastjson:                               # ======= 数据转换（fastjson实现）
+    supported-media-types:                # 支持媒体类型，默认：text/html、application/json
+      - text/html;charset=UTF-8
+      - application/json;charset=UTF-8
+    config:                               # 配置
+      charset: utf-8                      # 编码格式，默认：UTF-8
+      date-format: yyyy-MM-dd HH:mm:ss    # 日期格式，默认：yyyy-MM-dd HH:mm:ss
+      writer-features:                    # 序列化
+        - PrettyFormat                    # 格式化输出
+        - WriteNullBooleanAsFalse         # 布尔类型如果为null，输出为false，而不是null
+        - WriteEnumUsingToString          # 枚举类型用ToString输出
+      reader-features:                    # 反序列化
+        - UseDoubleForDecimals
+    desensitize: true                     # 启用脱敏，默认：false
+    
+  signer:                                 # ======= 数据签名
+    header: sign                          # 签名键，默认：sign
+    secret: fastboot!@#                   # 加密串，默认：fastboot!@#
+    
+  token:                                  # ======= 令牌认证
+    header: token                         # 令牌键，默认：token
+    include-paths:                        # 包含路径
+    - /api/**
+    - /token/**
+    exclude-paths:                        # 排除路径
+    - /js/**

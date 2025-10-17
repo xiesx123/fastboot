@@ -89,7 +89,7 @@ public class Version {
             </executions>
         </plugin>
 
-            <plugin>
+        <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>build-helper-maven-plugin</artifactId>
             <executions>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.xiesx.fastboot</groupId>
+	<artifactId>example</artifactId>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.0</version>
+		<relativePath/>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<jdk8>8</jdk8>
+		<jdk21>21</jdk21>
+
+		<p6spy.version>3.9.1</p6spy.version>
+		<guava.version>33.5.0-jre</guava.version>
+		<hutool.version>5.8.40</hutool.version>
+		<fastjson.version>2.0.59</fastjson.version>
+	</properties>
+
+	<profiles>
+		<!-- SpringBoot2 -->
+		<profile>
+			<id>sb2</id>
+			<properties>
+				<java.version>${jdk8}</java.version>
+				<springboot.version>${springboot2}</springboot.version>
+				<querydsl.generated>javax.annotation.Generated</querydsl.generated>
+				<classifier></classifier>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.github.xiesx123.fastboot</groupId>
+					<artifactId>fastboot</artifactId>
+					<version>826ebbf4a8</version>
+				</dependency>
+				<dependency>
+					<groupId>com.github.xiesx123.fastboot</groupId>
+					<artifactId>extension-spring5</artifactId>
+					<version>826ebbf4a8</version>
+				</dependency>
+				<dependency>
+					<groupId>com.querydsl</groupId>
+					<artifactId>querydsl-jpa</artifactId>
+					<version>${querydsl.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>com.alibaba.fastjson2</groupId>
+					<artifactId>fastjson2-extension-spring5</artifactId>
+					<version>${fastjson.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<!-- SpringBoot3  -->
+		<profile>
+			<id>sb3</id>
+			<properties>
+				<java.version>${jdk21}</java.version>
+				<springboot.version>${springboot3}</springboot.version>
+				<querydsl.generated>jakarta.annotation.Generated</querydsl.generated>
+				<classifier>jakarta</classifier>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>com.github.xiesx123.fastboot</groupId>
+					<artifactId>fastboot</artifactId>
+					<version>826ebbf4a8</version>
+					<classifier>${classifier}</classifier>
+				</dependency>
+				<dependency>
+					<groupId>com.github.xiesx123.fastboot</groupId>
+					<artifactId>extension-spring6</artifactId>
+					<version>826ebbf4a8</version>
+				</dependency>
+				<dependency>
+					<groupId>com.querydsl</groupId>
+					<artifactId>querydsl-jpa</artifactId>
+					<version>${querydsl.version}</version>
+					<classifier>${classifier}</classifier>
+				</dependency>
+				<dependency>
+					<groupId>com.alibaba.fastjson2</groupId>
+					<artifactId>fastjson2-extension-spring6</artifactId>
+					<version>${fastjson.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+		<!-- ==========================spring========================== -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-json</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- web -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- configuration -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+		</dependency>
+		<!-- log4j2 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+		<!-- jpa -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<!-- quartz -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
+
+		<!-- ==========================database========================== -->
+		<!-- mysql -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- p6spy -->
+		<dependency>
+			<groupId>p6spy</groupId>
+			<artifactId>p6spy</artifactId>
+			<version>${p6spy.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<!-- ==========================tomcat========================== -->
+		<!-- tomcat -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+		<!-- ==========================tools========================== -->
+		<!-- guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+
+		<!-- hutool -->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>${hutool.version}</version>
+		</dependency>
+
+		<!-- fastjson2 -->
+		<dependency>
+			<groupId>com.alibaba.fastjson2</groupId>
+			<artifactId>fastjson2</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- springboot -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- surefire -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>-Dnet.bytebuddy.experimental=true</argLine>
+				</configuration>
+			</plugin>
+			<!-- compiler -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${jdk8}</source>
+					<target>${jdk8}</target>
+					<compilerArgs>
+						<arg>-parameters</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+			<!-- querydsl -->
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>apt-maven-plugin</artifactId>
+				<version>1.1.3</version>
+				<executions>
+					<execution>
+						<configuration>
+							<outputDirectory>target/generated-sources/java-templates</outputDirectory>
+							<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.querydsl</groupId>
+						<artifactId>querydsl-apt</artifactId>
+						<version>${querydsl.version}</version>
+						<classifier>${classifier}</classifier>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+</project>

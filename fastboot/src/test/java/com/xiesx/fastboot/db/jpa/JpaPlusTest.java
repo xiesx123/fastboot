@@ -33,6 +33,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @TestMethodOrder(OrderAnnotation.class)
@@ -87,7 +88,7 @@ public class JpaPlusTest {
         assertEquals(data.getContent().size(), 6);
 
         // 投影查询（在多表联合查询）
-        Expression expTuple =
+        Expression<JpaPlusPojo.LogRecordPojo> expTuple =
                 Projections.constructor(
                         JpaPlusPojo.LogRecordPojo.class,
                         ql.id,
@@ -123,7 +124,10 @@ public class JpaPlusTest {
         // 按主键批量删除
         int row =
                 mLogRecordRepository.delete(
-                        StreamUtil.of(result).skip(1).map(LogRecord::getId).toList());
+                        StreamUtil.of(result)
+                                .skip(1)
+                                .map(LogRecord::getId)
+                                .collect(Collectors.toList()));
         assertTrue(row > 0);
 
         // 按条件批量删除

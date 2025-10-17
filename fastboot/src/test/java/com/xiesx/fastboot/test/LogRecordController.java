@@ -29,7 +29,7 @@ public class LogRecordController extends BaseController {
         if (ObjectUtil.isNotEmpty(base.getKeyword())) {
             Predicate p1 = ql.id.like("%" + base.getKeyword() + "%");
             Predicate p2 = ql.method.likeIgnoreCase("%" + base.getKeyword() + "%");
-            predicate = ExpressionUtils.and(predicate, ExpressionUtils.anyOf(p1, p2));
+            predicate = ExpressionUtils.or(predicate, ExpressionUtils.anyOf(p1, p2));
         }
         // 排序
         Sort sort = Sort.by(Direction.ASC, LogRecord.FIELDS.createDate);

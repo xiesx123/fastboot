@@ -29,6 +29,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @TestMethodOrder(OrderAnnotation.class)
@@ -137,7 +138,7 @@ public class QueryDslTest {
     @Test
     @Order(8)
     public void delete() {
-        List<Long> ids = StreamUtil.of(result).map(LogRecord::getId).toList();
+        List<Long> ids = StreamUtil.of(result).map(LogRecord::getId).collect(Collectors.toList());
         long row = mJPAQuery.delete(ql).where(ql.id.in(ids)).execute();
         assertEquals(row, ids.size());
     }

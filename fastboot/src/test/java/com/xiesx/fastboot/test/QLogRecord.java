@@ -36,7 +36,7 @@ public class QLogRecord extends EntityPathBase<LogRecord> {
 
     public final NumberPath<Long> time = createNumber("time", Long.class);
 
-    public final NumberPath del = createNumber("del", Integer.class);
+    public final NumberPath<Integer> del = createNumber("del", Integer.class);
 
     public QLogRecord(String variable) {
         super(LogRecord.class, forVariable(variable));
