@@ -133,5 +133,5 @@ public class Version {
 ## 插件
 
 ```bash
-mvn clean test jacoco:report coveralls:report
+mvn clean test jacoco:report-aggregate coveralls:report -Preport >x.log
 ```

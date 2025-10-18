@@ -12,6 +12,12 @@
 	<description>Fast, efficient, and lightweight Spring Boot development</description>
 	<url>https://github.com/xiesx123/fastboot</url>
 
+	<modules>
+		<module>extension-spring5</module>
+		<module>extension-spring6</module>
+		<module>fastboot</module>
+		<module>testing</module>
+	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,15 +32,6 @@
 		<querydsl500>5.0.0</querydsl500>
 		<querydsl510>5.1.0</querydsl510>
 
-		<fastjson_spring5>fastjson2-extension-spring5</fastjson_spring5>
-		<fastjson_spring6>fastjson2-extension-spring6</fastjson_spring6>
-
-		<fastboot_spring5>extension-spring5</fastboot_spring5>
-		<fastboot_spring6>extension-spring6</fastboot_spring6>
-
-		<coveralls450>4.5.0</coveralls450>
-		<coveralls500>5.0.0</coveralls500>
-
 		<p6spy.version>3.9.1</p6spy.version>
 		<guava.version>33.5.0-jre</guava.version>
 		<hutool.version>5.8.40</hutool.version>
@@ -42,13 +39,9 @@
 		<tlog.version>1.5.2</tlog.version>
 		<ttl.version>2.14.5</ttl.version>
 		<aviator.version>5.4.3</aviator.version>
-	</properties>
 
-	<modules>
-		<module>extension-spring5</module>
-		<module>extension-spring6</module>
-		<module>fastboot</module>
-	</modules>
+		<itCoverageAgent></itCoverageAgent>
+	</properties>
 
 	<profiles>
 		<!-- SpringBoot2 -->
@@ -62,92 +55,39 @@
 				<springboot.version>${springboot2}</springboot.version>
 				<querydsl.version>${querydsl500}</querydsl.version>
 				<classifier></classifier>
-				<coveralls.version>4.5.0</coveralls.version>
-				<fastjson.artifactId>${fastjson_spring5}</fastjson.artifactId>
-				<fastboot.artifactId>${fastboot_spring5}</fastboot.artifactId>
 			</properties>
 			<dependencies>
-				<!-- validation -->
-				<dependency>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-validation</artifactId>
-				</dependency>
 				<!-- test -->
 				<dependency>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-test</artifactId>
 					<scope>test</scope>
-					<exclusions>
-						<exclusion>
-							<groupId>org.mockito</groupId>
-							<artifactId>mockito-core</artifactId>
-						</exclusion>
-					</exclusions>
 				</dependency>
 				<dependency>
 					<groupId>org.mockito</groupId>
 					<artifactId>mockito-inline</artifactId>
-					<version>4.5.1</version><!--$NO-MVN-MAN-VER$-->
+					<version>4.5.1</version>					<!--$NO-MVN-MAN-VER$-->
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>3.2.5</version>
-						<configuration>
-							<argLine>-Dnet.bytebuddy.experimental=true</argLine>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
 
 		<!-- SpringBoot3  -->
 		<profile>
 			<id>sb3</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
 			<properties>
 				<java.version>${jdk21}</java.version>
 				<springboot.version>${springboot3}</springboot.version>
 				<querydsl.version>${querydsl510}</querydsl.version>
 				<classifier>jakarta</classifier>
-				<coveralls.version>5.0.0</coveralls.version>
-				<fastjson.artifactId>${fastjson_spring6}</fastjson.artifactId>
 				<fastboot.artifactId>${fastboot_spring6}</fastboot.artifactId>
 			</properties>
 			<dependencies>
+				<!-- test -->
 				<dependency>
-					<groupId>jakarta.validation</groupId>
-					<artifactId>jakarta.validation-api</artifactId>
-					<version>3.0.2</version>
-				</dependency>
-				<dependency>
-					<groupId>org.hibernate.validator</groupId>
-					<artifactId>hibernate-validator</artifactId>
-					<version>8.0.0.Final</version>
-				</dependency>
-				<dependency>
-					<groupId>jakarta.servlet</groupId>
-					<artifactId>jakarta.servlet-api</artifactId>
-					<version>6.0.0</version>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>jakarta.servlet.jsp</groupId>
-					<artifactId>jakarta.servlet.jsp-api</artifactId>
-					<version>3.1.1</version>
-					<scope>provided</scope>
-				</dependency>
-				<dependency>
-					<groupId>jakarta.persistence</groupId>
-					<artifactId>jakarta.persistence-api</artifactId>
-					<version>3.1.0</version>
-					<scope>provided</scope>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-test</artifactId>
+					<scope>test</scope>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -181,11 +121,6 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-		</dependency>
-
 		<!-- ==========================spring========================== -->
 		<!-- devtools -->
 		<dependency>
@@ -201,7 +136,6 @@
 			<artifactId>rest-assured</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -216,24 +150,44 @@
 				</configuration>
 			</plugin>
 
-			<!-- 覆盖率测试 -->
+			<!-- 覆盖率 -->
+			<!-- surefire -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.2.5</version>
+				<configuration>
+					<systemPropertyVariables>
+						<net.bytebuddy.experimental>true</net.bytebuddy.experimental>
+					</systemPropertyVariables>
+					<testFailureIgnore>true</testFailureIgnore>
+					<argLine>${itCoverageAgent}</argLine>
+					<excludes>
+						<exclude>**/*/SchedulerTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<!-- jacoco -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.13</version>
 				<executions>
 					<execution>
-						<id>prepare-agent</id>
+						<id>prepare-unit-tests</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
 					<execution>
-						<id>report</id>
-						<phase>test</phase>
+						<id>prepare-agent</id>
 						<goals>
-							<goal>report</goal>
+							<goal>prepare-agent</goal>
 						</goals>
+						<phase>pre-integration-test</phase>
+						<configuration>
+							<propertyName>itCoverageAgent</propertyName>
+						</configuration>
 					</execution>
 				</executions>
 				<configuration>
@@ -245,13 +199,16 @@
 					</excludes>
 				</configuration>
 			</plugin>
-
+			<!-- coveralls -->
 			<plugin>
 				<groupId>com.github.hazendaz.maven</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>${coveralls.version}</version>
+				<version>4.5.0</version>
 				<configuration>
 					<repoToken>${env.COVERALLS_REPO_TOKEN}</repoToken>
+					<jacocoReports>
+						<jacocoReport>${project.build.directory}/site/jacoco-aggregate/jacoco.xml</jacocoReport>
+					</jacocoReports>
 				</configuration>
 			</plugin>
 
@@ -279,6 +236,19 @@
 			</plugin>
 
 			<!-- 打包 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<compilerArgs>
+						<arg>-parameters</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -335,5 +305,4 @@
 		<system>Github Issue</system>
 		<url>https://github.com/xiesx123/fastboot/issues/issues</url>
 	</issueManagement>
-
 </project>

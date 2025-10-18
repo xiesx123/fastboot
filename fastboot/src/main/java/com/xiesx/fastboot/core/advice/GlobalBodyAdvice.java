@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
@@ -34,7 +35,7 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
     AntPathMatcher match = new AntPathMatcher();
 
     public boolean supports(
-            MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+            @NonNull MethodParameter returnType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
         // 获取当前处理请求方法
         Method method = returnType.getMethod();
         if (method == null) {
@@ -54,11 +55,11 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(
             @Nullable Object body,
-            MethodParameter returnType,
-            MediaType selectedContentType,
-            Class<? extends HttpMessageConverter<?>> selectedConverterType,
-            ServerHttpRequest request,
-            ServerHttpResponse response) {
+            @NonNull MethodParameter returnType,
+            @NonNull MediaType selectedContentType,
+            @NonNull  Class<? extends HttpMessageConverter<?>> selectedConverterType,
+            @NonNull ServerHttpRequest request,
+            @NonNull ServerHttpResponse response) {
 
         // 是否需要拦截
         boolean isMatch =

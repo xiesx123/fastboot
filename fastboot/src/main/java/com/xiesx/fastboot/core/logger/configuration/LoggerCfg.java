@@ -4,6 +4,7 @@ import com.xiesx.fastboot.core.logger.LoggerAspect;
 import com.xiesx.fastboot.core.logger.interceptor.LogInterceptor;
 
 import org.springframework.context.annotation.Import;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -11,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class LoggerCfg implements WebMvcConfigurer {
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
         // 添加处理器
         registry.addInterceptor(new LogInterceptor());
     }

@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.lang.NonNull;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 @Log4j2
@@ -19,7 +20,7 @@ public class TimeJob extends QuartzJobBean {
     public String time;
 
     @Override
-    public void executeInternal(JobExecutionContext context) throws JobExecutionException {
+    public void executeInternal(@NonNull JobExecutionContext context) throws JobExecutionException {
         JobDataMap map = context.getMergedJobDataMap();
         log.info(
                 "{} job {}，当前任务{}个，正在运行 {}",

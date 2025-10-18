@@ -17,6 +17,7 @@ import com.xiesx.fastboot.core.token.configuration.TokenProperties;
 
 import lombok.extern.log4j.Log4j2;
 
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -33,7 +34,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(
-            HttpServletRequest request, HttpServletResponse response, Object handler)
+            @NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler)
             throws Exception {
         log.trace("token preHandle");
         // 获取token配置
@@ -89,9 +90,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Object handler,
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull Object handler,
             @Nullable ModelAndView modelAndView)
             throws Exception {
         log.trace("token postHandle");
@@ -99,10 +100,10 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Object handler,
-            @Nullable Exception ex)
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull Object handler,
+              @Nullable   Exception ex)
             throws Exception {
         log.trace("token afterCompletion");
     }

@@ -16,7 +16,7 @@ public class JpaPlusRepositoryFactoryBean<T extends Repository<S, ID>, S, ID>
 
     @Override
     protected @NonNull RepositoryFactorySupport createRepositoryFactory(
-            EntityManager entityManager) {
+            @NonNull EntityManager entityManager) {
         return new JpaPlusRepositoryFactory(entityManager);
     }
 }

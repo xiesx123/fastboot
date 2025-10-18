@@ -15,6 +15,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.lang.NonNull;
 
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class EventBusCfg implements DisposableBean, ApplicationListener<ContextR
     }
 
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    public void onApplicationEvent(@NonNull ContextRefreshedEvent event) {
         if (event.getApplicationContext().getParent() == null) {
             beans.putAll(SpringHelper.getContext().getBeansOfType(EventAdapter.class));
             beans.values()

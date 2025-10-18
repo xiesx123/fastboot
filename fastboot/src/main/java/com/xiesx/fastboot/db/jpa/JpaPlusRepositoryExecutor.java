@@ -64,48 +64,48 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
     // ========================== QuerydslPredicateExecutor
 
     @Override
-    public @NonNull Optional<T> findOne(Predicate predicate) {
+    public @NonNull Optional<T> findOne(@NonNull Predicate predicate) {
         return jpaPredicateExecutor.findOne(predicate);
     }
 
     @Override
-    public @NonNull List<T> findAll(Predicate predicate) {
+    public @NonNull List<T> findAll(@NonNull Predicate predicate) {
         return jpaPredicateExecutor.findAll(predicate);
     }
 
     @Override
-    public @NonNull List<T> findAll(Predicate predicate, Sort sort) {
+    public @NonNull List<T> findAll(@NonNull Predicate predicate, @NonNull Sort sort) {
         return jpaPredicateExecutor.findAll(predicate, sort);
     }
 
     @Override
-    public @NonNull List<T> findAll(OrderSpecifier<?>... orders) {
+    public @NonNull List<T> findAll(@NonNull OrderSpecifier<?>... orders) {
         return jpaPredicateExecutor.findAll(orders);
     }
 
     @Override
-    public @NonNull List<T> findAll(Predicate predicate, OrderSpecifier<?>... orders) {
+    public @NonNull List<T> findAll(@NonNull Predicate predicate, @NonNull OrderSpecifier<?>... orders) {
         return jpaPredicateExecutor.findAll(predicate, orders);
     }
 
     @Override
-    public @NonNull Page<T> findAll(Predicate predicate, Pageable pageable) {
+    public @NonNull Page<T> findAll(@NonNull Predicate predicate, @NonNull Pageable pageable) {
         return jpaPredicateExecutor.findAll(predicate, pageable);
     }
 
     @Override
     public @NonNull <S extends T, R> R findBy(
-            Predicate predicate, Function<FetchableFluentQuery<S>, R> queryFunction) {
+            @NonNull  Predicate predicate,@NonNull  Function<FetchableFluentQuery<S>, R> queryFunction) {
         return jpaPredicateExecutor.findBy(predicate, queryFunction);
     }
 
     @Override
-    public long count(Predicate predicate) {
+    public long count(@NonNull Predicate predicate) {
         return jpaPredicateExecutor.count(predicate);
     }
 
     @Override
-    public boolean exists(Predicate predicate) {
+    public boolean exists(@NonNull Predicate predicate) {
         return jpaPredicateExecutor.exists(predicate);
     }
 

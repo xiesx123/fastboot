@@ -17,13 +17,13 @@ public class JpaPlusRepositoryFactory extends JpaRepositoryFactory {
     }
 
     @Override
-    protected @NonNull Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
+    protected @NonNull Class<?> getRepositoryBaseClass(@NonNull RepositoryMetadata metadata) {
         return JpaPlusRepositoryExecutor.class;
     }
 
     @Override
     protected @NonNull JpaRepositoryImplementation<?, ?> getTargetRepository(
-            RepositoryInformation information, EntityManager entityManager) {
+            @NonNull RepositoryInformation information, @NonNull EntityManager entityManager) {
         return new JpaPlusRepositoryExecutor<>(information.getDomainType(), entityManager);
     }
 }

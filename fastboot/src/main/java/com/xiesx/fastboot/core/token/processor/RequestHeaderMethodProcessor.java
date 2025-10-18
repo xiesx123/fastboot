@@ -10,6 +10,7 @@ import com.xiesx.fastboot.core.token.configuration.TokenCfg;
 import com.xiesx.fastboot.core.token.header.RequestHeaderParams;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class RequestHeaderMethodProcessor implements HandlerMethodArgumentResolver {
 
     @Override
-    public boolean supportsParameter(MethodParameter parameter) {
+    public boolean supportsParameter(@NonNull MethodParameter parameter) {
         boolean h =
                 RequestHeaderParams.class.isAssignableFrom(parameter.getParameterType())
                         && parameter.hasParameterAnnotation(GoHeader.class);
@@ -34,9 +35,9 @@ public class RequestHeaderMethodProcessor implements HandlerMethodArgumentResolv
 
     @Override
     public Object resolveArgument(
-            MethodParameter parameter,
+            @NonNull  MethodParameter parameter,
             @Nullable ModelAndViewContainer container,
-            NativeWebRequest request,
+            @NonNull NativeWebRequest request,
             @Nullable WebDataBinderFactory factory)
             throws Exception {
 

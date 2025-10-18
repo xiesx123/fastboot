@@ -7,6 +7,11 @@
   "google-java-format.extra-args": "",
   // 格式化文件类型
   "folderformatter.extensions": ["md", "java", "json"],
+  // xml
+  "[xml]": {
+    // 保存时格式化
+    "editor.formatOnSave": true
+  },
   // java
   "[java]": {
     // 使用 Google-Java-Format 作为 Java 格式化器
@@ -23,10 +28,10 @@
   // 当项目 构建失败 时，是否仍然继续启动调试
   "java.debug.settings.onBuildFailureProceed": true,
   // 是否显示非Java资源
-  "java.project.explorer.showNonJavaResources": true,
+  "java.project.explorer.showNonJavaResources": false,
   // 自定义测试配置（启用 ByteBuddy 实验性功能以支持某些框架的动态类生成）
   "java.test.config": {
-    "name": "fastbppt",
+    "name": "fastboot",
     "vmArgs": ["-Dnet.bytebuddy.experimental=true"]
   },
   // 字体大小

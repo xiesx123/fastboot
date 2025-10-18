@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class SpringContext
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
         SpringContext.applicationContext = applicationContext;
         if (ObjectUtil.isNotNull(getApplicationContext())) {
             log.debug("Spring ApplicationContext completed.");
@@ -53,7 +54,7 @@ public class SpringContext
     }
 
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    public void onApplicationEvent(@NonNull ContextRefreshedEvent event) {
         if (event.getApplicationContext().getParent() == null) {
             servername = FileUtil.getName(serverpath);
             serverpath = SystemUtil.getUserInfo().getCurrentDir();

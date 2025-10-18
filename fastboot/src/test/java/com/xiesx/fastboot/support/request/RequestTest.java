@@ -30,13 +30,13 @@ import java.util.concurrent.TimeUnit;
 public class RequestTest {
 
     public static final String URL =
-            "https://front-gateway.mtime.cn/ticket/schedule/showing/movies.api?locationId=561";
+            "https://front-gateway.mtime.cn/ticket/schedule/showing/movies.api";
 
     @Test
     @Order(1)
     public void request() {
         // 构造请求
-        HttpRequest request = HttpRequest.get(URL).timeout(0);
+        HttpRequest request = HttpRequest.get(URL + "?locationId=561").timeout(0);
         // 请求重试
         HttpResponse response = HttpRequests.retry(request);
         // 解析结果
@@ -49,7 +49,7 @@ public class RequestTest {
     @Order(2)
     public void retryer() {
         // 构造请求
-        HttpRequest request = HttpRequest.get(URL);
+        HttpRequest request = HttpRequest.get(URL + "?locationId=562");
         // 自定义重试器
         Retryer<HttpResponse> retryer =
                 RetryerBuilder.<HttpResponse>newBuilder()
@@ -72,6 +72,6 @@ public class RequestTest {
         // 解析结果
         Object lid = R.eval(response.body(), "$.data.lid");
         // 验证结果
-        assertEquals(lid, 561);
+        assertEquals(lid, 562);
     }
 }

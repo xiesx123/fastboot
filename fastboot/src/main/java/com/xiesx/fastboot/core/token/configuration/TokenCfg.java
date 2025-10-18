@@ -9,6 +9,7 @@ import com.xiesx.fastboot.core.token.processor.RequestHeaderMethodProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.lang.NonNull;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -27,7 +28,7 @@ public class TokenCfg implements WebMvcConfigurer {
     @Autowired TokenProperties mTokenProperties;
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
         // 添加处理器
         InterceptorRegistration in = registry.addInterceptor(new TokenInterceptor());
         // 处理url
@@ -45,7 +46,7 @@ public class TokenCfg implements WebMvcConfigurer {
     }
 
     @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+    public void addArgumentResolvers(@NonNull List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new RequestHeaderMethodProcessor());
     }
 }

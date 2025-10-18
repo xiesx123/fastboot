@@ -8,13 +8,15 @@
 
 <h1 align="center">FastBoot</h1>
 
- [![Jitpack](https://img.shields.io/badge/JitPack-Snapshot-46C118?logo1=jitpack&logoColor=white)](https://jitpack.io/#xiesx123/fastboot/master-SNAPSHOT)
+[![Jitpack](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
+![Jitpack Month Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fjitpack.io%2Fapi%2Fdownloads%2Fcom.github.xiesx123%2Ffastboot&query=month&suffix=%20month&style=flat&label=Downloads&link=https%3A%2F%2Fjitpack.io%2F%23xiesx123%2Ffastboot&color=0078D7) 
+![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat&label=License&color=0078D7)
+
+
 [![Coverage Status](https://coveralls.io/repos/github/xiesx123/fastboot/badge.svg?branch=master)](https://coveralls.io/github/xiesx123/fastboot?branch=master)
 [![VitePress](https://img.shields.io/badge/VitePress-Doc-3E63DD?logo=markdown)](https://xiesx123.github.io/fastboot)
 
-<!-- ![Jitpack Month Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fjitpack.io%2Fapi%2Fdownloads%2Fcom.github.xiesx123%2Ffastboot&query=month&suffix=%20month&style=flat&label=Downloads&link=https%3A%2F%2Fjitpack.io%2F%23xiesx123%2Ffastboot&color=0078D7) 
-![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat&label=License&color=0078D7)
--->
+
 
 🚀 快速、高效、轻量级的 Spring Boot 开发，用于快速构建应用程序
 
