@@ -15,7 +15,7 @@ import org.hibernate.type.Type;
 import java.io.Serializable;
 import java.util.Properties;
 
-@SuppressWarnings({"deprecation", "unused"})
+@SuppressWarnings({"deprecation"})
 public class IdWorkerGenerator implements Configurable, IdentifierGenerator {
 
     /** 前缀 */
