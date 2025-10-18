@@ -13,7 +13,7 @@ import org.hibernate.id.factory.spi.CustomIdGeneratorCreationContext;
 import java.lang.reflect.Member;
 import java.util.EnumSet;
 
-public class IdWorkerGenerator implements BeforeExecutionGenerator {
+public class GeneratorIdWorker implements BeforeExecutionGenerator {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,8 +28,8 @@ public class IdWorkerGenerator implements BeforeExecutionGenerator {
 
     private Snowflake snowflake;
 
-    public IdWorkerGenerator(
-            GeneratedIdWorker config, Member member, CustomIdGeneratorCreationContext context) {
+    public GeneratorIdWorker(
+            GeneratedIdId config, Member member, CustomIdGeneratorCreationContext context) {
         this.prefix = config.prefix();
         this.workerId = Convert.toLong(config.workerId(), 0L);
         this.centerId = Convert.toLong(config.centerId(), 0L);

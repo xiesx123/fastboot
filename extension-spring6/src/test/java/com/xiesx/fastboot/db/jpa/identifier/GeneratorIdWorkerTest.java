@@ -10,12 +10,12 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Member;
 
-class IdWorkerGeneratorTest {
+class GeneratorIdWorkerTest {
 
     @Test
     void testGenerateWithPrefix() {
         // 模拟注解配置
-        GeneratedIdWorker config = mock(GeneratedIdWorker.class);
+        GeneratedIdId config = mock(GeneratedIdId.class);
         when(config.prefix()).thenReturn("TEST_");
         when(config.workerId()).thenReturn(1);
         when(config.centerId()).thenReturn(2);
@@ -23,7 +23,7 @@ class IdWorkerGeneratorTest {
         Member member = mock(Member.class);
         CustomIdGeneratorCreationContext context = mock(CustomIdGeneratorCreationContext.class);
 
-        IdWorkerGenerator generator = new IdWorkerGenerator(config, member, context);
+        GeneratorIdWorker generator = new GeneratorIdWorker(config, member, context);
 
         SharedSessionContractImplementor session = mock(SharedSessionContractImplementor.class);
         Object result = generator.generate(session, new Object(), null, EventType.INSERT);
@@ -34,7 +34,7 @@ class IdWorkerGeneratorTest {
 
     @Test
     void testGenerateWithoutPrefix() {
-        GeneratedIdWorker config = mock(GeneratedIdWorker.class);
+        GeneratedIdId config = mock(GeneratedIdId.class);
         when(config.prefix()).thenReturn("");
         when(config.workerId()).thenReturn(1);
         when(config.centerId()).thenReturn(2);
@@ -42,7 +42,7 @@ class IdWorkerGeneratorTest {
         Member member = mock(Member.class);
         CustomIdGeneratorCreationContext context = mock(CustomIdGeneratorCreationContext.class);
 
-        IdWorkerGenerator generator = new IdWorkerGenerator(config, member, context);
+        GeneratorIdWorker generator = new GeneratorIdWorker(config, member, context);
 
         SharedSessionContractImplementor session = mock(SharedSessionContractImplementor.class);
         Object result = generator.generate(session, new Object(), null, EventType.INSERT);
@@ -52,13 +52,13 @@ class IdWorkerGeneratorTest {
 
     @Test
     void testStaticNextId() {
-        Long id = IdWorkerGenerator.nextId(3, 4);
+        Long id = GeneratorIdWorker.nextId(3, 4);
         assertNotNull(id);
     }
 
     @Test
     void testStaticNextIdDefault() {
-        Long id = IdWorkerGenerator.nextId();
+        Long id = GeneratorIdWorker.nextId();
         assertNotNull(id);
     }
 }
