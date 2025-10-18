@@ -7,7 +7,6 @@ import cn.hutool.core.util.StrUtil;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.Configurable;
 import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.Type;
@@ -15,8 +14,7 @@ import org.hibernate.type.Type;
 import java.io.Serializable;
 import java.util.Properties;
 
-@SuppressWarnings({"deprecation"})
-public class IdWorkerGenerator implements Configurable, IdentifierGenerator {
+public class IdWorkerGenerator implements IdentifierGenerator {
 
     /** 前缀 */
     public String prefix;
