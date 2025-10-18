@@ -1,5 +1,16 @@
 package com.xiesx.fastboot.example;
 
+import cn.hutool.core.util.ObjectUtil;
+
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.xiesx.fastboot.base.page.PR;
+import com.xiesx.fastboot.base.page.PResult;
+import com.xiesx.fastboot.base.page.PageVo;
+
+import lombok.extern.log4j.Log4j2;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,27 +22,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.xiesx.fastboot.base.page.PR;
-import com.xiesx.fastboot.base.page.PResult;
-import com.xiesx.fastboot.base.page.PageVo;
-
-import cn.hutool.core.util.ObjectUtil;
-import lombok.extern.log4j.Log4j2;
-
 @Log4j2
 @Validated
 @RestController
 @RequestMapping("log")
 public class LogRecordController {
 
-    @Autowired
-    JPAQueryFactory mJPAQueryFactory;
+    @Autowired JPAQueryFactory mJPAQueryFactory;
 
-    @Autowired
-    LogRecordRepository mLogRecordRepository;
+    @Autowired LogRecordRepository mLogRecordRepository;
 
     QLogRecord ql = QLogRecord.logRecord;
 

@@ -90,6 +90,7 @@
 			<artifactId>querydsl-jpa</artifactId>
 			<version>${querydsl.version}</version>
 			<classifier>${classifier}</classifier>
+			<optional>true</optional>
 		</dependency>
 		<!-- ==========================tomcat========================== -->
 		<!-- tomcat -->

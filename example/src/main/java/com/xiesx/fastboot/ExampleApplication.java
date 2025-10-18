@@ -1,15 +1,15 @@
 package com.xiesx.fastboot;
 
-import java.io.UnsupportedEncodingException;
+import com.xiesx.fastboot.db.jpa.annotation.EnableJpaPlusRepositories;
+
+import lombok.extern.log4j.Log4j2;
 
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import com.xiesx.fastboot.db.jpa.annotation.EnableJpaPlusRepositories;
-
-import lombok.extern.log4j.Log4j2;
+import java.io.UnsupportedEncodingException;
 
 @Log4j2
 @EnableJpaAuditing

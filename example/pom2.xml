@@ -17,11 +17,9 @@
 		<java.version>8</java.version>
 		<fastboot.version>3.1.0</fastboot.version>
 		<p6spy.version>3.9.1</p6spy.version>
-		<fastjson.version>2.0.59</fastjson.version>
 	</properties>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -39,19 +37,20 @@
 			</exclusions>
 		</dependency>
 
+		<!-- querydsl -->
 		<dependency>
-			<groupId>com.github.xiesx123.fastboot</groupId>
-			<artifactId>extension-spring5</artifactId>
-			<version>${fastboot.version}</version>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>			<!--$NO-MVN-MAN-VER$-->
 		</dependency>
 
-		<!-- ==========================database========================== -->
 		<!-- mysql -->
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
 		<!-- p6spy -->
 		<dependency>
 			<groupId>p6spy</groupId>
@@ -59,38 +58,6 @@
 			<version>${p6spy.version}</version>
 			<optional>true</optional>
 		</dependency>
-		<!-- querydsl -->
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-jpa</artifactId>
-			<version>${querydsl.version}</version>			<!--$NO-MVN-MAN-VER$-->
-		</dependency>
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-apt</artifactId>
-			<version>${querydsl.version}</version>			<!--$NO-MVN-MAN-VER$-->
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- ==========================tomcat========================== -->
-		<!-- tomcat -->
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-		</dependency>
-
-		<!-- fastjson2 -->
-		<dependency>
-			<groupId>com.alibaba.fastjson2</groupId>
-			<artifactId>fastjson2</artifactId>
-			<version>${fastjson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba.fastjson2</groupId>
-			<artifactId>fastjson2-extension-spring5</artifactId>
-			<version>${fastjson.version}</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -119,6 +86,13 @@
 						</configuration>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.querydsl</groupId>
+						<artifactId>querydsl-apt</artifactId>
+						<version>${querydsl.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<!-- compiler -->
 			<plugin>
@@ -129,8 +103,8 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-		</plugins>
 
+		</plugins>
 	</build>
 
 	<repositories>

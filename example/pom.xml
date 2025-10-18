@@ -17,7 +17,6 @@
 		<java.version>21</java.version>
 		<fastboot.version>3.1.0</fastboot.version>
 		<p6spy.version>3.9.1</p6spy.version>
-		<fastjson.version>2.0.59</fastjson.version>
 	</properties>
 
 	<dependencies>
@@ -37,16 +36,27 @@
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
+				<!--jitpack-->
+				<exclusion>
+					<groupId>com.github.xiesx123.fastboot</groupId>
+					<artifactId>extension-spring5</artifactId>
+				</exclusion>
+				<!--local-->
+				<exclusion>
+					<groupId>com.xiesx.fastboot</groupId>
+					<artifactId>extension-spring5</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
+		<!-- querydsl -->
 		<dependency>
-			<groupId>com.github.xiesx123.fastboot</groupId>
-			<artifactId>extension-spring6</artifactId>
-			<version>${fastboot.version}</version>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>			<!--$NO-MVN-MAN-VER$-->
+			<classifier>jakarta</classifier>
 		</dependency>
 
-		<!-- ==========================database========================== -->
 		<!-- mysql -->
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -60,31 +70,6 @@
 			<version>${p6spy.version}</version>
 			<optional>true</optional>
 		</dependency>
-		<!-- querydsl -->
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-jpa</artifactId>
-			<version>${querydsl.version}</version>			<!--$NO-MVN-MAN-VER$-->
-		</dependency>
-
-		<!-- ==========================tomcat========================== -->
-		<!-- tomcat -->
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-		</dependency>
-
-		<!-- fastjson2 -->
-		<dependency>
-			<groupId>com.alibaba.fastjson2</groupId>
-			<artifactId>fastjson2</artifactId>
-			<version>${fastjson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba.fastjson2</groupId>
-			<artifactId>fastjson2-extension-spring6</artifactId>
-			<version>${fastjson.version}</version>
-		</dependency>
 
 	</dependencies>
 
@@ -95,6 +80,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 			<!-- querydsl -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -112,18 +98,17 @@
 						<path>
 							<groupId>jakarta.persistence</groupId>
 							<artifactId>jakarta.persistence-api</artifactId>
-							<version>3.1.0</version>
+							<version>${jakarta-persistence.version}</version>
 						</path>
 					</annotationProcessorPaths>
 					<compilerArgs>
-						<arg>-processor</arg> 
+						<arg>-processor</arg>
 						<arg>com.querydsl.apt.jpa.JPAAnnotationProcessor</arg>
 						<arg>-Aquerydsl.generatedAnnotationClass=com.querydsl.core.annotations.Generated</arg>
 					</compilerArgs>
 				</configuration>
 			</plugin>
 
-			<!-- 输出目录 -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -144,7 +129,6 @@
 			</plugin>
 
 		</plugins>
-
 	</build>
 
 	<repositories>
