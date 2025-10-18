@@ -89,8 +89,8 @@
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
 			<version>${querydsl.version}</version>
+			<scope>provided</scope>
 			<classifier>${classifier}</classifier>
-			<optional>true</optional>
 		</dependency>
 		<!-- ==========================tomcat========================== -->
 		<!-- tomcat -->
@@ -129,6 +129,7 @@
 			<groupId>com.alibaba.fastjson2</groupId>
 			<artifactId>fastjson2-extension-spring6</artifactId>
 			<version>${fastjson.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<!-- tlog -->
 		<dependency>

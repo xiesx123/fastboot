@@ -5,8 +5,15 @@
 .settings
 target/
 
+### Node ###
+**/node_modules/
+**/dist/
+**/cache/
+**/docs/package.json
+
 ### VSCode ###
 *.log
+*.log.*
 *.exe
 *.msi
 *.mp4
@@ -14,8 +21,3 @@ target/
 **/temp/
 **/.vscode/
 
-### Node ###
-**/node_modules/
-**/dist/
-**/cache/
-**/docs/package.json

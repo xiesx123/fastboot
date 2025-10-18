@@ -16,7 +16,7 @@
 		<module>extension-spring5</module>
 		<module>extension-spring6</module>
 		<module>fastboot</module>
-		<module>testing</module>
+		<module>report</module>
 	</modules>
 
 	<properties>

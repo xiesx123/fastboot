@@ -37,7 +37,13 @@
 			</exclusions>
 		</dependency>
 
- 
+		<!-- querydsl -->
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>
+		</dependency>
+
 		<!-- mysql -->
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -52,6 +58,7 @@
 			<version>${p6spy.version}</version>
 			<optional>true</optional>
 		</dependency>
+
 	</dependencies>
 
 	<build>
