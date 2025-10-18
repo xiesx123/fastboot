@@ -37,13 +37,7 @@
 			</exclusions>
 		</dependency>
 
-		<!-- querydsl -->
-		<dependency>
-			<groupId>com.querydsl</groupId>
-			<artifactId>querydsl-jpa</artifactId>
-			<version>${querydsl.version}</version>			<!--$NO-MVN-MAN-VER$-->
-		</dependency>
-
+ 
 		<!-- mysql -->
 		<dependency>
 			<groupId>com.mysql</groupId>

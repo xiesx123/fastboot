@@ -36,12 +36,10 @@
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
-				<!--jitpack-->
 				<exclusion>
-					<groupId>com.github.xiesx123.fastboot</groupId>
-					<artifactId>extension-spring5</artifactId>
+					<groupId>com.querydsl</groupId>
+					<artifactId>querydsl-jpa</artifactId>
 				</exclusion>
-				<!--local-->
 				<exclusion>
 					<groupId>com.xiesx.fastboot</groupId>
 					<artifactId>extension-spring5</artifactId>
