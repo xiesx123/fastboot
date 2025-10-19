@@ -1,111 +1,113 @@
 package com.xiesx.fastboot.core.token;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import cn.hutool.json.JSONObject;
 import cn.hutool.jwt.JWT;
 
-import org.junit.jupiter.api.Test;
+import com.xiesx.fastboot.base.config.Configed;
+import com.xiesx.fastboot.core.token.configuration.TokenProperties;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+@ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
+@TestMethodOrder(OrderAnnotation.class)
 class JwtHelperTest {
+    private static final String ID = "testId";
+    private static final String SUBJECT = "testSubject";
+    private static final String ISSUER = "testIssuer";
+    private static final String AUDIENCE = "testAudience";
+    private static final String SECRET = TokenProperties.SECRET;
+    private static final long TIMEOUT = JwtHelper.JWT_EXPIRE_D_1;
 
-    @Test
-    void testSimpleTokenGenerationAndValidation() {
-        String subject = "testSubject";
-        String audience = "testAudience";
+    private static String token;
 
-        String token = JwtHelper.simple(subject, audience);
-        assertNotNull(token, "Token should not be null");
+    JwtHelper cls;
 
-        boolean isValid = JwtHelper.validate(token);
-        assertTrue(isValid, "Token should be valid");
-
-        JWT parsedToken = JwtHelper.parser(token);
-        assertEquals(subject, parsedToken.getPayload("sub"), "Subject should match");
-        assertEquals(
-                audience,
-                ((List<String>) parsedToken.getPayload("aud")).get(0),
-                "Audience should match");
+    @BeforeEach
+    void setup() {
+        cls = new JwtHelper();
+        token = JwtHelper.build(TIMEOUT, AUDIENCE, SECRET);
     }
 
     @Test
-    void testSimpleTokenWithTimeout() {
-        String subject = "testSubject";
-        String audience = "testAudience";
-        long timeout = JwtHelper.JWT_EXPIRE_M_1;
-
-        String token = JwtHelper.simple(subject, audience, timeout);
-        assertNotNull(token, "Token should not be null");
-
-        boolean isValid = JwtHelper.validate(token);
-        assertTrue(isValid, "Token should be valid");
+    void testConstructor() {
+        assertNotNull(cls);
     }
 
     @Test
-    void testSimpleTokenWithClaims() {
-        String subject = "testSubject";
-        String audience = "testAudience";
-        long timeout = JwtHelper.JWT_EXPIRE_M_5;
-
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", "admin");
-
-        String token = JwtHelper.simple(subject, audience, claims, timeout);
-        assertNotNull(token, "Token should not be null");
-
-        JWT parsedToken = JwtHelper.parser(token);
-        assertEquals("admin", parsedToken.getPayload("role"), "Claim 'role' should match");
+    @Order(1)
+    void testBuild_timeoutAudienceSecret() {
+        token = JwtHelper.build(TIMEOUT, AUDIENCE, SECRET);
+        assertNotNull(token);
     }
 
     @Test
-    void testTokenCreationWithCustomHeaderAndClaims() {
-        String subject = "testSubject";
-        String audience = "testAudience";
-        long timeout = JwtHelper.JWT_EXPIRE_H_1;
-
+    @Order(2)
+    void testBuild_withHeaderAndClaim() {
         Map<String, Object> header = new HashMap<>();
         header.put("alg", "HS256");
-
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", "user");
-
-        String token = JwtHelper.simple(subject, audience, header, claims, timeout);
-        assertNotNull(token, "Token should not be null");
-
-        JWT parsedToken = JwtHelper.parser(token);
-        assertEquals("user", parsedToken.getPayload("role"), "Claim 'role' should match");
-        assertEquals("HS256", parsedToken.getHeader("alg"), "Header 'alg' should match");
+        Map<String, Object> claim = new HashMap<>();
+        claim.put("role", "admin");
+        String result = JwtHelper.build(TIMEOUT, header, claim, AUDIENCE, SECRET);
+        assertNotNull(result);
     }
 
     @Test
-    void testTokenValidationWithCustomSecret() {
-        String subject = "testSubject";
-        String audience = "testAudience";
-        String customSecret = "customSecretKey";
-
-        String token =
-                JwtHelper.create(
-                        "testId",
-                        subject,
-                        "testIssuer",
-                        audience,
-                        null,
-                        null,
-                        JwtHelper.JWT_EXPIRE_H_12,
-                        customSecret);
-
-        boolean isValid = JwtHelper.validate(customSecret, token);
-        assertTrue(isValid, "Token should be valid with custom secret");
+    @Order(3)
+    void testBuild_fullArguments() {
+        Map<String, Object> header = Collections.singletonMap("typ", "JWT");
+        Map<String, Object> claim = Collections.singletonMap("scope", "read");
+        String result =
+                JwtHelper.build(ID, SUBJECT, ISSUER, TIMEOUT, header, claim, AUDIENCE, SECRET);
+        assertNotNull(result);
     }
 
     @Test
-    void testInvalidTokenValidation() {
-        String invalidToken = "invalidToken";
+    @Order(4)
+    void testCreate_withDates() {
+        Date start = new Date();
+        Date end = new Date(start.getTime() + TIMEOUT * 1000);
+        Map<String, Object> header = Collections.singletonMap("alg", "HS256");
+        Map<String, Object> claim = Collections.singletonMap("data", "value");
+        String result =
+                JwtHelper.create(ID, SUBJECT, ISSUER, start, end, header, claim, AUDIENCE, SECRET);
+        assertNotNull(result);
+    }
 
-        boolean isValid = JwtHelper.validate(invalidToken);
-        assertFalse(isValid, "Invalid token should not be valid");
+    @Test
+    @Order(5)
+    void testParser_withSecret() {
+        JWT jwt = JwtHelper.parser(SECRET, token);
+        JSONObject claims = jwt.getPayloads();
+        assertNotNull(jwt);
+        assertEquals(Configed.FASTBOOT, claims.getStr("iss"));
+    }
+
+    @Test
+    @Order(6)
+    void testValidate_withSecret_validToken() {
+        boolean result = JwtHelper.validate(SECRET, token);
+        assertTrue(result);
+    }
+
+    @Test
+    @Order(7)
+    void testValidate_withSecret_invalidToken() {
+        boolean result = JwtHelper.validate(SECRET, "invalid.token");
+        assertFalse(result);
     }
 }

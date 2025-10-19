@@ -1,7 +1,6 @@
 package com.xiesx.fastboot.core.limiter;
 
 import cn.hutool.core.annotation.AnnotationUtil;
-import cn.hutool.core.util.StrUtil;
 
 import com.google.common.util.concurrent.RateLimiter;
 import com.xiesx.fastboot.base.config.Configed.Ordered;
@@ -58,9 +57,6 @@ public class LimiterAspect {
         if (rateLimiter.tryAcquire()) {
             return point.proceed();
         }
-        if (StrUtil.isNotBlank(limiter.message())) {
-            throw new RunException(RunExc.LIMITER, limiter.message());
-        }
-        throw new RunException(RunExc.LIMITER);
+        throw new RunException(RunExc.LIMITER, limiter.message());
     }
 }

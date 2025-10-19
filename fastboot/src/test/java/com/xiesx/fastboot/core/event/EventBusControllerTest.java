@@ -1,7 +1,8 @@
-package com.xiesx.fastboot.core.logger;
+package com.xiesx.fastboot.core.event;
 
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.test.base.BaseTest;
+import com.xiesx.fastboot.test.event.SimpleEvent;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -12,29 +13,17 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public class LoggerTest extends BaseTest {
+public class EventBusControllerTest extends BaseTest {
 
     @Test
     @Order(1)
-    public void noprint() {
-        get("logger/noprint");
+    public void request() {
+        get("event/post?p=测试1");
     }
 
     @Test
     @Order(2)
-    public void print() {
-        get("logger/print");
-    }
-
-    @Test
-    @Order(3)
-    public void format() {
-        get("logger/format");
-    }
-
-    @Test
-    @Order(4)
-    public void storage() {
-        get("logger/storage");
+    public void post() throws InterruptedException {
+        EventBusHelper.post(new SimpleEvent("测试2", true));
     }
 }

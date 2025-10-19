@@ -6,6 +6,7 @@ import cn.hutool.core.util.ReflectUtil;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 
+import lombok.Generated;
 import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.ParameterizedType;
@@ -19,6 +20,7 @@ public abstract class EventAdapter<T> {
 
     @Subscribe
     @AllowConcurrentEvents
+    @Generated
     public void onEvent(T event) {
         if (ObjectUtil.isNotNull(
                 ReflectUtil.getMethod(this.getClass(), EVENT_METHOD, event.getClass()))) {

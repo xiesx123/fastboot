@@ -46,7 +46,7 @@ public abstract class BaseTest {
     int port;
 
     @BeforeEach
-    public void init() {
+    public void setup() {
         RestAssured.port = port;
     }
 
@@ -59,7 +59,7 @@ public abstract class BaseTest {
     }
 
     public static Response post(String url, Map<String, ?> param) {
-        return post(url, Maps.newConcurrentMap(), param);
+        return post(url, Maps.newHashMap(), param);
     }
 
     public static Response post(String url, Map<String, ?> headers, Map<String, ?> param) {

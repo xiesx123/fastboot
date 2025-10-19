@@ -27,7 +27,7 @@ public class SchedulerTest {
     public void simple() {
 
         String job = TimeJob.class.getSimpleName();
-        Map<String, Object> map = Maps.newConcurrentMap();
+        Map<String, Object> map = Maps.newHashMap();
         map.put(TimeJob.FIELDS.job, "simple");
         map.put(TimeJob.FIELDS.time, "time");
 
@@ -66,7 +66,7 @@ public class SchedulerTest {
     public void cron() {
 
         String job = TimeJob.class.getSimpleName();
-        Map<String, Object> map = Maps.newConcurrentMap();
+        Map<String, Object> map = Maps.newHashMap();
         map.put(TimeJob.FIELDS.job, "cron");
         map.put(TimeJob.FIELDS.time, "time");
 

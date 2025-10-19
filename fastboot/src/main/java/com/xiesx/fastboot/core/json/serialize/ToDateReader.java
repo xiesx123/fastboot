@@ -14,10 +14,6 @@ public class ToDateReader implements ObjectReader<Object> {
     @Override
     public Object readObject(
             JSONReader jsonReader, Type fieldType, Object fieldName, long features) {
-
-        if (jsonReader.nextIfNull()) {
-            return null;
-        }
         return DateUtil.parse(jsonReader.readString());
     }
 }

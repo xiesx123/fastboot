@@ -10,7 +10,11 @@ public class TokenProperties {
 
     public static final String PREFIX = "fastboot.token";
 
+    public static final String SECRET = "fastboot!@#";
+
     private String header = "token";
+
+    private String secret = SECRET;
 
     private String[] includePaths = {};
 

@@ -17,7 +17,7 @@ class IdWorkerGeneratorTest {
     private IdWorkerGenerator generator;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         generator = new IdWorkerGenerator();
     }
 

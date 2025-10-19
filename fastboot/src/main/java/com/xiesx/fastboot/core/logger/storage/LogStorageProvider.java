@@ -5,6 +5,7 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +29,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class LogStorageProvider implements LogStorage {
 
-    private static final String[] HEAD_IP = {
+    private static final String LOG_STORAHE_FORMAT = "| {} | {} | {} | {} | {} | {} | {} | {} ";
+
+    public static final String[] HEAD_IP = {
         "HTTP_X_FORWARDED_FOR",
         "HTTP_X_FORWARDED",
         "HTTP_X_CLUSTER_CLIENT_IP",
@@ -38,8 +42,6 @@ public class LogStorageProvider implements LogStorage {
         "REMOTE_ADDR",
         "PROXY_FORWARDED_FOR"
     };
-
-    private static final String LOG_STORAHE_FORMAT = "| {} | {} | {} | {} | {} | {} | {} | {} ";
 
     @NonNull public String operation;
 
@@ -53,6 +55,8 @@ public class LogStorageProvider implements LogStorage {
 
     public HttpServletRequest request;
 
+    public Long id;
+
     public String type;
 
     public String url;
@@ -63,13 +67,13 @@ public class LogStorageProvider implements LogStorage {
 
     public Map<String, String> parameters;
 
+    @Generated
     @Override
-    public void record(Object result) {
-        // 获取请求信息
+    public Long record(Object result) {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes == null) {
             log.warn("request attributes is null, maybe not in http request scope.");
-            return;
+            return -1L;
         }
         request = ((ServletRequestAttributes) requestAttributes).getRequest();
         type = request.getMethod();
@@ -78,6 +82,7 @@ public class LogStorageProvider implements LogStorage {
         ip = getClientIP(request, HEAD_IP);
         parameters = getParamMap(request);
         log.trace(LOG_STORAHE_FORMAT, url, uri, type, method, args, parameters, result, operation);
+        return id;
     }
 
     public static String getClientIP(HttpServletRequest request, String... otherHeaderNames) {
@@ -89,36 +94,29 @@ public class LogStorageProvider implements LogStorage {
             "HTTP_CLIENT_IP",
             "HTTP_X_FORWARDED_FOR"
         };
-        if (ArrayUtil.isNotEmpty(otherHeaderNames)) {
-            headers = ArrayUtil.addAll(headers, otherHeaderNames);
-        }
-
-        return getClientIPByHeader(request, headers);
+        return getClientIPByHeader(request, ArrayUtil.addAll(headers, otherHeaderNames));
     }
 
     public static String getClientIPByHeader(HttpServletRequest request, String... headerNames) {
-        String ip;
-        for (String header : headerNames) {
-            ip = request.getHeader(header);
-            if (false == NetUtil.isUnknown(ip)) {
-                return NetUtil.getMultistageReverseProxyIp(ip);
-            }
-        }
-
-        ip = request.getRemoteAddr();
-        return NetUtil.getMultistageReverseProxyIp(ip);
+        return Arrays.stream(headerNames)
+                // 获取 header 值
+                .map(request::getHeader)
+                // 过滤掉 null "unknown"
+                .filter(ip -> !NetUtil.isUnknown(ip))
+                // 找到第一个有效
+                .findFirst()
+                // 处理代理
+                .map(NetUtil::getMultistageReverseProxyIp)
+                // fallback
+                .orElseGet(() -> NetUtil.getMultistageReverseProxyIp(request.getRemoteAddr()));
     }
 
     public static Map<String, String> getParamMap(ServletRequest request) {
+        final Map<String, String[]> map = request.getParameterMap();
         Map<String, String> params = new HashMap<>();
-        for (Map.Entry<String, String[]> entry : getParams(request).entrySet()) {
+        for (Map.Entry<String, String[]> entry : Collections.unmodifiableMap(map).entrySet()) {
             params.put(entry.getKey(), ArrayUtil.join(entry.getValue(), StrUtil.COMMA));
         }
         return params;
-    }
-
-    public static Map<String, String[]> getParams(ServletRequest request) {
-        final Map<String, String[]> map = request.getParameterMap();
-        return Collections.unmodifiableMap(map);
     }
 }

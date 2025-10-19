@@ -29,7 +29,7 @@ import java.util.Map;
 
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public class BodyTest extends BaseTest {
+public class BodyControllerTest extends BaseTest {
 
     @Test
     @Order(1)

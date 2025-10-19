@@ -207,7 +207,7 @@
 				<configuration>
 					<repoToken>${env.COVERALLS_REPO_TOKEN}</repoToken>
 					<jacocoReports>
-						<jacocoReport>${basedir}/testing/target/site/jacoco-aggregate/jacoco.xml</jacocoReport>
+						<jacocoReport>${basedir}/report/target/site/jacoco-aggregate/jacoco.xml</jacocoReport>
 					</jacocoReports>
 				</configuration>
 			</plugin>

@@ -35,7 +35,7 @@ public class RequestHeaderMethodProcessor implements HandlerMethodArgumentResolv
 
     @Override
     public Object resolveArgument(
-            @NonNull  MethodParameter parameter,
+            @NonNull MethodParameter parameter,
             @Nullable ModelAndViewContainer container,
             @NonNull NativeWebRequest request,
             @Nullable WebDataBinderFactory factory)
@@ -56,16 +56,7 @@ public class RequestHeaderMethodProcessor implements HandlerMethodArgumentResolv
         // 处理注解
         if (parameter.hasParameterAnnotation(GoToken.class)) {
             return uid != null ? uid.toString() : null;
-        } else if (parameter.hasParameterAnnotation(GoHeader.class)) {
-            return BeanUtil.toBeanIgnoreCase(params, parameter.getParameterType(), true);
         }
-        // 默认情况：无注解，也转换为对应类型（支持继承）
-        Class<?> type = parameter.getParameterType();
-        if (RequestHeaderParams.class.isAssignableFrom(type)) {
-            // 参数类型是 RequestHeaderParams 或其子类
-            return BeanUtil.toBeanIgnoreCase(params, type, true);
-        }
-        // 其他情况不处理
-        return null;
+        return BeanUtil.toBeanIgnoreCase(params, parameter.getParameterType(), true);
     }
 }

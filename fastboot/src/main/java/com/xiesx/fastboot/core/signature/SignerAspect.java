@@ -85,14 +85,14 @@ public class SignerAspect {
         }
         // 是否进行效验
         if (!signer.ignore() && !params.isEmpty() && request != null) {
-            // 获取sign
+            // 获取
             String sign = request.getHeader(key);
-            // sign为空
+            // 验证
             if (StrUtil.isBlank(sign)) {
-                throw new RunException(RunExc.SIGN, "非法请求");
+                throw new RunException(RunExc.SIGN, StrUtil.format("{} is empty", key));
             }
             if (!SignerHelper.getSignature(params, secret).equals(sign)) {
-                throw new RunException(RunExc.SIGN, "验签失败");
+                throw new RunException(RunExc.SIGN, "sign error");
             }
         }
         return pjp.proceed();

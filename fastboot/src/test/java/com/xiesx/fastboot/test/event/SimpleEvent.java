@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.core.event;
+package com.xiesx.fastboot.test.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

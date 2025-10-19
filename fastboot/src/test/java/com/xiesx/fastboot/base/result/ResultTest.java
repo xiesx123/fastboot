@@ -3,174 +3,138 @@ package com.xiesx.fastboot.base.result;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mockStatic;
 
+import com.yomahub.tlog.context.TLogContext;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockedStatic;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
+@TestMethodOrder(OrderAnnotation.class)
 class ResultTest {
 
+    Result result;
+
+    @BeforeEach
+    void setup() {
+        result = new Result().code(200).msg("OK").data("payload");
+    }
+
+    // 1. getTrace()
     @Test
-    void testIsReTryWhenCodeIsRetryCode() {
-        // Arrange
-        Result result = new Result();
-        result.code = R.RETRY_CODE;
+    @Order(1)
+    void testGetTrace() {
+        try (MockedStatic<TLogContext> mocked = mockStatic(TLogContext.class)) {
+            mocked.when(TLogContext::getTraceId).thenReturn("TRACE-123");
+            assertEquals("TRACE-123", result.getTrace());
+        }
+    }
 
-        // Act
-        boolean isReTry = result.isReTry();
-
-        // Assert
-        assertTrue(isReTry, "isReTry should return true when code is RETRY_CODE");
+    // 2. getStatus() → isSuccess()
+    @Test
+    @Order(2)
+    void testGetStatusTrue() {
+        R.SUCCESS_CODE = 0;
+        result.code(0);
+        assertTrue(result.getStatus());
     }
 
     @Test
-    void testIsReTryWhenCodeIsNotRetryCode() {
-        // Arrange
-        Result result = new Result();
-        result.code = 123; // Some code other than RETRY_CODE
-
-        // Act
-        boolean isReTry = result.isReTry();
-
-        // Assert
-        assertFalse(isReTry, "isReTry should return false when code is not RETRY_CODE");
+    @Order(3)
+    void testGetStatusFalse() {
+        R.SUCCESS_CODE = 0;
+        result.code(-1);
+        assertFalse(result.getStatus());
     }
 
     @Test
-    void testIsSuccessWhenCodeIsSuccessCode() {
-        // Arrange
-        Result result = new Result();
-        result.code = R.SUCCESS_CODE;
-
-        // Act
-        boolean isSuccess = result.isSuccess();
-
-        // Assert
-        assertTrue(isSuccess, "isSuccess should return true when code is SUCCESS_CODE");
+    @Order(4)
+    void testIsSuccessTrue() {
+        R.SUCCESS_CODE = 0;
+        result.code(0);
+        assertTrue(result.isSuccess());
     }
 
     @Test
-    void testIsSuccessWhenCodeIsNotSuccessCode() {
-        // Arrange
-        Result result = new Result();
-        result.code = 123; // Some code other than SUCCESS_CODE
-
-        // Act
-        boolean isSuccess = result.isSuccess();
-
-        // Assert
-        assertFalse(isSuccess, "isSuccess should return false when code is not SUCCESS_CODE");
+    @Order(5)
+    void testIsSuccessFalse() {
+        R.SUCCESS_CODE = 0;
+        result.code(-2);
+        assertFalse(result.isSuccess());
     }
 
     @Test
-    void testIsFailWhenCodeIsFailCode() {
-        // Arrange
-        Result result = new Result();
-        result.code = R.FAIL_CODE;
-
-        // Act
-        boolean isFail = result.isFail();
-
-        // Assert
-        assertTrue(isFail, "isFail should return true when code is FAIL_CODE");
+    @Order(6)
+    void testIsFailTrue() {
+        R.FAIL_CODE = -1;
+        result.code(-1);
+        assertTrue(result.isFail());
     }
 
     @Test
-    void testIsFailWhenCodeIsNotFailCode() {
-        // Arrange
-        Result result = new Result();
-        result.code = 123; // Some code other than FAIL_CODE
-
-        // Act
-        boolean isFail = result.isFail();
-
-        // Assert
-        assertFalse(isFail, "isFail should return false when code is not FAIL_CODE");
+    @Order(7)
+    void testIsFailFalse() {
+        R.FAIL_CODE = -1;
+        result.code(0);
+        assertFalse(result.isFail());
     }
 
     @Test
-    void testIsErrorWhenCodeIsErrorCode() {
-        // Arrange
-        Result result = new Result();
-        result.code = R.ERROR_CODE;
-
-        // Act
-        boolean isError = result.isError();
-
-        // Assert
-        assertTrue(isError, "isError should return true when code is ERROR_CODE");
+    @Order(8)
+    void testIsErrorTrue() {
+        R.ERROR_CODE = -2;
+        result.code(-2);
+        assertTrue(result.isError());
     }
 
     @Test
-    void testIsErrorWhenCodeIsNotErrorCode() {
-        // Arrange
-        Result result = new Result();
-        result.code = 123; // Some code other than ERROR_CODE
-
-        // Act
-        boolean isError = result.isError();
-
-        // Assert
-        assertFalse(isError, "isError should return false when code is not ERROR_CODE");
+    @Order(9)
+    void testIsErrorFalse() {
+        R.ERROR_CODE = -2;
+        result.code(0);
+        assertFalse(result.isError());
     }
 
     @Test
-    void testGetStatusWhenCodeIsSuccessCode() {
-        // Arrange
-        Result result = new Result();
-        result.code = R.SUCCESS_CODE;
-
-        // Act
-        boolean status = result.getStatus();
-
-        // Assert
-        assertTrue(status, "getStatus should return true when code is SUCCESS_CODE");
+    @Order(10)
+    void testIsReTryTrue() {
+        R.RETRY_CODE = -3;
+        result.code(-3);
+        assertTrue(result.isReTry());
     }
 
     @Test
-    void testGetStatusWhenCodeIsNotSuccessCode() {
-        // Arrange
-        Result result = new Result();
-        result.code = 123; // Some code other than SUCCESS_CODE
-
-        // Act
-        boolean status = result.getStatus();
-
-        // Assert
-        assertFalse(status, "getStatus should return false when code is not SUCCESS_CODE");
+    @Order(11)
+    void testIsReTryFalse() {
+        R.RETRY_CODE = -3;
+        result.code(0);
+        assertFalse(result.isReTry());
     }
 
+    // 7. toJsonString()
     @Test
+    @Order(12)
     void testToJsonString() {
-        // Arrange
-        Result result = new Result();
-        result.code = R.SUCCESS_CODE;
-        result.msg = "Success";
-        result.data = "Test Data";
-
-        // Act
-        String jsonString = result.toJsonString();
-
-        // Assert
-        assertEquals(
-                R.toJsonStr(result),
-                jsonString,
-                "toJsonString should return the correct JSON string");
+        try (MockedStatic<R> mocked = mockStatic(R.class)) {
+            mocked.when(() -> R.toJsonStr(result)).thenReturn("{\"code\":200}");
+            assertEquals("{\"code\":200}", result.toJsonString());
+        }
     }
 
+    // 8. toJsonPrettyStr()
     @Test
+    @Order(13)
     void testToJsonPrettyStr() {
-        // Arrange
-        Result result = new Result();
-        result.code = R.SUCCESS_CODE;
-        result.msg = "Success";
-        result.data = "Test Data";
-
-        // Act
-        String jsonPrettyString = result.toJsonPrettyStr();
-
-        // Assert
-        assertEquals(
-                R.toJsonPrettyStr(result),
-                jsonPrettyString,
-                "toJsonPrettyStr should return the correct pretty JSON string");
+        try (MockedStatic<R> mocked = mockStatic(R.class)) {
+            mocked.when(() -> R.toJsonPrettyStr(result)).thenReturn("{\n  \"code\": 200\n}");
+            assertTrue(result.toJsonPrettyStr().contains("\"code\": 200"));
+        }
     }
 }

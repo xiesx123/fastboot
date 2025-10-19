@@ -15,7 +15,9 @@ public class LogInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(
-            @NonNull HttpServletRequest request,@NonNull  HttpServletResponse response,@NonNull  Object handler)
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull Object handler)
             throws Exception {
         log.trace("log preHandle");
         return true;
@@ -23,7 +25,7 @@ public class LogInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(
-            @NonNull  HttpServletRequest request,
+            @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull Object handler,
             @Nullable ModelAndView modelAndView)

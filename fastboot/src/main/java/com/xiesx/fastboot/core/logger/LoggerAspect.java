@@ -92,18 +92,7 @@ public class LoggerAspect {
         // 获取入参
         Object[] args = pjp.getArgs();
         // 入参过滤
-        Object[] newArgs =
-                ArrayUtil.filter(
-                        args,
-                        t -> {
-                            if (t instanceof ServletRequest
-                                    || t instanceof ServletResponse
-                                    || t instanceof MultipartFile
-                                    || t instanceof Model) {
-                                return false;
-                            }
-                            return true;
-                        });
+        Object[] newArgs = filterArgs(args);
         // 执行前打印入参
         if (print) {
             log.info(
@@ -128,5 +117,21 @@ public class LoggerAspect {
         // 日志存储
         Singleton.get(storage, operation, methodName, newArgs, time).record(result);
         return result;
+    }
+
+    protected Object[] filterArgs(Object[] args) {
+        Object[] newArgs =
+                ArrayUtil.filter(
+                        args,
+                        t -> {
+                            if (t instanceof ServletRequest
+                                    || t instanceof ServletResponse
+                                    || t instanceof MultipartFile
+                                    || t instanceof Model) {
+                                return false;
+                            }
+                            return true;
+                        });
+        return newArgs;
     }
 }

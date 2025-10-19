@@ -2,6 +2,7 @@ package com.xiesx.fastboot.core.event;
 
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
+import com.xiesx.fastboot.test.event.SimpleEvent;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

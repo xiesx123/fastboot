@@ -1,13 +1,7 @@
-package com.xiesx.fastboot.core.limiter;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+package com.xiesx.fastboot.core.logger;
 
 import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.test.base.BaseResult;
 import com.xiesx.fastboot.test.base.BaseTest;
-
-import io.restassured.response.Response;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -18,14 +12,29 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public class LimiterTest extends BaseTest {
+public class LoggerControllerTest extends BaseTest {
 
     @Test
     @Order(1)
-    public void limiter() {
-        Response response = get("limiter/limit");
-        BaseResult<Object> result = gtbo.parseObject(response.asString());
-        assertNotNull(result);
-        assertTrue(result.isSuccess());
+    public void noprint() {
+        get("logger/noprint");
+    }
+
+    @Test
+    @Order(2)
+    public void print() {
+        get("logger/print");
+    }
+
+    @Test
+    @Order(3)
+    public void format() {
+        get("logger/format");
+    }
+
+    @Test
+    @Order(4)
+    public void storage() {
+        get("logger/storage");
     }
 }

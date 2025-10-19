@@ -1,6 +1,8 @@
-package com.xiesx.fastboot.core.event;
+package com.xiesx.fastboot.test.event;
 
 import cn.hutool.core.thread.ThreadUtil;
+
+import com.xiesx.fastboot.core.event.EventAdapter;
 
 import lombok.extern.log4j.Log4j2;
 

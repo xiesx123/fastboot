@@ -12,4 +12,9 @@ public class DataSourceSimpleFactory implements IDataSource {
     public DataSource init(String url, String user, String pass) {
         return new SimpleDataSource(url, user, pass);
     }
+
+    @Override
+    public DataSource init(String url, String user, String pass, String driver) {
+        return new SimpleDataSource(url, user, pass, driver);
+    }
 }

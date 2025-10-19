@@ -33,7 +33,7 @@ public class PResult implements IStatus {
     public Integer count;
 
     /** 当前状态 */
-    @JSONField(ordinal = 4)
+    @JSONField(ordinal = 5)
     public boolean getStatus() {
         return isSuccess();
     }

@@ -1,6 +1,7 @@
 package com.xiesx.fastboot.core.signature;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -27,16 +28,16 @@ import java.util.Map;
 
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public class SignerTest extends BaseTest {
+public class SignerControllerTest extends BaseTest {
 
     @Autowired SignerProperties properties;
 
     Map<String, Object> params, header;
 
     @BeforeEach
-    public void befoe() {
+    public void setup() {
         // 参数
-        params = Maps.newConcurrentMap();
+        params = Maps.newHashMap();
         params.put("p1", 1);
         params.put("p2", "2");
         params.put("p3", Lists.newArrayList("31", "32"));
@@ -44,7 +45,7 @@ public class SignerTest extends BaseTest {
         // 签名
         String sign = SignerHelper.getSignature(params, properties.getSecret());
         // 头部
-        header = Maps.newConcurrentMap();
+        header = Maps.newHashMap();
         header.put(properties.getHeader(), sign);
     }
 
@@ -59,6 +60,28 @@ public class SignerTest extends BaseTest {
     }
 
     @Test
+    @Order(2)
+    public void sign_empty() {
+        Response response = get("signer/sign", Maps.newHashMap(), params);
+        BaseResult<List<Object>> result = gtbl.parseObject(response.asString());
+        assertNotNull(result);
+        assertFalse(result.isSuccess());
+        assertTrue(result.getMsg().contains("token is empty"));
+    }
+
+    @Test
+    @Order(3)
+    public void sign_expired() {
+        header.put(properties.getHeader(), "xxx");
+        Response response = get("signer/sign", header, params);
+        BaseResult<List<Object>> result = gtbl.parseObject(response.asString());
+        assertNotNull(result);
+        assertFalse(result.isSuccess());
+        assertTrue(result.getMsg().contains("token is expired"));
+    }
+
+    @Test
+    @Order(4)
     public void ignore() {
         Response response = get("signer/sign/ignore", header, params);
         BaseResult<List<Object>> result = gtbl.parseObject(response.asString());
@@ -68,7 +91,7 @@ public class SignerTest extends BaseTest {
     }
 
     public static void main(String[] args) {
-        Map<String, Object> params = Maps.newConcurrentMap();
+        Map<String, Object> params = Maps.newHashMap();
         params.put("p1", 1);
         params.put("p2", "2");
         params.put("p3", Lists.newArrayList("31", "32"));

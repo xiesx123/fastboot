@@ -26,13 +26,13 @@ public class Result implements IStatus {
     public Object data;
 
     /** 链路跟踪 */
-    @JSONField(ordinal = 5)
+    @JSONField(ordinal = 4)
     public String getTrace() {
         return TLogContext.getTraceId();
     }
 
     /** 当前状态 */
-    @JSONField(ordinal = 6)
+    @JSONField(ordinal = 5)
     public boolean getStatus() {
         return isSuccess();
     }

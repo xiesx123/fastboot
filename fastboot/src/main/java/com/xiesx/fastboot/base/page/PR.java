@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PR {
 
-    private static String MSG_EMPTY = "no data";
+    public static String MSG_EMPTY = "no data";
 
     public static PResult create(Page<?> page) {
         return create(page.toList(), (int) page.getTotalElements());

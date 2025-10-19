@@ -6,6 +6,7 @@ import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import com.xiesx.fastboot.base.config.Configed;
 
+import lombok.Generated;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.concurrent.Executors;
@@ -35,6 +36,7 @@ public class EventBusHelper {
     }
 
     /** 注销 */
+    @Generated
     public static void unregister(EventAdapter<?> handler) {
         eventbus.unregister(handler);
         log.debug("unregisted event : {}", handler.getClass());

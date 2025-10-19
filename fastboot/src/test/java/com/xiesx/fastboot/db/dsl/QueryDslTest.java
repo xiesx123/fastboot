@@ -45,7 +45,7 @@ public class QueryDslTest {
     List<LogRecord> result;
 
     @BeforeEach
-    public void befoe() {
+    public void setup() {
         // 先删除
         mLogRecordRepository.deleteAll();
         // 再添加

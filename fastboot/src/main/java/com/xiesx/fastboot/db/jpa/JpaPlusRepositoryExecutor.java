@@ -84,7 +84,8 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
     }
 
     @Override
-    public @NonNull List<T> findAll(@NonNull Predicate predicate, @NonNull OrderSpecifier<?>... orders) {
+    public @NonNull List<T> findAll(
+            @NonNull Predicate predicate, @NonNull OrderSpecifier<?>... orders) {
         return jpaPredicateExecutor.findAll(predicate, orders);
     }
 
@@ -95,7 +96,8 @@ public class JpaPlusRepositoryExecutor<T, ID> extends SimpleJpaRepository<T, ID>
 
     @Override
     public @NonNull <S extends T, R> R findBy(
-            @NonNull  Predicate predicate,@NonNull  Function<FetchableFluentQuery<S>, R> queryFunction) {
+            @NonNull Predicate predicate,
+            @NonNull Function<FetchableFluentQuery<S>, R> queryFunction) {
         return jpaPredicateExecutor.findBy(predicate, queryFunction);
     }
 

@@ -1,5 +1,6 @@
 package com.xiesx.fastboot;
 
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -12,9 +13,10 @@ public class SpringHelper {
 
     /** 获取项目地址 */
     public static String getUrl() {
-        String host = NetUtil.getLocalhost().getHostAddress();
-        String port = SpringUtil.getProperty("server.port", "8080");
-        String path = SpringUtil.getProperty("server.servlet.context-path", "/");
+        String host = Opt.ofNullable(NetUtil.getLocalhostStr()).orElse("127.0.0.1");
+        String port = Opt.ofNullable(SpringUtil.getProperty("server.port")).orElse("8080");
+        String path =
+                Opt.ofNullable(SpringUtil.getProperty("server.servlet.context-path")).orElse("/");
         return StrUtil.format("http://{}:{}{}", host, port, path);
     }
 

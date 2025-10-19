@@ -14,12 +14,6 @@ import java.util.concurrent.TimeUnit;
 
 public class JwtHelper {
 
-    /** 密钥 */
-    public static final String JWT_SECRET = Configed.FASTBOOT;
-
-    /** 生成方 */
-    private static final String JWT_ISSUER = Configed.FASTBOOT;
-
     /** 有效时间 */
     public static final long JWT_EXPIRE_M_1 = TimeUnit.MINUTES.toSeconds(1); // 1分钟
 
@@ -36,93 +30,49 @@ public class JwtHelper {
     public static final long JWT_EXPIRE_D_30 = TimeUnit.DAYS.toSeconds(30); // 30天
 
     /** 生成 */
-    public static String simple(String subject, String audience) {
-        return create(
+    public static String build(long timeout, String audience, String secret) {
+        return build(
                 IdUtil.fastSimpleUUID(),
-                subject,
-                JWT_ISSUER,
-                audience,
-                null,
-                null,
-                JWT_EXPIRE_D_1,
-                JWT_SECRET);
-    }
-
-    public static String simple(String subject, String audience, long timeout) {
-        return create(
-                IdUtil.fastSimpleUUID(),
-                subject,
-                JWT_ISSUER,
-                audience,
-                Maps.newHashMap(),
-                Maps.newHashMap(),
+                Configed.FASTBOOT,
+                Configed.FASTBOOT,
                 timeout,
-                JWT_SECRET);
-    }
-
-    public static String simple(
-            String subject, String audience, Map<String, Object> claim, long timeout) {
-        return create(
-                IdUtil.fastSimpleUUID(),
-                subject,
-                JWT_ISSUER,
-                audience,
                 Maps.newHashMap(),
-                claim,
-                timeout,
-                JWT_SECRET);
+                Maps.newHashMap(),
+                audience,
+                secret);
     }
 
-    public static String simple(
-            String subject,
-            String audience,
+    public static String build(
+            long timeout,
             Map<String, Object> header,
             Map<String, Object> claim,
-            long timeout) {
-        return create(
+            String audience,
+            String secret) {
+        return build(
                 IdUtil.fastSimpleUUID(),
-                subject,
-                JWT_ISSUER,
-                audience,
+                Configed.FASTBOOT,
+                Configed.FASTBOOT,
+                timeout,
                 header,
                 claim,
-                timeout,
-                JWT_SECRET);
+                audience,
+                secret);
     }
 
-    public static String simple(
+    public static String build(
+            String id,
             String subject,
             String issuer,
+            long timeout,
+            Map<String, ?> header,
+            Map<String, ?> claim,
             String audience,
-            Map<String, Object> claim,
-            long timeout) {
-        return create(
-                IdUtil.fastSimpleUUID(),
-                subject,
-                issuer,
-                audience,
-                Maps.newHashMap(),
-                claim,
-                timeout,
-                JWT_SECRET);
-    }
-
-    public static String simple(
-            String subject,
-            String issuer,
-            String audience,
-            Map<String, Object> header,
-            Map<String, Object> claim,
-            long timeout) {
-        return create(
-                IdUtil.fastSimpleUUID(),
-                subject,
-                issuer,
-                audience,
-                header,
-                claim,
-                timeout,
-                JWT_SECRET);
+            String secret) {
+        // 开始时间
+        Date staDate = DateUtil.date();
+        // 结束时间
+        Date endDate = DateUtil.offsetSecond(staDate, (int) timeout);
+        return create(id, subject, issuer, staDate, endDate, header, claim, audience, secret);
     }
 
     /** 创建令牌 */
@@ -130,19 +80,12 @@ public class JwtHelper {
             String id,
             String subject,
             String issuer,
-            String audience,
+            Date staDate,
+            Date endDate,
             Map<String, ?> header,
             Map<String, ?> claim,
-            long timeout,
+            String audience,
             String secret) {
-        // 开始时间
-        Date staDate = DateUtil.date();
-        // 结束时间
-        Date endDate = DateUtil.offsetSecond(staDate, (int) timeout);
-        // 头部信息
-        Map<String, ?> headers = MapUtil.newConcurrentHashMap(header);
-        // 附加信息
-        Map<String, ?> payloads = MapUtil.newConcurrentHashMap(claim);
         return JWT.create() //
                 .setJWTId(id) // 唯一身份标识，根据业务需要，可以设置为一个不重复的值，主要用来作为一次性token，从而回避重放攻击
                 .setSubject(subject) // 主题
@@ -150,34 +93,22 @@ public class JwtHelper {
                 .setIssuedAt(staDate) // 签发时间
                 .setExpiresAt(endDate) // 过期时间
                 .setNotBefore(DateUtil.date()) // 生效时间
-                .addHeaders(headers) // 头部信息
-                .addPayloads(payloads) // 私有属性
+                .addHeaders(MapUtil.newConcurrentHashMap(header)) // 头部信息
+                .addPayloads(MapUtil.newConcurrentHashMap(claim)) // 私有属性
                 .setAudience(audience) // 接收者
                 .setKey(secret.getBytes()) // 密匙
                 .sign();
     }
 
-    /** 解析令牌 */
+    /** 解析 */
     public static JWT parser(String secret, String token) {
         return JWT.of(token).setKey(secret.getBytes());
-    }
-
-    public static JWT parser(String token) {
-        return JWT.of(token).setKey(JWT_SECRET.getBytes());
     }
 
     /** 验证 */
     public static boolean validate(String secret, String token) {
         try {
             return JWT.of(token).setKey(secret.getBytes()).verify();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public static boolean validate(String token) {
-        try {
-            return JWT.of(token).setKey(JWT_SECRET.getBytes()).verify();
         } catch (Exception e) {
             return false;
         }

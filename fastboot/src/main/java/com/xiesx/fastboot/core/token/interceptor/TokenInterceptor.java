@@ -2,9 +2,10 @@ package com.xiesx.fastboot.core.token.interceptor;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONObject;
-import cn.hutool.jwt.JWTException;
 
 import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.core.exception.RunExc;
@@ -34,12 +35,18 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(
-            @NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler)
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull Object handler)
             throws Exception {
         log.trace("token preHandle");
-        // 获取token配置
+        // 获取配置
         String key =
                 SpringHelper.hasBean(TokenProperties.class).map(TokenProperties::getHeader).get();
+        // 获取秘钥
+        String secret =
+                Opt.ofNullable(SpringUtil.getProperty("fastboot.token.secret"))
+                        .orElse(TokenProperties.SECRET);
         // 获取方法信息
         if (handler instanceof HandlerMethod) {
             // 获取方法
@@ -52,11 +59,12 @@ public class TokenInterceptor implements HandlerInterceptor {
                         // 获取token
                         String token = request.getHeader(key);
                         if (StrUtil.isBlank(token)) {
-                            throw new RunException(RunExc.TOKEN, "未认证");
+                            throw new RunException(
+                                    RunExc.TOKEN, StrUtil.format("{} is empty", key));
                         }
                         try {
                             // 解析token
-                            JSONObject claims = JwtHelper.parser(token).getPayloads();
+                            JSONObject claims = JwtHelper.parser(secret, token).getPayloads();
                             // 是否过期
                             boolean isin =
                                     DateUtil.isIn(
@@ -64,22 +72,13 @@ public class TokenInterceptor implements HandlerInterceptor {
                                             claims.getDate("iat"),
                                             claims.getDate("exp"));
                             if (!isin) {
-                                throw new RunException(RunExc.TOKEN, "已过期");
+                                throw new RunException(RunExc.TOKEN, "token is expired");
                             }
                             // 设置uid
                             request.setAttribute(
                                     TokenCfg.UID, claims.getStr(TokenCfg.UID, StrUtil.EMPTY));
                         } catch (Exception e) {
-                            log.error("jwt token error", e);
-                            String msg = ExceptionUtil.getSimpleMessage(e);
-                            if (e instanceof JWTException) {
-                                throw new RunException(RunExc.TOKEN, msg);
-                            } else if (e instanceof RunException) {
-                                RunException run = (RunException) e;
-                                throw new RunException(run.getStatus(), run.getMessage());
-                            } else {
-                                throw new RunException(RunExc.RUNTIME, msg);
-                            }
+                            throw new RunException(RunExc.TOKEN, ExceptionUtil.getSimpleMessage(e));
                         }
                     }
                 }
@@ -103,7 +102,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull Object handler,
-              @Nullable   Exception ex)
+            @Nullable Exception ex)
             throws Exception {
         log.trace("token afterCompletion");
     }

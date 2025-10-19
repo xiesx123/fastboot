@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Optional;
 
 @Log4j2
 @EnableConfigurationProperties(AdviceProperties.class)
@@ -34,22 +35,29 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
 
     AntPathMatcher match = new AntPathMatcher();
 
+    @Override
     public boolean supports(
-            @NonNull MethodParameter returnType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
-        // 获取当前处理请求方法
+            @NonNull MethodParameter returnType,
+            @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
+
         Method method = returnType.getMethod();
         if (method == null) {
+            // 无法获取方法，则不拦截
             return false;
         }
-        // 获取类或方法注解
-        boolean isSupport =
-                AnnotationUtil.hasAnnotation(method.getDeclaringClass(), RestBodyIgnore.class);
-        if (!isSupport) {
-            isSupport = AnnotationUtil.hasAnnotation(method, RestBodyIgnore.class);
-        }
-        log.trace("{} body write support {} ", method.getName(), !isSupport);
-        // true 表示拦截，false 表示忽略
-        return !isSupport;
+        // 判断类或方法是否有 @RestBodyIgnore 注解
+        boolean ignored =
+                AnnotationUtil.hasAnnotation(method.getDeclaringClass(), RestBodyIgnore.class)
+                        || AnnotationUtil.hasAnnotation(method, RestBodyIgnore.class);
+
+        log.trace(
+                "{}#{} body write support: {}",
+                method.getDeclaringClass().getSimpleName(),
+                method.getName(),
+                !ignored);
+
+        // true 拦截，false 忽略
+        return !ignored;
     }
 
     @Override
@@ -57,7 +65,7 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
             @Nullable Object body,
             @NonNull MethodParameter returnType,
             @NonNull MediaType selectedContentType,
-            @NonNull  Class<? extends HttpMessageConverter<?>> selectedConverterType,
+            @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
             @NonNull ServerHttpRequest request,
             @NonNull ServerHttpResponse response) {
 
@@ -65,19 +73,10 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
         boolean isMatch =
                 properties.getBodyIgnoresUrls().stream()
                         .anyMatch(i -> match.match(i, request.getURI().getPath()));
-        if (isMatch) {
+        if (isMatch || isVoid(returnType)) {
             return body;
         }
-        // 获取当前处理请求方法
-        Method method = returnType.getMethod();
-        if (method != null) {
-            log.trace("{} body write advice", method.getName());
-            // 处理不同的返回类型
-            Class<?> returnTypeCls = method.getReturnType();
-            if (returnTypeCls.equals(Void.TYPE)) {
-                return null;
-            }
-        }
+        // 特殊处理
         if (body instanceof Map
                 || body instanceof Iterable
                 || body instanceof String
@@ -85,5 +84,12 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
         return body == null ? R.succ() : R.succ(body);
+    }
+
+    protected boolean isVoid(MethodParameter returnType) {
+        return Optional.ofNullable(returnType.getMethod())
+                .map(Method::getReturnType)
+                .filter(t -> t == void.class)
+                .isPresent();
     }
 }

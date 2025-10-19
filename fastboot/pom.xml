@@ -125,12 +125,6 @@
 			<artifactId>fastjson2-extension-spring5</artifactId>
 			<version>${fastjson.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.alibaba.fastjson2</groupId>
-			<artifactId>fastjson2-extension-spring6</artifactId>
-			<version>${fastjson.version}</version>
-			<scope>provided</scope>
-		</dependency>
 		<!-- tlog -->
 		<dependency>
 			<groupId>com.yomahub</groupId>

@@ -9,6 +9,7 @@ import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.core.event.EventAdapter;
 import com.xiesx.fastboot.core.event.EventBusHelper;
 
+import lombok.Generated;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.beans.factory.DisposableBean;
@@ -26,18 +27,18 @@ public class EventBusCfg implements DisposableBean, ApplicationListener<ContextR
     private Map<String, EventAdapter> beans = Maps.newConcurrentMap();
 
     public EventBusCfg() {
-        EventBusHelper.getEventBus()
-                .register(
-                        new Object() {
-
-                            @Subscribe
-                            public void lister(DeadEvent event) {
-                                log.warn(
-                                        "from {} Dead Event : {}",
-                                        event.getSource().getClass().getSimpleName(),
-                                        event.getEvent());
-                            }
-                        });
+        Object deadobj =
+                new Object() {
+                    @Generated
+                    @Subscribe
+                    public void lister(DeadEvent event) {
+                        log.warn(
+                                "from {} Dead Event : {}",
+                                event.getSource().getClass().getSimpleName(),
+                                event.getEvent());
+                    }
+                };
+        EventBusHelper.getEventBus().register(deadobj);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.xiesx.fastboot;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.ClassLoaderUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.system.SystemUtil;
 
@@ -46,8 +47,8 @@ public class SpringContext
     }
 
     @Override
-    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
-        SpringContext.applicationContext = applicationContext;
+    public void setApplicationContext(@NonNull ApplicationContext context) throws BeansException {
+        SpringContext.applicationContext = context;
         if (ObjectUtil.isNotNull(getApplicationContext())) {
             log.debug("Spring ApplicationContext completed.");
         }
@@ -56,28 +57,21 @@ public class SpringContext
     @Override
     public void onApplicationEvent(@NonNull ContextRefreshedEvent event) {
         if (event.getApplicationContext().getParent() == null) {
-            servername = FileUtil.getName(serverpath);
             serverpath = SystemUtil.getUserInfo().getCurrentDir();
+            servername = FileUtil.getName(serverpath);
             log.info("Startup Server name: {}, path: {}", getServerName(), getServerPath());
             if (checkSchedulerClassExists() && SpringHelper.hasBean(Scheduler.class).isPresent()) {
                 ISchedule job = new SchedulerDecorator();
                 job.init();
                 List<Map<String, Object>> jobs = ScheduleHelper.queryAllJob();
                 if (!jobs.isEmpty()) {
-                    log.info(
-                            "Startup Scheduler {} Job Completed.",
-                            ScheduleHelper.queryAllJob().size());
+                    log.info("Startup Scheduler {} Job Completed.", jobs.size());
                 }
             }
         }
     }
 
-    private boolean checkSchedulerClassExists() {
-        try {
-            Class.forName("org.quartz.Scheduler");
-            return true;
-        } catch (ClassNotFoundException e) {
-            return false;
-        }
+    public boolean checkSchedulerClassExists() {
+        return ClassLoaderUtil.isPresent("org.quartz.Scheduler");
     }
 }

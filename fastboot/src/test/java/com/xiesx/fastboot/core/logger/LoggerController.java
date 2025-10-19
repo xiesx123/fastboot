@@ -4,6 +4,7 @@ import com.xiesx.fastboot.base.page.PageVo;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
+import com.xiesx.fastboot.core.logger.storage.LogStorageProviderSimple;
 import com.xiesx.fastboot.support.async.Async;
 import com.xiesx.fastboot.support.async.AsyncTest.MyFutureCallable;
 import com.xiesx.fastboot.support.async.AsyncTest.MyRunnable;
@@ -36,13 +37,13 @@ public class LoggerController {
         return R.succ();
     }
 
-    @GoLogger(format = true, storage = LogStorageSimpleProvider.class)
+    @GoLogger(format = true, storage = LogStorageProviderSimple.class)
     @GetMapping("storage")
     public Result storage(BaseVo base, PageVo page) {
         return R.succ();
     }
 
-    @GoLogger(format = false, storage = LogStorageSimpleProvider.class)
+    @GoLogger(format = false, storage = LogStorageProviderSimple.class)
     @GetMapping("mdc")
     public Result mdc() {
         Async.submit(new MyRunnable("1"));

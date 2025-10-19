@@ -37,13 +37,11 @@ public class FastJsonCfg implements WebMvcConfigurer {
         // 默认配置
         FastJsonConfig config = fastJsonProperties.getConfig();
         // 编码
-        if (ObjectUtil.isEmpty(config.getCharset())) {
-            config.setCharset(Charset.defaultCharset());
-        }
+        config.setCharset(ObjectUtil.defaultIfNull(config.getCharset(), Charset.defaultCharset()));
         // 格式化
-        if (ObjectUtil.isEmpty(config.getDateFormat())) {
-            config.setDateFormat(DatePattern.NORM_DATETIME_PATTERN);
-        }
+        config.setDateFormat(
+                ObjectUtil.defaultIfBlank(
+                        config.getDateFormat(), DatePattern.NORM_DATETIME_PATTERN));
         // 序列化 Writer ==============================
         // 特性
         config.setWriterFeatures(

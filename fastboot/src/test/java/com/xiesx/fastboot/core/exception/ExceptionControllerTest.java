@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ExceptionTest extends BaseTest {
+public class ExceptionControllerTest extends BaseTest {
 
     @Test
     @Order(1)

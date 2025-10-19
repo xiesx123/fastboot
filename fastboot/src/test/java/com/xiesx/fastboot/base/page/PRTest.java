@@ -1,118 +1,97 @@
 package com.xiesx.fastboot.base.page;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-import cn.hutool.core.convert.Convert;
-
 import com.xiesx.fastboot.base.result.R;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@ExtendWith(MockitoExtension.class)
+@TestMethodOrder(OrderAnnotation.class)
 class PRTest {
 
-    @Test
-    void testCreateWithPage() {
-        // Mock a Page object
-        Page<?> mockPage = Mockito.mock(Page.class);
-        when(mockPage.toList()).thenReturn((List) Arrays.asList("item1", "item2"));
-        when(mockPage.getTotalElements()).thenReturn(2L);
+    List<String> sampleData;
 
-        // Call the method
-        PResult result = PR.create(mockPage);
-
-        // Assertions
-        assertEquals(R.SUCCESS_CODE, result.getCode());
-        assertEquals(R.SUCCESS_MSG, result.getMsg());
-        assertEquals(Arrays.asList("item1", "item2"), result.getData());
-        assertEquals(2, result.getCount());
+    @BeforeEach
+    void setup() {
+        sampleData = Arrays.asList("A", "B", "C");
     }
 
     @Test
-    void testCreateWithEmptyPage() {
-        // Mock an empty Page object
-        Page<?> mockPage = Mockito.mock(Page.class);
-        when(mockPage.toList()).thenReturn(Collections.emptyList());
-        when(mockPage.getTotalElements()).thenReturn(0L);
+    void testConstructor() {
+        PR cls = new PR();
+        assertNotNull(cls);
+    }
 
-        // Call the method
+    // 1. create(Page<?> page)
+    @Test
+    @Order(1)
+    void testCreateFromPage() {
+        Page mockPage = Mockito.mock(Page.class);
+        when(mockPage.toList()).thenReturn((List) sampleData);
+        when(mockPage.getTotalElements()).thenReturn(3L);
+
         PResult result = PR.create(mockPage);
+        assertEquals(0, result.getCode());
+        assertEquals(R.SUCCESS_MSG, result.getMsg());
+        assertEquals(3, result.getCount());
+        assertEquals(sampleData, result.getData());
+    }
 
-        // Assertions
-        assertEquals(R.SUCCESS_CODE, result.getCode());
-        assertEquals("no data", result.getMsg());
-        assertTrue(result.getData().isEmpty());
+    // 2. create(List<?> data, Integer total)
+    @Test
+    @Order(2)
+    void testCreateWithIntegerTotal_nonEmpty() {
+        PResult result = PR.create(sampleData, 3);
+        assertEquals(0, result.getCode());
+        assertEquals(R.SUCCESS_MSG, result.getMsg());
+        assertEquals(3, result.getCount());
+        assertEquals(sampleData, result.getData());
+    }
+
+    @Test
+    @Order(3)
+    void testCreateWithIntegerTotal_emptyList() {
+        PResult result = PR.create(Collections.emptyList(), 0);
+        assertEquals(0, result.getCode());
+        assertEquals(PR.MSG_EMPTY, result.getMsg());
         assertEquals(0, result.getCount());
-    }
-
-    @Test
-    void testCreateWithListAndIntegerTotal() {
-        // Prepare data
-        List<String> data = Arrays.asList("item1", "item2");
-        int total = 2;
-
-        // Call the method
-        PResult result = PR.create(data, total);
-
-        // Assertions
-        assertEquals(R.SUCCESS_CODE, result.getCode());
-        assertEquals(R.SUCCESS_MSG, result.getMsg());
-        assertEquals(data, result.getData());
-        assertEquals(total, result.getCount());
-    }
-
-    @Test
-    void testCreateWithEmptyListAndIntegerTotal() {
-        // Prepare data
-        List<String> data = Collections.emptyList();
-        int total = 0;
-
-        // Call the method
-        PResult result = PR.create(data, total);
-
-        // Assertions
-        assertEquals(R.SUCCESS_CODE, result.getCode());
-        assertEquals("no data", result.getMsg());
         assertTrue(result.getData().isEmpty());
-        assertEquals(total, result.getCount());
     }
 
+    // 3. create(List<?> data, Long total)
     @Test
-    void testCreateWithListAndLongTotal() {
-        // Prepare data
-        List<String> data = Arrays.asList("item1", "item2");
-        long total = 2L;
-
-        // Call the method
-        PResult result = PR.create(data, total);
-
-        // Assertions
-        assertEquals(R.SUCCESS_CODE, result.getCode());
+    @Order(4)
+    void testCreateWithLongTotal_nonEmpty() {
+        PResult result = PR.create(sampleData, 3L);
+        assertEquals(0, result.getCode());
         assertEquals(R.SUCCESS_MSG, result.getMsg());
-        assertEquals(data, result.getData());
-        assertEquals(Convert.toInt(total), result.getCount());
+        assertEquals(3, result.getCount());
+        assertEquals(sampleData, result.getData());
     }
 
     @Test
-    void testCreateWithEmptyListAndLongTotal() {
-        // Prepare data
-        List<String> data = Collections.emptyList();
-        long total = 0L;
-
-        // Call the method
-        PResult result = PR.create(data, total);
-
-        // Assertions
-        assertEquals(R.SUCCESS_CODE, result.getCode());
-        assertEquals("no data", result.getMsg());
+    @Order(5)
+    void testCreateWithLongTotal_emptyList() {
+        PResult result = PR.create(Collections.emptyList(), 0L);
+        assertEquals(0, result.getCode());
+        assertEquals(PR.MSG_EMPTY, result.getMsg());
+        assertEquals(0, result.getCount());
         assertTrue(result.getData().isEmpty());
-        assertEquals(Convert.toInt(total), result.getCount());
     }
 }

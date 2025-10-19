@@ -50,8 +50,7 @@ public class ExceptionController {
     public void database() {
         log.info("无此表,抛 {} 异常", SQLSyntaxErrorException.class);
         JdbcTemplatePlus.queryForMap("select * from xx_test"); // 不捕获
-        JdbcTemplatePlus.get()
-                .queryForMap("select * from xx_test", Maps.newConcurrentMap()); // 全局捕获
+        JdbcTemplatePlus.get().queryForMap("select * from xx_test", Maps.newHashMap()); // 全局捕获
     }
 
     @GetMapping("custom")

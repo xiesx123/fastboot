@@ -7,8 +7,8 @@ import com.xiesx.fastboot.base.page.PageVo;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.base.result.Result;
 import com.xiesx.fastboot.core.advice.annotation.RestBodyIgnore;
-import com.xiesx.fastboot.core.logger.LogStorageSimpleProvider;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
+import com.xiesx.fastboot.core.logger.storage.LogStorageProviderSimple;
 import com.xiesx.fastboot.test.base.BaseController;
 import com.xiesx.fastboot.test.mock.MockData;
 import com.xiesx.fastboot.test.mock.MockUser;
@@ -23,7 +23,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("body")
-@GoLogger(storage = LogStorageSimpleProvider.class)
+@GoLogger(storage = LogStorageProviderSimple.class)
 public class BodyController extends BaseController {
 
     @GetMapping("result")
