@@ -3,17 +3,16 @@ package com.xiesx.fastboot.db.jdbc;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.convert.Convert;
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.SpringHelper;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
-
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,155 +20,124 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-
 @Log4j2
 public class JdbcTemplatePlus {
 
-    public static NamedParameterJdbcTemplate get() {
-        NamedParameterJdbcTemplate mNamedParameterJdbcTemplate =
-                SpringHelper.getBean(NamedParameterJdbcTemplate.class);
-        Assert.notNull(
-                mNamedParameterJdbcTemplate,
-                () -> new RunException(RunExc.DBASE, "pom need dependency spring-jdbc"));
-        return mNamedParameterJdbcTemplate;
-    }
+  private static NamedParameterJdbcTemplate jdbcTemplate;
 
-    /** 查询Map */
-    public static Map<String, Object> queryForMap(String sql) {
-        try {
-            return get().queryForMap(sql, Maps.newConcurrentMap());
-        } catch (Exception e) {
-            log.error("query for map error {}", e.getMessage());
-            return Maps.newConcurrentMap();
-        }
+  public static NamedParameterJdbcTemplate get() {
+    if (jdbcTemplate == null) {
+      try {
+        jdbcTemplate = SpringHelper.getBean(NamedParameterJdbcTemplate.class);
+      } catch (Exception e) {
+        throw new RunException(
+            RunExc.DBASE,
+            "Spring JDBC dependency is missing. Please add 'spring-jdbc' to your pom.xml.");
+      }
     }
+    return jdbcTemplate;
+  }
 
-    public static Map<String, Object> queryForMap(String sql, Object obj) {
-        try {
-            return get().queryForMap(sql, parameter(obj));
-        } catch (Exception e) {
-            log.error("query for map error {}", e.getMessage());
-            return Maps.newConcurrentMap();
-        }
-    }
+  static void setJdbcTemplate(NamedParameterJdbcTemplate template) {
+    jdbcTemplate = template;
+  }
 
-    public static <T> T queryForMap(String sql, Class<T> cla) {
-        try {
-            return result(queryForMap(sql, Maps.newConcurrentMap()), cla);
-        } catch (Exception e) {
-            log.error("query for map error {}", e.getMessage());
-            return null;
-        }
-    }
+  /* ------------------- 查询方法 ------------------- */
 
-    public static <T> T queryForMap(String sql, Object obj, Class<T> cla) {
-        try {
-            return result(queryForMap(sql, obj), cla);
-        } catch (Exception e) {
-            log.error("query for map error {}", e.getMessage());
-            return null;
-        }
-    }
+  public static Map<String, Object> queryForMap(String sql) {
+    return executeQuery(sql, null, ps -> get().queryForMap(sql, ps), Maps.newConcurrentMap());
+  }
 
-    /** 查询List */
-    public static List<Map<String, Object>> queryForList(String sql) {
-        try {
-            return get().queryForList(sql, Maps.newConcurrentMap());
-        } catch (Exception e) {
-            log.error("query for list error {}", e.getMessage());
-            return Lists.newArrayList();
-        }
-    }
+  public static Map<String, Object> queryForMap(String sql, Object obj) {
+    return executeQuery(sql, obj, ps -> get().queryForMap(sql, ps), Maps.newConcurrentMap());
+  }
 
-    public static List<Map<String, Object>> queryForList(String sql, Object obj) {
-        try {
-            return get().queryForList(sql, parameter(obj));
-        } catch (Exception e) {
-            log.error("query for list error {}", e.getMessage());
-            return Lists.newArrayList();
-        }
-    }
+  public static <T> T queryForMap(String sql, Class<T> cla) {
+    Map<String, Object> map = queryForMap(sql);
+    return map.isEmpty() ? null : result(map, cla);
+  }
 
-    public static <T> List<T> queryForList(String sql, Class<T> cla) {
-        try {
-            return result(queryForList(sql, Maps.newConcurrentMap()), cla);
-        } catch (Exception e) {
-            log.error("query for list error {}", e.getMessage());
-            return Lists.newArrayList();
-        }
-    }
+  public static <T> T queryForMap(String sql, Object obj, Class<T> cla) {
+    Map<String, Object> map = queryForMap(sql, obj);
+    return map.isEmpty() ? null : result(map, cla);
+  }
 
-    public static <T> List<T> queryForList(String sql, Object obj, Class<T> cla) {
-        try {
-            return result(queryForList(sql, obj), cla);
-        } catch (Exception e) {
-            log.error("query for list error {}", e.getMessage());
-            return Lists.newArrayList();
-        }
-    }
+  public static List<Map<String, Object>> queryForList(String sql) {
+    return executeQuery(sql, null, ps -> get().queryForList(sql, ps), Lists.newArrayList());
+  }
 
-    /** 插入、更新、删除 */
-    @Transactional
-    public static int update(String sql) {
-        try {
-            return get().update(sql, Maps.newConcurrentMap());
-        } catch (Exception e) {
-            log.error("update error {}", e.getMessage());
-            return 0;
-        }
-    }
+  public static List<Map<String, Object>> queryForList(String sql, Object obj) {
+    return executeQuery(sql, obj, ps -> get().queryForList(sql, ps), Lists.newArrayList());
+  }
 
-    @Transactional
-    public static int update(String sql, Object obj) {
-        try {
-            return get().update(sql, parameter(obj));
-        } catch (Exception e) {
-            log.error("update error {}", e.getMessage());
-            return 0;
-        }
-    }
+  public static <T> List<T> queryForList(String sql, Class<T> cla) {
+    List<Map<String, Object>> list = queryForList(sql);
+    return list.stream().map(m -> result(m, cla)).collect(Collectors.toList());
+  }
 
-    /** 插入、更新、删除（批量） */
-    @Transactional
-    public static int batchUpdate(String sql, List<?> data) {
-        try {
-            return get().batchUpdate(sql, SqlParameterSourceUtils.createBatch(data)).length;
-        } catch (Exception e) {
-            log.error("batch update error {}", e.getMessage());
-            return 0;
-        }
-    }
+  public static <T> List<T> queryForList(String sql, Object obj, Class<T> cla) {
+    List<Map<String, Object>> list = queryForList(sql, obj);
+    return list.stream().map(m -> result(m, cla)).collect(Collectors.toList());
+  }
 
-    /** 参数填充 */
-    private static SqlParameterSource parameter(Object obj) {
-        if (obj instanceof Map) {
-            return new MapSqlParameterSource(Convert.toMap(String.class, Object.class, obj));
-        }
-        return new BeanPropertySqlParameterSource(obj);
+  private static <R> R executeQuery(
+      String sql, Object param, QueryHandler<R> handler, R defaultValue) {
+    try {
+      SqlParameterSource ps = param != null ? parameter(param) : new MapSqlParameterSource();
+      return handler.handle(ps);
+    } catch (Exception e) {
+      log.error("SQL execution error: {}\nSQL: {}", e.getMessage(), sql, e);
+      return defaultValue;
     }
+  }
 
-    /** 数据填充 */
-    private static <T> T result(Map<String, Object> map, Class<T> cla) {
-        if (MapUtil.isEmpty(map)) {
-            return null;
-        }
-        return BeanUtil.toBean(
-                map,
-                cla,
-                CopyOptions.create()
-                        .setIgnoreCase(true)
-                        .setIgnoreError(true)
-                        .setIgnoreNullValue(true));
-    }
+  /* ------------------- 更新方法 ------------------- */
 
-    private static <T> List<T> result(List<Map<String, Object>> list, Class<T> cla) {
-        List<T> data = Lists.newArrayList();
-        list.forEach(
-                map -> {
-                    data.add(result(map, cla));
-                });
-        return data;
+  @Transactional
+  public static int update(String sql) {
+    return executeUpdate(sql, null);
+  }
+
+  public static int update(String sql, Object obj) {
+    return executeUpdate(sql, obj);
+  }
+
+  @Transactional
+  public static int batchUpdate(String sql, List<?> data) {
+    if (data == null || data.isEmpty()) return 0;
+    try {
+      int[] results = get().batchUpdate(sql, SqlParameterSourceUtils.createBatch(data));
+      return results.length;
+    } catch (Exception e) {
+      log.error("Batch update error: {}\nSQL: {}", e.getMessage(), sql, e);
+      return -1;
     }
+  }
+
+  private static int executeUpdate(String sql, Object param) {
+    return executeQuery(sql, param, ps -> get().update(sql, ps), 0);
+  }
+
+  /* ------------------- 工具方法 ------------------- */
+
+  private static SqlParameterSource parameter(Object obj) {
+    if (obj == null) return new MapSqlParameterSource();
+    if (Map.class.isAssignableFrom(obj.getClass())) {
+      return new MapSqlParameterSource(Convert.toMap(String.class, Object.class, obj));
+    }
+    return new BeanPropertySqlParameterSource(obj);
+  }
+
+  private static <T> T result(Map<String, Object> map, Class<T> cla) {
+    if (MapUtil.isEmpty(map)) return null;
+    return BeanUtil.toBean(
+        map,
+        cla,
+        CopyOptions.create().setIgnoreCase(true).setIgnoreError(true).setIgnoreNullValue(true));
+  }
+
+  @FunctionalInterface
+  private interface QueryHandler<R> {
+    R handle(SqlParameterSource ps) throws Exception;
+  }
 }

@@ -6,27 +6,27 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum RunExc {
-    RUNTIME(1000, "Runtime Error"), // --> GlobalExceptionAdvice --> runtimeException
+  RUNTIME(1000, "Runtime Error"), // --> GlobalExceptionAdvice --> runtimeException
 
-    ASYNC(1010, "Execution Error"), // --> GlobalExceptionAdvice --> runtimeException
+  ASYNC(1010, "Execution Error"), // --> GlobalExceptionAdvice --> runtimeException
 
-    REQUEST(2000, "Request Failed"), // --> GlobalExceptionAdvice --> requestException
+  REQUEST(2000, "Request Failed"), // --> GlobalExceptionAdvice --> requestException
 
-    RETRY(2010, "Retry Failed"), // --> HttpRetryer
+  RETRY(2010, "Retry Failed"), // --> HttpRetryer
 
-    LIMITER(2020, "Request Rate Limited"), // --> LimiterAspect
+  LIMITER(2020, "Request Rate Limited"), // --> LimiterAspect
 
-    VALIDATOR(3000, "Validation Error"), // --> GlobalExceptionAdvice --> validatorException
+  VALIDATOR(3000, "Validation Error"), // --> GlobalExceptionAdvice --> validatorException
 
-    DBASE(4000, "Database Error"), // --> GlobalExceptionAdvice --> jdbcException
+  DBASE(4000, "Database Error"), // --> GlobalExceptionAdvice --> jdbcException
 
-    TOKEN(5000, "Token Error"), // --> TokenInterceptor
+  TOKEN(5000, "Token Error"), // --> TokenInterceptor
 
-    SIGN(6000, "Signature Error"), // --> SignerAspect
+  SIGN(6000, "Signature Error"), // --> SignerAspect
 
-    UNKNOWN(9999, "Unknown");
+  UNKNOWN(9999, "Unknown");
 
-    private Integer code;
+  private Integer code;
 
-    private String msg;
+  private String msg;
 }

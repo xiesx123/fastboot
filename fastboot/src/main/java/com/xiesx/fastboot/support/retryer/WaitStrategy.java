@@ -22,11 +22,11 @@ package com.xiesx.fastboot.support.retryer;
 @SuppressWarnings({"all", "unchecked"})
 public interface WaitStrategy {
 
-    /**
-     * Returns the time, in milliseconds, to sleep before retrying.
-     *
-     * @param failedAttempt the previous failed {@code Attempt}
-     * @return the sleep time before next attempt
-     */
-    long computeSleepTime(Attempt failedAttempt);
+  /**
+   * Returns the time, in milliseconds, to sleep before retrying.
+   *
+   * @param failedAttempt the previous failed {@code Attempt}
+   * @return the sleep time before next attempt
+   */
+  long computeSleepTime(Attempt failedAttempt);
 }

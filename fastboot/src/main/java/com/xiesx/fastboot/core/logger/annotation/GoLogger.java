@@ -2,19 +2,22 @@ package com.xiesx.fastboot.core.logger.annotation;
 
 import com.xiesx.fastboot.core.logger.storage.LogStorage;
 import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
-
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface GoLogger {
 
-    boolean print() default true;
+  boolean print() default true;
 
-    boolean format() default false;
+  boolean format() default false;
 
-    String operation() default "";
+  String operation() default "";
 
-    Class<? extends LogStorage> storage() default LogStorageProvider.class;
+  Class<? extends LogStorage> storage() default LogStorageProvider.class;
 }

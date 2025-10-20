@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class RequestHeaderParams {
 
-    public String token;
+  public String token;
 }

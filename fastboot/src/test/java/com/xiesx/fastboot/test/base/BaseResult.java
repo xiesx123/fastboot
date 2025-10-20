@@ -3,24 +3,22 @@ package com.xiesx.fastboot.test.base;
 import com.google.common.base.Objects;
 import com.xiesx.fastboot.base.IStatus;
 import com.xiesx.fastboot.base.result.R;
-
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 @Data
 public class BaseResult<T> implements IStatus, Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public Integer code;
+  public Integer code;
 
-    public String msg;
+  public String msg;
 
-    public T data;
+  public T data;
 
-    @Override
-    public boolean isSuccess() {
-        return Objects.equal(code, R.SUCCESS_CODE);
-    }
+  @Override
+  public boolean isSuccess() {
+    return Objects.equal(code, R.SUCCESS_CODE);
+  }
 }

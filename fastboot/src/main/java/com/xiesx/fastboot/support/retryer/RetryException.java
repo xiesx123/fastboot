@@ -17,7 +17,6 @@ package com.xiesx.fastboot.support.retryer;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.errorprone.annotations.Immutable;
-
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -29,60 +28,57 @@ import org.jspecify.annotations.Nullable;
 @Immutable
 public final class RetryException extends Exception {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    private final int numberOfFailedAttempts;
+  private final int numberOfFailedAttempts;
 
-    private final Attempt<?> lastFailedAttempt;
+  private final Attempt<?> lastFailedAttempt;
 
-    /**
-     * If the last {@link Attempt} had an Exception, ensure it is available in the stack trace.
-     *
-     * @param numberOfFailedAttempts times we've tried and failed
-     * @param lastFailedAttempt what happened the last time we failed
-     */
-    public RetryException(int numberOfFailedAttempts, @Nullable Attempt<?> lastFailedAttempt) {
-        this(
-                "Retrying failed to complete successfully after "
-                        + numberOfFailedAttempts
-                        + " attempts.",
-                numberOfFailedAttempts,
-                lastFailedAttempt);
-    }
+  /**
+   * If the last {@link Attempt} had an Exception, ensure it is available in the stack trace.
+   *
+   * @param numberOfFailedAttempts times we've tried and failed
+   * @param lastFailedAttempt what happened the last time we failed
+   */
+  public RetryException(int numberOfFailedAttempts, @Nullable Attempt<?> lastFailedAttempt) {
+    this(
+        "Retrying failed to complete successfully after " + numberOfFailedAttempts + " attempts.",
+        numberOfFailedAttempts,
+        lastFailedAttempt);
+  }
 
-    /**
-     * If the last {@link Attempt} had an Exception, ensure it is available in the stack trace.
-     *
-     * @param message Exception description to be added to the stack trace
-     * @param numberOfFailedAttempts times we've tried and failed
-     * @param lastFailedAttempt what happened the last time we failed
-     */
-    public RetryException(
-            String message, int numberOfFailedAttempts, Attempt<?> lastFailedAttempt) {
-        super(
-                message,
-                checkNotNull(lastFailedAttempt, "Last attempt was null").hasException()
-                        ? lastFailedAttempt.getExceptionCause()
-                        : null);
-        this.numberOfFailedAttempts = numberOfFailedAttempts;
-        this.lastFailedAttempt = lastFailedAttempt;
-    }
+  /**
+   * If the last {@link Attempt} had an Exception, ensure it is available in the stack trace.
+   *
+   * @param message Exception description to be added to the stack trace
+   * @param numberOfFailedAttempts times we've tried and failed
+   * @param lastFailedAttempt what happened the last time we failed
+   */
+  public RetryException(String message, int numberOfFailedAttempts, Attempt<?> lastFailedAttempt) {
+    super(
+        message,
+        checkNotNull(lastFailedAttempt, "Last attempt was null").hasException()
+            ? lastFailedAttempt.getExceptionCause()
+            : null);
+    this.numberOfFailedAttempts = numberOfFailedAttempts;
+    this.lastFailedAttempt = lastFailedAttempt;
+  }
 
-    /**
-     * Returns the number of failed attempts
-     *
-     * @return the number of failed attempts
-     */
-    public int getNumberOfFailedAttempts() {
-        return numberOfFailedAttempts;
-    }
+  /**
+   * Returns the number of failed attempts
+   *
+   * @return the number of failed attempts
+   */
+  public int getNumberOfFailedAttempts() {
+    return numberOfFailedAttempts;
+  }
 
-    /**
-     * Returns the last failed attempt
-     *
-     * @return the last failed attempt
-     */
-    public Attempt<?> getLastFailedAttempt() {
-        return lastFailedAttempt;
-    }
+  /**
+   * Returns the last failed attempt
+   *
+   * @return the last failed attempt
+   */
+  public Attempt<?> getLastFailedAttempt() {
+    return lastFailedAttempt;
+  }
 }

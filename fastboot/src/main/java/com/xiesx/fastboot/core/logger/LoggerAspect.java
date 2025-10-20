@@ -5,15 +5,15 @@ import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-
 import com.xiesx.fastboot.base.config.Configed.Ordered;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.core.logger.annotation.GoLogger;
 import com.xiesx.fastboot.core.logger.storage.LogStorage;
 import com.xiesx.fastboot.core.logger.storage.LogStorageProvider;
-
+import java.lang.reflect.Method;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import lombok.extern.log4j.Log4j2;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -27,111 +27,106 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Method;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
 @Log4j2
 @Component
 @Aspect
 @Order(Ordered.ASPECT_ORDER_LOGGER)
 public class LoggerAspect {
 
-    private static final String LOG_BEFORE_FORMAT = "request {} | {}";
+  private static final String LOG_BEFORE_FORMAT = "request {} | {}";
 
-    private static final String LOG_AFTER_FORMAT = "response took {} ms | {} | {} ";
+  private static final String LOG_AFTER_FORMAT = "response took {} ms | {} | {} ";
 
-    private TimeInterval interval = new TimeInterval();
+  private TimeInterval interval = new TimeInterval();
 
-    @Pointcut(
-            "@annotation(org.springframework.web.bind.annotation.GetMapping) ||"
-                    + " @annotation(org.springframework.web.bind.annotation.PostMapping) ||"
-                    + " @annotation(org.springframework.web.bind.annotation.RequestMapping)")
-    public void loggerPointcut() {}
+  @Pointcut(
+      "@annotation(org.springframework.web.bind.annotation.GetMapping) ||"
+          + " @annotation(org.springframework.web.bind.annotation.PostMapping) ||"
+          + " @annotation(org.springframework.web.bind.annotation.RequestMapping)")
+  public void loggerPointcut() {}
 
-    @Before("loggerPointcut()")
-    public void before(JoinPoint joinPoint) {
-        log.trace("logger pointcut before");
+  @Before("loggerPointcut()")
+  public void before(JoinPoint joinPoint) {
+    log.trace("logger pointcut before");
+  }
+
+  @After("loggerPointcut()")
+  public void after() {
+    log.trace(" logger pointcut after");
+  }
+
+  @Around("loggerPointcut()")
+  public Object loggerAroundAspect(ProceedingJoinPoint pjp) throws Throwable {
+    // 获取类
+    Class<?> cls = pjp.getTarget().getClass();
+    // 获取方法
+    MethodSignature signature = (MethodSignature) pjp.getSignature();
+    Method method = signature.getMethod();
+    String methodName = method.getName();
+    // 默认值
+    boolean print = true;
+    boolean format = false;
+    String operation = StrUtil.EMPTY;
+    Class<? extends LogStorage> storage = LogStorageProvider.class;
+    // 获取类注解（优先）
+    if (AnnotationUtil.hasAnnotation(cls, GoLogger.class)) {
+      GoLogger logger = cls.getAnnotation(GoLogger.class);
+      print = logger.print();
+      format = logger.format();
+      operation = logger.operation();
+      storage = logger.storage();
     }
-
-    @After("loggerPointcut()")
-    public void after() {
-        log.trace(" logger pointcut after");
+    // 获取方法注解
+    if (AnnotationUtil.hasAnnotation(method, GoLogger.class)) {
+      GoLogger logger = method.getAnnotation(GoLogger.class);
+      print = logger.print();
+      format = logger.format();
+      operation = logger.operation();
+      storage = logger.storage();
     }
-
-    @Around("loggerPointcut()")
-    public Object loggerAroundAspect(ProceedingJoinPoint pjp) throws Throwable {
-        // 获取类
-        Class<?> cls = pjp.getTarget().getClass();
-        // 获取方法
-        MethodSignature signature = (MethodSignature) pjp.getSignature();
-        Method method = signature.getMethod();
-        String methodName = method.getName();
-        // 默认值
-        boolean print = true;
-        boolean format = false;
-        String operation = StrUtil.EMPTY;
-        Class<? extends LogStorage> storage = LogStorageProvider.class;
-        // 获取类注解（优先）
-        if (AnnotationUtil.hasAnnotation(cls, GoLogger.class)) {
-            GoLogger logger = cls.getAnnotation(GoLogger.class);
-            print = logger.print();
-            format = logger.format();
-            operation = logger.operation();
-            storage = logger.storage();
-        }
-        // 获取方法注解
-        if (AnnotationUtil.hasAnnotation(method, GoLogger.class)) {
-            GoLogger logger = method.getAnnotation(GoLogger.class);
-            print = logger.print();
-            format = logger.format();
-            operation = logger.operation();
-            storage = logger.storage();
-        }
-        // 获取入参
-        Object[] args = pjp.getArgs();
-        // 入参过滤
-        Object[] newArgs = filterArgs(args);
-        // 执行前打印入参
-        if (print) {
-            log.info(
-                    LOG_BEFORE_FORMAT,
-                    methodName,
-                    format ? R.toJsonPrettyStr(newArgs) : R.toJsonStr(newArgs));
-        }
-        // 重新计时
-        interval.restart();
-        // 方法执行
-        Object result = pjp.proceed();
-        // 执行时间
-        long time = interval.interval();
-        // 执行后打印结果
-        if (print) {
-            log.info(
-                    LOG_AFTER_FORMAT,
-                    time,
-                    methodName,
-                    format ? R.toJsonPrettyStr(result) : R.toJsonStr(result));
-        }
-        // 日志存储
-        Singleton.get(storage, operation, methodName, newArgs, time).record(result);
-        return result;
+    // 获取入参
+    Object[] args = pjp.getArgs();
+    // 入参过滤
+    Object[] newArgs = filterArgs(args);
+    // 执行前打印入参
+    if (print) {
+      log.info(
+          LOG_BEFORE_FORMAT,
+          methodName,
+          format ? R.toJsonPrettyStr(newArgs) : R.toJsonStr(newArgs));
     }
-
-    protected Object[] filterArgs(Object[] args) {
-        Object[] newArgs =
-                ArrayUtil.filter(
-                        args,
-                        t -> {
-                            if (t instanceof ServletRequest
-                                    || t instanceof ServletResponse
-                                    || t instanceof MultipartFile
-                                    || t instanceof Model) {
-                                return false;
-                            }
-                            return true;
-                        });
-        return newArgs;
+    // 重新计时
+    interval.restart();
+    // 方法执行
+    Object result = pjp.proceed();
+    // 执行时间
+    long time = interval.interval();
+    // 执行后打印结果
+    if (print) {
+      log.info(
+          LOG_AFTER_FORMAT,
+          time,
+          methodName,
+          format ? R.toJsonPrettyStr(result) : R.toJsonStr(result));
     }
+    // 日志存储
+    Singleton.get(storage, operation, methodName, newArgs, time).record(result);
+    return result;
+  }
+
+  protected Object[] filterArgs(Object[] args) {
+    Object[] newArgs =
+        ArrayUtil.filter(
+            args,
+            t -> {
+              if (t instanceof ServletRequest
+                  || t instanceof ServletResponse
+                  || t instanceof MultipartFile
+                  || t instanceof Model) {
+                return false;
+              }
+              return true;
+            });
+    return newArgs;
+  }
 }

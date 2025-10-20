@@ -2,7 +2,7 @@
   // 外部格式化工具（https://github.com/google/google-java-format/releases）
   "google-java-format.executable-path": "D:/Develop Files/Java/google-java-format.exe",
   // 格式化风格（Google 官方风格或 AOSP 风格）
-  "google-java-format.style": "aosp",
+  "google-java-format.style": "google",
   // 额外参数（如跳过导入排序等）
   "google-java-format.extra-args": "",
   // 格式化文件类型
@@ -17,7 +17,8 @@
     // 使用 Google-Java-Format 作为 Java 格式化器
     "editor.defaultFormatter": "Google-Java-Format-Plugin.google-java-format-plugin",
     // 保存时格式化
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.foldingImportsByDefault": true
   },
   // 启用空指针分析
   "java.compile.nullAnalysis.mode": "automatic",
@@ -32,10 +33,13 @@
   // 自定义测试配置（启用 ByteBuddy 实验性功能以支持某些框架的动态类生成）
   "java.test.config": {
     "name": "fastboot",
-    "vmArgs": ["-Dnet.bytebuddy.experimental=true"]
+    "vmArgs": [
+      "-Dnet.bytebuddy.experimental=true",
+      "-Djava.net.preferIPv4Stack=true"
+    ]
   },
   // 字体大小
-  "editor.fontSize": 14,
+  "editor.fontSize": 13,
   // 隐藏文件夹
   "files.exclude": {
     // Docs

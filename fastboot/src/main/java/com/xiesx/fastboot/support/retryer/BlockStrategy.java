@@ -20,15 +20,15 @@ package com.xiesx.fastboot.support.retryer;
  */
 public interface BlockStrategy {
 
-    /**
-     * Attempt to block for the designated amount of time. Implementations that don't block or
-     * otherwise delay the processing from within this method for the given sleep duration can
-     * significantly modify the behavior of any configured {@link
-     * com.xiesx.fastboot.support.retryer.WaitStrategy}. Caution is advised when generating your own
-     * implementations.
-     *
-     * @param sleepTime the computed sleep duration in milliseconds
-     * @throws InterruptedException
-     */
-    void block(long sleepTime) throws InterruptedException;
+  /**
+   * Attempt to block for the designated amount of time. Implementations that don't block or
+   * otherwise delay the processing from within this method for the given sleep duration can
+   * significantly modify the behavior of any configured {@link
+   * com.xiesx.fastboot.support.retryer.WaitStrategy}. Caution is advised when generating your own
+   * implementations.
+   *
+   * @param sleepTime the computed sleep duration in milliseconds
+   * @throws InterruptedException
+   */
+  void block(long sleepTime) throws InterruptedException;
 }

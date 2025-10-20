@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,20 +13,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @TestMethodOrder(OrderAnnotation.class)
 public class SignerAspectTest {
 
-    SignerAspect cls;
+  SignerAspect cls;
 
-    SignerHelper helper;
+  SignerHelper helper;
 
-    @BeforeEach
-    void setup() {
-        cls = new SignerAspect();
-        helper = new SignerHelper();
-    }
+  @BeforeEach
+  void setup() {
+    cls = new SignerAspect();
+    helper = new SignerHelper();
+  }
 
-    @Test
-    @Order(1)
-    void testConstructor() {
-        cls.signerPointcut();
-        assertNotNull(cls);
-    }
+  @Test
+  void testConstructor() {
+    cls.signerPointcut();
+    assertNotNull(cls);
+  }
 }

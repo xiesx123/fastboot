@@ -1,7 +1,6 @@
 package com.xiesx.fastboot.support.actuator.callback;
 
 import cn.hutool.core.lang.Dict;
-
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -12,7 +11,7 @@ import org.jspecify.annotations.Nullable;
  */
 public interface IActuatorCallback<V extends @Nullable Object> {
 
-    void onSuccess(Dict ctx, V result);
+  void onSuccess(Dict ctx, V result);
 
-    void onFailure(Dict ctx, Throwable t);
+  void onFailure(Dict ctx, Throwable t);
 }

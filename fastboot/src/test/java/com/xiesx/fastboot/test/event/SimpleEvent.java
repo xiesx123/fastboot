@@ -10,7 +10,7 @@ import lombok.NonNull;
 @AllArgsConstructor
 public class SimpleEvent {
 
-    @NonNull private String name;
+  @NonNull private String name;
 
-    private boolean sleep;
+  private boolean sleep;
 }

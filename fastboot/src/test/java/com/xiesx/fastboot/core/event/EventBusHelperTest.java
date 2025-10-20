@@ -12,9 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @TestMethodOrder(OrderAnnotation.class)
 public class EventBusHelperTest {
 
-    @Test
-    void testConstructor() {
-        EventBusHelper cls = new EventBusHelper();
-        assertNotNull(cls);
-    }
+  @Test
+  void testConstructor() {
+    EventBusHelper cls = new EventBusHelper();
+    assertNotNull(cls);
+  }
 }

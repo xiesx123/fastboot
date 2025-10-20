@@ -7,5 +7,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface GoSigner {
 
-    boolean ignore() default false;
+  boolean ignore() default false;
 }

@@ -1,9 +1,9 @@
-package com.xiesx.fastboot.db.dsl;
+package com.xiesx.fastboot.db.jpa;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-public class QueryDslPojo {
+public class JpaPlusTestPojo {
 
   @Data
   @AllArgsConstructor
@@ -12,10 +12,6 @@ public class QueryDslPojo {
     public Long id;
 
     public String ip;
-
-    public String type;
-
-    public Long time;
 
     public Long min;
 

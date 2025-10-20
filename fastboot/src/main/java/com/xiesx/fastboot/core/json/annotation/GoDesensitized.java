@@ -1,7 +1,6 @@
 package com.xiesx.fastboot.core.json.annotation;
 
 import cn.hutool.core.util.DesensitizedUtil.DesensitizedType;
-
 import java.lang.annotation.*;
 
 @Target({ElementType.FIELD, ElementType.METHOD})
@@ -10,5 +9,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface GoDesensitized {
 
-    DesensitizedType type();
+  DesensitizedType type();
 }

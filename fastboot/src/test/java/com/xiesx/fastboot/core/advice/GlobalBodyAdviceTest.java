@@ -12,7 +12,7 @@ import com.xiesx.fastboot.core.advice.configuration.AdviceProperties;
 import com.xiesx.fastboot.test.base.BaseMock;
 import com.xiesx.fastboot.test.mock.MockData;
 import com.xiesx.fastboot.test.mock.MockUser;
-
+import java.net.URI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -27,145 +27,143 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 
-import java.net.URI;
-
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
 public class GlobalBodyAdviceTest extends BaseMock {
 
-    @Mock ServerHttpRequest mockRequest;
+  @Mock ServerHttpRequest mockRequest;
 
-    @Mock ServerHttpResponse mockResponse;
+  @Mock ServerHttpResponse mockResponse;
 
-    GlobalBodyAdvice advice;
+  GlobalBodyAdvice advice;
 
-    @BeforeEach
-    void setup() {
-        advice = new GlobalBodyAdvice();
-    }
+  @BeforeEach
+  void setup() {
+    advice = new GlobalBodyAdvice();
+  }
 
-    @Test
-    @Order(1)
-    void testSupportsReturnsFalseWhenMethodIsNull() {
-        when(mockParameter.getMethod()).thenReturn(null);
+  @Test
+  @Order(1)
+  void testSupportsReturnsFalseWhenMethodIsNull() {
+    when(mockParameter.getMethod()).thenReturn(null);
 
-        boolean result = advice.supports(mockParameter, MappingJackson2HttpMessageConverter.class);
-        assertFalse(result);
-    }
+    boolean result = advice.supports(mockParameter, MappingJackson2HttpMessageConverter.class);
+    assertFalse(result);
+  }
 
-    @Test
-    @Order(2)
-    void testBeforeBodyWriteReturnsNullWhenReturnTypeIsVoid() {
-        // 模拟配置属性
-        advice.properties = Mockito.mock(AdviceProperties.class);
+  @Test
+  @Order(2)
+  void testBeforeBodyWriteReturnsNullWhenReturnTypeIsVoid() {
+    // 模拟配置属性
+    advice.properties = Mockito.mock(AdviceProperties.class);
 
-        // 模拟不匹配拦截路径
-        when(advice.properties.getBodyIgnoresUrls()).thenReturn(Lists.newArrayList("/ignore"));
+    // 模拟不匹配拦截路径
+    when(advice.properties.getBodyIgnoresUrls()).thenReturn(Lists.newArrayList("/ignore"));
 
-        // 模拟请求路径不匹配
-        URI mockUri = URI.create("/test");
-        when(mockRequest.getURI()).thenReturn(mockUri);
+    // 模拟请求路径不匹配
+    URI mockUri = URI.create("/test");
+    when(mockRequest.getURI()).thenReturn(mockUri);
 
-        // 模拟方法返回类型为 void
-        when(mockParameter.getMethod()).thenReturn(mockMethod);
-        when(mockMethod.getReturnType()).thenReturn((Class) Void.TYPE);
+    // 模拟方法返回类型为 void
+    when(mockParameter.getMethod()).thenReturn(mockMethod);
+    when(mockMethod.getReturnType()).thenReturn((Class) Void.TYPE);
 
-        Object result =
-                advice.beforeBodyWrite(
-                        "str",
-                        mockParameter,
-                        MediaType.APPLICATION_JSON,
-                        MappingJackson2HttpMessageConverter.class,
-                        mockRequest,
-                        mockResponse);
+    Object result =
+        advice.beforeBodyWrite(
+            "str",
+            mockParameter,
+            MediaType.APPLICATION_JSON,
+            MappingJackson2HttpMessageConverter.class,
+            mockRequest,
+            mockResponse);
 
-        assertEquals(result, "str");
-    }
+    assertEquals(result, "str");
+  }
 
-    @Test
-    @Order(3)
-    void testBeforeBodyWriteReturnsNullWhenReturnTypeIsNotVoid() {
-        // 模拟配置属性
-        advice.properties = Mockito.mock(AdviceProperties.class);
+  @Test
+  @Order(3)
+  void testBeforeBodyWriteReturnsNullWhenReturnTypeIsNotVoid() {
+    // 模拟配置属性
+    advice.properties = Mockito.mock(AdviceProperties.class);
 
-        // 模拟不匹配拦截路径
-        when(advice.properties.getBodyIgnoresUrls()).thenReturn(Lists.newArrayList("/ignore"));
+    // 模拟不匹配拦截路径
+    when(advice.properties.getBodyIgnoresUrls()).thenReturn(Lists.newArrayList("/ignore"));
 
-        // 模拟请求路径不匹配
-        URI mockUri = URI.create("/test");
-        when(mockRequest.getURI()).thenReturn(mockUri);
+    // 模拟请求路径不匹配
+    URI mockUri = URI.create("/test");
+    when(mockRequest.getURI()).thenReturn(mockUri);
 
-        // 模拟方法返回类型为 String
-        when(mockParameter.getMethod()).thenReturn(mockMethod);
-        when(mockMethod.getReturnType()).thenReturn((Class) String.class);
+    // 模拟方法返回类型为 String
+    when(mockParameter.getMethod()).thenReturn(mockMethod);
+    when(mockMethod.getReturnType()).thenReturn((Class) String.class);
 
-        Object result =
-                advice.beforeBodyWrite(
-                        "str",
-                        mockParameter,
-                        MediaType.APPLICATION_JSON,
-                        MappingJackson2HttpMessageConverter.class,
-                        mockRequest,
-                        mockResponse);
+    Object result =
+        advice.beforeBodyWrite(
+            "str",
+            mockParameter,
+            MediaType.APPLICATION_JSON,
+            MappingJackson2HttpMessageConverter.class,
+            mockRequest,
+            mockResponse);
 
-        assertEquals(result, "str");
-    }
+    assertEquals(result, "str");
+  }
 
-    @Test
-    @Order(3)
-    void testBeforeBodyWriteReturnsNullWhenReturnTypeIsNull() {
-        // 模拟配置属性
-        advice.properties = Mockito.mock(AdviceProperties.class);
+  @Test
+  @Order(3)
+  void testBeforeBodyWriteReturnsNullWhenReturnTypeIsNull() {
+    // 模拟配置属性
+    advice.properties = Mockito.mock(AdviceProperties.class);
 
-        // 模拟不匹配拦截路径
-        when(advice.properties.getBodyIgnoresUrls()).thenReturn(Lists.newArrayList("/ignore"));
+    // 模拟不匹配拦截路径
+    when(advice.properties.getBodyIgnoresUrls()).thenReturn(Lists.newArrayList("/ignore"));
 
-        // 模拟请求路径不匹配
-        URI mockUri = URI.create("/test");
-        when(mockRequest.getURI()).thenReturn(mockUri);
+    // 模拟请求路径不匹配
+    URI mockUri = URI.create("/test");
+    when(mockRequest.getURI()).thenReturn(mockUri);
 
-        // 模拟方法返回类型为 obj
-        when(mockParameter.getMethod()).thenReturn(mockMethod);
-        when(mockMethod.getReturnType()).thenReturn((Class) MockUser.class);
+    // 模拟方法返回类型为 obj
+    when(mockParameter.getMethod()).thenReturn(mockMethod);
+    when(mockMethod.getReturnType()).thenReturn((Class) MockUser.class);
 
-        Object result =
-                advice.beforeBodyWrite(
-                        MockData.user(),
-                        mockParameter,
-                        MediaType.APPLICATION_JSON,
-                        MappingJackson2HttpMessageConverter.class,
-                        mockRequest,
-                        mockResponse);
+    Object result =
+        advice.beforeBodyWrite(
+            MockData.user(),
+            mockParameter,
+            MediaType.APPLICATION_JSON,
+            MappingJackson2HttpMessageConverter.class,
+            mockRequest,
+            mockResponse);
 
-        assertEquals(((Result) result).code(), R.SUCCESS_CODE);
-    }
+    assertEquals(((Result) result).code(), R.SUCCESS_CODE);
+  }
 
-    @Test
-    @Order(3)
-    void testIsVoidReturnsTrueWhenReturnTypeIsVoid() {
-        when(mockParameter.getMethod()).thenReturn(mockMethod);
-        when(mockMethod.getReturnType()).thenReturn((Class) Void.TYPE);
+  @Test
+  @Order(3)
+  void testIsVoidReturnsTrueWhenReturnTypeIsVoid() {
+    when(mockParameter.getMethod()).thenReturn(mockMethod);
+    when(mockMethod.getReturnType()).thenReturn((Class) Void.TYPE);
 
-        boolean result = advice.isVoid(mockParameter);
-        assertTrue(result);
-    }
+    boolean result = advice.isVoid(mockParameter);
+    assertTrue(result);
+  }
 
-    @Test
-    @Order(4)
-    void testIsVoidReturnsFalseWhenReturnTypeIsNotVoid() {
-        when(mockParameter.getMethod()).thenReturn(mockMethod);
-        when(mockMethod.getReturnType()).thenReturn((Class) String.class);
+  @Test
+  @Order(4)
+  void testIsVoidReturnsFalseWhenReturnTypeIsNotVoid() {
+    when(mockParameter.getMethod()).thenReturn(mockMethod);
+    when(mockMethod.getReturnType()).thenReturn((Class) String.class);
 
-        boolean result = advice.isVoid(mockParameter);
-        assertFalse(result);
-    }
+    boolean result = advice.isVoid(mockParameter);
+    assertFalse(result);
+  }
 
-    @Test
-    @Order(5)
-    void testIsVoidReturnsFalseWhenMethodIsNull() {
-        when(mockParameter.getMethod()).thenReturn(null);
+  @Test
+  @Order(5)
+  void testIsVoidReturnsFalseWhenMethodIsNull() {
+    when(mockParameter.getMethod()).thenReturn(null);
 
-        boolean result = advice.isVoid(mockParameter);
-        assertFalse(result);
-    }
+    boolean result = advice.isVoid(mockParameter);
+    assertFalse(result);
+  }
 }

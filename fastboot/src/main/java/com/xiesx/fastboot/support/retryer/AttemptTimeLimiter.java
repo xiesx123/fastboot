@@ -25,10 +25,10 @@ import java.util.concurrent.Callable;
  */
 public interface AttemptTimeLimiter<V> {
 
-    /**
-     * @param callable to subject to the time limit
-     * @return the return of the given callable
-     * @throws Exception any exception from this invocation
-     */
-    V call(Callable<V> callable) throws Exception;
+  /**
+   * @param callable to subject to the time limit
+   * @return the return of the given callable
+   * @throws Exception any exception from this invocation
+   */
+  V call(Callable<V> callable) throws Exception;
 }

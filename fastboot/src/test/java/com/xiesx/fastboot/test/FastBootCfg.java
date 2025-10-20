@@ -8,7 +8,6 @@ import com.xiesx.fastboot.core.limiter.annotation.GoEnableLimiter;
 import com.xiesx.fastboot.core.logger.annotation.GoEnableLogger;
 import com.xiesx.fastboot.core.signature.annotation.GoEnableSigner;
 import com.xiesx.fastboot.core.token.annotation.GoEnableToken;
-
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

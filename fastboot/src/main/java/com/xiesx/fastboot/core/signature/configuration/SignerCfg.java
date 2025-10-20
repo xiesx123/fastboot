@@ -1,7 +1,6 @@
 package com.xiesx.fastboot.core.signature.configuration;
 
 import com.xiesx.fastboot.core.signature.SignerAspect;
-
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 

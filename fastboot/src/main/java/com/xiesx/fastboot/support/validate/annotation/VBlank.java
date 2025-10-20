@@ -1,14 +1,15 @@
 package com.xiesx.fastboot.support.validate.annotation;
 
-import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.xiesx.fastboot.support.validate.annotation.constraint.VBlankRule;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
@@ -22,9 +23,9 @@ import javax.validation.Payload;
 @Constraint(validatedBy = {VBlankRule.class})
 public @interface VBlank {
 
-    String message() default "{fastboot.empty}"; // 错误提示信息默认值，可以使用el表达式。
+  String message() default "{fastboot.empty}"; // 错误提示信息默认值，可以使用el表达式。
 
-    Class<?>[] groups() default {}; // 约束注解在验证时所属的组别
+  Class<?>[] groups() default {}; // 约束注解在验证时所属的组别
 
-    Class<? extends Payload>[] payload() default {}; // 约束注解的有效负载
+  Class<? extends Payload>[] payload() default {}; // 约束注解的有效负载
 }
