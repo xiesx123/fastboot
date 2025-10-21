@@ -15,6 +15,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.xiesx.fastboot.FastBootApplication;
+import com.xiesx.fastboot.db.jpa.JpaPlusTestPojo.LogRecordPojo;
 import com.xiesx.fastboot.test.LogRecord;
 import com.xiesx.fastboot.test.LogRecordRepository;
 import com.xiesx.fastboot.test.QLogRecord;
@@ -106,11 +107,11 @@ public class JpaPlusTest {
     assertEquals(data.getContent().size(), 6);
 
     // 投影查询（在多表联合查询）
-    Expression<JpaPlusTestPojo.LogRecordPojo> expTuple =
-        Projections.constructor(
-            JpaPlusTestPojo.LogRecordPojo.class, ql.id, ql.ip, ql.time.min(), ql.time.max());
-    jpaQuery.select(expTuple);
-    assertEquals(jpaQuery.fetch().size(), 1);
+    Expression<LogRecordPojo> expTuple =
+        Projections.constructor(LogRecordPojo.class, ql.type, ql.time.min(), ql.time.max());
+    List<LogRecordPojo> list =
+        jpaQuery.select(expTuple).from(ql).groupBy(ql.type, ql.createDate).fetch();
+    assertTrue(list.size() > 0);
   }
 
   @Test

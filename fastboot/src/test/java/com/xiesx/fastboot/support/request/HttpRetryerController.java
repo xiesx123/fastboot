@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("request")
-public class RequestController {
+public class HttpRetryerController {
 
   @GetMapping("request")
   public Result request() {
     // 构造请求
-    HttpRequest request = HttpRequest.get(RequestTest.URL);
+    HttpRequest request = HttpRequest.get(HttpRequestsTest.URL);
     // 请求重试
     HttpResponse response = HttpRequests.retry(request);
     // 解析结果

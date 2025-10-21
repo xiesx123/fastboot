@@ -25,7 +25,7 @@ public class HttpRequests {
             // 重试条件
             .retryIfException()
             // 返回指定结果时重试
-            .retryIfResult(HttpRetryer.reRetryPredicate)
+            .retryIfResult(res -> !res.isOk())
             // 等待策略：请求间隔1s
             .withWaitStrategy(
                 WaitStrategies.fixedWait(HttpRetryer.RETRY_HTTP_WAIT, TimeUnit.SECONDS))
@@ -40,13 +40,13 @@ public class HttpRequests {
             .build();
   }
 
-  public static Retryer<HttpResponse> getRetry() {
+  public static Retryer<HttpResponse> getDefaultRetry() {
     return retry;
   }
 
   public static HttpResponse retry(@Nullable HttpRequest request) {
     request.addInterceptor(interceptor);
-    return HttpRetryer.retry(request, retry);
+    return HttpRetryer.retry(request, getDefaultRetry());
   }
 
   public static HttpResponse retry(

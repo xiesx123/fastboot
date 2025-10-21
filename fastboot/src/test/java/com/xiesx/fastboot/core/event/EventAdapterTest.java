@@ -12,6 +12,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.xiesx.fastboot.test.base.BaseMock;
 import java.lang.reflect.ParameterizedType;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -65,6 +66,7 @@ class EventAdapterTest extends BaseMock {
   @BeforeEach
   void setup() {
     adapter.injectLogger(mockLogger);
+    EventBusHelper.register(adapter);
   }
 
   @Test
@@ -100,5 +102,10 @@ class EventAdapterTest extends BaseMock {
     adapter.onEvent(event);
 
     verify(mockLogger).error(eq("handle event {} {} "), eq(TestEvent.class), eq("boom"));
+  }
+
+  @AfterEach
+  void tearDown() {
+    EventBusHelper.unregister(adapter);
   }
 }

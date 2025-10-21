@@ -1,5 +1,8 @@
 package com.xiesx.fastboot.support.validate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.alibaba.fastjson2.JSON;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.base.result.R;
@@ -15,9 +18,9 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
-import javax.validation.groups.Default;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -55,34 +58,49 @@ public class ValidatorTest {
     public interface C {}
   }
 
+  ValidatorHelper cls;
+
+  @BeforeEach
+  void setup() {
+    cls = new ValidatorHelper();
+  }
+
+  @Test
+  void testConstructor() {
+    assertNotNull(cls);
+  }
+
   @Test
   @Order(1)
-  public void verify1() {
+  public void validate() {
     ValidatorVo vo = new ValidatorVo();
-    Set<ConstraintViolation<ValidatorVo>> violations = validator.validate(vo, Default.class);
+    ValidatorHelper.validate(vo);
+    Set<ConstraintViolation<ValidatorVo>> violations = validator.validate(vo);
     List<String> message = ValidatorHelper.extractMessage(violations);
-
-    log.info(JSON.toJSONString(R.succ(message)));
+    assertEquals(message.size(), 0);
   }
 
   @Test
   @Order(2)
-  public void verify3() {
+  public void extract() {
     ValidatorVo vo = new ValidatorVo();
     try {
       ValidatorHelper.validate(vo, A.class, B.class, C.class);
     } catch (ConstraintViolationException e) {
       // 打印 messgae
-      List<String> message1 = ValidatorHelper.extractMessage(e);
-      log.info(JSON.toJSONString(R.succ(message1)));
+      List<String> message1 = ValidatorHelper.extractMessage(e.getConstraintViolations());
+      assertEquals(message1.size(), 1);
 
       // 打印property + messgae
-      Map<String, String> message2 = ValidatorHelper.extractPropertyAndMessage(e);
-      log.info(JSON.toJSONString(R.succ(message2)));
+      Map<String, String> message2 =
+          ValidatorHelper.extractPropertyAndMessage(e.getConstraintViolations());
+      assertEquals(message2.size(), 1);
 
       // 打印property + messgae
-      List<String> message3 = ValidatorHelper.extractPropertyAndMessageAsList(e);
+      List<String> message3 =
+          ValidatorHelper.extractPropertyAndMessageAsList(e.getConstraintViolations());
       log.info(JSON.toJSONString(R.succ(message3)));
+      assertEquals(message3.size(), 1);
     }
   }
 }

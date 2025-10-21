@@ -102,14 +102,7 @@ public class QueryDslTest {
   @Order(5)
   public void tuple() {
     ConstructorExpression<LogRecordPojo> expression =
-        Projections.constructor(
-            QueryDslPojo.LogRecordPojo.class,
-            ql.id,
-            ql.ip,
-            ql.type,
-            ql.time,
-            ql.time.min(),
-            ql.time.max());
+        Projections.constructor(LogRecordPojo.class, ql.type, ql.time.min(), ql.time.max());
     List<LogRecordPojo> list = mJPAQuery.select(expression).from(ql).groupBy(ql.type).fetch();
     assertEquals(list.size(), 2);
   }

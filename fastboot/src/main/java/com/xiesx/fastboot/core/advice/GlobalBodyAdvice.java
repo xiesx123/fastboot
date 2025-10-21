@@ -36,9 +36,9 @@ public class GlobalBodyAdvice implements ResponseBodyAdvice<Object> {
       @NonNull MethodParameter returnType,
       @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
 
+    // 获取方法
     Method method = returnType.getMethod();
     if (method == null) {
-      // 无法获取方法，则不拦截
       return false;
     }
     // 判断类或方法是否有 @RestBodyIgnore 注解

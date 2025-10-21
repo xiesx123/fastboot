@@ -1,6 +1,5 @@
 package com.xiesx.fastboot.support.scheduler;
 
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -33,15 +32,19 @@ public class ScheduleHelper {
 
   private static String JOB_GROUP_NAME = "FAST_JOB_GROUP_NAME";
 
+  private static Scheduler scheduler;
+
   public static Scheduler get() {
-    Scheduler scheduler = SpringHelper.getBean(Scheduler.class);
-    Assert.notNull(
-        scheduler,
-        () ->
-            new RunException(
-                RunExc.DBASE,
-                "  Schedule dependency is missing. Please add 'spring-boot-starter-quartz' to your"
-                    + " pom.xml. "));
+    if (scheduler == null) {
+      try {
+        scheduler = SpringHelper.getBean(Scheduler.class);
+      } catch (Exception e) {
+        new RunException(
+            RunExc.RUNTIME,
+            " validation dependency is missing. Please add 'spring-boot-starter-validation' to "
+                + " your pom.xml.");
+      }
+    }
     return scheduler;
   }
 
