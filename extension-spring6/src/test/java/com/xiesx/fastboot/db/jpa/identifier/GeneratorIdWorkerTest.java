@@ -1,7 +1,9 @@
 package com.xiesx.fastboot.db.jpa.identifier;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Member;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -23,6 +25,7 @@ class GeneratorIdWorkerTest {
     CustomIdGeneratorCreationContext context = mock(CustomIdGeneratorCreationContext.class);
 
     GeneratorIdWorker generator = new GeneratorIdWorker(config, member, context);
+    generator.getEventTypes();
 
     SharedSessionContractImplementor session = mock(SharedSessionContractImplementor.class);
     Object result = generator.generate(session, new Object(), null, EventType.INSERT);

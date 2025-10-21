@@ -9,13 +9,7 @@ public class QueryDslPojo {
   @AllArgsConstructor
   public static class LogRecordPojo {
 
-    public Long id;
-
-    public String ip;
-
     public String type;
-
-    public Long time;
 
     public Long min;
 

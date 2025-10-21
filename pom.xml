@@ -163,7 +163,6 @@
 					<testFailureIgnore>true</testFailureIgnore>
 					<argLine>${itCoverageAgent}</argLine>
 					<excludes>
-						<exclude>**/*/SchedulerTest.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

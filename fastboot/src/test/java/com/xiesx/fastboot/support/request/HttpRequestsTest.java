@@ -1,11 +1,14 @@
 package com.xiesx.fastboot.support.request;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.base.result.R;
+import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.support.retryer.AttemptTimeLimiters;
 import com.xiesx.fastboot.support.retryer.Retryer;
 import com.xiesx.fastboot.support.retryer.RetryerBuilder;
@@ -13,6 +16,7 @@ import com.xiesx.fastboot.support.retryer.StopStrategies;
 import com.xiesx.fastboot.support.retryer.WaitStrategies;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -23,10 +27,22 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 @Log4j2
 @TestMethodOrder(OrderAnnotation.class)
 @SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public class RequestTest {
+public class HttpRequestsTest {
 
   public static final String URL =
       "https://front-gateway.mtime.cn/ticket/schedule/showing/movies.api";
+
+  HttpRequests cls;
+
+  @BeforeEach
+  void setup() {
+    cls = new HttpRequests();
+  }
+
+  @Test
+  void testConstructor() {
+    assertNotNull(cls);
+  }
 
   @Test
   @Order(1)
@@ -43,7 +59,16 @@ public class RequestTest {
 
   @Test
   @Order(2)
-  public void retryer() {
+  public void request_retry() {
+    // 构造请求
+    HttpRequest request = HttpRequest.post("https://www.baidu.com/1");
+    // 解析结果
+    assertThrows(RunException.class, () -> HttpRequests.retry(request));
+  }
+
+  @Test
+  @Order(3)
+  public void request_custom() {
     // 构造请求
     HttpRequest request = HttpRequest.get(URL + "?locationId=562");
     // 自定义重试器

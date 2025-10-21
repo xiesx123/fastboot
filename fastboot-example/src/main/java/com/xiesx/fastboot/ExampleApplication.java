@@ -18,6 +18,6 @@ public class ExampleApplication {
     SpringApplication app = new SpringApplication(ExampleApplication.class);
     app.setBannerMode(Banner.Mode.CONSOLE);
     app.run(args);
-    log.info("Started ExampleApplication Successfully {}",Version.VERSION);
+    log.info("Started ExampleApplication Successfully {}", Version.VERSION);
   }
 }

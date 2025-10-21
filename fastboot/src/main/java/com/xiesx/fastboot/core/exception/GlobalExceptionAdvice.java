@@ -73,8 +73,9 @@ public class GlobalExceptionAdvice {
     }
     // Hibernate Violation 验证 --> Java Violation，这里有ConstraintViolationException接收
     if (e instanceof ValidationException) {
+      ConstraintViolationException exception = (ConstraintViolationException) e;
       msgs.addAll(
-          ValidatorHelper.extractPropertyAndMessageAsList((ConstraintViolationException) e));
+          ValidatorHelper.extractPropertyAndMessageAsList(exception.getConstraintViolations()));
     }
     return R.build(RunExc.VALIDATOR.getCode(), RunExc.VALIDATOR.getMsg(), msgs);
   }

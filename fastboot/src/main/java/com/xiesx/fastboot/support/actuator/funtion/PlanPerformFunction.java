@@ -81,18 +81,24 @@ public class PlanPerformFunction implements Function<Dict, Dict> {
     log.debug("{} 等待执行数量 {} 个", trace, callables.size());
     // 记录本次结果
     Dict result = Dict.create();
-    List<Future<Dict>> futures = Async.invokeAll(callables);
-    for (Future<Dict> future : futures) {
-      if (future.isDone()) {
-        try {
-          Dict dict = future.get();
-          result.putAll(dict);
-        } catch (Exception e) {
-          String msg = ExceptionUtil.getSimpleMessage(e);
-          log.error("{} processor function apply error {}", trace, msg);
-          result.set(ActuatorContext.FIELDS.error, R.error(msg));
+    List<Future<Dict>> futures = Lists.newArrayList();
+    try {
+      futures = Async.invokeAll(callables);
+      for (Future<Dict> future : futures) {
+        if (future.isDone()) {
+          try {
+            Dict dict = future.get();
+            result.putAll(dict);
+          } catch (Exception e) {
+            String msg = ExceptionUtil.getSimpleMessage(e);
+            log.error("{} processor function apply error {}", trace, msg);
+            result.set(ActuatorContext.FIELDS.error, R.error(msg));
+          }
         }
       }
+    } catch (InterruptedException e) {
+      String msg = ExceptionUtil.getSimpleMessage(e);
+      log.error("{} invoke all {}", trace, msg);
     }
     // 传递本次结果
     return result;

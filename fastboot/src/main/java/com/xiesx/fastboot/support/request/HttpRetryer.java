@@ -2,7 +2,6 @@ package com.xiesx.fastboot.support.request;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
-import com.google.common.base.Predicate;
 import com.xiesx.fastboot.core.exception.RunExc;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.support.retryer.Attempt;
@@ -10,6 +9,7 @@ import com.xiesx.fastboot.support.retryer.RetryException;
 import com.xiesx.fastboot.support.retryer.RetryListener;
 import com.xiesx.fastboot.support.retryer.Retryer;
 import java.util.concurrent.ExecutionException;
+import lombok.Generated;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -24,13 +24,11 @@ public class HttpRetryer {
   /** 重试限制 */
   public static Integer RETRY_HTTP_LIMIT = 2;
 
-  /** 重试条件 */
-  public static Predicate<HttpResponse> reRetryPredicate = raw -> !raw.isOk();
-
   /** 重试监听 */
   public static RetryListener reRetryListener =
       new RetryListener() {
 
+        @Generated
         @Override
         public <V> void onRetry(Attempt<V> attempt) {
           long number = attempt.getAttemptNumber();
