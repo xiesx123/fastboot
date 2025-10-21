@@ -12,7 +12,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.support.actuator.ActuatorContext;
 import com.xiesx.fastboot.support.actuator.aviator.AviatorManager;
-import com.xiesx.fastboot.support.actuator.model.plan.RequestPlan;
+import com.xiesx.fastboot.support.actuator.node.HttpNode;
 import com.xiesx.fastboot.support.request.HttpRequests;
 import java.util.concurrent.Callable;
 import lombok.Data;
@@ -21,11 +21,11 @@ import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
 @Data
-@Log4j2
 @EqualsAndHashCode(callSuper = false)
-public class RequestCallable implements Callable<Dict> {
+@Log4j2
+public class HttpCallable implements Callable<Dict> {
 
-  @NonNull RequestPlan plan;
+  @NonNull HttpNode node;
 
   @NonNull ActuatorContext context;
 
@@ -37,20 +37,18 @@ public class RequestCallable implements Callable<Dict> {
     Dict result = Dict.create();
     // 验证规则
     boolean isInvoke = true;
-    if (plan.isAviator() && !context.isEmpty()) {
-      // 默认执行，反之忽略
-      isInvoke = AviatorManager.isInvoke(plan.rule(), context.getContext());
+    if (node.isAviator() && !context.isEmpty()) {
+      isInvoke = AviatorManager.isInvoke(trace, node.rule(), context.getContext());
     }
     // 计时器
     TimeInterval timer = DateUtil.timer();
-    log.debug(
-        "{} ===============执行请求{}==============>", context.getTrace(), isInvoke ? "开始" : "忽略");
+    log.debug("{} ===============执行请求开始==============>", context.getTrace());
     if (isInvoke) {
-      log.debug("{} 请求地址 {}", trace, plan.getUrl());
-      log.debug("{} 请求参数 {}", trace, R.toJsonStr(plan.params()));
+      log.debug("{} 请求地址 {}", trace, node.getUrl());
+      log.debug("{} 请求参数 {}", trace, R.toJsonStr(node.params()));
       // 构造请求
       HttpRequest req =
-          HttpRequest.of(plan.getUrl()).method(plan.getMethod()).timeout(plan.getTimeout());
+          HttpRequest.of(node.getUrl()).method(node.getMethod()).timeout(node.getTimeout());
       // 请求重试
       HttpResponse res = HttpRequests.retry(req);
       // 获取结果
@@ -63,20 +61,20 @@ public class RequestCallable implements Callable<Dict> {
       // 判断状态，记录所有结果，传递下个任务使用
       JSONObject json = JSON.parseObject(body);
       if (res.isOk()) {
-        result.set(plan.ret(), json);
+        result.set(node.ret(), json);
       } else
-      // （错误 + 不可忽略），记录error信息
-      if (!res.isOk() && !plan.ignoreFailure()) {
+      // （错误 + 不忽略），记录error信息
+      if (!res.isOk() && !node.ignoreFailure()) {
         result.set(ActuatorContext.FIELDS.error, R.fail(body));
       } else {
         throw new RuntimeException(StrUtil.format("{} 调度执行 {} 已终止 {}", trace, R.toJsonStr(json)));
       }
     } else {
-      log.debug("{} 请求忽略 {}", trace, plan.rule());
+      log.debug("请求忽略 【{}】", node.name());
       // 从上一次的结果中取值
-      result.putIfAbsent(plan.ret(), "ignore");
+      result.putIfAbsent(node.ret(), "ignore");
     }
-    log.debug("{} 执行结果 {}", trace, R.toJsonStr(result.getObj(plan.ret())));
+    log.debug("{} 执行结果 {}", trace, R.toJsonStr(result.getObj(node.ret())));
     log.debug(
         "{} ===============执行请求结束==============> 耗时{}ms\r\n",
         context.getTrace(),

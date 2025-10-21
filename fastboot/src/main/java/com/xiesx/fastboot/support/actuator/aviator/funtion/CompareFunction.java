@@ -17,7 +17,7 @@ public class CompareFunction extends AbstractFunction {
     Number left = FunctionUtils.getNumberValue(arg1, env);
     Number right = FunctionUtils.getNumberValue(arg2, env);
     AviatorBoolean bool =
-        right.intValue() > left.intValue() ? AviatorBoolean.TRUE : AviatorBoolean.FALSE;
+        left.intValue() > right.intValue() ? AviatorBoolean.TRUE : AviatorBoolean.FALSE;
     log.debug("{}({},{}) -> {}", getName(), left, right, FunctionUtils.getBooleanValue(bool, env));
     return bool;
   }

@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.support.actuator.plans;
+package com.xiesx.fastboot.support.actuator.node;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Maps;
@@ -10,24 +10,24 @@ import lombok.experimental.FieldNameConstants;
 @Data
 @Accessors(fluent = true)
 @FieldNameConstants(innerTypeName = "FIELDS")
-public class AbstractPlan {
+public class AbstractNode {
 
   /** 名称 */
   public String name;
 
   /** 类型 */
-  public PlanEnum type;
+  public NodeEnum type;
 
   /** 请求参数 */
-  public Map<String, Object> params = Maps.newConcurrentMap();
+  public Map<String, Object> params = Maps.newLinkedHashMap();
 
   /** 响应节点 */
   public String ret;
 
-  /** 规则 */
+  /** 执行规则（条件成立则执行） */
   public String rule;
 
-  /** 是否忽略失败 */
+  /** 忽略失败 */
   private boolean ignoreFailure = false;
 
   // ==============

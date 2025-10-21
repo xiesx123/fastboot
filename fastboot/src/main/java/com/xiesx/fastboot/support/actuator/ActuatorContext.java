@@ -1,14 +1,18 @@
 package com.xiesx.fastboot.support.actuator;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.base.result.R;
 import java.math.BigDecimal;
-import java.util.concurrent.ConcurrentMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
@@ -20,13 +24,24 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class ActuatorContext {
 
-  @Builder.Default public String trace = "";
+  @Builder.Default String trace = IdUtil.fastSimpleUUID();
 
-  @Builder.Default public String error = "";
+  @Builder.Default String title = StrUtil.EMPTY;
 
-  @Builder.Default private ConcurrentMap<String, Object> context = Maps.newConcurrentMap();
+  @Builder.Default Envar env = Envar.builder().build();
 
-  /** 追加 */
+  @Builder.Default LinkedHashMap<String, Object> context = Maps.newLinkedHashMap();
+
+  @Builder.Default Object result = StrUtil.EMPTY_JSON;
+
+  @Builder.Default String error = StrUtil.EMPTY;
+
+  /** 环境 */
+  public void env(Envar env) {
+    this.env = env;
+  }
+
+  /** 上下文 */
   public void put(String key, Object val) {
     context.put(key, val);
   }
@@ -42,7 +57,6 @@ public class ActuatorContext {
     context.putAll(data);
   }
 
-  /** 累积 */
   public Dict add(Dict data) {
     Dict dict = Dict.create();
     data.forEach(
@@ -60,22 +74,18 @@ public class ActuatorContext {
     return dict;
   }
 
-  /** 清空 */
   public void clear() {
     context.clear();
   }
 
-  /** 是否存在 */
   public boolean exists(String key) {
     return context.containsKey(key);
   }
 
-  /** 是否为空 */
   public boolean isEmpty() {
     return context.isEmpty();
   }
 
-  /** 获取 */
   public Dict get() {
     // log.info( "所有结果 {}", IR.toJsonStr(context));
     Dict dict = Dict.create();
@@ -86,6 +96,26 @@ public class ActuatorContext {
 
   public Object get(String key) {
     return context.get(key);
+  }
+
+  /** 结果 */
+  public void result(Object result) {
+    this.result = result;
+  }
+
+  @Data
+  @Builder
+  @FieldNameConstants(innerTypeName = "FIELDS")
+  public static class Envar {
+
+    /** 自定义参数 */
+    @Builder.Default public Map<String, Object> custom = Maps.newConcurrentMap();
+
+    /** 结果保存 */
+    @Builder.Default public String saveDir = FileUtil.getTmpDirPath();
+
+    /** 调试参数 */
+    @Builder.Default public boolean debug = false;
   }
 
   public static void main(String[] args) {

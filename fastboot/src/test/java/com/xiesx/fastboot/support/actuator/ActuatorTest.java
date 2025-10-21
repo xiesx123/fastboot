@@ -1,34 +1,66 @@
 package com.xiesx.fastboot.support.actuator;
 
-import com.alibaba.fastjson2.JSON;
-import com.xiesx.fastboot.FastBootApplication;
-import com.xiesx.fastboot.support.actuator.model.ActuatorEnv;
-import com.xiesx.fastboot.support.actuator.model.ActuatorPlan;
+import cn.hutool.core.lang.Console;
+import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.IdUtil;
+import com.xiesx.fastboot.core.json.reference.GenericType;
+import com.xiesx.fastboot.support.actuator.ActuatorContext.Envar;
+import com.xiesx.fastboot.test.base.BaseMock;
+import java.util.List;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
-@SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
-public class ActuatorTest {
+public class ActuatorTest extends BaseMock {
 
-  // @Test
+  GenericType<List<Object>> gtl = new GenericType<List<Object>>() {};
+
+  @Test
   @Order(1)
   public void executor() {
-    //
-    ActuatorEnv env = ActuatorEnv.builder().trace("1").debug(true).build();
-    //
-    String json =
-        "{\"id\":\"1\",\"title\":\"测试\",\"env\":{\"a1\":1,\"a2\":2},\"plans\":[{\"name\":\"gitee1-1\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":\"$.env.a1\",\"p2\":\"$.env.a2\"},\"timeout\":5000,\"ret\":\"key11\",\"rule\":\"\",\"ignoreFailure\":false},[{\"name\":\"gitee3-1\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":1,\"p2\":2},\"timeout\":5000,\"ret\":\"k31\",\"rule\":\"compare(sum($.env.a1,$.env.a2),2)\",\"ignoreFailure\":false},{\"name\":\"gitee3-2\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":1,\"p2\":2},\"timeout\":5000,\"ret\":\"k32\",\"rule\":\"\",\"ignoreFailure\":false}],{\"name\":\"gitee1-2\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":1,\"p2\":2},\"timeout\":5000,\"ret\":\"key12\",\"rule\":\"\",\"ignoreFailure\":false}]}";
 
-    json =
-        "{\"id\":\"1\",\"title\":\"测试\",\"env\":{\"a1\":1,\"a2\":2},\"plans\":[{\"name\":\"gitee1-1\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":\"$.env.a1\",\"p2\":\"$.env.a2\"},\"timeout\":5000,\"ret\":\"key11\",\"rule\":\"\",\"ignoreFailure\":false},[{\"name\":\"gitee3-1\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":1,\"p2\":2},\"timeout\":5000,\"ret\":\"k31\",\"rule\":\"compare($.env.a2,2)\",\"ignoreFailure\":false},{\"name\":\"gitee3-2\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":1,\"p2\":2},\"timeout\":5000,\"ret\":\"k32\",\"rule\":\"\",\"ignoreFailure\":false}],{\"name\":\"gitee1-2\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":1,\"p2\":2},\"timeout\":5000,\"ret\":\"key12\",\"rule\":\"\",\"ignoreFailure\":false}]}";
-    ActuatorPlan plan = JSON.parseObject(json, ActuatorPlan.class);
-    env.setCustom(plan.getEnv());
-    //
-    ActuatorDispatch dispatch = new ActuatorDispatch(env, plan);
+    // 数据 1->2->[31,32]
+    String json =
+        "[{\"name\":\"node1\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{},\"timeout\":5000,\"ret\":\"node1\",\"rule\":\"\",\"ignoreFailure\":false},{\"name\":\"node2\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"a\":\"$.node1.x\",\"b\":\"$.node1.y\"},\"timeout\":5000,\"ret\":\"node2\",\"rule\":\"\",\"ignoreFailure\":false},[{\"name\":\"node3-1\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":311,\"p2\":312},\"timeout\":5000,\"ret\":\"node31\",\"rule\":\"compare($.env.a,2)\",\"ignoreFailure\":false},{\"name\":\"node3-2\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":321,\"p2\":322},\"timeout\":5000,\"ret\":\"node32\",\"rule\":\"compare(sum($.env.b,1),2)\",\"ignoreFailure\":false}]]";
+
+    // 上下文
+    ActuatorContext context =
+        ActuatorContext.builder()
+            .trace(IdUtil.fastSimpleUUID())
+            .title("测试")
+            .env(
+                Envar.builder()
+                    .custom(Dict.create().set("a", 1).set("b", 2))
+                    .saveDir("D:")
+                    .debug(true)
+                    .build())
+            .build();
+
+    // 执行器
+    ActuatorDispatch dispatch =
+        new ActuatorDispatch(
+            context,
+            gtl.parseObject(json),
+            new ActuatorFutureCallback() {
+
+              @Override
+              public void onSuccess(ActuatorContext ctx, Dict result) {
+                super.onSuccess(ctx, result);
+                Console.log(ctx);
+                Console.log(result);
+              }
+
+              @Override
+              public void onFailure(ActuatorContext ctx, Throwable t) {
+                super.onFailure(ctx, t);
+                Console.log(ctx);
+              }
+            });
     dispatch.execute();
   }
 }

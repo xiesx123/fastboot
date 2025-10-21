@@ -1,13 +1,12 @@
-package com.xiesx.fastboot.support.actuator.model.plan;
+package com.xiesx.fastboot.support.actuator.node;
 
 import cn.hutool.http.Method;
-import com.xiesx.fastboot.support.actuator.plans.AbstractPlan;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class RequestPlan extends AbstractPlan {
+public class HttpNode extends AbstractNode {
 
   /** 请求方式 */
   private Method method = Method.GET;

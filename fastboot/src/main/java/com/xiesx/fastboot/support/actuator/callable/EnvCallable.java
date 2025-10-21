@@ -3,31 +3,41 @@ package com.xiesx.fastboot.support.actuator.callable;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.system.SystemUtil;
-import com.xiesx.fastboot.support.actuator.model.ActuatorEnv;
+import com.xiesx.fastboot.support.actuator.ActuatorContext;
+import com.xiesx.fastboot.support.actuator.ActuatorContext.Envar;
 import java.util.concurrent.Callable;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Data
-@Log4j2
 @EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Log4j2
 public class EnvCallable implements Callable<Dict> {
 
-  @NonNull ActuatorEnv env;
+  @NonNull Envar env;
 
   @Override
   public Dict call() throws Exception {
     log.debug("初始环境");
     // 初始数据
     Dict dict = Dict.create();
+
+    // 环境信息
+    Dict temp = Dict.parse(env);
+    MapUtil.get(temp, Envar.FIELDS.custom, Dict.class)
+        .forEach(
+            (k, v) -> {
+              temp.set(k, v);
+            });
+    temp.remove(Envar.FIELDS.custom);
+    dict.set(ActuatorContext.FIELDS.env, temp);
+
+    // 系统信息
     dict.set(
         "system",
         Dict.create() //
@@ -38,17 +48,6 @@ public class EnvCallable implements Callable<Dict> {
             .set("runtime", SystemUtil.getRuntimeInfo().getTotalMemory()) // java信息
             .set("datatime", DateUtil.now()) //
         );
-    // 环境数据
-    if (ObjectUtil.isNotEmpty(env)) {
-      Dict temp = Dict.parse(env);
-      MapUtil.get(temp, ActuatorEnv.FIELDS.custom, Dict.class)
-          .forEach(
-              (k, v) -> {
-                temp.set(k, v);
-              });
-      temp.remove(ActuatorEnv.FIELDS.custom);
-      dict.set("env", temp);
-    }
     return dict;
   }
 }

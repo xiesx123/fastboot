@@ -57,7 +57,7 @@ public class ValidatorHelper {
   // =====
 
   public static List<String> extractMessage(Set<? extends ConstraintViolation<?>> violations) {
-    return violations.stream().map(ConstraintViolation::getMessage).toList();
+    return violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
   }
 
   public static Map<String, String> extractPropertyAndMessage(
@@ -78,6 +78,8 @@ public class ValidatorHelper {
   public static List<String> extractPropertyAndMessageAsList(
       Set<? extends ConstraintViolation<?>> violations, String separator) {
     String sep = ObjectUtil.defaultIfBlank(separator, " ");
-    return violations.stream().map(v -> v.getPropertyPath() + sep + v.getMessage()).toList();
+    return violations.stream()
+        .map(v -> v.getPropertyPath() + sep + v.getMessage())
+        .collect(Collectors.toList());
   }
 }

@@ -1,26 +1,22 @@
-package com.xiesx.fastboot.support.actuator.callback;
+package com.xiesx.fastboot.support.actuator;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
 import com.xiesx.fastboot.base.result.R;
-import com.xiesx.fastboot.support.actuator.model.ActuatorEnv;
+import com.xiesx.fastboot.support.actuator.ActuatorContext.Envar;
 import java.io.File;
 import java.nio.charset.Charset;
 import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Data
-@RequiredArgsConstructor
 public class ActuatorFutureCallback implements IActuatorCallback<Dict> {
 
-  @NonNull ActuatorEnv evn;
-
   @Override
-  public void onSuccess(Dict ctx, Dict result) {
+  public void onSuccess(ActuatorContext ctx, Dict result) {
+    Envar evn = ctx.getEnv();
     if (evn.isDebug()) {
       extracted(ctx, result);
     }
@@ -28,7 +24,8 @@ public class ActuatorFutureCallback implements IActuatorCallback<Dict> {
   }
 
   @Override
-  public void onFailure(Dict ctx, Throwable t) {
+  public void onFailure(ActuatorContext ctx, Throwable t) {
+    Envar evn = ctx.getEnv();
     if (evn.isDebug()) {
       extracted(ctx, Dict.create());
     }
@@ -36,12 +33,13 @@ public class ActuatorFutureCallback implements IActuatorCallback<Dict> {
   }
 
   /** 保存结果 */
-  private void extracted(Dict ctx, Dict result) {
-    Dict dict = Dict.create().set("context", ctx).set("result", result);
+  private void extracted(ActuatorContext ctx, Dict result) {
+    Envar evn = ctx.getEnv();
+    ctx.result(result);
     File file =
         FileUtil.writeString(
-            R.toJsonPrettyStr(dict),
-            FileUtil.newFile(StrUtil.format("{}/{}", evn.getSaveDir(), evn.getTrace() + ".json")),
+            R.toJsonPrettyStr(ctx),
+            FileUtil.newFile(StrUtil.format("{}/{}", evn.getSaveDir(), "test.json")),
             Charset.defaultCharset());
     log.info("result filepath {}", file.getAbsolutePath());
   }

@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
-import com.xiesx.fastboot.FastBootApplication;
 import com.xiesx.fastboot.base.result.R;
 import com.xiesx.fastboot.core.exception.RunException;
 import com.xiesx.fastboot.support.retryer.AttemptTimeLimiters;
@@ -21,12 +20,12 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @Log4j2
+@ExtendWith(MockitoExtension.class)
 @TestMethodOrder(OrderAnnotation.class)
-@SpringBootTest(classes = FastBootApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 public class HttpRequestsTest {
 
   public static final String URL =

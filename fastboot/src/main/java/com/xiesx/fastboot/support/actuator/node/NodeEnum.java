@@ -1,4 +1,4 @@
-package com.xiesx.fastboot.support.actuator.plans;
+package com.xiesx.fastboot.support.actuator.node;
 
 import cn.hutool.core.util.EnumUtil;
 import lombok.AllArgsConstructor;
@@ -6,17 +6,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum PlanEnum {
+public enum NodeEnum {
   HTTP("http");
 
   private String type;
 
-  @Override
-  public String toString() {
-    return type;
-  }
-
-  /** 是否http */
   public boolean isHttp() {
     return EnumUtil.isEnum(HTTP);
   }
