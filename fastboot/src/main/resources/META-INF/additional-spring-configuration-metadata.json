@@ -1,76 +1,85 @@
 {
   "groups": [
     {
+      "name": "fastboot.advice",
+      "type": "com.xiesx.fastboot.core.advice.configuration.AdviceProperties",
+      "sourceType": "com.xiesx.fastboot.core.advice.configuration.AdviceProperties",
+      "description": "advice"
+    },
+    {
       "name": "fastboot.fastjson",
-      "type": "com.xiesx.fastboot.core.fastjson.configuration.FastJsonProperties",
-      "sourceType": "com.xiesx.fastboot.core.fastjson.configuration.FastJsonProperties",
-      "description": "FastJson"
+      "type": "com.xiesx.fastboot.core.json.configuration.FastJsonProperties",
+      "sourceType": "com.xiesx.fastboot.core.json.configuration.FastJsonProperties",
+      "description": "fastjson"
     },
     {
       "name": "fastboot.signer",
-      "type": "com.xiesx.fastboot.core.signer.configuration.SignProperties",
-      "sourceType": "com.xiesx.fastboot.core.signer.configuration.SignProperties",
-      "description": "数据签名"
+      "type": "com.xiesx.fastboot.core.signature.configuration.SignerProperties",
+      "sourceType": "com.xiesx.fastboot.core.signature.configuration.SignerProperties",
+      "description": "signer"
     },
     {
       "name": "fastboot.token",
       "type": "com.xiesx.fastboot.core.token.configuration.TokenProperties",
       "sourceType": "com.xiesx.fastboot.core.token.configuration.TokenProperties",
-      "description": "令牌认证"
+      "description": "token"
     }
   ],
   "properties": [
     {
+      "name": "fastboot.advice.bodyIgnoresUrls",
+      "type": "java.util.List<java.lang.String>",
+      "description": "bodyIgnoresUrls"
+    },
+    {
       "name": "fastboot.fastjson.supportedMediaTypes",
-      "type": "java.lang.String",
-      "defaultValue": "application/json",
-      "description": "支持类型"
+      "type": "java.util.List<java.lang.String>",
+      "description": "supportedMediaTypes"
+    },
+    {
+      "name": "fastboot.fastjson.config",
+      "type": "com.alibaba.fastjson2.support.config.FastJsonConfig",
+      "description": "FastJsonConfig"
     },
     {
       "name": "fastboot.fastjson.desensitize",
       "type": "java.lang.Boolean",
       "defaultValue": true,
-      "description": "数据脱敏"
-    },
-    {
-      "name": "fastboot.signer.enabled",
-      "type": "java.lang.Boolean",
-      "defaultValue": true,
-      "description": "是否启用"
+      "description": "desensitize"
     },
     {
       "name": "fastboot.signer.header",
       "type": "java.lang.String",
       "defaultValue": "signer",
-      "description": "数据签名header"
+      "description": "header"
     },
     {
       "name": "fastboot.signer.secret",
       "type": "java.lang.String",
       "defaultValue": "fastboot!@#",
-      "description": "数据签名secret"
-    },
-    {
-      "name": "fastboot.token.enabled",
-      "type": "java.lang.Boolean",
-      "defaultValue": true,
-      "description": "是否启用"
+      "description": "secret"
     },
     {
       "name": "fastboot.token.header",
       "type": "java.lang.String",
       "defaultValue": "token",
-      "description": "令牌认证header"
+      "description": "token"
+    },
+    {
+      "name": "fastboot.token.secret",
+      "type": "java.lang.String",
+      "defaultValue": "fastboot!@#",
+      "description": "secret"
     },
     {
       "name": "fastboot.token.includePaths",
-      "type": "java.lang.String",
-      "description": "包含请求"
+      "type": "java.util.List<java.lang.String>",
+      "description": "includePaths"
     },
     {
       "name": "fastboot.token.excludePaths",
-      "type": "java.lang.String",
-      "description": "排除请求"
+      "type": "java.util.List<java.lang.String>",
+      "description": "excludePaths"
     }
   ]
 }

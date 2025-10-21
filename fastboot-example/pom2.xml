@@ -50,6 +50,13 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<!-- h2 -->
+		<dependency>
+			 <groupId>com.h2database</groupId>
+    		 <artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
 		<!-- p6spy -->
 		<dependency>
@@ -68,6 +75,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
 			<!-- querydsl -->
 			<plugin>
 				<groupId>com.mysema.maven</groupId>
@@ -95,6 +103,41 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			
+			<!-- 模版 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>templating-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<id>filtering-java-templates</id>
+						<goals>
+							<goal>filter-sources</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>src/main/java-templates</sourceDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                        <manifestEntries>
+                        	<Implementation-Title>${project.name}</Implementation-Title>
+                            <Implementation-Version>${fastboot.version}</Implementation-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+			</plugin>
+			
 			<!-- compiler -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

@@ -1,20 +1,30 @@
 server:
   port: 8080
-    
+
+logging:
+  config: classpath:log4j2.xml
+
 spring:
-  profiles:
-    active: dev
+  devtools:
+    restart:
+      enabled: true
   datasource:
     # driver-class-name: com.mysql.cj.jdbc.Driver
     # url: jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+    # driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    # url: jdbc:p6spy:mysql://127.0.0.1:3306/test?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:mysql://127.0.0.1:3306/test?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:p6spy:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MySQL
     username: root
     password: root
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
 fastboot:                                 # fastboot
   advice:                                 # ======= 统一返回

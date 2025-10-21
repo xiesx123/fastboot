@@ -167,6 +167,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
 			<!-- jacoco -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -212,29 +213,6 @@
 				</configuration>
 			</plugin>
 
-			<!-- 序列号 -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>buildnumber-maven-plugin</artifactId>
-				<version>3.2.1</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>create</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<doCheck>false</doCheck>
-					<doUpdate>false</doUpdate>
-					<shortRevisionLength>8</shortRevisionLength>
-					<scmBranchPropertyName>buildBranch</scmBranchPropertyName>
-					<timestampPropertyName>buildTimestamp</timestampPropertyName>
-					<timestampFormat>yyyy-MM-dd HH:mm:ss</timestampFormat>
-				</configuration>
-			</plugin>
-
 			<!-- 打包 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -246,25 +224,6 @@
 					<compilerArgs>
 						<arg>-parameters</arg>
 					</compilerArgs>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.2.2</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-						</manifest>
-						<manifestEntries>
-							<Implementation-Version>${project.version}</Implementation-Version>
-							<Implementation-Branch>${buildBranch}</Implementation-Branch>
-							<Implementation-Build>${buildNumber}</Implementation-Build>
-							<Implementation-Timestamp>${buildTimestamp}</Implementation-Timestamp>
-						</manifestEntries>
-					</archive>
 				</configuration>
 			</plugin>
 		</plugins>

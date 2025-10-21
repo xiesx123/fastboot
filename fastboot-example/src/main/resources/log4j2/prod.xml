@@ -6,8 +6,7 @@
 		<Property name="path">../logs</Property>
 		<!-- 输出格式 -->
 		<Property name="log_pattern">%-d{yyyy-MM-dd HH:mm:ss}%5p %t:%r %F:%L - %m%n</Property>
-		<Property name="log_pattern_style">%highlight{%-d{yyyy-MM-dd HH:mm:ss}}{cyan}%highlight{%5p}{INFO=white,DEBUG=blue,ERROR=red,WARN=yellow,TRACE=cyan,FATAL=bg_red} %t:%r %style{%F:%L}{cyan} - %highlight{%m%n}{INFO=white,DEBUG=blue,ERROR=red,WARN=yellow,TRACE=cyan,FATAL=bg_red}
-		</Property>
+		<Property name="log_pattern_style">%highlight{%-d{yyyy-MM-dd HH:mm:ss}}{cyan}%highlight{%5p}{INFO=white,DEBUG=blue,ERROR=red,WARN=yellow,TRACE=cyan,FATAL=bg_red} %t:%r %style{%F:%L}{cyan} - %highlight{%m%n}{INFO=white,DEBUG=blue,ERROR=red,WARN=yellow,TRACE=cyan,FATAL=bg_red}</Property>
 	</Properties>
 
 	<!-- 追加 -->

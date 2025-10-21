@@ -1,16 +1,13 @@
 package com.xiesx.fastboot.example;
 
 import cn.hutool.core.util.ObjectUtil;
-
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.xiesx.fastboot.base.page.PR;
 import com.xiesx.fastboot.base.page.PResult;
 import com.xiesx.fastboot.base.page.PageVo;
-
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,29 +25,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("log")
 public class LogRecordController {
 
-    @Autowired JPAQueryFactory mJPAQueryFactory;
+  @Autowired JPAQueryFactory mJPAQueryFactory;
 
-    @Autowired LogRecordRepository mLogRecordRepository;
+  @Autowired LogRecordRepository mLogRecordRepository;
 
-    QLogRecord ql = QLogRecord.logRecord;
+  QLogRecord ql = QLogRecord.logRecord;
 
-    /** 分页 */
-    @GetMapping("page")
-    public PResult page(@Validated String key, PageVo page) {
-        // 条件
-        Predicate predicate = ql.id.isNotNull();
-        if (ObjectUtil.isNotEmpty(key)) {
-            Predicate p1 = ql.id.like("%" + key + "%");
-            Predicate p2 = ql.method.likeIgnoreCase("%" + key + "%");
-            predicate = ExpressionUtils.or(predicate, ExpressionUtils.anyOf(p1, p2));
-        }
-        // 排序
-        Sort sort = Sort.by(Direction.ASC, LogRecord.FIELDS.createDate);
-        // 分页
-        Pageable pageable = PageRequest.of(page.getPage(), page.getLimit(), sort);
-        // 查询
-        Page<LogRecord> data = mLogRecordRepository.findAll(predicate, pageable);
-        // 构造
-        return PR.create(data);
+  /** 分页 */
+  @GetMapping("page")
+  public PResult page(@Validated String key, PageVo page) {
+    // 条件
+    Predicate predicate = ql.id.isNotNull();
+    if (ObjectUtil.isNotEmpty(key)) {
+      Predicate p1 = ql.id.like("%" + key + "%");
+      Predicate p2 = ql.method.likeIgnoreCase("%" + key + "%");
+      predicate = ExpressionUtils.or(predicate, ExpressionUtils.anyOf(p1, p2));
     }
+    // 排序
+    Sort sort = Sort.by(Direction.ASC, LogRecord.FIELDS.createDate);
+    // 分页
+    Pageable pageable = PageRequest.of(page.getPage(), page.getLimit(), sort);
+    // 查询
+    Page<LogRecord> data = mLogRecordRepository.findAll(predicate, pageable);
+    // 构造
+    return PR.create(data);
+  }
 }
