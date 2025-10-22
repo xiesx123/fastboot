@@ -8,6 +8,7 @@
 
 <h1 align="center">FastBoot</h1>
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/06e56b0ddea4428bbb72f9cbfa24e56f)](https://app.codacy.com/gh/xiesx123/fastboot?utm_source=github.com&utm_medium=referral&utm_content=xiesx123/fastboot&utm_campaign=Badge_Grade)
 [![Jitpack](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
 [![Coverage Status](https://coveralls.io/repos/github/xiesx123/fastboot/badge.svg?branch=master)](https://coveralls.io/github/xiesx123/fastboot?branch=master)
 ![Jitpack Month Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fjitpack.io%2Fapi%2Fdownloads%2Fcom.github.xiesx123%2Ffastboot&query=month&suffix=%20month&style=flat&label=Downloads&link=https%3A%2F%2Fjitpack.io%2F%23xiesx123%2Ffastboot&color=0078D7) 
