@@ -113,5 +113,7 @@ fastboot:                                 # fastboot
     - /js/**
 ```
 
-![Jitpack Month Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fjitpack.io%2Fapi%2Fdownloads%2Fcom.github.xiesx123%2Ffastboot&query=month&suffix=/m&style=flat&label=Downloads&link=https%3A%2F%2Fjitpack.io%2F%23xiesx123%2Ffastboot&color=0078D7) 
+![Openjdk](https://img.shields.io/badge/Build%20Openjdk-21-blue)
+![Maven](https://img.shields.io/badge/Build%20Maven-3.9.11-blue) 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat&label=License&color=0078D7)
+![Jitpack Month Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fjitpack.io%2Fapi%2Fdownloads%2Fcom.github.xiesx123%2Ffastboot&query=month&suffix=/m&style=flat&label=Downloads&link=https%3A%2F%2Fjitpack.io%2F%23xiesx123%2Ffastboot&color=0078D7)
