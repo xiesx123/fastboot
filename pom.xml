@@ -140,7 +140,7 @@
 
 	<build>
 		<plugins>
-			<!-- 版本号 -->
+			<!-- 版本号 mvn versions:set -DnewVersion="3.1.0" -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
@@ -150,7 +150,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- 覆盖率 -->
+			<!-- 覆盖率 mvn clean test jacoco:report-aggregate coveralls:report -Preport -->
 			<!-- surefire -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

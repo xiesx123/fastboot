@@ -9,9 +9,9 @@
 <h1 align="center">FastBoot</h1>
 
 [![Jitpack](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
-[![Coverage Status](https://img.shields.io/coverallsCoverage/github/xiesx123/fastboot?logo=coveralls&label=Coveralls&color=47C219
+[![Coverage](https://img.shields.io/coverallsCoverage/github/xiesx123/fastboot?logo1=coveralls&label=Coveralls&color=47C219
 )](https://coveralls.io/github/xiesx123/fastboot?branch=master)
-[![Codacy Badge](https://img.shields.io/codacy/grade/2108c48f908e4feba40557e9091e7cfd?logo=Codacy&label=Codacy)](https://app.codacy.com/gh/xiesx123/fastboot/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Quality](https://img.shields.io/codacy/grade/2108c48f908e4feba40557e9091e7cfd?logo1=Codacy&label=Codacy)](https://app.codacy.com/gh/xiesx123/fastboot/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 [![VitePress](https://img.shields.io/badge/VitePress-Doc-3E63DD?logo=markdown)](https://xiesx123.github.io/fastboot)
 [![OpenJDK](https://img.shields.io/badge/OpenJdk-8,21-red?logo=openjdk)](https://adoptium.net/zh-CN/temurin/releases)
