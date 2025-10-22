@@ -41,7 +41,9 @@ features:
     <img alt="Discord" src="https://jitpack.io/v/xiesx123/fastboot.svg" />
   </a>
   <a target="_blank" href="https://coveralls.io/github/xiesx123/fastboot?branch=master">
-    <img alt="Discord" src="https://coveralls.io/repos/github/xiesx123/fastboot/badge.svg" />
+    <img alt="Coveralls" src="https://img.shields.io/coverallsCoverage/github/xiesx123/fastboot?logo1=coveralls&label=Coveralls&color=47C219" />
   </a>
-
+  <a target="_blank" href="https://app.codacy.com/gh/xiesx123/fastboot/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade">
+    <img alt="Quality" src="https://img.shields.io/codacy/grade/2108c48f908e4feba40557e9091e7cfd?logo1=Codacy&label=Codacy" />
+  </a>
 </p>

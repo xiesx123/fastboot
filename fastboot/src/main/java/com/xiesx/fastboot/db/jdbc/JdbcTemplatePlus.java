@@ -62,6 +62,8 @@ public class JdbcTemplatePlus {
     return map.isEmpty() ? null : result(map, cla);
   }
 
+  // ---------
+
   public static List<Map<String, Object>> queryForList(String sql) {
     return executeQuery(sql, null, ps -> get().queryForList(sql, ps), Lists.newArrayList());
   }

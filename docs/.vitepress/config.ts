@@ -15,9 +15,13 @@ import { tasklist } from "@mdit/plugin-tasklist";
 import { groupIconMdPlugin, groupIconVitePlugin } from "vitepress-plugin-group-icons";
 // tabs
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
+// mermaid
+import { withMermaid } from "vitepress-plugin-mermaid";
 
+// 配置插件
 // refer https://vitepress.dev/reference/site-config for details
-export default defineConfig({
+// export default defineConfig({
+export default withMermaid({
   base: "/fastboot/",
   srcDir: "src",
   lang: "zh-CN",
@@ -143,6 +147,10 @@ export default defineConfig({
       md.use(groupIconMdPlugin, { titleBar: { includeSnippet: true } });
       md.use(tabsMarkdownPlugin);
     },
+  },
+  mermaid: {
+    // Mermaid 配置，参考：https://mermaid.js.org/config/setup/modules/mermaidAPI.html
+    theme: "default",
   },
   vite: {
     ssr: {

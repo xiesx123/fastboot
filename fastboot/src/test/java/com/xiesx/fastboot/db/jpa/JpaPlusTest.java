@@ -145,7 +145,6 @@ public class JpaPlusTest {
   public void update() {
     LogRecord lr = result.get(0);
     Long id = lr.getId();
-    // 条件
     Predicate predicate = ql.id.eq(id);
 
     lr.setTime(101L);

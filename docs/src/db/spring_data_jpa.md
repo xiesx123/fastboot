@@ -65,13 +65,15 @@ public interface JpaPlusRepository<T, ID> extends JpaRepositoryImplementation<T,
 
     int update(T entity, Predicate... predicate);
 
+    int update(Path<T> key, T val, Predicate... predicate);
+
+    <V> int update(Path<V> key, Expression<? extends V> expression, Predicate... predicate);
+
     int delete(ID... ids);
 
     int delete(List<ID> ids);
 
     int delete(Predicate... predicate);
-
-    ...
 }
 ```
 
@@ -144,8 +146,8 @@ public void select() {
 
     // 投影查询（多表联合查询）
     Expression expTuple =Projections.constructor(LogRecordPojo.class, ql.id, ql.ip, ql.time.min(), ql.time.max());
-    jpaQuery.select(expTuple);
-    assertEquals(jpaQuery.fetch().size(), 1);
+    List<LogRecordPojo> list = jpaQuery.select(expTuple).from(ql).groupBy(ql.type, ql.createDate).fetch();
+    assertTrue(list.size() > 0);
 }
 ```
 
@@ -160,7 +162,7 @@ public PaginationResult page(BaseVo base, PaginationVo page) {
     QUserRole qUserRole = QUserRole.userRole;
     // 条件
     Predicate predicate = qUser.id.isNotNull();
-    if (ObjectUtils.isNotEmpty(base.getKeyword())) {
+    if (StrUtil.isNotBlank(base.getKeyword())) {
          Predicate p1 = qUser.id.like("%" + base.getKeyword() + "%");
          Predicate p2 = qUser.username.likeIgnoreCase("%" + base.getKeyword() + "%");
          Predicate p3 = qUser.nickname.likeIgnoreCase("%" + base.getKeyword() + "%");
@@ -188,22 +190,58 @@ public PaginationResult page(BaseVo base, PaginationVo page) {
 }
 ```
 
-### 更新
+### 新增
 
 ```java
 @Test
-@Order(2)
-public void update() {
-    // 修改单个
-    LogRecord lr = result.get(0);
-    lr.setTime(100L);
-    LogRecord lr2 = mLogRecordRepository.insertOrUpdate(lr);
-    assertEquals(lr2.getTime(), 100);
+@Order(3)
+public void insertOrUpdate() {
+    // 单个
+    LogRecord lr11 = result.get(0);
+    lr11.setTime(100L);
+    LogRecord lr12 = mLogRecordRepo.insertOrUpdate(lr11);
+    assertEquals(lr12.getTime(), 100);
+    lr12.setTime(101L);
+    int row = mLogRecordRepo.insertOrUpdateRow(lr12);
+    assertEquals(row, 1);
 
-    // 修改多个
+    // 多个
+    LogRecord lr21 = result.get(0);
+    lr21.setTime(102L);
+    LogRecord lr22 = result.get(1);
+    lr22.setTime(103L);
+    List<LogRecord> lrs3 = mLogRecordRepo.insertOrUpdate(lr21, lr22);
+    assertEquals(lrs3.get(0).getTime(), 102);
+    assertEquals(lrs3.get(1).getTime(), 103);
+    lr21.setTime(104L);
+    lr22.setTime(104L);
+    row = mLogRecordRepo.insertOrUpdateRow(lr21, lr22);
+    assertEquals(row, 2);
+}
+```
+
+### 更新
+```java
+@Test
+@Order(4)
+public void update() {
+    LogRecord lr = result.get(0);
+    Long id = lr.getId();
+    Predicate predicate = ql.id.eq(id);
+
     lr.setTime(101L);
-    List<LogRecord> lrs = mLogRecordRepository.insertOrUpdate(Lists.newArrayList(lr));
-    assertEquals(lrs.get(0).getTime(), 101);
+    int row = mLogRecordRepo.update(lr, predicate);
+    assertTrue(row > 0);
+    assertEquals(mLogRecordRepo.findOne(id).getTime(), 101);
+
+    lr.setTime(102L);
+    row = mLogRecordRepo.update(ql, lr, predicate);
+    assertTrue(row > 0);
+    assertEquals(mLogRecordRepo.findOne(id).getTime(), 102);
+
+    row = mLogRecordRepo.update(ql.time, Expressions.constant(103L), predicate);
+    assertTrue(row > 0);
+    assertEquals(mLogRecordRepo.findOne(id).getTime(), 103);
 }
 ```
 
@@ -213,17 +251,12 @@ public void update() {
 @Test
 @Order(3)
 public void delete() {
-    // 按对象单个删除
-    LogRecord lr = result.get(0);
-    mLogRecordRepository.delete(lr);
+    // 单个
+    mLogRecordRepo.delete(result.get(0).getId(), result.get(1).getId());
 
-    // 按条件批量删除
-    int row = mLogRecordRepository.delete(ql.type.eq("GET"));
-    assertEquals(row, 6);
-
-    // 按主键批量删除
-    row = mLogRecordRepository.delete(StreamUtil.of(result).map(LogRecord::getId).toList());
-    assertEquals(row, 13);
+    // 多个
+    int row = mLogRecordRepo.delete(ql.type.eq("GET"));
+    assertTrue(row > 0);
 }
 ```
 

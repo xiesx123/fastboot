@@ -11,13 +11,14 @@ xxx
 ## 配置
 
 ```yml
-fastboot:             # fastboot
-  token:              # ======= 令牌认证
-    header: token     # 令牌键，默认：token
-    include-paths:    # 包含路径
+fastboot:               # fastboot
+  token:                # ======= 令牌认证
+    header: token       # 令牌键，默认：token
+    secret: fastboot!@# # 加密串，默认：fastboot!@#
+    include-paths:      # 包含路径
       - /api/**
       - /token/**
-    exclude-paths:    # 排除路径
+    exclude-paths:      # 排除路径
       - /js/**
 ```
 

@@ -131,3 +131,193 @@ public void transform() {
 ```log
 2025-10-14 15:47:15 INFO fastboot:3854 AsyncTest.java:113 - 5
 ```
+
+### 执行器
+
+简易版执行器 `1->2->[31,32]->4`
+
+```mermaid
+flowchart LR
+   A[开始 Node1] --> B{决策 Node2}
+   B -->|是| C[确定 Node31]
+   B -->|否| D[取消 Node32]
+   C --> E{结果 Node4}
+   D --> E{结果 Node4}
+```
+
+::: code-group
+
+```java [ActuatorTest.java]
+@Test
+@Order(1)
+public void executor() {
+
+    // 数据 
+    String json =
+        "[{\"name\":\"node1\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{},\"timeout\":5000,\"ret\":\"node1\",\"rule\":\"\",\"ignoreFailure\":false},{\"name\":\"node2\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"a\":\"$.node1.x\",\"b\":\"$.node1.y\"},\"timeout\":5000,\"ret\":\"node2\",\"rule\":\"\",\"ignoreFailure\":false},[{\"name\":\"node3-1\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":311,\"p2\":312},\"timeout\":5000,\"ret\":\"node31\",\"rule\":\"compare($.env.a,2)\",\"ignoreFailure\":false},{\"name\":\"node3-2\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":321,\"p2\":322},\"timeout\":5000,\"ret\":\"node32\",\"rule\":\"compare(sum($.env.b,1),2)\",\"ignoreFailure\":false}]]";
+
+    // 上下文
+    ActuatorContext context =
+        ActuatorContext.builder()
+            .trace(IdUtil.fastSimpleUUID())
+            .title("测试")
+            .env(
+                Envar.builder()
+                    .custom(Dict.create().set("a", 1).set("b", 2))
+                    .saveDir("D:")
+                    .debug(true)
+                    .build())
+            .build();
+
+    // 执行器
+    ActuatorDispatch dispatch =
+        new ActuatorDispatch(
+            context,
+            gtl.parseObject(json),
+            new ActuatorFutureCallback() {
+
+              @Override
+              public void onSuccess(ActuatorContext ctx, Dict result) {
+                Console.log(ctx);
+                Console.log(result);
+              }
+
+              @Override
+              public void onFailure(ActuatorContext ctx, Throwable t) {
+                Console.log(ctx);
+              }
+            });
+    dispatch.execute();
+  }
+}
+```
+
+```json [input.json]
+[
+    {
+        "name": "node1",
+        "type": "HTTP",
+        "method": "GET",
+        "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
+        "params": {},
+        "timeout": 5000,
+        "ret": "node1",
+        "rule": "",
+        "ignoreFailure": false
+    },
+    {
+        "name": "node2",
+        "type": "HTTP",
+        "method": "GET",
+        "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
+        "params": {
+            "a": "$.node1.x",
+            "b": "$.node1.y"
+        },
+        "timeout": 5000,
+        "ret": "node2",
+        "rule": "",
+        "ignoreFailure": false
+    },
+    [
+        {
+            "name": "node3-1",
+            "type": "HTTP",
+            "method": "GET",
+            "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
+            "params": {
+                "p1": 311,
+                "p2": 312
+            },
+            "timeout": 5000,
+            "ret": "node31",
+            "rule": "compare($.env.a,2)",
+            "ignoreFailure": false
+        },
+        {
+            "name": "node3-2",
+            "type": "HTTP",
+            "method": "GET",
+            "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
+            "params": {
+                "p1": 321,
+                "p2": 322
+            },
+            "timeout": 5000,
+            "ret": "node32",
+            "rule": "compare(sum($.env.b,1),2)",
+            "ignoreFailure": false
+        }
+    ],
+    {
+        "name": "node4",
+        "type": "HTTP",
+        "method": "GET",
+        "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
+        "params": {
+            "c": "$.node32.x",
+            "d": "$.node32.y"
+        },
+        "timeout": 5000,
+        "ret": "node4",
+        "rule": "",
+        "ignoreFailure": false
+    }
+]
+```
+
+```json [output.json]
+{
+    "trace": "e0ae580c3d404d169c34d667f22ee4a4",
+    "title": "测试",
+    "env": {
+        "custom": {
+            "a": 1,
+            "b": 2
+        },
+        "saveDir": "D:",
+        "debug": true
+    },
+    "context": {
+        "env": {
+            "saveDir": "D:",
+            "debug": true,
+            "a": 1,
+            "b": 2
+        },
+        "system": {
+            "os": "Windows 11",
+            "user": "xiesx",
+            "host": "DELL-WORK",
+            "java": "21.0.8",
+            "runtime": 83886080,
+            "datatime": "2025-10-22 17:09:18"
+        },
+        "node1": {
+            "x": 1,
+            "y": 2
+        },
+        "node2": {
+            "x": 1,
+            "y": 2
+        },
+        "node31": "ignore",
+        "node32": {
+            "x": 1,
+            "y": 2
+        },
+        "node4": {
+            "x": 1,
+            "y": 2
+        }
+    },
+    "result": {
+        "node4": {
+            "x": 1,
+            "y": 2
+        }
+    },
+    "error": ""
+}
+```
+
