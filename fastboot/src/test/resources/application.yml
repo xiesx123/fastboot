@@ -49,7 +49,6 @@ fastboot:                                 # fastboot
     
   signer:                                 # ======= 数据签名
     header: sign                          # 签名键，默认：sign
-    secret: fastboot!@#                   # 加密串，默认：fastboot!@#
     
   token:                                  # ======= 令牌认证
     header: token                         # 令牌键，默认：token

@@ -84,7 +84,7 @@ public class BodyControllerTest extends BaseApi {
     BaseResult<Object> result = gtbo.parseObject(response.asString());
     MockUser user = Convert.convert(MockUser.class, result.getData());
     assertNotNull(user);
-    assertFalse(ObjectUtil.isEmpty(user));
+    assertFalse(ObjectUtil.isNull(user));
     assertEquals(user.getTel(), "138****8000");
   }
 
@@ -94,7 +94,7 @@ public class BodyControllerTest extends BaseApi {
     Response response = get("body/ignore");
     MockUser user = JSON.parseObject(response.asString(), MockUser.class);
     assertNotNull(user);
-    assertFalse(ObjectUtil.isEmpty(user));
+    assertFalse(ObjectUtil.isNull(user));
     assertEquals(user.getTel(), "138****8000");
   }
 
@@ -104,7 +104,7 @@ public class BodyControllerTest extends BaseApi {
     Response response = get("body/ignore/annotation");
     MockUser user = JSON.parseObject(response.asString(), MockUser.class);
     assertNotNull(user);
-    assertFalse(ObjectUtil.isEmpty(user));
+    assertFalse(ObjectUtil.isNull(user));
     assertEquals(user.getTel(), "138****8000");
   }
 }

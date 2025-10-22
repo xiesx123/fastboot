@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import cn.hutool.json.JSONObject;
 import cn.hutool.jwt.JWT;
 import com.xiesx.fastboot.base.config.Configed;
-import com.xiesx.fastboot.core.token.configuration.TokenProperties;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,7 +26,7 @@ class JwtHelperTest {
   private static final String SUBJECT = "testSubject";
   private static final String ISSUER = "testIssuer";
   private static final String AUDIENCE = "testAudience";
-  private static final String SECRET = TokenProperties.SECRET;
+  private static final String SECRET = "";
   private static final long TIMEOUT = JwtHelper.JWT_EXPIRE_D_1;
 
   private static String token;

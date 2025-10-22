@@ -55,7 +55,7 @@ public class CssTag extends BodyTagSupport {
       _isEmpty = false;
     }
     if (!_isEmpty) {
-      if (StrUtil.isEmpty(this.getRel())) {
+      if (StrUtil.isNotBlank(this.getRel())) {
         this.setRel("stylesheet");
       }
       _metaTmpl.append(" rel=\"").append(this.getRel()).append("\"");

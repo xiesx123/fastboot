@@ -11,5 +11,5 @@ public class SignerProperties {
 
   private String header = "sign";
 
-  private String secret = "fastboot!@#";
+  private String secret = "";
 }

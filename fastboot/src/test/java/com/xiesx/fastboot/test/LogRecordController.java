@@ -1,6 +1,6 @@
 package com.xiesx.fastboot.test;
 
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import com.xiesx.fastboot.base.page.PR;
@@ -28,7 +28,7 @@ public class LogRecordController {
   public PResult page(BaseVo base, PageVo page) {
     // 条件
     Predicate predicate = ql.id.isNotNull();
-    if (ObjectUtil.isNotEmpty(base.getKeyword())) {
+    if (StrUtil.isNotBlank(base.getKeyword())) {
       Predicate p1 = ql.id.like("%" + base.getKeyword() + "%");
       Predicate p2 = ql.method.likeIgnoreCase("%" + base.getKeyword() + "%");
       predicate = ExpressionUtils.or(predicate, ExpressionUtils.anyOf(p1, p2));

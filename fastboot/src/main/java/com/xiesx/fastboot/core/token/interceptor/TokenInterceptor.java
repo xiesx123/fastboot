@@ -39,8 +39,7 @@ public class TokenInterceptor implements HandlerInterceptor {
     String key = SpringHelper.hasBean(TokenProperties.class).map(TokenProperties::getHeader).get();
     // 获取秘钥
     String secret =
-        Opt.ofNullable(SpringUtil.getProperty("fastboot.token.secret"))
-            .orElse(TokenProperties.SECRET);
+        Opt.ofBlankAble(SpringUtil.getProperty("fastboot.token.secret")).orElse(StrUtil.EMPTY);
     // 获取方法信息
     if (handler instanceof HandlerMethod) {
       // 获取方法

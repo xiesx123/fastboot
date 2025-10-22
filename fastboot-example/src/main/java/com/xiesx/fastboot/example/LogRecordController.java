@@ -1,6 +1,6 @@
 package com.xiesx.fastboot.example;
 
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -36,7 +36,7 @@ public class LogRecordController {
   public PResult page(@Validated String key, PageVo page) {
     // 条件
     Predicate predicate = ql.id.isNotNull();
-    if (ObjectUtil.isNotEmpty(key)) {
+    if (StrUtil.isNotBlank(key)) {
       Predicate p1 = ql.id.like("%" + key + "%");
       Predicate p2 = ql.method.likeIgnoreCase("%" + key + "%");
       predicate = ExpressionUtils.or(predicate, ExpressionUtils.anyOf(p1, p2));

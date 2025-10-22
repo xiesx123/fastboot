@@ -11,9 +11,10 @@ public class SpringHelper {
 
   /** 获取项目地址 */
   public static String getUrl() {
-    String host = Opt.ofNullable(NetUtil.getLocalhostStr()).orElse("127.0.0.1");
-    String port = Opt.ofNullable(SpringUtil.getProperty("server.port")).orElse("8080");
-    String path = Opt.ofNullable(SpringUtil.getProperty("server.servlet.context-path")).orElse("/");
+    String host = Opt.ofBlankAble(NetUtil.getLocalhostStr()).orElse("127.0.0.1");
+    String port = Opt.ofBlankAble(SpringUtil.getProperty("server.port")).orElse("8080");
+    String path =
+        Opt.ofBlankAble(SpringUtil.getProperty("server.servlet.context-path")).orElse("/");
     return StrUtil.format("http://{}:{}{}", host, port, path);
   }
 

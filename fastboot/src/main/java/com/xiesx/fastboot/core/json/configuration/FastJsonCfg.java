@@ -2,6 +2,7 @@ package com.xiesx.fastboot.core.json.configuration;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ClassLoaderUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.filter.Filter;
@@ -92,12 +93,13 @@ public class FastJsonCfg implements WebMvcConfigurer {
     };
     for (String clazz : candidates) {
       try {
-        Class<?> c = Class.forName(clazz);
-        Object converter = c.getDeclaredConstructor().newInstance();
-        c.getMethod("setDefaultCharset", Charset.class).invoke(converter, Charset.defaultCharset());
-        c.getMethod("setFastJsonConfig", FastJsonConfig.class)
+        Class<?> cls = ClassLoaderUtil.loadClass(clazz);
+        Object converter = cls.getDeclaredConstructor().newInstance();
+        cls.getMethod("setDefaultCharset", Charset.class)
+            .invoke(converter, Charset.defaultCharset());
+        cls.getMethod("setFastJsonConfig", FastJsonConfig.class)
             .invoke(converter, newFastJsonConfig());
-        c.getMethod("setSupportedMediaTypes", List.class)
+        cls.getMethod("setSupportedMediaTypes", List.class)
             .invoke(converter, MediaType.parseMediaTypes(newSupportedMediaTypes()));
         converters.add(1, (HttpMessageConverter<?>) converter);
       } catch (Exception e) {

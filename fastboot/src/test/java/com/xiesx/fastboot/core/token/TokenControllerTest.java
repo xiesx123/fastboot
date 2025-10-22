@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.lang.Opt;
 import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTHeader;
@@ -48,8 +49,7 @@ public class TokenControllerTest extends BaseApi {
   public static String generate() {
     //
     String secret =
-        Opt.ofNullable(SpringUtil.getProperty("fastboot.token.secret"))
-            .orElse(TokenProperties.SECRET);
+        Opt.ofBlankAble(SpringUtil.getProperty("fastboot.token.secret")).orElse(StrUtil.EMPTY);
     //
     Map<String, Object> headers = Maps.newHashMap();
     headers.put("subscribe", "free");

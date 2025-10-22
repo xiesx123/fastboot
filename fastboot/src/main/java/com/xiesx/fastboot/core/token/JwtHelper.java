@@ -3,6 +3,7 @@ package com.xiesx.fastboot.core.token;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.jwt.JWT;
 import com.google.common.collect.Maps;
 import com.xiesx.fastboot.base.config.Configed;
@@ -11,6 +12,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class JwtHelper {
+
+  /** 默认Key */
+  private static final String JWT_KEY = "fastboot!@#";
 
   /** 有效时间 */
   public static final long JWT_EXPIRE_M_1 = TimeUnit.MINUTES.toSeconds(1); // 1分钟
@@ -94,19 +98,19 @@ public class JwtHelper {
         .addHeaders(MapUtil.newConcurrentHashMap(header)) // 头部信息
         .addPayloads(MapUtil.newConcurrentHashMap(claim)) // 私有属性
         .setAudience(audience) // 接收者
-        .setKey(secret.getBytes()) // 密匙
+        .setKey(ObjectUtil.defaultIfBlank(secret, JWT_KEY).getBytes()) // 密匙
         .sign();
   }
 
   /** 解析 */
   public static JWT parser(String secret, String token) {
-    return JWT.of(token).setKey(secret.getBytes());
+    return JWT.of(token).setKey(ObjectUtil.defaultIfBlank(secret, JWT_KEY).getBytes());
   }
 
   /** 验证 */
   public static boolean validate(String secret, String token) {
     try {
-      return JWT.of(token).setKey(secret.getBytes()).verify();
+      return JWT.of(token).setKey(ObjectUtil.defaultIfBlank(secret, JWT_KEY).getBytes()).verify();
     } catch (Exception e) {
       return false;
     }
