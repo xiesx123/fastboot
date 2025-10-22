@@ -57,6 +57,7 @@
     "**/logs": true,
     // Fastboot
     "**/.github": true,
+    "**coverage/":true,
     "**/docs": false,
     "LICENSE.txt": true,
     "README.md": false

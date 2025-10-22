@@ -9,13 +9,13 @@
 <h1 align="center">FastBoot</h1>
 
 [![Jitpack](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
-[![Coverage Status](https://coveralls.io/repos/github/xiesx123/fastboot/badge.svg?branch=master)](https://coveralls.io/github/xiesx123/fastboot?branch=master)
-![Jitpack Month Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fjitpack.io%2Fapi%2Fdownloads%2Fcom.github.xiesx123%2Ffastboot&query=month&suffix=%20month&style=flat&label=Downloads&link=https%3A%2F%2Fjitpack.io%2F%23xiesx123%2Ffastboot&color=0078D7) 
-![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat&label=License&color=0078D7)
+[![Coverage Status](https://img.shields.io/coverallsCoverage/github/xiesx123/fastboot?logo=coveralls&label=Coveralls&color=47C219
+)](https://coveralls.io/github/xiesx123/fastboot?branch=master)
+[![Codacy Badge](https://img.shields.io/codacy/grade/2108c48f908e4feba40557e9091e7cfd?logo=Codacy&label=Codacy)](https://app.codacy.com/gh/xiesx123/fastboot/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 [![VitePress](https://img.shields.io/badge/VitePress-Doc-3E63DD?logo=markdown)](https://xiesx123.github.io/fastboot)
 [![OpenJDK](https://img.shields.io/badge/OpenJdk-8,21-red?logo=openjdk)](https://adoptium.net/zh-CN/temurin/releases)
-[![Spring](https://img.shields.io/badge/Spring-2,3-6DB33F?logo=spring&logoColor=white)](https://spring.io/projects/spring-boot#overview)
+[![SpringBoot](https://img.shields.io/badge/SpringBoot-2,3-6DB33F?logo=spring&logoColor=white)](https://spring.io/projects/spring-boot#overview)
 
 
 🚀 快速、高效、轻量级的 Spring Boot 开发，用于快速构建应用程序
@@ -111,3 +111,6 @@ fastboot:                                 # fastboot
     exclude-paths:                        # 排除路径
     - /js/**
 ```
+
+![Jitpack Month Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fjitpack.io%2Fapi%2Fdownloads%2Fcom.github.xiesx123%2Ffastboot&query=month&suffix=/m&style=flat&label=Downloads&link=https%3A%2F%2Fjitpack.io%2F%23xiesx123%2Ffastboot&color=0078D7) 
+![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat&label=License&color=0078D7)

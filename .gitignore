@@ -20,4 +20,5 @@ target/
 *.pyc
 **/temp/
 **/.vscode/
+**coverage/
 
