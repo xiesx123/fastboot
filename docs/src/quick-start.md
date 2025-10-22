@@ -21,11 +21,10 @@
 <dependency>
     <groupId>com.github.xiesx123</groupId>
     <artifactId>fastboot</artifactId>
-    <version>master-SNAPSHOT</version>
+    <version>3.1.0</version>
+    <classifier>jakarta</classifier> <!-- spring3 -->
 </dependency>
 ```
-
-[![](https://jitpack.io/v/xiesx123/fastboot.svg)](https://jitpack.io/#xiesx123/fastboot)
 
 ## 注解
 
@@ -48,7 +47,6 @@
 // 启用令牌认证
 @GoEnableToken
 public class FastBootCfg {}
-
 
 // 启用持久化增强
 @EnableJpaPlusRepositories
