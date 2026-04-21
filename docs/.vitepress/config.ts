@@ -3,8 +3,10 @@ import { defineConfig, PageData } from 'vitepress'
 // page meta
 import { transformHeadMeta } from '@nolebase/vitepress-plugin-meta/vitepress'
 // page properties
-import {PageProperties, PagePropertiesMarkdownSection } from '@nolebase/vitepress-plugin-page-properties/vite'
+import { PageProperties, PagePropertiesMarkdownSection } from '@nolebase/vitepress-plugin-page-properties/vite'
 const links: { url: string; lastmod: PageData['lastUpdated'], changefreq: string }[] = []
+// compression
+import viteCompression from 'vite-plugin-compression'
 // mdit
 import { align } from "@mdit/plugin-align";
 import { icon, iconifyRender } from "@mdit/plugin-icon";
@@ -15,6 +17,9 @@ import { tasklist } from "@mdit/plugin-tasklist";
 import { groupIconMdPlugin, groupIconVitePlugin } from "vitepress-plugin-group-icons";
 // tabs
 import { tabsMarkdownPlugin } from "vitepress-plugin-tabs";
+// llms
+import llmstxt from 'vitepress-plugin-llms'
+import { copyOrDownloadAsMarkdownButtons } from 'vitepress-plugin-llms'
 // mermaid
 import { withMermaid } from "vitepress-plugin-mermaid";
 
@@ -34,8 +39,8 @@ export default withMermaid({
   },
   head: [
     ["link", { rel: "icon", type: "image/x-icon", href: "/fastboot/favicon.ico" }],
-    ["link", { rel: "preload stylesheet", href: "/fastboot/style.Avo_XaLv.css" }],
     ["script", { src: "/fastboot/js/iconify-icon.min.js" }],
+    ["meta", { name: "robots", content: "index, follow" }],
     ["meta", { property: "og:type", content: "website" }],
     ["meta", { property: "og:site_name", content: "FastBoot" }],
   ],
@@ -46,14 +51,14 @@ export default withMermaid({
     },
     search: { provider: "local" },
     outline: "deep",
-    lastUpdated: {text: 'Updated at'},
+    lastUpdated: { text: 'Updated at' },
     editLink: {
       pattern: 'https://github.com/xiesx123/fastboot/edit/master/docs/src/:path',
       text: '在 GitHub 上编辑此页'
     },
     footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2020-present xiesx123'
+      // message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2020-present Mr.X'
     }
   },
   locales: {
@@ -93,10 +98,11 @@ export default withMermaid({
               { text: "扩展", link: "/support/async" },
             ],
           },
+          { text: "工具", link: "/tools" },
         ],
         sidebar: [
           {
-            text: "快速开始", link: "/quick-start" 
+            text: "快速开始", link: "/quick-start"
           },
           {
             text: "注解",
@@ -145,6 +151,7 @@ export default withMermaid({
       md.use(imgSize);
       md.use(tasklist);
       md.use(groupIconMdPlugin, { titleBar: { includeSnippet: true } });
+      md.use(copyOrDownloadAsMarkdownButtons);
       md.use(tabsMarkdownPlugin);
     },
   },
@@ -156,23 +163,26 @@ export default withMermaid({
     ssr: {
       noExternal: ['@nolebase/*'],
     },
-    plugins: [ 
+    plugins: [
+      llmstxt({ domain: 'https://xiesx123.github.io', ignoreFiles: ['tools.md'] }),
+      viteCompression(),
       PageProperties() as any,
       PagePropertiesMarkdownSection({
         // excludes: ['index.md'],
         exclude: (id) => {
           return id.endsWith('index.md') || id.endsWith('team.md')
-      }}),
+        }
+      }),
       groupIconVitePlugin()
     ],
   },
   transformHtml: (_, id, { pageData }) => {
     const path = pageData.relativePath
-      if (
-        !/[\\/]404\.html$/.test(id) && 
-        !/[\\/]empty\.html$/.test(id) && 
-        !/^snippet\//.test(path)
-      )
+    if (
+      !/[\\/]404\.html$/.test(id) &&
+      !/[\\/]empty\.html$/.test(id) &&
+      !/^snippet\//.test(path)
+    )
       links.push({
         url: pageData.relativePath.replace(/((^|\/)index)?\.md$/, '$2'),
         lastmod: pageData.lastUpdated,

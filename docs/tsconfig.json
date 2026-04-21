@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": false,
+    "jsx": "preserve",
+    "lib": ["ESNext", "DOM"],
+    "types": ["vitepress/client", "node"],
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "include": [".vitepress/**/*.ts", ".vitepress/**/*.vue", "env.d.ts"]
+}

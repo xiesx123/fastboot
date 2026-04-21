@@ -152,7 +152,7 @@ flowchart LR
 @Order(1)
 public void executor() {
 
-    // 数据 
+    // 数据
     String json =
         "[{\"name\":\"node1\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{},\"timeout\":5000,\"ret\":\"node1\",\"rule\":\"\",\"ignoreFailure\":false},{\"name\":\"node2\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"a\":\"$.node1.x\",\"b\":\"$.node1.y\"},\"timeout\":5000,\"ret\":\"node2\",\"rule\":\"\",\"ignoreFailure\":false},[{\"name\":\"node3-1\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":311,\"p2\":312},\"timeout\":5000,\"ret\":\"node31\",\"rule\":\"compare($.env.a,2)\",\"ignoreFailure\":false},{\"name\":\"node3-2\",\"type\":\"HTTP\",\"method\":\"GET\",\"url\":\"http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test\",\"params\":{\"p1\":321,\"p2\":322},\"timeout\":5000,\"ret\":\"node32\",\"rule\":\"compare(sum($.env.b,1),2)\",\"ignoreFailure\":false}]]";
 
@@ -194,130 +194,129 @@ public void executor() {
 
 ```json [input.json]
 [
+  {
+    "name": "node1",
+    "type": "HTTP",
+    "method": "GET",
+    "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
+    "params": {},
+    "timeout": 5000,
+    "ret": "node1",
+    "rule": "",
+    "ignoreFailure": false
+  },
+  {
+    "name": "node2",
+    "type": "HTTP",
+    "method": "GET",
+    "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
+    "params": {
+      "a": "$.node1.x",
+      "b": "$.node1.y"
+    },
+    "timeout": 5000,
+    "ret": "node2",
+    "rule": "",
+    "ignoreFailure": false
+  },
+  [
     {
-        "name": "node1",
-        "type": "HTTP",
-        "method": "GET",
-        "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
-        "params": {},
-        "timeout": 5000,
-        "ret": "node1",
-        "rule": "",
-        "ignoreFailure": false
+      "name": "node3-1",
+      "type": "HTTP",
+      "method": "GET",
+      "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
+      "params": {
+        "p1": 311,
+        "p2": 312
+      },
+      "timeout": 5000,
+      "ret": "node31",
+      "rule": "compare($.env.a,2)",
+      "ignoreFailure": false
     },
     {
-        "name": "node2",
-        "type": "HTTP",
-        "method": "GET",
-        "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
-        "params": {
-            "a": "$.node1.x",
-            "b": "$.node1.y"
-        },
-        "timeout": 5000,
-        "ret": "node2",
-        "rule": "",
-        "ignoreFailure": false
-    },
-    [
-        {
-            "name": "node3-1",
-            "type": "HTTP",
-            "method": "GET",
-            "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
-            "params": {
-                "p1": 311,
-                "p2": 312
-            },
-            "timeout": 5000,
-            "ret": "node31",
-            "rule": "compare($.env.a,2)",
-            "ignoreFailure": false
-        },
-        {
-            "name": "node3-2",
-            "type": "HTTP",
-            "method": "GET",
-            "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
-            "params": {
-                "p1": 321,
-                "p2": 322
-            },
-            "timeout": 5000,
-            "ret": "node32",
-            "rule": "compare(sum($.env.b,1),2)",
-            "ignoreFailure": false
-        }
-    ],
-    {
-        "name": "node4",
-        "type": "HTTP",
-        "method": "GET",
-        "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
-        "params": {
-            "c": "$.node32.x",
-            "d": "$.node32.y"
-        },
-        "timeout": 5000,
-        "ret": "node4",
-        "rule": "",
-        "ignoreFailure": false
+      "name": "node3-2",
+      "type": "HTTP",
+      "method": "GET",
+      "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
+      "params": {
+        "p1": 321,
+        "p2": 322
+      },
+      "timeout": 5000,
+      "ret": "node32",
+      "rule": "compare(sum($.env.b,1),2)",
+      "ignoreFailure": false
     }
+  ],
+  {
+    "name": "node4",
+    "type": "HTTP",
+    "method": "GET",
+    "url": "http://rest.apizza.net/mock/46b8b8197618d143b5a76eeae002abbd/test",
+    "params": {
+      "c": "$.node32.x",
+      "d": "$.node32.y"
+    },
+    "timeout": 5000,
+    "ret": "node4",
+    "rule": "",
+    "ignoreFailure": false
+  }
 ]
 ```
 
 ```json [output.json]
 {
-    "trace": "e0ae580c3d404d169c34d667f22ee4a4",
-    "title": "测试",
+  "trace": "e0ae580c3d404d169c34d667f22ee4a4",
+  "title": "测试",
+  "env": {
+    "custom": {
+      "a": 1,
+      "b": 2
+    },
+    "saveDir": "D:",
+    "debug": true
+  },
+  "context": {
     "env": {
-        "custom": {
-            "a": 1,
-            "b": 2
-        },
-        "saveDir": "D:",
-        "debug": true
+      "saveDir": "D:",
+      "debug": true,
+      "a": 1,
+      "b": 2
     },
-    "context": {
-        "env": {
-            "saveDir": "D:",
-            "debug": true,
-            "a": 1,
-            "b": 2
-        },
-        "system": {
-            "os": "Windows 11",
-            "user": "xiesx",
-            "host": "DELL-WORK",
-            "java": "21.0.8",
-            "runtime": 83886080,
-            "datatime": "2025-10-22 17:09:18"
-        },
-        "node1": {
-            "x": 1,
-            "y": 2
-        },
-        "node2": {
-            "x": 1,
-            "y": 2
-        },
-        "node31": "ignore",
-        "node32": {
-            "x": 1,
-            "y": 2
-        },
-        "node4": {
-            "x": 1,
-            "y": 2
-        }
+    "system": {
+      "os": "Windows 11",
+      "user": "xiesx",
+      "host": "DELL-WORK",
+      "java": "21.0.8",
+      "runtime": 83886080,
+      "datatime": "2025-10-22 17:09:18"
     },
-    "result": {
-        "node4": {
-            "x": 1,
-            "y": 2
-        }
+    "node1": {
+      "x": 1,
+      "y": 2
     },
-    "error": ""
+    "node2": {
+      "x": 1,
+      "y": 2
+    },
+    "node31": "ignore",
+    "node32": {
+      "x": 1,
+      "y": 2
+    },
+    "node4": {
+      "x": 1,
+      "y": 2
+    }
+  },
+  "result": {
+    "node4": {
+      "x": 1,
+      "y": 2
+    }
+  },
+  "error": ""
 }
 ```
-

@@ -46,7 +46,10 @@
     "**/.vitepress/cache": true,
     "**/node_modules": true,
     "**/dist": true,
-    "**/package-lock.json": true,
+    "**/*-lock.json": true,
+    "**/release.ts": true,
+    "**/tsconfig.json": true,
+    "**/env.d.ts": true,
     // STS
     "**/.settings": true,
     "**/.classpath": true,

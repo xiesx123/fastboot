@@ -17,9 +17,9 @@ xxx
 ## 配置
 
 ```yml
-fastboot:               # fastboot
-  signer:               # ======= 数据签名
-    header: sign        # 签名键，默认：sign
+fastboot: # fastboot
+  signer: # ======= 数据签名
+    header: sign # 签名键，默认：sign
     secret: fastboot!@# # 加密串，默认：fastboot!@#
 ```
 
@@ -50,13 +50,17 @@ public Result sign(String p1, String p2) {
     return R.succ(Lists.newArrayList(p1, p2));
 }
 ```
+
 - bash curl
+
 ```bash
 curl --request GET \
   --url 'http://localhost:8080/signer/sign?p1=1&p2=2&p3%5B0%5D=31&p3%5B1%5D=32&p4%5B0%5D=41&p4%5B1%5D=42' \
   --header 'sign: 4302166d85eedf4139155991d2d183da'
 ```
+
 - java OkHttp
+
 ```java
 OkHttpClient client = new OkHttpClient();
 Request request = new Request.Builder()
@@ -66,7 +70,9 @@ Request request = new Request.Builder()
   .build();
 Response response = client.newCall(request).execute();
 ```
+
 - python requests
+
 ```python
 import requests
 url = "http://localhost:8080/signer/sign"

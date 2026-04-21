@@ -1,6 +1,6 @@
 # Spring Data Jdbc
 
- **轻量、通用** 的方式来操作关系型数据库，在简化数据操作的同时，依然保持对 **SQL** 的灵活控制与透明管理
+**轻量、通用** 的方式来操作关系型数据库，在简化数据操作的同时，依然保持对 **SQL** 的灵活控制与透明管理
 
 ## 依赖
 
@@ -122,7 +122,7 @@ public void list2() {
     assertEquals(r11.get(0).get("type"), r21.get(0).getType());
 }
 ```
- 
+
 ### 添加
 
 ```java
@@ -159,7 +159,7 @@ public void insert() {
     assertEquals(JdbcTemplatePlus.batchUpdate(sql, result), 10);
 }
 ```
- 
+
 ### 修改
 
 ```java
@@ -167,7 +167,7 @@ public void insert() {
 @Order(6)
 public void update() {
     String sql = "UPDATE xx_log SET time = :time WHERE id = :id";
-    
+
     // bean
     LogRecord logRecord = result.get(0);
     logRecord.setTime(2L);

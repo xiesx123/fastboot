@@ -1,0 +1,284 @@
+[
+  {
+    "title": "Java",
+    "items": [
+      {
+        "title": "OpenJdk",
+        "icon": "https://favicon.im/adoptium.net?larger=true",
+        "link": "https://adoptium.net/zh-CN/temurin/releases"
+      },
+
+      {
+        "title": "Guava",
+        "icon": "https://favicon.im/google.com?larger=true",
+        "link": "https://guava.dev/releases/snapshot/api/docs/"
+      },
+      {
+        "title": "Hutool",
+        "icon": "https://favicon.im/hutool.cn?larger=true",
+        "link": "https://www.hutool.cn/docs"
+      },
+      {
+        "title": "Lombok",
+        "icon": "https://favicon.im/projectlombok.org?larger=true",
+        "link": "https://projectlombok.org/features/"
+      },
+      {
+        "title": "Arthas",
+        "icon": "https://favicon.im/arthas.aliyun.com?larger=true",
+        "link": "https://arthas.aliyun.com/doc/"
+      },
+      {
+        "title": "HeapDump",
+        "icon": "https://favicon.im/heapdump.cn?larger=true",
+        "link": "https://console.heapdump.cn"
+      }
+    ]
+  },
+  {
+    "title": "Spring",
+    "items": [
+      {
+        "title": "Aliyun Initializr",
+        "icon": "https://favicon.im/aliyun.com?larger=true",
+        "link": "https://start.aliyun.com"
+      },
+      {
+        "title": "QueryDSL",
+        "icon": "https://favicon.im/querydsl.com?larger=true",
+        "link": "http://querydsl.com/static/querydsl/latest/reference/html/"
+      },
+      {
+        "title": "Spring",
+        "icon": "https://favicon.im/spring.io?larger=true",
+        "link": "https://spring.io/projects"
+      },
+      {
+        "title": "Spring AI",
+        "icon": "https://favicon.im/spring.io?larger=true",
+        "link": "https://spring.io/projects/spring-ai#overview"
+      },
+      {
+        "title": "Spring Boot",
+        "icon": "https://favicon.im/spring.io?larger=true",
+        "link": "https://spring.io/projects/spring-boot#overview"
+      },
+      {
+        "title": "Spring Cloud",
+        "icon": "https://favicon.im/spring.io?larger=true",
+        "link": "https://spring.io/projects/spring-cloud#overview"
+      },
+      {
+        "title": "Spring Data JDBC",
+        "icon": "https://favicon.im/spring.io?larger=true",
+        "link": "https://docs.spring.io/spring-data/relational/reference/"
+      },
+      {
+        "title": "Spring Data JPA",
+        "icon": "https://favicon.im/spring.io?larger=true",
+        "link": "https://docs.spring.io/spring-data/jpa/reference/"
+      },
+      {
+        "title": "Spring Tools",
+        "icon": "https://favicon.im/code.visualstudio.com?larger=true",
+        "link": "https://spring.io/tools"
+      },
+      {
+        "title": "Spring Initializr",
+        "icon": "https://start.spring.io/icon_144x144.7d360c62a3c2b77823306d48e19a144b.png",
+        "link": "https://start.spring.io"
+      }
+    ]
+  },
+
+  {
+    "title": "CICD",
+    "items": [
+      {
+        "title": "GitHub Actions",
+        "icon": "https://favicon.im/github.com?larger=true",
+        "link": "https://github.com/xiesx123/fastboot/actions"
+      },
+      {
+        "title": "Jenkins",
+        "icon": "https://favicon.im/jenkins.io?larger=true",
+        "link": "https://www.jenkins.io/"
+      },
+      {
+        "title": "JitPack",
+        "icon": "https://favicon.im/jitpack.io?larger=true",
+        "link": "https://jitpack.io/#xiesx123/fastboot"
+      },
+      {
+        "title": "Codacy",
+        "icon": "https://favicon.im/codacy.com?larger=true",
+        "link": "https://app.codacy.com/gh/xiesx123/fastboot/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"
+      },
+      {
+        "title": "Coveralls",
+        "icon": "https://favicon.im/coveralls.io?larger=true",
+        "link": "https://coveralls.io/github/xiesx123/fastboot?branch=master"
+      }
+    ]
+  },
+  {
+    "title": "DevOps",
+    "items": [
+      {
+        "title": "Docker",
+        "icon": "https://favicon.im/hub.docker.com?larger=true",
+        "link": "https://hub.docker.com/"
+      },
+      {
+        "title": "JMeter",
+        "icon": "https://favicon.im/jmeter.apache.org?larger=true",
+        "link": "https://jmeter.apache.org/"
+      },
+      {
+        "title": "Maven Repository",
+        "icon": "https://favicon.im/mvnrepository.com?larger=true",
+        "link": "https://mvnrepository.com"
+      }
+    ]
+  },
+  {
+    "title": "Cloud",
+    "items": [
+      {
+        "title": "Aliyun",
+        "icon": "https://favicon.im/aliyun.com?larger=true",
+        "link": "https://www.aliyun.com"
+      },
+      {
+        "title": "Cloudflare",
+        "icon": "https://favicon.im/dash.cloudflare.com?larger=true",
+        "link": "https://dash.cloudflare.com"
+      },
+      {
+        "title": "Firebase",
+        "icon": "https://favicon.im/firebase.google.com?larger=true",
+        "link": "https://console.firebase.google.com"
+      },
+      {
+        "title": "Google",
+        "icon": "https://favicon.im/console.cloud.google.com?larger=true",
+        "link": "https://console.cloud.google.com/"
+      },
+      {
+        "title": "Tencent",
+        "icon": "https://favicon.im/cloud.tencent.com?larger=true",
+        "link": "https://cloud.tencent.com"
+      },
+      {
+        "title": "Oracle",
+        "icon": "https://favicon.im/oracle.com?larger=true",
+        "link": "https://www.oracle.com/cn/cloud/sign-in.html?intcmp=OcomFreeTier_cn"
+      }
+    ]
+  },
+  {
+    "title": "LLM",
+    "items": [
+      {
+        "title": "ChatGPT",
+        "icon": "https://favicon.im/chatgpt.com?larger=true",
+        "link": "https://chat.openai.com/chat"
+      },
+      {
+        "title": "Copilot",
+        "icon": "https://favicon.im/copilot.microsoft.com?larger=true",
+        "link": "https://copilot.microsoft.com/"
+      },
+      {
+        "title": "DeepSeek",
+        "icon": "https://favicon.im/deepseek.com?larger=true",
+        "link": "https://chat.deepseek.com/"
+      },
+      {
+        "title": "Doubao",
+        "icon": "https://favicon.im/doubao.com?larger=true",
+        "link": "https://www.doubao.com/chat"
+      },
+      {
+        "title": "Google AI Studio",
+        "icon": "https://favicon.im/aistudio.google.com?larger=true",
+        "link": "https://aistudio.google.com"
+      },
+      {
+        "title": "Google Gemini",
+        "icon": "https://favicon.im/gemini.google.com?larger=true",
+        "link": "https://gemini.google.com"
+      },
+      {
+        "title": "Grok",
+        "icon": "https://favicon.im/grok.com?larger=true",
+        "link": "https://grok.com/"
+      },
+      {
+        "title": "Qwen",
+        "icon": "https://favicon.im/chat.qwen.ai?larger=true",
+        "link": "https://chat.qwen.ai/"
+      }
+    ]
+  },
+  {
+    "title": "Network",
+    "items": [
+      {
+        "title": "Ifconfig",
+        "icon": "https://favicon.im/whatismyipaddress.com?larger=true",
+        "link": "https://ifconfig.me/"
+      },
+      {
+        "title": "IPInfo",
+        "icon": "https://favicon.im/ipinfo.im?larger=true",
+        "link": "https://www.ipinfo.im"
+      },
+      {
+        "title": "Ngrok",
+        "icon": "https://ngrok.com/assets/favicon.ico",
+        "link": "https://dashboard.ngrok.com/domains"
+      },
+      {
+        "title": "TCP Ping",
+        "icon": "https://favicon.im/tcp.ping.pe?larger=true",
+        "link": "https://tcp.ping.pe/"
+      }
+    ]
+  },
+  {
+    "title": "Tools",
+    "items": [
+      {
+        "title": "Favicon",
+        "icon": "https://favicon.im/favicon.im?larger=true",
+        "link": "https://favicon.im"
+      },
+      {
+        "title": "Favicon Checker",
+        "icon": "https://favicon.im/favicon.pub?larger=true",
+        "link": "https://favicon.pub/favicon-checker"
+      },
+      {
+        "title": "Hoppscotch",
+        "icon": "https://favicon.im/hoppscotch.io?larger=true",
+        "link": "https://hoppscotch.io/"
+      },
+      {
+        "title": "Iconify",
+        "icon": "https://favicon.im/icon-sets.iconify.design?larger=true",
+        "link": "https://icon-sets.iconify.design"
+      },
+      {
+        "title": "JsonEditor",
+        "icon": "https://favicon.im/jsoneditoronline.org?larger=true",
+        "link": "https://jsoneditoronline.org"
+      },
+      {
+        "title": "Shields",
+        "icon": "https://favicon.im/shields.io?larger=true",
+        "link": "https://shields.io"
+      }
+    ]
+  }
+]

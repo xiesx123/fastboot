@@ -117,7 +117,7 @@ public void simple() {
 ```
 
 ```log
-2025-10-14 18:29:31 INFO main:3925 SchedulerTest.java:33 - 【添加A】每1秒输出一次 
+2025-10-14 18:29:31 INFO main:3925 SchedulerTest.java:33 - 【添加A】每1秒输出一次
 2025-10-14 18:29:31 INFO quartzScheduler_Worker-1:3932 TimeJob.java:24 - simple job time，当前任务1个，正在运行 1
 2025-10-14 18:29:32 INFO quartzScheduler_Worker-2:4927 TimeJob.java:24 - simple job time，当前任务1个，正在运行 1
 2025-10-14 18:29:33 INFO quartzScheduler_Worker-3:5928 TimeJob.java:24 - simple job time，当前任务1个，正在运行 1
@@ -180,7 +180,7 @@ public void cron() {
 ```
 
 ```log
-2025-10-14 18:30:30 INFO main:4001 SchedulerTest.java:71 - 【添加A】每1秒输出一次 
+2025-10-14 18:30:30 INFO main:4001 SchedulerTest.java:71 - 【添加A】每1秒输出一次
 2025-10-14 18:30:30 INFO quartzScheduler_Worker-1:4009 TimeJob.java:24 - cron job time，当前任务1个，正在运行 1
 2025-10-14 18:30:31 INFO quartzScheduler_Worker-2:4758 TimeJob.java:24 - cron job time，当前任务1个，正在运行 1
 2025-10-14 18:30:32 INFO quartzScheduler_Worker-3:5758 TimeJob.java:24 - cron job time，当前任务1个，正在运行 1
